@@ -84,8 +84,18 @@
     if (document.readyState !== 'complete') window.addEventListener('load', place);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
 
-    // Remember the position when leaving the page, for Back/Forward without bfcache.
-    window.addEventListener('pagehide', saveScroll);
+    // Remember the position for Back/Forward when the browser cannot use its back/forward
+    // cache. Saved shortly after scrolling stops (not on pagehide: writing history during
+    // pagehide makes Chrome evict the page from that cache).
+    var saveTimer = null;
+    window.addEventListener('scroll', function () {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(saveScroll, 150);
+    }, { passive: true });
+    // Also on any link click, which covers "scroll, then immediately follow a link".
+    document.addEventListener('click', function (e) {
+      if (e.target.closest && e.target.closest('a[href]')) saveScroll();
+    }, true);
 
     // Back/Forward between in-page entries: return to the saved position, else the section.
     window.addEventListener('popstate', function (e) {
