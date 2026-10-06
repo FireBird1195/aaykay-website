@@ -407,9 +407,9 @@
     });
   }
 
-  /* Motion libraries are an enhancement for content below the fold, so the hosted
-     build fetches them after the page has loaded instead of competing with the
-     stylesheet, fonts and hero image. (The Artifact build loads them up front.) */
+  /* Motion libraries are an enhancement for content below the fold, so they are
+     fetched after the page has loaded instead of competing with the stylesheet,
+     fonts and hero image. If window.gsap already exists, it is used as-is. */
   function loadScripts(list) {
     return list.reduce(function (chain, src) {
       return chain.then(function () {

@@ -1,0 +1,19 @@
+# Runs on every push and pull request. It only checks; it never builds or deploys.
+name: check
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: index.html matches data/content.json and the data is valid
+        run: python3 tools/build.py --check
+      - name: site.js parses
+        run: node --check assets/js/site.js
