@@ -11,7 +11,7 @@ from one file and validated.
 How it works: index.html stays the hand-written page. Each generated region sits between
 two comments, e.g. <!-- gen:record-rows --> ... <!-- /gen:record-rows -->, and only the text
 between them is replaced. Featured cards are matched by data-project="<slug>" on their
-<article>; their <ul class="specs"> is filled from the project with that slug.
+<article>; their <h3> and <ul class="specs"> are filled from the project with that slug.
 
 Standard library only (Python 3.8+). No other build step exists: the repository root is
 the deployable site.
@@ -96,6 +96,17 @@ def check_contact_consistency(company, page):
 
 
 # ----------------------------------------------------------------- renderers
+def sort_key(p):
+    """Deterministic display order. Never sorted by order value.
+
+    Rows are grouped by how much the source documents state (full profile rows first, then
+    rows with an area, then name-only rows) and are alphabetical inside each group, so the
+    default view shows complete rows without ranking clients by contract size.
+    """
+    tier = 0 if p["order_value"] else 1 if p["area_sqft"] else 2
+    return (tier, p["name"].casefold(), p["slug"])
+
+
 def counts(data):
     return {s["key"]: sum(1 for p in data["projects"] if p["sector"] == s["key"]) for s in data["sectors"]}
 
@@ -115,13 +126,13 @@ def render_sector_rows(data, indent):
     for s in data["sectors"]:
         c = n[s["key"]]
         out.append(
-            '<li><a class="sector-row" href="#record" data-filter="%s">'
+            '<li><a class="sector-row" href="?sector=%s#record" data-filter="%s">'
             '<span class="sector-name">%s</span>'
             '<span class="sector-info"><span class="sector-desc">%s</span>'
             '<span class="sector-clients">%s</span></span>'
             '<span class="sector-count">%d project%s</span>'
             '<span class="sector-arrow" aria-hidden="true">%s</span></a></li>'
-            % (e(s["key"]), e(s["label"]), e(s["description"]), e(s["clients"]),
+            % (e(s["key"]), e(s["key"]), e(s["label"]), e(s["description"]), e(s["clients"]),
                c, "" if c == 1 else "s", ARROW_DOWN))
     return ("\n" + indent).join(out)
 
@@ -138,7 +149,7 @@ def render_chips(data, indent):
 def render_record_rows(data, indent):
     labels = {s["key"]: s["label"] for s in data["sectors"]}
     rows = []
-    for p in data["projects"]:
+    for p in sorted(data["projects"], key=sort_key):
         meta = [labels[p["sector"]]]
         if p["status"]:
             meta.append(p["status"])
@@ -184,7 +195,8 @@ def fill_cards(page, data):
 
     def one(m):
         p = by_slug[m.group(2)]
-        body = re.sub(r'<ul class="specs">.*?</ul>', lambda _: '<ul class="specs">%s</ul>' % card_specs(p), m.group(3), count=1, flags=re.S)
+        body = re.sub(r"<h3>.*?</h3>", lambda _: "<h3>%s</h3>" % e(p["name"]), m.group(3), count=1, flags=re.S)
+        body = re.sub(r'<ul class="specs">.*?</ul>', lambda _: '<ul class="specs">%s</ul>' % card_specs(p), body, count=1, flags=re.S)
         return m.group(1) + body + m.group(4)
 
     return re.sub(r'(<article[^>]*\bdata-project="([^"]+)"[^>]*>)(.*?)(</article>)', one, page, flags=re.S)
