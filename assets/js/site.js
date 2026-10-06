@@ -118,8 +118,14 @@
       scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
     });
 
+    // Reveals only apply to content still below the fold when motion starts. Motion loads
+    // after the page, so anything already on screen or scrolled past (a deep link, Back, a
+    // reload part-way down) stays visible instead of vanishing and fading back in.
+    var foldY = window.innerHeight;
+    var belowFold = function (el) { return el.getBoundingClientRect().top >= foldY; };
+
     // Section headings rise in once.
-    $$('[data-reveal]').forEach(function (el) {
+    $$('[data-reveal]').filter(belowFold).forEach(function (el) {
       gsap.from(el, {
         y: 28, opacity: 0, duration: 1, ease: 'power3.out',
         scrollTrigger: { trigger: el, start: 'top 90%', once: true }
@@ -127,7 +133,7 @@
     });
 
     // Photographs are uncovered from the bottom edge, once.
-    $$('[data-reveal-media]').forEach(function (el) {
+    $$('[data-reveal-media]').filter(belowFold).forEach(function (el) {
       var img = $('img', el);
       var t = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 92%', once: true } });
       t.fromTo(el, { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 1.15, ease: 'power3.inOut' });
