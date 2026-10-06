@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en-IN">
+<html lang="en-IN" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -23,6 +23,7 @@
 <script>
 /* Runs before first paint. site.js decides where the page starts (top, a #section, or the
    saved position on Back), so the browser must not restore an old scroll offset on its own. */
+document.documentElement.className = document.documentElement.className.replace("no-js", "js");
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollTrigger.min.js", "assets/vendor/lenis.min.js"];
 </script>
@@ -47,17 +48,21 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
         <li><a href="#deliver">How we deliver</a></li>
         <li><a href="#quality">Quality &amp; safety</a></li>
         <li><a href="#company">Company</a></li>
+        <li><a href="#prequal">Pre-qualification</a></li>
         <!-- /gen:nav-header -->
       </ul>
     </nav>
     <a class="btn btn--sm btn--outline-light header-cta" href="#contact">Start a project</a>
+    <!-- Without JavaScript the menu button cannot open anything; this link to the footer
+         navigation replaces it (shown only on narrow screens, only when JS is off). -->
+    <a class="btn btn--sm btn--outline-light menu-fallback" href="#footer-nav">Menu</a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu">
       <span class="menu-icon" aria-hidden="true"></span><span class="visually-hidden">Menu</span>
     </button>
   </div>
 </header>
 
-  <div class="mobile-menu" id="mobile-menu" hidden>
+<div class="mobile-menu" id="mobile-menu" role="region" aria-label="Site menu" hidden>
   <nav aria-label="Mobile">
     <ul class="m-links">
       <!-- gen:nav-mobile -->
@@ -66,13 +71,14 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
       <li><a href="#deliver">How we deliver</a></li>
       <li><a href="#quality">Quality &amp; safety</a></li>
       <li><a href="#company">Company</a></li>
+      <li><a href="#prequal">Pre-qualification</a></li>
       <li><a href="#contact">Start a project</a></li>
       <!-- /gen:nav-mobile -->
     </ul>
   </nav>
   <div class="m-foot">
     <p>Head office: Somajiguda, Hyderabad</p>
-    <p>+91 40 6636 2094 · projects@akelectricals.in</p>
+    <p><a href="tel:+914066362094">+91 40 6636 2094</a> · <a href="mailto:projects@akelectricals.in">projects@akelectricals.in</a></p>
   </div>
 </div>
 
@@ -122,7 +128,7 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
   </section>
 
   <!-- WHAT WE DO + SECTORS -->
-  <section class="section" id="sectors" aria-labelledby="intro-title">
+  <section class="section" aria-labelledby="intro-title">
     <div class="wrap">
       <div class="intro grid-12">
         <h2 class="h2" id="intro-title" data-reveal>What we do</h2>
@@ -145,7 +151,7 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
         </div>
       </div>
 
-      <div class="sectors">
+      <div class="sectors" id="sectors">
         <div class="sectors-head">
           <h3 class="label">Sectors</h3>
           <p>Choose a sector to filter the project record.</p>
@@ -757,12 +763,14 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
       <a class="brand" href="#top"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M3.5 28 14.6 4h2.8L28.5 28h-4.4L16 10.4 7.9 28Z" fill="currentColor"/><path d="M6.5 21.6 26.6 13l-1.5 3.5L8 24.8Z" fill="#E0452B"/></svg><span class="brand-word">AAYKAY</span><span class="visually-hidden"> Electricals, back to top</span></a>
       <p>AAYKAY Electricals Private Limited. Electrical and MEP contracting since 2008, from Hyderabad to seven states.</p>
     </div>
-    <nav class="footer-nav" aria-label="Footer">
+    <nav class="footer-nav" id="footer-nav" aria-label="Footer">
       <!-- gen:nav-footer -->
       <a href="#work">Work</a>
       <a href="#record">Project record</a>
+      <a href="#sectors">Sectors</a>
       <a href="#deliver">How we deliver</a>
       <a href="#quality">Quality &amp; safety</a>
+      <a href="#company">Company</a>
       <a href="#prequal">Pre-qualification</a>
       <a href="#contact">Contact</a>
       <!-- /gen:nav-footer -->

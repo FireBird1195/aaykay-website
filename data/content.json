@@ -38,7 +38,8 @@
       "label": "Sectors",
       "in": [
         "header",
-        "mobile"
+        "mobile",
+        "footer"
       ]
     },
     {
@@ -64,13 +65,16 @@
       "label": "Company",
       "in": [
         "header",
-        "mobile"
+        "mobile",
+        "footer"
       ]
     },
     {
       "href": "#prequal",
       "label": "Pre-qualification",
       "in": [
+        "header",
+        "mobile",
         "footer"
       ]
     },

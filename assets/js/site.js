@@ -161,8 +161,14 @@
     var header = $('.site-header');
     if (!btn || !menu || !header) return;
     var isOpen = function () { return btn.getAttribute('aria-expanded') === 'true'; };
+    // Everything except the menu and its button is made inert while the menu is open, so
+    // screen readers and keyboard users cannot reach the page hidden behind it.
+    var behind = [$('.skip-link'), $('.brand', header), $('.site-nav', header), $('.header-cta', header), $('main'), $('.site-footer')]
+      .filter(Boolean);
+    var setInert = function (on) { behind.forEach(function (el) { if (on) el.setAttribute('inert', ''); else el.removeAttribute('inert'); }); };
     function open() {
       menu.hidden = false;
+      setInert(true);
       btn.setAttribute('aria-expanded', 'true');
       header.classList.add('is-open');
       root.classList.add('menu-open');
@@ -173,6 +179,7 @@
     }
     function close(returnFocus) {
       menu.hidden = true;
+      setInert(false);
       btn.setAttribute('aria-expanded', 'false');
       header.classList.remove('is-open');
       root.classList.remove('menu-open');

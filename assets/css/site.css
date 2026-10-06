@@ -206,6 +206,7 @@ position: fixed; left: 0; right: 0; bottom: 0; z-index: 49;
 top: calc(var(--nav-h) + env(safe-area-inset-top, 0px));
 background: var(--navy-950); color: #fff; overflow-y: auto;
 padding: var(--s6) var(--gutter) calc(var(--s8) + env(safe-area-inset-bottom, 0px));
+--focus: var(--red-400);
 }
 .m-links a {
 display: block; padding-block: .55rem; text-decoration: none;
@@ -215,9 +216,18 @@ border-bottom: 1px solid var(--rule-dark);
 }
 .m-foot { margin-top: var(--s7); display: grid; gap: var(--s5); color: var(--on-dark-2); font-size: var(--fs-small); }
 html.menu-open { overflow: hidden; }
+.menu-fallback { display: none; }
 @media (max-width: 1080px) {
 .site-nav { display: none; }
 .menu-btn { display: inline-flex; }
+}
+/* Without JavaScript: the header never turns solid on scroll and the menu button cannot
+   open, so keep the header solid (legible over light sections) and offer a plain link to
+   the footer navigation instead of a dead button. */
+.no-js .site-header { background: rgba(7, 11, 21, .9); border-bottom-color: var(--rule-dark); }
+@media (max-width: 1080px) {
+.no-js .menu-btn { display: none; }
+.no-js .menu-fallback { display: inline-flex; }
 }
 @media (max-width: 560px) {
 .header-cta, .brand-sub { display: none; }
