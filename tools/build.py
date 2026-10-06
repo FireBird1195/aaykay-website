@@ -5,7 +5,8 @@
 
 Why this exists: the navigation (three lists), the sector rows, the filter chips, the
 project record and the featured-card specs used to be typed by hand in several places,
-so counts drifted and a typo in a sector key silently hid a row. Now they are generated
+so counts drifted and a typo in a sector key silently hid a row. The client strip and the
+sector icons come from the same file. Now they are generated
 from one file and validated.
 
 How it works: index.html stays the hand-written page. Each generated region is the
@@ -26,6 +27,8 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "data", "content.json")
 PAGE = os.path.join(ROOT, "index.html")
+SPRITE = os.path.join(ROOT, "assets", "icons", "icons.svg")
+SPRITE_URL = "assets/icons/icons.svg"
 
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 NAV_PLACES = ("header", "mobile", "footer")
@@ -39,6 +42,21 @@ ARROW_DOWN = ('<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><pa
 # (.record .na), so screen readers read real words. (Previously aria-label on a plain
 # <span>, which ARIA does not allow.)
 NOT_STATED = '<span class="na">Not stated</span>'
+# Units shown only in the phone layout of the record, where there are no column headers
+# on screen ("200,000 sq ft · 4 floors · ₹3.5 Cr order"); hidden at table widths.
+UNIT = '<span class="u">%s</span>'
+
+
+def icon(name, extra=""):
+    """An icon from the sprite. Icons always sit next to words that say the same thing,
+    so they are hidden from assistive technology."""
+    cls = "ic" + (" " + extra if extra else "")
+    return '<svg class="%s" aria-hidden="true"><use href="%s#%s"/></svg>' % (cls, SPRITE_URL, name)
+
+
+def sprite_ids():
+    with open(SPRITE, encoding="utf-8") as f:
+        return set(re.findall(r'<symbol id="([^"]+)"', f.read()))
 
 
 def e(text):
@@ -81,6 +99,22 @@ def validate(data, page):
         target = item["href"].lstrip("#")
         if not re.search(r'\bid="%s"' % re.escape(target), page):
             errors.append("nav %r points to #%s, which does not exist in index.html" % (item["label"], target))
+    icons = sprite_ids()
+    for s in data["sectors"]:
+        if s.get("icon") not in icons:
+            errors.append("sector %r: icon %r is not a symbol in %s" % (s["key"], s.get("icon"), SPRITE_URL))
+    for ref in sorted(set(re.findall(re.escape(SPRITE_URL) + r'#([\w-]+)', page))):
+        if ref not in icons:
+            errors.append("index.html uses icon %r, which is not a symbol in %s" % (ref, SPRITE_URL))
+    for c in data["clients"]:
+        if not c.get("name") or not c.get("source"):
+            errors.append("client %r: name and source are required" % c.get("name"))
+        logo = c.get("logo")
+        if logo is not None:
+            if not all(isinstance(logo.get(k), int) for k in ("width", "height")) or not logo.get("src"):
+                errors.append("client %r: logo needs src, width and height" % c["name"])
+            elif not os.path.isfile(os.path.join(ROOT, logo["src"])):
+                errors.append("client %r: logo file %s does not exist" % (c["name"], logo["src"]))
     for slug in re.findall(r'<article[^>]*\bdata-project="([^"]+)"', page):
         if slug not in slugs:
             errors.append("featured card data-project=%r has no matching project" % slug)
@@ -132,45 +166,72 @@ def render_sector_rows(data, indent):
         c = n[s["key"]]
         out.append(
             '<li><a class="sector-row" href="?sector=%s#record" data-filter="%s">'
-            '<span class="sector-name">%s</span>'
+            '<span class="sector-name">%s%s</span>'
             '<span class="sector-info"><span class="sector-desc">%s</span>'
             '<span class="sector-clients">%s</span></span>'
             '<span class="sector-count">%d project%s</span>'
             '<span class="sector-arrow" aria-hidden="true">%s</span></a></li>'
-            % (e(s["key"]), e(s["key"]), e(s["label"]), e(s["description"]), e(s["clients"]),
+            % (e(s["key"]), e(s["key"]), icon(s["icon"], "sector-ic"), e(s["label"]), e(s["description"]), e(s["clients"]),
                c, "" if c == 1 else "s", ARROW_DOWN))
     return ("\n" + indent).join(out)
 
 
 def render_chips(data, indent):
     n = counts(data)
-    items = [("all", "All sectors", len(data["projects"]))] + [(s["key"], s["label"], n[s["key"]]) for s in data["sectors"]]
+    items = [("all", "All sectors", len(data["projects"]), "")]
+    items += [(s["key"], s["label"], n[s["key"]], icon(s["icon"])) for s in data["sectors"]]
     return ("\n" + indent).join(
-        '<button class="chip" type="button" data-filter="%s" aria-pressed="%s">%s '
+        '<button class="chip" type="button" data-filter="%s" aria-pressed="%s">%s<span class="chip-label">%s</span> '
         '<span class="chip-count">%d</span></button>'
-        % (e(k), "true" if k == "all" else "false", e(label), count) for k, label, count in items)
+        % (e(k), "true" if k == "all" else "false", ic, e(label), count) for k, label, count, ic in items)
 
 
 def render_record_rows(data, indent):
-    labels = {s["key"]: s["label"] for s in data["sectors"]}
+    sectors = {s["key"]: s for s in data["sectors"]}
     rows = []
     for p in sorted(data["projects"], key=sort_key):
-        meta = [labels[p["sector"]]]
+        s = sectors[p["sector"]]
+        # Under the name: the sector (icon + words), then optional markers. Status gets
+        # its own marker because it changes what the row means (finished vs in progress).
+        meta = '<span class="p-meta">%s%s</span>' % (icon(s["icon"]), e(s["label"]))
         if p["status"]:
-            meta.append(p["status"])
+            done = p["status"].startswith("Completed")
+            meta += '<span class="p-status%s">%s%s</span>' % (
+                " p-status--done" if done else "", icon("circle-check" if done else "clock"), e(p["status"]))
         if p["note"]:
-            meta.append(p["note"])
+            meta += '<span class="p-note">%s</span>' % e(p["note"])
         if p["source"].startswith(BROCHURE_PREFIX):
-            meta.append("Earlier brochure")
-        cell = lambda v: e(v) if v else NOT_STATED
+            meta += '<span class="p-note">Earlier brochure</span>'
+        cell = lambda v, unit="": (e(v) + (UNIT % unit if unit else "")) if v else NOT_STATED
         area = "{:,}".format(p["area_sqft"]) if p["area_sqft"] else None
+        floors_unit = " floors" if (p["floors"] or "").isdigit() else ""
+        if not any((area, p["floors"], p["order_value"], p["design_team"])):
+            # Nothing but a name and place in the sources: one "not stated" cell across the
+            # four columns instead of four dashes, so the gaps don't dominate the table.
+            detail = '<td colspan="4" class="na-all">%s</td>' % NOT_STATED
+        else:
+            # A developer (residential rows) is named with its own "Developer:" prefix; the
+            # class stops the phone layout adding its "Design team" label in front of it.
+            team_cls = ' class="dev"' if (p["design_team"] or "").startswith("Developer:") else ""
+            detail = '<td class="num">%s</td><td>%s</td><td class="num">%s</td><td%s>%s</td>' % (
+                cell(area, " sq ft"), cell(p["floors"], floors_unit), cell(p["order_value"], " order"),
+                team_cls, cell(p["design_team"]))
         rows.append(
-            '<tr data-sector="%s"><th scope="row"><span class="p-name">%s</span>'
-            '<span class="p-meta">%s</span></th><td>%s</td><td class="num">%s</td><td>%s</td>'
-            '<td class="num">%s</td><td>%s</td></tr>'
-            % (e(p["sector"]), e(p["name"]), e(" · ".join(meta)), cell(p["location"]),
-               cell(area), cell(p["floors"]), cell(p["order_value"]), cell(p["design_team"])))
+            '<tr data-sector="%s"><th scope="row"><span class="p-name">%s</span>%s</th><td>%s</td>%s</tr>'
+            % (e(p["sector"]), e(p["name"]), meta, cell(p["location"]), detail))
     return ("\n" + indent).join(rows)
+
+
+def render_clients(data, indent):
+    out = []
+    for c in data["clients"]:
+        logo = c.get("logo")
+        if logo:
+            out.append('<li class="client"><img src="%s" width="%d" height="%d" alt="%s" loading="lazy" decoding="async"></li>'
+                       % (e(logo["src"]), logo["width"], logo["height"], e(c["name"])))
+        else:
+            out.append('<li class="client">%s</li>' % e(c["name"]))
+    return ("\n" + indent).join(out)
 
 
 def card_specs(p):
@@ -194,6 +255,7 @@ REGIONS = {
     "nav-mobile": ('<ul class="m-links">', "</ul>"),
     "nav-footer": ('<nav class="footer-nav" id="footer-nav" aria-label="Footer">', "</nav>"),
     "sector-rows": ('<ul class="sector-list">', "</ul>"),
+    "clients": ('<ul class="client-list">', "</ul>"),
     "chips": ('<div class="filters" role="group" aria-label="Filter projects by sector" hidden>', "</div>"),
     "record-rows": ('<tbody id="record-rows">', "</tbody>"),
 }
@@ -228,6 +290,7 @@ def build(data, page):
     page = replace_region(page, "nav-mobile", lambda i: render_nav(data, "mobile", i))
     page = replace_region(page, "nav-footer", lambda i: render_nav(data, "footer", i))
     page = replace_region(page, "sector-rows", lambda i: render_sector_rows(data, i))
+    page = replace_region(page, "clients", lambda i: render_clients(data, i))
     page = replace_region(page, "chips", lambda i: render_chips(data, i))
     page = replace_region(page, "record-rows", lambda i: render_record_rows(data, i))
     return fill_cards(page, data)

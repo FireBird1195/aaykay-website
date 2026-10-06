@@ -111,12 +111,26 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
 
   <!-- CLIENTS -->
   <section class="clients" aria-labelledby="clients-title">
-    <div class="wrap clients-row">
-      <h2 class="label" id="clients-title">Clients include</h2>
+    <div class="wrap">
+      <div class="clients-head">
+        <h2 class="label" id="clients-title">Clients include</h2>
+        <p>A selection from more than 100 clients</p>
+      </div>
       <ul class="client-list">
-        <li>Amazon</li><li>Microsoft</li><li>Qualcomm</li><li>Accenture</li><li>Shell</li><li>Walmart</li>
-        <li>IBM</li><li>HDFC Bank</li><li>ServiceNow</li><li>Medtronic</li><li>Cognizant</li>
-        <li>GMR Hyderabad Airport</li><li>Yashoda Hospitals</li><li>My Home Group</li>
+        <li class="client">Amazon</li>
+        <li class="client">Microsoft</li>
+        <li class="client">Qualcomm</li>
+        <li class="client">Accenture</li>
+        <li class="client">Shell</li>
+        <li class="client">Walmart</li>
+        <li class="client">IBM</li>
+        <li class="client">HDFC Bank</li>
+        <li class="client">ServiceNow</li>
+        <li class="client">Medtronic</li>
+        <li class="client">Cognizant</li>
+        <li class="client">GMR Hyderabad Airport</li>
+        <li class="client">Yashoda Hospitals</li>
+        <li class="client">My Home Group</li>
       </ul>
     </div>
   </section>
@@ -130,18 +144,35 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
           <p class="lead" data-reveal>Our work is the electrical package, end to end: containment, cabling, panels, lighting, earthing and critical power. It is coordinated in Revit, installed to written method statements, and tested by our own commissioning team before the client signs off.</p>
           <div class="pillars">
             <div class="pillar">
-              <h3>Shop drawings &amp; BIM</h3>
+              <h3 class="icon-label"><svg class="ic ic--lg" aria-hidden="true"><use href="assets/icons/icons.svg#drafting-compass"/></svg>Shop drawings &amp; BIM</h3>
               <p>GFC review, shop and GA drawings, and MEP coordination in Autodesk Revit and AutoCAD.</p>
             </div>
             <div class="pillar">
-              <h3>Testing &amp; commissioning</h3>
+              <h3 class="icon-label"><svg class="ic ic--lg" aria-hidden="true"><use href="assets/icons/icons.svg#gauge"/></svg>Testing &amp; commissioning</h3>
               <p>An in-house team and instrument set for megger, IR, continuity, load and integrated system tests.</p>
             </div>
             <div class="pillar">
-              <h3>Site safety</h3>
+              <h3 class="icon-label"><svg class="ic ic--lg" aria-hidden="true"><use href="assets/icons/icons.svg#shield-check"/></svg>Site safety</h3>
               <p>Dedicated safety staff, HIRA risk assessments and an emergency response team on call 24/7.</p>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div class="scope">
+        <div class="subhead">
+          <h3>What we install</h3>
+          <p>From the electrical works schedule in our profile</p>
+        </div>
+        <div class="scope-grid">
+          <div class="scope-item"><h4 class="icon-label"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#rows-3"/></svg>Containment</h4><p>Conduit in slabs, walls and floors; sleeves and back boxes; GI cable trays, ladders, trunking and raceways.</p></div>
+          <div class="scope-item"><h4 class="icon-label"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#cable"/></svg>Wiring &amp; cabling</h4><p>Power and lighting wiring, DB-to-equipment wiring, HT/LT cable laying, dressing, tagging, glanding and termination.</p></div>
+          <div class="scope-item"><h4 class="icon-label"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#inspection-panel"/></svg>Panels &amp; distribution</h4><p>LT panels and capacitor banks, MDBs, SMDBs and DBs, control wiring and panel earthing.</p></div>
+          <div class="scope-item"><h4 class="icon-label"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#arrow-up-from-line"/></svg>Busducts &amp; rising mains</h4><p>Busbar trunking and rising mains, supplied through OEM channels and installed to approved GA drawings.</p></div>
+          <div class="scope-item"><h4 class="icon-label"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#lightbulb"/></svg>Lighting &amp; accessories</h4><p>LED fixtures, lighting management systems, switches and sockets, fans and junction boxes.</p></div>
+          <div class="scope-item"><h4 class="icon-label"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#battery-charging"/></svg>Critical power</h4><p>UPS and battery installation, server-room electrical works, AC unit connections, pumps and motors.</p></div>
+          <div class="scope-item"><h4 class="icon-label"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#earth-ground"/></svg>Earthing &amp; protection</h4><p>Earth pits and grids, GI and copper strip, surge protection devices and lightning arresters.</p></div>
+          <div class="scope-item"><h4 class="icon-label"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#gauge"/></svg>Testing</h4><p>Megger, IR and continuity tests, panel load tests, circuit verification and HT/LT equipment testing.</p></div>
         </div>
       </div>
 
@@ -151,11 +182,11 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
           <p>Choose a sector to filter the project record.</p>
         </div>
         <ul class="sector-list">
-          <li><a class="sector-row" href="?sector=healthcare#record" data-filter="healthcare"><span class="sector-name">Healthcare</span><span class="sector-info"><span class="sector-desc">Internal electrification for multi-storey hospitals, up to 24 floors and 774,000 sq ft.</span><span class="sector-clients">Krishna Sindhura · Yashoda · KIMS</span></span><span class="sector-count">6 projects</span><span class="sector-arrow" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.5v12M3.5 9 8 13.5 12.5 9" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a></li>
-          <li><a class="sector-row" href="?sector=enterprise#record" data-filter="enterprise"><span class="sector-name">Enterprise &amp; IT</span><span class="sector-info"><span class="sector-desc">Office fit-outs and campuses, up to 15 floors and 475,000 sq ft on a single project.</span><span class="sector-clients">Amazon · Microsoft · Qualcomm · Accenture · Shell · Walmart</span></span><span class="sector-count">18 projects</span><span class="sector-arrow" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.5v12M3.5 9 8 13.5 12.5 9" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a></li>
-          <li><a class="sector-row" href="?sector=banking#record" data-filter="banking"><span class="sector-name">Banking &amp; finance</span><span class="sector-info"><span class="sector-desc">Offices for banks and investment firms.</span><span class="sector-clients">HDFC Bank · Sequoia Capital · Arcesium</span></span><span class="sector-count">4 projects</span><span class="sector-arrow" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.5v12M3.5 9 8 13.5 12.5 9" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a></li>
-          <li><a class="sector-row" href="?sector=residential#record" data-filter="residential"><span class="sector-name">Residential high-rise</span><span class="sector-info"><span class="sector-desc">Towers from G+9 to G+49, in developments of up to 3.38 million sq ft.</span><span class="sector-clients">My Home · Ramky · Vasavi</span></span><span class="sector-count">7 projects</span><span class="sector-arrow" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.5v12M3.5 9 8 13.5 12.5 9" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a></li>
-          <li><a class="sector-row" href="?sector=infrastructure#record" data-filter="infrastructure"><span class="sector-name">Infrastructure &amp; data centres</span><span class="sector-info"><span class="sector-desc">Airport, data centre and tech-park external electrification.</span><span class="sector-clients">GMR Hyderabad Airport · ITC Datacenter · Bagmane</span></span><span class="sector-count">3 projects</span><span class="sector-arrow" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.5v12M3.5 9 8 13.5 12.5 9" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a></li>
+          <li><a class="sector-row" href="?sector=healthcare#record" data-filter="healthcare"><span class="sector-name"><svg class="ic sector-ic" aria-hidden="true"><use href="assets/icons/icons.svg#hospital"/></svg>Healthcare</span><span class="sector-info"><span class="sector-desc">Internal electrification for multi-storey hospitals, up to 24 floors and 774,000 sq ft.</span><span class="sector-clients">Krishna Sindhura · Yashoda · KIMS</span></span><span class="sector-count">6 projects</span><span class="sector-arrow" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.5v12M3.5 9 8 13.5 12.5 9" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a></li>
+          <li><a class="sector-row" href="?sector=enterprise#record" data-filter="enterprise"><span class="sector-name"><svg class="ic sector-ic" aria-hidden="true"><use href="assets/icons/icons.svg#building-2"/></svg>Enterprise &amp; IT</span><span class="sector-info"><span class="sector-desc">Office fit-outs and campuses, up to 15 floors and 475,000 sq ft on a single project.</span><span class="sector-clients">Amazon · Microsoft · Qualcomm · Accenture · Shell · Walmart</span></span><span class="sector-count">18 projects</span><span class="sector-arrow" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.5v12M3.5 9 8 13.5 12.5 9" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a></li>
+          <li><a class="sector-row" href="?sector=banking#record" data-filter="banking"><span class="sector-name"><svg class="ic sector-ic" aria-hidden="true"><use href="assets/icons/icons.svg#landmark"/></svg>Banking &amp; finance</span><span class="sector-info"><span class="sector-desc">Offices for banks and investment firms.</span><span class="sector-clients">HDFC Bank · Sequoia Capital · Arcesium</span></span><span class="sector-count">4 projects</span><span class="sector-arrow" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.5v12M3.5 9 8 13.5 12.5 9" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a></li>
+          <li><a class="sector-row" href="?sector=residential#record" data-filter="residential"><span class="sector-name"><svg class="ic sector-ic" aria-hidden="true"><use href="assets/icons/icons.svg#building"/></svg>Residential high-rise</span><span class="sector-info"><span class="sector-desc">Towers from G+9 to G+49, in developments of up to 3.38 million sq ft.</span><span class="sector-clients">My Home · Ramky · Vasavi</span></span><span class="sector-count">7 projects</span><span class="sector-arrow" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.5v12M3.5 9 8 13.5 12.5 9" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a></li>
+          <li><a class="sector-row" href="?sector=infrastructure#record" data-filter="infrastructure"><span class="sector-name"><svg class="ic sector-ic" aria-hidden="true"><use href="assets/icons/icons.svg#server"/></svg>Infrastructure &amp; data centres</span><span class="sector-info"><span class="sector-desc">Airport, data centre and tech-park external electrification.</span><span class="sector-clients">GMR Hyderabad Airport · ITC Datacenter · Bagmane</span></span><span class="sector-count">3 projects</span><span class="sector-arrow" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.5v12M3.5 9 8 13.5 12.5 9" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a></li>
         </ul>
       </div>
     </div>
@@ -176,7 +207,7 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
           <p class="label work-tag">Enterprise · Bengaluru</p>
           <h3>Shell @ Bagmane Xenon</h3>
           <ul class="specs"><li>270,000 sq ft</li><li>5 floors</li><li>₹8 Cr order</li></ul>
-          <p class="work-team">Internal electrification. Architect: Raj Consultant. Electrical consultant: Techtron Engineering Consultancy.</p>
+          <dl class="work-meta"><div><dt>Scope</dt><dd>Internal electrification</dd></div><div><dt>Architect</dt><dd>Raj Consultant</dd></div><div><dt>Electrical consultant</dt><dd>Techtron Engineering Consultancy</dd></div></dl>
         </article>
         <article class="work-card work-card--mid" data-project="krishna-sindhura-hospital">
           <div class="work-media" data-reveal-media>
@@ -185,7 +216,7 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
           <p class="label work-tag">Healthcare · Hyderabad</p>
           <h3>Krishna Sindhura Hospital (KSH)</h3>
           <ul class="specs"><li>774,000 sq ft</li><li>24 floors</li><li>₹14 Cr order</li></ul>
-          <p class="work-team">Internal electrification. Architect and electrical consultant: ARKK Consulting.</p>
+          <dl class="work-meta"><div><dt>Scope</dt><dd>Internal electrification</dd></div><div><dt>Architect &amp; electrical consultant</dt><dd>ARKK Consulting</dd></div></dl>
         </article>
         <article class="work-card" data-project="amazon-maa12">
           <div class="work-media" data-reveal-media>
@@ -194,7 +225,7 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
           <p class="label work-tag">Enterprise · Chennai</p>
           <h3>Amazon MAA12</h3>
           <ul class="specs"><li>475,000 sq ft</li><li>15 floors</li><li>₹10 Cr order</li></ul>
-          <p class="work-team">Internal electrification. Architect: M Moser Associates. Electrical consultant: Eshwari &amp; Co.</p>
+          <dl class="work-meta"><div><dt>Scope</dt><dd>Internal electrification</dd></div><div><dt>Architect</dt><dd>M Moser Associates</dd></div><div><dt>Electrical consultant</dt><dd>Eshwari &amp; Co</dd></div></dl>
         </article>
         <article class="work-card" data-project="yashoda-hospitals-project-2">
           <div class="work-media" data-reveal-media>
@@ -203,7 +234,8 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
           <p class="label work-tag">Healthcare · Hyderabad</p>
           <h3>Yashoda Hospitals, Project II</h3>
           <ul class="specs"><li>396,000 sq ft</li><li>11 floors</li><li>₹4.7 Cr order</li></ul>
-          <p class="work-team">One of three Yashoda projects. Architect and electrical consultant: Synergy.</p>
+          <dl class="work-meta"><div><dt>Scope</dt><dd>Internal electrification</dd></div><div><dt>Architect &amp; electrical consultant</dt><dd>Synergy</dd></div></dl>
+          <p class="work-note">One of three Yashoda projects.</p>
         </article>
         <article class="work-card" data-project="my-home-tridasa">
           <div class="work-media" data-reveal-media>
@@ -212,7 +244,7 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
           <p class="label work-tag">Residential · Telapur</p>
           <h3>My Home Tridasa</h3>
           <ul class="specs"><li>3,379,200 sq ft</li><li>G+30, 2 towers</li><li>Completed 2024</li></ul>
-          <p class="work-team">Developer: My Home Construction.</p>
+          <dl class="work-meta"><div><dt>Developer</dt><dd>My Home Construction</dd></div></dl>
         </article>
       </div>
       <div class="work-foot">
@@ -231,12 +263,12 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
       </div>
 
       <div class="filters" role="group" aria-label="Filter projects by sector" hidden>
-        <button class="chip" type="button" data-filter="all" aria-pressed="true">All sectors <span class="chip-count">38</span></button>
-        <button class="chip" type="button" data-filter="healthcare" aria-pressed="false">Healthcare <span class="chip-count">6</span></button>
-        <button class="chip" type="button" data-filter="enterprise" aria-pressed="false">Enterprise &amp; IT <span class="chip-count">18</span></button>
-        <button class="chip" type="button" data-filter="banking" aria-pressed="false">Banking &amp; finance <span class="chip-count">4</span></button>
-        <button class="chip" type="button" data-filter="residential" aria-pressed="false">Residential high-rise <span class="chip-count">7</span></button>
-        <button class="chip" type="button" data-filter="infrastructure" aria-pressed="false">Infrastructure &amp; data centres <span class="chip-count">3</span></button>
+        <button class="chip" type="button" data-filter="all" aria-pressed="true"><span class="chip-label">All sectors</span> <span class="chip-count">38</span></button>
+        <button class="chip" type="button" data-filter="healthcare" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#hospital"/></svg><span class="chip-label">Healthcare</span> <span class="chip-count">6</span></button>
+        <button class="chip" type="button" data-filter="enterprise" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building-2"/></svg><span class="chip-label">Enterprise &amp; IT</span> <span class="chip-count">18</span></button>
+        <button class="chip" type="button" data-filter="banking" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#landmark"/></svg><span class="chip-label">Banking &amp; finance</span> <span class="chip-count">4</span></button>
+        <button class="chip" type="button" data-filter="residential" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building"/></svg><span class="chip-label">Residential high-rise</span> <span class="chip-count">7</span></button>
+        <button class="chip" type="button" data-filter="infrastructure" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#server"/></svg><span class="chip-label">Infrastructure &amp; data centres</span> <span class="chip-count">3</span></button>
       </div>
       <p class="record-status" id="record-status" aria-live="polite"></p>
       <div class="table-scroll" role="region" aria-labelledby="record-caption" tabindex="0">
@@ -253,48 +285,48 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
             </tr>
           </thead>
           <tbody id="record-rows">
-            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Accenture BDC 14</span><span class="p-meta">Enterprise &amp; IT</span></th><td>Bengaluru</td><td class="num">200,000</td><td>4</td><td class="num">₹3.5 Cr</td><td>RSP Design Consultants</td></tr>
-            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Amazon MAA12</span><span class="p-meta">Enterprise &amp; IT</span></th><td>Chennai</td><td class="num">475,000</td><td>15</td><td class="num">₹10 Cr</td><td>M Moser Associates / Eshwari &amp; Co</td></tr>
-            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Cognizant Technologies</span><span class="p-meta">Enterprise &amp; IT</span></th><td>Coimbatore</td><td class="num">220,000</td><td>4</td><td class="num">₹7 Cr</td><td>Venkataramanan Associates / Lead Consultants</td></tr>
-            <tr data-sector="banking"><th scope="row"><span class="p-name">HDFC Bank</span><span class="p-meta">Banking &amp; finance</span></th><td>Hyderabad</td><td class="num">100,000</td><td>6</td><td class="num">₹3 Cr</td><td>Zyeta / Hyderabad Consultant Engineers</td></tr>
-            <tr data-sector="banking"><th scope="row"><span class="p-name">HDFC Bank</span><span class="p-meta">Banking &amp; finance</span></th><td>Hyderabad</td><td class="num">150,000</td><td>4</td><td class="num">₹1 Cr</td><td>Hyderabad Consultant Engineers (consultant)</td></tr>
-            <tr data-sector="healthcare"><th scope="row"><span class="p-name">KIMS Hospitals</span><span class="p-meta">Healthcare</span></th><td>Kondapur, Hyderabad</td><td class="num">130,000</td><td>10</td><td class="num">₹1.75 Cr</td><td>Synergy</td></tr>
-            <tr data-sector="healthcare"><th scope="row"><span class="p-name">Krishna Sindhura Hospital (KSH)</span><span class="p-meta">Healthcare</span></th><td>Hyderabad</td><td class="num">774,000</td><td>24</td><td class="num">₹14 Cr</td><td>ARKK Consulting</td></tr>
-            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Legato</span><span class="p-meta">Enterprise &amp; IT</span></th><td>Hyderabad</td><td class="num">300,000</td><td>3</td><td class="num">₹4 Cr</td><td>Space Matrix Design &amp; Consultants</td></tr>
-            <tr data-sector="banking"><th scope="row"><span class="p-name">Sequoia Capital</span><span class="p-meta">Banking &amp; finance</span></th><td>Bengaluru</td><td class="num">50,000</td><td>6</td><td class="num">₹2.5 Cr</td><td>Space Matrix Design &amp; Consultants</td></tr>
-            <tr data-sector="enterprise"><th scope="row"><span class="p-name">ServiceNow</span><span class="p-meta">Enterprise &amp; IT</span></th><td>Hyderabad</td><td class="num">200,000</td><td>4</td><td class="num">₹3 Cr</td><td>Space Matrix Design &amp; Consultants</td></tr>
-            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Shell @ Bagmane Xenon</span><span class="p-meta">Enterprise &amp; IT</span></th><td>Bengaluru</td><td class="num">270,000</td><td>5</td><td class="num">₹8 Cr</td><td>Raj Consultant / Techtron Engineering Consultancy</td></tr>
-            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Walmart</span><span class="p-meta">Enterprise &amp; IT</span></th><td>Bengaluru</td><td class="num">250,000</td><td>5</td><td class="num">₹6.5 Cr</td><td>DSP Design Associates / Lead Consultants</td></tr>
-            <tr data-sector="healthcare"><th scope="row"><span class="p-name">Yashoda Hospitals, Project I</span><span class="p-meta">Healthcare</span></th><td>Somajiguda, Hyderabad</td><td class="num">150,000</td><td>11</td><td class="num">₹2.11 Cr</td><td>Synergy</td></tr>
-            <tr data-sector="healthcare"><th scope="row"><span class="p-name">Yashoda Hospitals, Project II</span><span class="p-meta">Healthcare</span></th><td>Somajiguda, Hyderabad</td><td class="num">396,000</td><td>11</td><td class="num">₹4.7 Cr</td><td>Synergy</td></tr>
-            <tr data-sector="healthcare"><th scope="row"><span class="p-name">Yashoda Hospitals, Project III</span><span class="p-meta">Healthcare</span></th><td>Secunderabad</td><td class="num">120,000</td><td>11</td><td class="num">₹1.78 Cr</td><td>Synergy</td></tr>
-            <tr data-sector="residential"><th scope="row"><span class="p-name">My Home Grawa</span><span class="p-meta">Residential high-rise · Ongoing</span></th><td>Kokapet, Hyderabad</td><td class="num">1,274,000</td><td>G+49, 1 tower</td><td class="num"><span class="na">Not stated</span></td><td>Developer: My Home Construction</td></tr>
-            <tr data-sector="residential"><th scope="row"><span class="p-name">My Home Nishada</span><span class="p-meta">Residential high-rise · Ongoing</span></th><td>Kokapet, Hyderabad</td><td class="num">1,800,000</td><td>G+44, 2 towers</td><td class="num"><span class="na">Not stated</span></td><td>Developer: My Home Construction</td></tr>
-            <tr data-sector="residential"><th scope="row"><span class="p-name">My Home Tridasa</span><span class="p-meta">Residential high-rise · Completed 2024</span></th><td>Telapur, Hyderabad</td><td class="num">3,379,200</td><td>G+30, 2 towers</td><td class="num"><span class="na">Not stated</span></td><td>Developer: My Home Construction</td></tr>
-            <tr data-sector="residential"><th scope="row"><span class="p-name">Ramky One Harmony</span><span class="p-meta">Residential high-rise · Completed 2025</span></th><td>Pragati Nagar, Hyderabad</td><td class="num">1,178,400</td><td>G+9, 5 towers</td><td class="num"><span class="na">Not stated</span></td><td>Developer: Ramky Estates</td></tr>
-            <tr data-sector="residential"><th scope="row"><span class="p-name">Vasavi Ananda Nilayam</span><span class="p-meta">Residential high-rise · Ongoing</span></th><td>LB Nagar, Hyderabad</td><td class="num">936,000</td><td>G+30, 1 tower</td><td class="num"><span class="na">Not stated</span></td><td>Developer: Vasavi Group</td></tr>
-            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Accenture Services</span><span class="p-meta">Enterprise &amp; IT · Earlier brochure</span></th><td>Hyderabad, Bengaluru, Chennai &amp; Kolkata</td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td></tr>
-            <tr data-sector="enterprise"><th scope="row"><span class="p-name">AMD India</span><span class="p-meta">Enterprise &amp; IT · Earlier brochure</span></th><td>Hyderabad</td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td></tr>
-            <tr data-sector="banking"><th scope="row"><span class="p-name">Arcesium</span><span class="p-meta">Banking &amp; finance · Earlier brochure</span></th><td>Hyderabad</td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td></tr>
-            <tr data-sector="infrastructure"><th scope="row"><span class="p-name">Bagmane Cosmos Tech Park</span><span class="p-meta">Infrastructure &amp; data centres · External electrification: Ariel, Vesta, MLCP, Vesta Extension</span></th><td><span class="na">Not stated</span></td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td></tr>
-            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Bosch</span><span class="p-meta">Enterprise &amp; IT</span></th><td>Coimbatore</td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td></tr>
-            <tr data-sector="infrastructure"><th scope="row"><span class="p-name">GMR Hyderabad International Airport</span><span class="p-meta">Infrastructure &amp; data centres · Earlier brochure</span></th><td>Shamshabad</td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td></tr>
-            <tr data-sector="infrastructure"><th scope="row"><span class="p-name">ITC Datacenter</span><span class="p-meta">Infrastructure &amp; data centres · Earlier brochure</span></th><td>Bengaluru</td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td></tr>
-            <tr data-sector="healthcare"><th scope="row"><span class="p-name">Jeeyer Vedic Hospital</span><span class="p-meta">Healthcare · Earlier brochure</span></th><td>Shamshabad</td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td></tr>
-            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Microsoft R&amp;D India</span><span class="p-meta">Enterprise &amp; IT · Earlier brochure</span></th><td>Hyderabad &amp; Bengaluru</td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td></tr>
-            <tr data-sector="residential"><th scope="row"><span class="p-name">My Home Abhra</span><span class="p-meta">Residential high-rise · Earlier brochure</span></th><td>Hyderabad</td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td></tr>
-            <tr data-sector="enterprise"><th scope="row"><span class="p-name">NCR</span><span class="p-meta">Enterprise &amp; IT</span></th><td>Hyderabad</td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td></tr>
-            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Network 18</span><span class="p-meta">Enterprise &amp; IT</span></th><td>Noida</td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td></tr>
-            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Qualcomm India</span><span class="p-meta">Enterprise &amp; IT · Earlier brochure</span></th><td>Hyderabad, Bengaluru &amp; Chennai</td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td></tr>
-            <tr data-sector="residential"><th scope="row"><span class="p-name">Ramky CEO Enclave</span><span class="p-meta">Residential high-rise · Earlier brochure</span></th><td>Hyderabad</td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td></tr>
-            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Ramky Corporate Office</span><span class="p-meta">Enterprise &amp; IT · Earlier brochure</span></th><td>Hyderabad</td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td></tr>
-            <tr data-sector="enterprise"><th scope="row"><span class="p-name">TCS</span><span class="p-meta">Enterprise &amp; IT · Earlier brochure</span></th><td>Hyderabad</td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td></tr>
-            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Tech Mahindra</span><span class="p-meta">Enterprise &amp; IT</span></th><td>Hyderabad</td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td></tr>
-            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Uber India</span><span class="p-meta">Enterprise &amp; IT · Earlier brochure</span></th><td>Hyderabad</td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td><td class="num"><span class="na">Not stated</span></td><td><span class="na">Not stated</span></td></tr>
+            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Accenture BDC 14</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building-2"/></svg>Enterprise &amp; IT</span></th><td>Bengaluru</td><td class="num">200,000<span class="u"> sq ft</span></td><td>4<span class="u"> floors</span></td><td class="num">₹3.5 Cr<span class="u"> order</span></td><td>RSP Design Consultants</td></tr>
+            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Amazon MAA12</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building-2"/></svg>Enterprise &amp; IT</span></th><td>Chennai</td><td class="num">475,000<span class="u"> sq ft</span></td><td>15<span class="u"> floors</span></td><td class="num">₹10 Cr<span class="u"> order</span></td><td>M Moser Associates / Eshwari &amp; Co</td></tr>
+            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Cognizant Technologies</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building-2"/></svg>Enterprise &amp; IT</span></th><td>Coimbatore</td><td class="num">220,000<span class="u"> sq ft</span></td><td>4<span class="u"> floors</span></td><td class="num">₹7 Cr<span class="u"> order</span></td><td>Venkataramanan Associates / Lead Consultants</td></tr>
+            <tr data-sector="banking"><th scope="row"><span class="p-name">HDFC Bank</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#landmark"/></svg>Banking &amp; finance</span></th><td>Hyderabad</td><td class="num">100,000<span class="u"> sq ft</span></td><td>6<span class="u"> floors</span></td><td class="num">₹3 Cr<span class="u"> order</span></td><td>Zyeta / Hyderabad Consultant Engineers</td></tr>
+            <tr data-sector="banking"><th scope="row"><span class="p-name">HDFC Bank</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#landmark"/></svg>Banking &amp; finance</span></th><td>Hyderabad</td><td class="num">150,000<span class="u"> sq ft</span></td><td>4<span class="u"> floors</span></td><td class="num">₹1 Cr<span class="u"> order</span></td><td>Hyderabad Consultant Engineers (consultant)</td></tr>
+            <tr data-sector="healthcare"><th scope="row"><span class="p-name">KIMS Hospitals</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#hospital"/></svg>Healthcare</span></th><td>Kondapur, Hyderabad</td><td class="num">130,000<span class="u"> sq ft</span></td><td>10<span class="u"> floors</span></td><td class="num">₹1.75 Cr<span class="u"> order</span></td><td>Synergy</td></tr>
+            <tr data-sector="healthcare"><th scope="row"><span class="p-name">Krishna Sindhura Hospital (KSH)</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#hospital"/></svg>Healthcare</span></th><td>Hyderabad</td><td class="num">774,000<span class="u"> sq ft</span></td><td>24<span class="u"> floors</span></td><td class="num">₹14 Cr<span class="u"> order</span></td><td>ARKK Consulting</td></tr>
+            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Legato</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building-2"/></svg>Enterprise &amp; IT</span></th><td>Hyderabad</td><td class="num">300,000<span class="u"> sq ft</span></td><td>3<span class="u"> floors</span></td><td class="num">₹4 Cr<span class="u"> order</span></td><td>Space Matrix Design &amp; Consultants</td></tr>
+            <tr data-sector="banking"><th scope="row"><span class="p-name">Sequoia Capital</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#landmark"/></svg>Banking &amp; finance</span></th><td>Bengaluru</td><td class="num">50,000<span class="u"> sq ft</span></td><td>6<span class="u"> floors</span></td><td class="num">₹2.5 Cr<span class="u"> order</span></td><td>Space Matrix Design &amp; Consultants</td></tr>
+            <tr data-sector="enterprise"><th scope="row"><span class="p-name">ServiceNow</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building-2"/></svg>Enterprise &amp; IT</span></th><td>Hyderabad</td><td class="num">200,000<span class="u"> sq ft</span></td><td>4<span class="u"> floors</span></td><td class="num">₹3 Cr<span class="u"> order</span></td><td>Space Matrix Design &amp; Consultants</td></tr>
+            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Shell @ Bagmane Xenon</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building-2"/></svg>Enterprise &amp; IT</span></th><td>Bengaluru</td><td class="num">270,000<span class="u"> sq ft</span></td><td>5<span class="u"> floors</span></td><td class="num">₹8 Cr<span class="u"> order</span></td><td>Raj Consultant / Techtron Engineering Consultancy</td></tr>
+            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Walmart</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building-2"/></svg>Enterprise &amp; IT</span></th><td>Bengaluru</td><td class="num">250,000<span class="u"> sq ft</span></td><td>5<span class="u"> floors</span></td><td class="num">₹6.5 Cr<span class="u"> order</span></td><td>DSP Design Associates / Lead Consultants</td></tr>
+            <tr data-sector="healthcare"><th scope="row"><span class="p-name">Yashoda Hospitals, Project I</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#hospital"/></svg>Healthcare</span></th><td>Somajiguda, Hyderabad</td><td class="num">150,000<span class="u"> sq ft</span></td><td>11<span class="u"> floors</span></td><td class="num">₹2.11 Cr<span class="u"> order</span></td><td>Synergy</td></tr>
+            <tr data-sector="healthcare"><th scope="row"><span class="p-name">Yashoda Hospitals, Project II</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#hospital"/></svg>Healthcare</span></th><td>Somajiguda, Hyderabad</td><td class="num">396,000<span class="u"> sq ft</span></td><td>11<span class="u"> floors</span></td><td class="num">₹4.7 Cr<span class="u"> order</span></td><td>Synergy</td></tr>
+            <tr data-sector="healthcare"><th scope="row"><span class="p-name">Yashoda Hospitals, Project III</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#hospital"/></svg>Healthcare</span></th><td>Secunderabad</td><td class="num">120,000<span class="u"> sq ft</span></td><td>11<span class="u"> floors</span></td><td class="num">₹1.78 Cr<span class="u"> order</span></td><td>Synergy</td></tr>
+            <tr data-sector="residential"><th scope="row"><span class="p-name">My Home Grawa</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building"/></svg>Residential high-rise</span><span class="p-status"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#clock"/></svg>Ongoing</span></th><td>Kokapet, Hyderabad</td><td class="num">1,274,000<span class="u"> sq ft</span></td><td>G+49, 1 tower</td><td class="num"><span class="na">Not stated</span></td><td class="dev">Developer: My Home Construction</td></tr>
+            <tr data-sector="residential"><th scope="row"><span class="p-name">My Home Nishada</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building"/></svg>Residential high-rise</span><span class="p-status"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#clock"/></svg>Ongoing</span></th><td>Kokapet, Hyderabad</td><td class="num">1,800,000<span class="u"> sq ft</span></td><td>G+44, 2 towers</td><td class="num"><span class="na">Not stated</span></td><td class="dev">Developer: My Home Construction</td></tr>
+            <tr data-sector="residential"><th scope="row"><span class="p-name">My Home Tridasa</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building"/></svg>Residential high-rise</span><span class="p-status p-status--done"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#circle-check"/></svg>Completed 2024</span></th><td>Telapur, Hyderabad</td><td class="num">3,379,200<span class="u"> sq ft</span></td><td>G+30, 2 towers</td><td class="num"><span class="na">Not stated</span></td><td class="dev">Developer: My Home Construction</td></tr>
+            <tr data-sector="residential"><th scope="row"><span class="p-name">Ramky One Harmony</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building"/></svg>Residential high-rise</span><span class="p-status p-status--done"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#circle-check"/></svg>Completed 2025</span></th><td>Pragati Nagar, Hyderabad</td><td class="num">1,178,400<span class="u"> sq ft</span></td><td>G+9, 5 towers</td><td class="num"><span class="na">Not stated</span></td><td class="dev">Developer: Ramky Estates</td></tr>
+            <tr data-sector="residential"><th scope="row"><span class="p-name">Vasavi Ananda Nilayam</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building"/></svg>Residential high-rise</span><span class="p-status"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#clock"/></svg>Ongoing</span></th><td>LB Nagar, Hyderabad</td><td class="num">936,000<span class="u"> sq ft</span></td><td>G+30, 1 tower</td><td class="num"><span class="na">Not stated</span></td><td class="dev">Developer: Vasavi Group</td></tr>
+            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Accenture Services</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building-2"/></svg>Enterprise &amp; IT</span><span class="p-note">Earlier brochure</span></th><td>Hyderabad, Bengaluru, Chennai &amp; Kolkata</td><td colspan="4" class="na-all"><span class="na">Not stated</span></td></tr>
+            <tr data-sector="enterprise"><th scope="row"><span class="p-name">AMD India</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building-2"/></svg>Enterprise &amp; IT</span><span class="p-note">Earlier brochure</span></th><td>Hyderabad</td><td colspan="4" class="na-all"><span class="na">Not stated</span></td></tr>
+            <tr data-sector="banking"><th scope="row"><span class="p-name">Arcesium</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#landmark"/></svg>Banking &amp; finance</span><span class="p-note">Earlier brochure</span></th><td>Hyderabad</td><td colspan="4" class="na-all"><span class="na">Not stated</span></td></tr>
+            <tr data-sector="infrastructure"><th scope="row"><span class="p-name">Bagmane Cosmos Tech Park</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#server"/></svg>Infrastructure &amp; data centres</span><span class="p-note">External electrification: Ariel, Vesta, MLCP, Vesta Extension</span></th><td><span class="na">Not stated</span></td><td colspan="4" class="na-all"><span class="na">Not stated</span></td></tr>
+            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Bosch</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building-2"/></svg>Enterprise &amp; IT</span></th><td>Coimbatore</td><td colspan="4" class="na-all"><span class="na">Not stated</span></td></tr>
+            <tr data-sector="infrastructure"><th scope="row"><span class="p-name">GMR Hyderabad International Airport</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#server"/></svg>Infrastructure &amp; data centres</span><span class="p-note">Earlier brochure</span></th><td>Shamshabad</td><td colspan="4" class="na-all"><span class="na">Not stated</span></td></tr>
+            <tr data-sector="infrastructure"><th scope="row"><span class="p-name">ITC Datacenter</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#server"/></svg>Infrastructure &amp; data centres</span><span class="p-note">Earlier brochure</span></th><td>Bengaluru</td><td colspan="4" class="na-all"><span class="na">Not stated</span></td></tr>
+            <tr data-sector="healthcare"><th scope="row"><span class="p-name">Jeeyer Vedic Hospital</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#hospital"/></svg>Healthcare</span><span class="p-note">Earlier brochure</span></th><td>Shamshabad</td><td colspan="4" class="na-all"><span class="na">Not stated</span></td></tr>
+            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Microsoft R&amp;D India</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building-2"/></svg>Enterprise &amp; IT</span><span class="p-note">Earlier brochure</span></th><td>Hyderabad &amp; Bengaluru</td><td colspan="4" class="na-all"><span class="na">Not stated</span></td></tr>
+            <tr data-sector="residential"><th scope="row"><span class="p-name">My Home Abhra</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building"/></svg>Residential high-rise</span><span class="p-note">Earlier brochure</span></th><td>Hyderabad</td><td colspan="4" class="na-all"><span class="na">Not stated</span></td></tr>
+            <tr data-sector="enterprise"><th scope="row"><span class="p-name">NCR</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building-2"/></svg>Enterprise &amp; IT</span></th><td>Hyderabad</td><td colspan="4" class="na-all"><span class="na">Not stated</span></td></tr>
+            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Network 18</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building-2"/></svg>Enterprise &amp; IT</span></th><td>Noida</td><td colspan="4" class="na-all"><span class="na">Not stated</span></td></tr>
+            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Qualcomm India</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building-2"/></svg>Enterprise &amp; IT</span><span class="p-note">Earlier brochure</span></th><td>Hyderabad, Bengaluru &amp; Chennai</td><td colspan="4" class="na-all"><span class="na">Not stated</span></td></tr>
+            <tr data-sector="residential"><th scope="row"><span class="p-name">Ramky CEO Enclave</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building"/></svg>Residential high-rise</span><span class="p-note">Earlier brochure</span></th><td>Hyderabad</td><td colspan="4" class="na-all"><span class="na">Not stated</span></td></tr>
+            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Ramky Corporate Office</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building-2"/></svg>Enterprise &amp; IT</span><span class="p-note">Earlier brochure</span></th><td>Hyderabad</td><td colspan="4" class="na-all"><span class="na">Not stated</span></td></tr>
+            <tr data-sector="enterprise"><th scope="row"><span class="p-name">TCS</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building-2"/></svg>Enterprise &amp; IT</span><span class="p-note">Earlier brochure</span></th><td>Hyderabad</td><td colspan="4" class="na-all"><span class="na">Not stated</span></td></tr>
+            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Tech Mahindra</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building-2"/></svg>Enterprise &amp; IT</span></th><td>Hyderabad</td><td colspan="4" class="na-all"><span class="na">Not stated</span></td></tr>
+            <tr data-sector="enterprise"><th scope="row"><span class="p-name">Uber India</span><span class="p-meta"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#building-2"/></svg>Enterprise &amp; IT</span><span class="p-note">Earlier brochure</span></th><td>Hyderabad</td><td colspan="4" class="na-all"><span class="na">Not stated</span></td></tr>
           </tbody>
         </table>
       </div>
-      <p class="scroll-hint">Scroll the table sideways for every column.</p>
+      <p class="record-legend"><span aria-hidden="true">—</span> Not stated in the company profile or the earlier brochure.<span class="scroll-hint"> Scroll the table sideways for every column.</span></p>
       <div class="record-more">
         <button class="btn btn--outline" type="button" id="record-more" aria-controls="record-table" hidden>Show all projects</button>
       </div>
@@ -379,53 +411,36 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
 
       <ol class="stages">
         <li class="stage">
-          <span class="stage-no" aria-hidden="true">01</span>
+          <div class="stage-head"><span class="stage-no" aria-hidden="true">01</span><svg class="ic stage-ic" aria-hidden="true"><use href="assets/icons/icons.svg#drafting-compass"/></svg></div>
           <h3>Design</h3>
           <p>GFC drawings reviewed; shop and GA drawings prepared to site conditions and approved by the PMC or consultant.</p>
           <ul class="tags"><li>GFC review</li><li>Shop drawings</li><li>Submittals</li></ul>
         </li>
         <li class="stage">
-          <span class="stage-no" aria-hidden="true">02</span>
+          <div class="stage-head"><span class="stage-no" aria-hidden="true">02</span><svg class="ic stage-ic" aria-hidden="true"><use href="assets/icons/icons.svg#package"/></svg></div>
           <h3>Procurement</h3>
           <p>Final quantities passed to procurement alongside design. Vendors are validated and material is checked against the BOQ.</p>
           <ul class="tags"><li>Vendor validation</li><li>ERP</li><li>Material tracking</li></ul>
         </li>
         <li class="stage">
-          <span class="stage-no" aria-hidden="true">03</span>
+          <div class="stage-head"><span class="stage-no" aria-hidden="true">03</span><svg class="ic stage-ic" aria-hidden="true"><use href="assets/icons/icons.svg#hard-hat"/></svg></div>
           <h3>Construction</h3>
           <p>Site secured and materials staged; works executed to approved drawings and method statements under a risk analysis.</p>
           <ul class="tags"><li>Site logistics</li><li>Risk analysis</li><li>Checklists</li></ul>
         </li>
         <li class="stage">
-          <span class="stage-no" aria-hidden="true">04</span>
+          <div class="stage-head"><span class="stage-no" aria-hidden="true">04</span><svg class="ic stage-ic" aria-hidden="true"><use href="assets/icons/icons.svg#gauge"/></svg></div>
           <h3>Testing &amp; commissioning</h3>
           <p>Functional and visual verification, quality and safety checks, and test reports from our own commissioning team.</p>
           <ul class="tags"><li>Megger &amp; IR</li><li>Panel load</li><li>System test</li></ul>
         </li>
         <li class="stage">
-          <span class="stage-no" aria-hidden="true">05</span>
+          <div class="stage-head"><span class="stage-no" aria-hidden="true">05</span><svg class="ic stage-ic" aria-hidden="true"><use href="assets/icons/icons.svg#key-round"/></svg></div>
           <h3>Handover</h3>
           <p>As-built drawings, test reports and warranties; snags closed, the client’s team trained, and a final walkthrough to sign-off.</p>
           <ul class="tags"><li>As-builts</li><li>Training</li><li>Sign-off</li></ul>
         </li>
       </ol>
-
-      <div class="scope">
-        <div class="subhead">
-          <h3>What we install</h3>
-          <p>From the electrical works schedule in our profile</p>
-        </div>
-        <div class="scope-grid">
-          <div class="scope-item"><h4>Containment</h4><p>Conduit in slabs, walls and floors; sleeves and back boxes; GI cable trays, ladders, trunking and raceways.</p></div>
-          <div class="scope-item"><h4>Wiring &amp; cabling</h4><p>Power and lighting wiring, DB-to-equipment wiring, HT/LT cable laying, dressing, tagging, glanding and termination.</p></div>
-          <div class="scope-item"><h4>Panels &amp; distribution</h4><p>LT panels and capacitor banks, MDBs, SMDBs and DBs, control wiring and panel earthing.</p></div>
-          <div class="scope-item"><h4>Busducts &amp; rising mains</h4><p>Busbar trunking and rising mains, supplied through OEM channels and installed to approved GA drawings.</p></div>
-          <div class="scope-item"><h4>Lighting &amp; accessories</h4><p>LED fixtures, lighting management systems, switches and sockets, fans and junction boxes.</p></div>
-          <div class="scope-item"><h4>Critical power</h4><p>UPS and battery installation, server-room electrical works, AC unit connections, pumps and motors.</p></div>
-          <div class="scope-item"><h4>Earthing &amp; protection</h4><p>Earth pits and grids, GI and copper strip, surge protection devices and lightning arresters.</p></div>
-          <div class="scope-item"><h4>Testing</h4><p>Megger, IR and continuity tests, panel load tests, circuit verification and HT/LT equipment testing.</p></div>
-        </div>
-      </div>
 
       <div class="sheets grid-12">
         <div class="sheet">
@@ -467,29 +482,33 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
 
       <div class="qs grid-12">
         <div class="qs-text">
-          <div class="qs-block">
-            <h3>Quality</h3>
-            <ul class="qs-list">
-              <li>QA requirements agreed with the client at the start of each project.</li>
-              <li>A quality control supervisor runs QA checks, reports non-conformities and works with client QA inspectors.</li>
-              <li>Work-type checklists kept current by the site team as execution progresses.</li>
-              <li>Every system tested, commissioned and signed off by the PMC or client.</li>
-            </ul>
-          </div>
-          <div class="qs-block">
-            <h3>Safety</h3>
-            <ul class="qs-list">
-              <li>An emergency response team on call 24/7.</li>
-              <li>Project safety reviews every alternate day, and a weekly safety report reviewed by top management.</li>
-              <li>HIRA risk assessments, height and hot-work permits, and lock-out tag-out before live connections.</li>
-              <li>Toolbox talks, PPE for every worker, monthly medical camps and tie-ups with local hospitals.</li>
-            </ul>
-          </div>
+          <ul class="certs">
+            <li class="cert"><svg class="ic ic--lg" aria-hidden="true"><use href="assets/icons/icons.svg#badge-check"/></svg><span><b>ISO 9001:2015</b> Quality management</span></li>
+            <li class="cert"><svg class="ic ic--lg" aria-hidden="true"><use href="assets/icons/icons.svg#shield-check"/></svg><span><b>ISO 45001:2018</b> Occupational health &amp; safety</span></li>
+          </ul>
           <dl class="qs-stats">
             <div class="qs-stat"><dt>Quality staff</dt><dd>10</dd></div>
             <div class="qs-stat"><dt>Safety staff</dt><dd>15</dd></div>
             <div class="qs-stat"><dt>Supervisors</dt><dd>60</dd></div>
           </dl>
+          <div class="qs-block">
+            <h3 class="icon-label"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#badge-check"/></svg>Quality</h3>
+            <ul class="qs-list">
+              <li><span class="qs-key">Agreed up front</span><span>QA requirements agreed with the client at the start of each project.</span></li>
+              <li><span class="qs-key">QC supervisor</span><span>A quality control supervisor runs QA checks, reports non-conformities and works with client QA inspectors.</span></li>
+              <li><span class="qs-key">Checklists</span><span>Work-type checklists kept current by the site team as execution progresses.</span></li>
+              <li><span class="qs-key">Sign-off</span><span>Every system tested, commissioned and signed off by the PMC or client.</span></li>
+            </ul>
+          </div>
+          <div class="qs-block">
+            <h3 class="icon-label"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#shield-check"/></svg>Safety</h3>
+            <ul class="qs-list">
+              <li><span class="qs-key">24/7 response</span><span>An emergency response team on call 24/7.</span></li>
+              <li><span class="qs-key">Reviews</span><span>Project safety reviews every alternate day, and a weekly safety report reviewed by top management.</span></li>
+              <li><span class="qs-key">Risk &amp; permits</span><span>HIRA risk assessments, height and hot-work permits, and lock-out tag-out before live connections.</span></li>
+              <li><span class="qs-key">Training &amp; welfare</span><span>Toolbox talks, PPE for every worker, monthly medical camps and tie-ups with local hospitals.</span></li>
+            </ul>
+          </div>
         </div>
         <div class="qs-photos">
           <figure data-reveal-media>
@@ -530,7 +549,7 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
             <span>
               <span class="doc-title">Savills · EHS certificate of appreciation</span>
               <span class="doc-meta">“Best performer”, Nov 2021 – Feb 2022, awarded to an AAYKAY site team member.</span>
-              <span class="doc-open">View certificate</span>
+              <span class="doc-open"><svg class="ic ic--sm" aria-hidden="true"><use href="assets/icons/icons.svg#maximize-2"/></svg>View certificate</span>
             </span>
           </a>
           <a class="doc" href="assets/img/doc-efswin-551.webp" data-lightbox="assets/img/doc-efswin-551.webp" data-caption="EFSWIN 2012, Electrical and Fire Safety Workshop in India and Exhibition, Hyderabad, November 2012.">
@@ -538,7 +557,7 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
             <span>
               <span class="doc-title">EFSWIN 2012 · Electrical &amp; Fire Safety Workshop in India</span>
               <span class="doc-meta">Organised by FSAI with IEEE IAS. Presented to Abdul Kareem P “for invaluable support”, Hyderabad, November 2012.</span>
-              <span class="doc-open">View plaque</span>
+              <span class="doc-open"><svg class="ic ic--sm" aria-hidden="true"><use href="assets/icons/icons.svg#maximize-2"/></svg>View plaque</span>
             </span>
           </a>
           <a class="doc" href="assets/img/doc-omsai-617.webp" data-lightbox="assets/img/doc-omsai-617.webp" data-caption="Om Sai Intex, Gratitude 15 partner appreciation, 4 May 2019.">
@@ -546,7 +565,7 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
             <span>
               <span class="doc-title">Om Sai Intex · Partner appreciation</span>
               <span class="doc-meta">“Gratitude 15”, presented to AayKay Electrical Enterprises, Bangalore, May 2019.</span>
-              <span class="doc-open">View plaque</span>
+              <span class="doc-open"><svg class="ic ic--sm" aria-hidden="true"><use href="assets/icons/icons.svg#maximize-2"/></svg>View plaque</span>
             </span>
           </a>
         </div>
@@ -569,12 +588,18 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
           <p class="founder-name">Abdul Kareem P</p>
           <p class="label">Founder &amp; Managing Director</p>
           <ul class="creds">
-            <li>B.Tech, electrical engineering</li>
-            <li>Supervisor’s licence, Electrical Inspectorate</li>
-            <li>30 years in the trade</li>
+            <li class="icon-label"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#graduation-cap"/></svg>B.Tech, electrical engineering</li>
+            <li class="icon-label"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#id-card"/></svg>Supervisor’s licence, Electrical Inspectorate</li>
+            <li class="icon-label"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#history"/></svg>30 years in the trade</li>
           </ul>
         </div>
         <div class="company-body">
+          <dl class="glance">
+            <div><dt>Company</dt><dd>AAYKAY Electricals Private Limited</dd></div>
+            <div><dt>Established</dt><dd>2008</dd></div>
+            <div><dt>Head office</dt><dd>Somajiguda, Hyderabad</dd></div>
+            <div><dt>Branches</dt><dd>7 states</dd></div>
+          </dl>
           <p>Abdul Kareem P was Head of Operations at Naseer Electricals in Hyderabad before starting A K Electricals in 2008. His 30 years in the trade cover base-build, IT workspaces, labs, data centres, hospitals, industrial and high-rise projects.</p>
           <p>Repeat clients include HDFC Bank, Amazon, Accenture, Microsoft, Tech Mahindra, Cognizant, AMD, NCR and D. E. Shaw &amp; Co.</p>
           <figure class="pull">
@@ -615,7 +640,7 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
       </div>
       <div class="pq-grid">
         <div class="pq-block">
-          <h3 class="label">Annual turnover</h3>
+          <h3 class="label icon-label"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#chart-column-increasing"/></svg>Annual turnover</h3>
           <p class="stat-value">₹40.11 Cr</p>
           <p class="stat-sub">FY 2025–26, up 7.5% on FY 2024–25</p>
           <table class="fy">
@@ -629,7 +654,7 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
           </table>
         </div>
         <div class="pq-block">
-          <h3 class="label">Resources</h3>
+          <h3 class="label icon-label"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#users"/></svg>Resources</h3>
           <p class="pq-group">Management &amp; supervision</p>
           <ul class="pq-list">
             <li>Project managers <b>15</b></li>
@@ -647,12 +672,19 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
           </ul>
         </div>
         <div class="pq-block">
-          <h3 class="label">Certifications &amp; registrations</h3>
+          <h3 class="label icon-label"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#badge-check"/></svg>Certifications &amp; registrations</h3>
+          <p class="pq-group">ISO certification</p>
           <ul class="pq-plain">
             <li><b>ISO 9001:2015</b> quality management</li>
             <li><b>ISO 45001:2018</b> occupational health &amp; safety</li>
-            <li>Electrical contractor licence, <b>Hyderabad</b></li>
-            <li>Electrical contractor licence, <b>Bengaluru</b></li>
+          </ul>
+          <p class="pq-group">Electrical contractor licences</p>
+          <ul class="pq-plain">
+            <li><b>Hyderabad</b></li>
+            <li><b>Bengaluru</b></li>
+          </ul>
+          <p class="pq-group">Company registrations</p>
+          <ul class="pq-plain">
             <li>Private limited company, Certificate of Incorporation</li>
             <li>MSME and GST registered</li>
             <li>ESI and EPF registered</li>
@@ -660,9 +692,9 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
           </ul>
         </div>
         <div class="pq-block">
-          <h3 class="label">Branches</h3>
+          <h3 class="label icon-label"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#map-pin"/></svg>Branches</h3>
           <ul class="pq-plain">
-            <li><b>Telangana</b> — Hyderabad, head office</li>
+            <li><b>Telangana</b> <span class="pq-tag">Head office, Hyderabad</span></li>
             <li>Andhra Pradesh</li>
             <li>Karnataka</li>
             <li>Maharashtra</li>
@@ -683,10 +715,10 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
         <p class="lead">Tell us the scope, location and timeline, and we’ll come back to you.</p>
         <!-- CONFIRM BEFORE LAUNCH: contact details are from the old brochure -->
         <dl class="contact-dl">
-          <div><dt class="label">Head office</dt><dd>#3D, 3rd Floor, Dhruva Tara Apartments,<br>Somajiguda, Hyderabad 500 082, Telangana<br><a href="https://www.google.com/maps/search/?api=1&amp;query=Dhruva+Tara+Apartments+Somajiguda+Hyderabad" target="_blank" rel="noopener">Open in Google Maps</a></dd></div>
-          <div><dt class="label">Phone</dt><dd><a href="tel:+914066362094" id="c-phone">+91 40 6636 2094</a><button class="copy-btn" type="button" data-copy="+91 40 6636 2094" data-copy-target="c-phone" hidden><span class="copy-label">Copy</span><span class="visually-hidden"> phone number</span></button></dd></div>
-          <div><dt class="label">Email</dt><dd><a href="mailto:projects@akelectricals.in" id="c-email">projects@akelectricals.in</a><button class="copy-btn" type="button" data-copy="projects@akelectricals.in" data-copy-target="c-email" hidden><span class="copy-label">Copy</span><span class="visually-hidden"> email address</span></button></dd></div>
-          <div><dt class="label">Branches</dt><dd>Telangana · Andhra Pradesh · Karnataka · Maharashtra · Tamil Nadu · West Bengal · Haryana</dd></div>
+          <div><dt class="label icon-label"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#map-pin"/></svg>Head office</dt><dd>#3D, 3rd Floor, Dhruva Tara Apartments,<br>Somajiguda, Hyderabad 500 082, Telangana<br><a href="https://www.google.com/maps/search/?api=1&amp;query=Dhruva+Tara+Apartments+Somajiguda+Hyderabad" target="_blank" rel="noopener">Open in Google Maps</a></dd></div>
+          <div><dt class="label icon-label"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#phone"/></svg>Phone</dt><dd><a href="tel:+914066362094" id="c-phone">+91 40 6636 2094</a><button class="copy-btn" type="button" data-copy="+91 40 6636 2094" data-copy-target="c-phone" hidden><span class="copy-label">Copy</span><span class="visually-hidden"> phone number</span></button></dd></div>
+          <div><dt class="label icon-label"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#mail"/></svg>Email</dt><dd><a href="mailto:projects@akelectricals.in" id="c-email">projects@akelectricals.in</a><button class="copy-btn" type="button" data-copy="projects@akelectricals.in" data-copy-target="c-email" hidden><span class="copy-label">Copy</span><span class="visually-hidden"> email address</span></button></dd></div>
+          <div><dt class="label icon-label"><svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#map"/></svg>Branches</dt><dd>Telangana · Andhra Pradesh · Karnataka · Maharashtra · Tamil Nadu · West Bengal · Haryana</dd></div>
         </dl>
         <p class="visually-hidden" id="copy-status" role="status"></p>
       </div>

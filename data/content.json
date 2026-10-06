@@ -6,6 +6,8 @@
     "Project fields: slug (stable, lowercase-hyphenated, never reused), name, sector (a key from 'sectors'),",
     "location, area_sqft (whole number or null), floors (as displayed), order_value (as displayed or null),",
     "design_team, status ('Ongoing' / 'Completed YYYY' or null), note, source (where the fact comes from).",
+    "Sector 'icon' is a symbol id in assets/icons/icons.svg; the same icon marks the sector everywhere on the page.",
+    "Clients (the strip under the hero): name, logo (null, or {src, width, height} once AAYKAY supplies an approved file), source.",
     "Leave a field null when the source does not state it. Never estimate."
   ],
   "company": {
@@ -98,31 +100,108 @@
       "key": "healthcare",
       "label": "Healthcare",
       "description": "Internal electrification for multi-storey hospitals, up to 24 floors and 774,000 sq ft.",
-      "clients": "Krishna Sindhura · Yashoda · KIMS"
+      "clients": "Krishna Sindhura · Yashoda · KIMS",
+      "icon": "hospital"
     },
     {
       "key": "enterprise",
       "label": "Enterprise & IT",
       "description": "Office fit-outs and campuses, up to 15 floors and 475,000 sq ft on a single project.",
-      "clients": "Amazon · Microsoft · Qualcomm · Accenture · Shell · Walmart"
+      "clients": "Amazon · Microsoft · Qualcomm · Accenture · Shell · Walmart",
+      "icon": "building-2"
     },
     {
       "key": "banking",
       "label": "Banking & finance",
       "description": "Offices for banks and investment firms.",
-      "clients": "HDFC Bank · Sequoia Capital · Arcesium"
+      "clients": "HDFC Bank · Sequoia Capital · Arcesium",
+      "icon": "landmark"
     },
     {
       "key": "residential",
       "label": "Residential high-rise",
       "description": "Towers from G+9 to G+49, in developments of up to 3.38 million sq ft.",
-      "clients": "My Home · Ramky · Vasavi"
+      "clients": "My Home · Ramky · Vasavi",
+      "icon": "building"
     },
     {
       "key": "infrastructure",
       "label": "Infrastructure & data centres",
       "description": "Airport, data centre and tech-park external electrification.",
-      "clients": "GMR Hyderabad Airport · ITC Datacenter · Bagmane"
+      "clients": "GMR Hyderabad Airport · ITC Datacenter · Bagmane",
+      "icon": "server"
+    }
+  ],
+  "clients": [
+    {
+      "name": "Amazon",
+      "logo": null,
+      "source": "project record: Amazon MAA12 (profile)"
+    },
+    {
+      "name": "Microsoft",
+      "logo": null,
+      "source": "project record: Microsoft R&D India (brochure)"
+    },
+    {
+      "name": "Qualcomm",
+      "logo": null,
+      "source": "project record: Qualcomm India (brochure)"
+    },
+    {
+      "name": "Accenture",
+      "logo": null,
+      "source": "project record: Accenture BDC 14 (profile)"
+    },
+    {
+      "name": "Shell",
+      "logo": null,
+      "source": "project record: Shell @ Bagmane Xenon (profile)"
+    },
+    {
+      "name": "Walmart",
+      "logo": null,
+      "source": "project record: Walmart (profile)"
+    },
+    {
+      "name": "IBM",
+      "logo": null,
+      "source": "profile client-list page (image only); confirm with AAYKAY"
+    },
+    {
+      "name": "HDFC Bank",
+      "logo": null,
+      "source": "project record: HDFC Bank (profile)"
+    },
+    {
+      "name": "ServiceNow",
+      "logo": null,
+      "source": "project record: ServiceNow (profile)"
+    },
+    {
+      "name": "Medtronic",
+      "logo": null,
+      "source": "profile client-list page (image only); confirm with AAYKAY"
+    },
+    {
+      "name": "Cognizant",
+      "logo": null,
+      "source": "project record: Cognizant Technologies (profile)"
+    },
+    {
+      "name": "GMR Hyderabad Airport",
+      "logo": null,
+      "source": "project record: GMR Hyderabad International Airport (brochure)"
+    },
+    {
+      "name": "Yashoda Hospitals",
+      "logo": null,
+      "source": "project record: Yashoda Hospitals I-III (profile)"
+    },
+    {
+      "name": "My Home Group",
+      "logo": null,
+      "source": "project record: My Home Grawa, Nishada, Tridasa (profile)"
     }
   ],
   "projects": [
