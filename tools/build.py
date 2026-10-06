@@ -8,10 +8,11 @@ project record and the featured-card specs used to be typed by hand in several p
 so counts drifted and a typo in a sector key silently hid a row. Now they are generated
 from one file and validated.
 
-How it works: index.html stays the hand-written page. Each generated region sits between
-two comments, e.g. <!-- gen:record-rows --> ... <!-- /gen:record-rows -->, and only the text
-between them is replaced. Featured cards are matched by data-project="<slug>" on their
+How it works: index.html stays the hand-written page. Each generated region is the
+content of one container element (see REGIONS below: the nav lists, the sector list, the
+filter chips and the record's <tbody>); only what is inside those elements is replaced. Featured cards are matched by data-project="<slug>" on their
 <article>; their <h3> and <ul class="specs"> are filled from the project with that slug.
+Table rows deliberately carry no slug: it would add page weight for no runtime use.
 
 Standard library only (Python 3.8+). No other build step exists: the repository root is
 the deployable site.
@@ -34,9 +35,10 @@ PROJECT_FIELDS = ("slug", "name", "sector", "location", "area_sqft", "floors", "
 
 ARROW_DOWN = ('<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.5v12M3.5 9 8 13.5 12.5 9" '
               'fill="none" stroke="currentColor" stroke-width="1.5"/></svg>')
-# Empty cells: a visible dash plus real text for screen readers. (aria-label on a plain
-# <span> is not allowed by ARIA and many screen readers ignore it.)
-NOT_STATED = '<span class="muted"><span aria-hidden="true">—</span><span class="visually-hidden">Not stated</span></span>'
+# Empty cells: the text "Not stated" is visually hidden and CSS draws a dash in its place
+# (.record .na), so screen readers read real words. (Previously aria-label on a plain
+# <span>, which ARIA does not allow.)
+NOT_STATED = '<span class="na">Not stated</span>'
 
 
 def e(text):
@@ -144,9 +146,9 @@ def render_chips(data, indent):
     n = counts(data)
     items = [("all", "All sectors", len(data["projects"]))] + [(s["key"], s["label"], n[s["key"]]) for s in data["sectors"]]
     return ("\n" + indent).join(
-        '<button class="chip" type="button" data-filter="%s" data-label="%s" aria-pressed="%s">%s '
+        '<button class="chip" type="button" data-filter="%s" aria-pressed="%s">%s '
         '<span class="chip-count">%d</span></button>'
-        % (e(k), e(label), "true" if k == "all" else "false", e(label), count) for k, label, count in items)
+        % (e(k), "true" if k == "all" else "false", e(label), count) for k, label, count in items)
 
 
 def render_record_rows(data, indent):
@@ -163,10 +165,10 @@ def render_record_rows(data, indent):
         cell = lambda v: e(v) if v else NOT_STATED
         area = "{:,}".format(p["area_sqft"]) if p["area_sqft"] else None
         rows.append(
-            '<tr data-sector="%s" data-project="%s"><th scope="row"><span class="p-name">%s</span>'
+            '<tr data-sector="%s"><th scope="row"><span class="p-name">%s</span>'
             '<span class="p-meta">%s</span></th><td>%s</td><td class="num">%s</td><td>%s</td>'
             '<td class="num">%s</td><td>%s</td></tr>'
-            % (e(p["sector"]), e(p["slug"]), e(p["name"]), e(" · ".join(meta)), cell(p["location"]),
+            % (e(p["sector"]), e(p["name"]), e(" · ".join(meta)), cell(p["location"]),
                cell(area), cell(p["floors"]), cell(p["order_value"]), cell(p["design_team"])))
     return ("\n" + indent).join(rows)
 
@@ -185,14 +187,28 @@ def card_specs(p):
 
 
 # ----------------------------------------------------------------- assembly
+# Each generated region is the content of one container element in index.html, found by
+# its opening tag. Everything inside that element is replaced; everything else is untouched.
+REGIONS = {
+    "nav-header": ('<ul class="nav-list">', "</ul>"),
+    "nav-mobile": ('<ul class="m-links">', "</ul>"),
+    "nav-footer": ('<nav class="footer-nav" id="footer-nav" aria-label="Footer">', "</nav>"),
+    "sector-rows": ('<ul class="sector-list">', "</ul>"),
+    "chips": ('<div class="filters" role="group" aria-label="Filter projects by sector" hidden>', "</div>"),
+    "record-rows": ('<tbody id="record-rows">', "</tbody>"),
+}
+
+
 def replace_region(page, name, render):
-    pattern = re.compile(r"(?P<indent>[ \t]*)<!-- gen:%s -->\n(?P<body>.*?)\n[ \t]*<!-- /gen:%s -->" % (name, name), re.S)
-    m = pattern.search(page)
-    if not m:
-        raise SystemExit("index.html: region <!-- gen:%s --> not found" % name)
-    indent = m.group("indent")
-    block = "%s<!-- gen:%s -->\n%s%s\n%s<!-- /gen:%s -->" % (indent, name, indent, render(indent), indent, name)
-    return page[:m.start()] + block + page[m.end():]
+    open_tag, close_tag = REGIONS[name]
+    if page.count(open_tag) != 1:
+        raise SystemExit("index.html: expected exactly one %s for region %r" % (open_tag, name))
+    a = page.index(open_tag) + len(open_tag)
+    b = page.index(close_tag, a)
+    line_start = page.rfind("\n", 0, page.index(open_tag)) + 1
+    outer = page[line_start:page.index(open_tag)]          # indentation of the container
+    indent = outer + "  "
+    return page[:a] + "\n" + indent + render(indent) + "\n" + outer + page[b:]
 
 
 def fill_cards(page, data):

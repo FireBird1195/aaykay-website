@@ -73,12 +73,19 @@
       window.addEventListener(ev, stop, { passive: true, once: true });
     });
 
+    // Only touches the page when it is not already where it should be: on a plain visit it
+    // is at the top already, and scrolling anyway would force a full layout before first paint.
     function place() {
       if (userMoved) return;
       var st = history.state;
-      if (navType === 'back_forward' && st && typeof st.y === 'number') { scrollToY(st.y, true); return; }
-      var el = hashTarget(location.hash);
-      scrollToY(el ? targetY(el) : 0, true);
+      var y = 0;
+      if (navType === 'back_forward' && st && typeof st.y === 'number') y = st.y;
+      else {
+        var el = hashTarget(location.hash);
+        if (el) y = targetY(el);
+        else if (window.pageYOffset === 0) return;
+      }
+      if (Math.abs(window.pageYOffset - y) >= 1) scrollToY(y, true);
     }
     place();
     if (document.readyState !== 'complete') window.addEventListener('load', place);
@@ -267,7 +274,7 @@
       rows.forEach(function (r) { r.hidden = visible.indexOf(r) === -1; });
       chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.getAttribute('data-filter') === state.filter)); });
       var chip = chips.filter(function (c) { return c.getAttribute('data-filter') === state.filter; })[0];
-      var name = chip ? chip.getAttribute('data-label') : 'All sectors';
+      var name = chip ? chip.firstChild.nodeValue.trim() : 'All sectors'; // label text before the count
       if (status) status.textContent = 'Showing ' + visible.length + ' of ' + matching.length + ' projects · ' + name;
       if (moreBtn) {
         var canExpand = state.filter === 'all' && matching.length > LIMIT;
