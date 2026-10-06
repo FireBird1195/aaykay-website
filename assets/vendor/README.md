@@ -24,6 +24,18 @@ From Fontsource 5.3.0 (`@fontsource/big-shoulders-display`, `@fontsource/ibm-ple
 `@fontsource/ibm-plex-mono`), latin and latin-ext subsets, `files/*.woff2`. SIL Open Font
 License 1.1: [`../licenses/`](../licenses/).
 
+## Icons (`../icons/icons.svg`)
+
+A hand-picked subset of [Lucide](https://lucide.dev) 1.52.0 (`lucide-static`), copied
+into one SVG sprite of `<symbol>`s. ISC licence: [`../licenses/lucide-ISC.txt`](../licenses/lucide-ISC.txt).
+Only the geometry is copied (stroke attributes are removed and set by `.ic` in `site.css`),
+so these are not byte-identical to the package files. `earth-ground` is not from Lucide:
+it is the standard earth symbol drawn on the same 24 × 24 grid.
+
+No npm dependency and no JavaScript: pages reference a symbol with
+`<svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#gauge"/></svg>`.
+The sprite is about 2 KB gzipped and cached after the first visit.
+
 ## Verifying or updating
 
 ```sh
