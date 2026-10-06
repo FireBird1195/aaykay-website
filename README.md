@@ -11,9 +11,9 @@ planned as a lightweight WordPress theme so AAYKAY can add projects themselves.
 
 | Path | What it is |
 |---|---|
-| `index.html` | The page. Hand-written, except the regions between `<!-- gen:… -->` markers |
+| `index.html` | The page. Hand-written, except the contents of the nav lists, `.sector-list`, `.filters` and `tbody#record-rows` (generated) |
 | `data/content.json` | Navigation, sectors, contact values and the 38-project record (single source) |
-| `tools/build.py` | Regenerates the marked regions of `index.html` from `data/content.json` and validates the data |
+| `tools/build.py` | Regenerates those regions (and the featured cards' titles/specs) from `data/content.json` and validates the data |
 | `assets/css/site.css` | Design tokens (top of file), then one block per section |
 | `assets/js/site.js` | Behaviour: scroll position and history, menu, project-record filter, document viewer, copy buttons, form, motion |
 | `assets/vendor/` | GSAP, ScrollTrigger, Lenis (motion only; versions and checksums in its README) |
@@ -25,7 +25,7 @@ planned as a lightweight WordPress theme so AAYKAY can add projects themselves.
 **Projects, sectors, navigation:** edit `data/content.json`, then run
 
 ```sh
-python3 tools/build.py          # rewrites the generated regions of index.html
+python3 tools/build.py          # rewrites the generated parts of index.html
 python3 tools/build.py --check  # what CI runs: fails if index.html is stale or data is invalid
 ```
 
@@ -39,7 +39,7 @@ grouped by how complete each row is and alphabetically within each group. It is 
 sorted by order value.
 
 **Everything else** (copy, photographs, the contact block, the footer) is edited directly
-in `index.html`. The phone number and email also appear in `data/content.json`; change
+in `index.html`. Do not hand-edit the generated parts; the next build overwrites them. The phone number and email also appear in `data/content.json`; change
 both, and `--check` will tell you if any copy was missed.
 
 ## Behaviour worth knowing
@@ -55,6 +55,14 @@ both, and `--check` will tell you if any copy was missed.
   work; the header stays solid and a "Menu" link replaces the menu button.
 - **The enquiry form has no backend.** It opens the visitor's email app with the
   enquiry filled in. Leads are not stored anywhere.
+
+## Page weight
+
+The HTML currently compresses to about 14.3 KB, just inside the amount a server can send
+in its first network round trip (about 14.6 KB including headers). Past that point the
+first paint on slow mobile connections waits for one more round trip (about +150 ms in
+Lighthouse's mobile model). Adding several more projects or long copy will cross it; that
+is acceptable, but check `gzip -9c index.html | wc -c` and Lighthouse when you do.
 
 ## Testing
 
