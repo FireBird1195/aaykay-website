@@ -21,10 +21,78 @@
     var h = $('.site-header');
     return h ? h.getBoundingClientRect().height : 0;
   }
-  function scrollToEl(el) {
-    var y = el.getBoundingClientRect().top + window.pageYOffset - headerOffset() + 1;
-    if (lenis) lenis.scrollTo(y, { duration: 1.1 });
-    else window.scrollTo({ top: y, behavior: reduceMotion ? 'auto' : 'smooth' });
+  // Document y at which `el` sits just below the fixed header. Uses the element's CSS
+  // scroll-margin-top (header height + a little air), so script-driven scrolling and the
+  // browser's own #anchor jumps land in exactly the same place.
+  function targetY(el) {
+    var margin = parseFloat(window.getComputedStyle(el).scrollMarginTop) || headerOffset();
+    return Math.max(0, Math.round(el.getBoundingClientRect().top + window.pageYOffset - margin));
+  }
+  // instant: jump without animation (page load, Back/Forward).
+  function scrollToY(y, instant) {
+    if (lenis) lenis.scrollTo(y, instant ? { immediate: true, force: true } : { duration: 1.1 });
+    else window.scrollTo({ top: y, behavior: (instant || reduceMotion) ? 'auto' : 'smooth' });
+  }
+  function scrollToEl(el, instant) { scrollToY(targetY(el), instant); }
+  // The element a "#id" hash points to, or null.
+  function hashTarget(hash) {
+    if (!hash || hash.length < 2) return null;
+    try { return document.getElementById(decodeURIComponent(hash.slice(1))); } catch (_) { return null; }
+  }
+
+  /* ---------- history helpers ----------
+     In-page navigation adds history entries so Back and Forward move between sections.
+     Before leaving an entry we store the scroll position in it (state.y) so Back returns
+     the reader to exactly where they were. */
+  function saveScroll() {
+    try {
+      var st = history.state && typeof history.state === 'object' ? history.state : {};
+      var copy = {}; for (var k in st) copy[k] = st[k];
+      copy.y = Math.round(window.pageYOffset);
+      history.replaceState(copy, '');
+    } catch (_) { /* sandboxed viewers */ }
+  }
+  function pushUrl(url) {
+    if (url === location.pathname + location.search + location.hash) return;
+    try { saveScroll(); history.pushState({}, '', url); } catch (_) { /* sandboxed viewers */ }
+  }
+
+  /* ---------- 0. where the page starts ----------
+     history.scrollRestoration is set to "manual" in <head>, so:
+       - a normal visit or a reload of the bare URL starts at the hero;
+       - a URL with #section (shared link, reload) starts at that section;
+       - Back/Forward from another page returns to the saved position.
+     The position is applied again after load and after web fonts settle, unless the
+     visitor has already started scrolling. */
+  function initScrollPosition() {
+    var navEntry = window.performance && performance.getEntriesByType ? performance.getEntriesByType('navigation')[0] : null;
+    var navType = navEntry ? navEntry.type : 'navigate';
+    var userMoved = false;
+    var stop = function () { userMoved = true; };
+    ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (ev) {
+      window.addEventListener(ev, stop, { passive: true, once: true });
+    });
+
+    function place() {
+      if (userMoved) return;
+      var st = history.state;
+      if (navType === 'back_forward' && st && typeof st.y === 'number') { scrollToY(st.y, true); return; }
+      var el = hashTarget(location.hash);
+      scrollToY(el ? targetY(el) : 0, true);
+    }
+    place();
+    if (document.readyState !== 'complete') window.addEventListener('load', place);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+
+    // Remember the position when leaving the page, for Back/Forward without bfcache.
+    window.addEventListener('pagehide', saveScroll);
+
+    // Back/Forward between in-page entries: return to the saved position, else the section.
+    window.addEventListener('popstate', function (e) {
+      if (e.state && typeof e.state.y === 'number') { scrollToY(e.state.y, true); return; }
+      var el = hashTarget(location.hash);
+      scrollToY(el ? targetY(el) : 0, true);
+    });
   }
 
   /* ---------- 1. motion ---------- */
@@ -133,10 +201,11 @@
       var target = id ? document.getElementById(id) : null;
       if (!target) return;
       e.preventDefault();
+      // "Back to top" (#top, the hero) leaves a clean URL rather than "/#top".
+      pushUrl(location.pathname + location.search + (id === 'top' ? '' : '#' + id));
       scrollToEl(target);
       if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
       target.focus({ preventScroll: true });
-      try { history.replaceState(null, '', '#' + id); } catch (_) { /* sandboxed viewers */ }
     });
   }
 
@@ -306,7 +375,8 @@
     startMotion();
     var updateHeader = safely('header', initHeader) || function () {};
     safely('menu', function () { initMenu(updateHeader); });
-    safely('record', initRecord);
+    safely('record', initRecord); // before positioning: it changes the page height
+    safely('scroll position', initScrollPosition);
     safely('anchors', initAnchors);
     safely('lightbox', initLightbox);
     safely('copy', initCopy);

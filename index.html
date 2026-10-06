@@ -20,7 +20,12 @@
 <link rel="preload" as="image" href="assets/img/hero-ups-room-1280.webp" imagesrcset="assets/img/hero-ups-room-640.webp 640w, assets/img/hero-ups-room-960.webp 960w, assets/img/hero-ups-room-1280.webp 1280w" imagesizes="100vw" fetchpriority="high">
 <link rel="stylesheet" href="assets/css/site.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "AAYKAY Electricals Private Limited", "alternateName": "AAYKAY", "url": "https://akepl.in/", "logo": "https://akepl.in/favicon.svg", "foundingDate": "2008", "founder": {"@type": "Person", "name": "Abdul Kareem P"}, "address": {"@type": "PostalAddress", "streetAddress": "#3D, 3rd Floor, Dhruva Tara Apartments, Somajiguda", "addressLocality": "Hyderabad", "addressRegion": "Telangana", "postalCode": "500082", "addressCountry": "IN"}, "telephone": "+91-40-6636-2094", "email": "projects@akelectricals.in", "areaServed": ["Telangana", "Andhra Pradesh", "Karnataka", "Maharashtra", "Tamil Nadu", "West Bengal", "Haryana"]}</script>
-<script>window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollTrigger.min.js", "assets/vendor/lenis.min.js"];</script>
+<script>
+/* Runs before first paint. site.js decides where the page starts (top, a #section, or the
+   saved position on Back), so the browser must not restore an old scroll offset on its own. */
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollTrigger.min.js", "assets/vendor/lenis.min.js"];
+</script>
 <script src="assets/js/site.js" defer></script>
 </head>
 <body>
