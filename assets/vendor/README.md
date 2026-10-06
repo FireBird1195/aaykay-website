@@ -36,6 +36,19 @@ No npm dependency and no JavaScript: pages reference a symbol with
 `<svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#gauge"/></svg>`.
 The sprite is about 2 KB gzipped and cached after the first visit.
 
+## Logos (`../logos/`)
+
+Client and firm logos are trademarks of their owners and are shown with AAYKAY's
+permission. The page greyscales them with CSS, so the files keep their original colours.
+
+| File | Source |
+|---|---|
+| `clients/ibm.svg`, `clients/microsoft.svg`, `clients/qualcomm.svg` | svg-logos by Gil Barbara (CC0), via `@iconify-json/logos` 1.2.15 |
+| `clients/shell.svg` | Simple Icons 16.34.0 (CC0) |
+
+Record any new logo file here with where it came from (ideally the company's own brand or
+press page).
+
 ## Verifying or updating
 
 ```sh
