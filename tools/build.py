@@ -28,6 +28,7 @@ PAGE = os.path.join(ROOT, "index.html")
 
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 NAV_PLACES = ("header", "mobile", "footer")
+BROCHURE_PREFIX = "brochure:"  # rows known only from the legacy AayKay Electrical Enterprises brochure
 PROJECT_FIELDS = ("slug", "name", "sector", "location", "area_sqft", "floors", "order_value",
                   "design_team", "status", "note", "source")
 
@@ -157,6 +158,8 @@ def render_record_rows(data, indent):
             meta.append(p["status"])
         if p["note"]:
             meta.append(p["note"])
+        if p["source"].startswith(BROCHURE_PREFIX):
+            meta.append("Earlier brochure")
         cell = lambda v: e(v) if v else NOT_STATED
         area = "{:,}".format(p["area_sqft"]) if p["area_sqft"] else None
         rows.append(
