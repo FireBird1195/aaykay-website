@@ -328,11 +328,21 @@
 
   /* ---------- 7. copy buttons ---------- */
   function initCopy() {
+    var live = $('#copy-status'); // role="status": announces the result to screen readers
     $$('[data-copy]').forEach(function (btn) {
+      var timer = null;
       btn.hidden = false;
       btn.addEventListener('click', function () {
         var text = btn.getAttribute('data-copy');
-        var flash = function (msg) { btn.textContent = msg; setTimeout(function () { btn.textContent = 'Copy'; }, 1800); };
+        // The visible word changes ("Copy" -> "Copied"); the hidden suffix ("phone number")
+        // stays, so the accessible name always contains the visible label.
+        var label = $('.copy-label', btn) || btn;
+        var flash = function (msg) {
+          label.textContent = msg;
+          if (live) live.textContent = msg === 'Copied' ? text + ' copied to the clipboard.' : text + ' selected. Press Control+C or Command+C to copy.';
+          clearTimeout(timer);
+          timer = setTimeout(function () { label.textContent = 'Copy'; if (live) live.textContent = ''; }, 1800);
+        };
         var selectFallback = function () {
           var t = document.getElementById(btn.getAttribute('data-copy-target'));
           if (!t) return;

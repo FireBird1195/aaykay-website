@@ -249,7 +249,7 @@ linear-gradient(0deg, rgba(7, 11, 21, .97) 0%, rgba(7, 11, 21, 0) 42%);
 .hero-scrim { background: linear-gradient(180deg, rgba(7, 11, 21, .72) 0%, rgba(7, 11, 21, .86) 45%, rgba(7, 11, 21, .97) 100%); }
 }
 .hero-inner { padding-block: clamp(3.5rem, 1.5rem + 8vh, 8rem) clamp(2.5rem, 1.5rem + 4vw, 4.5rem); }
-.hero .label { color: var(--red-400); display: flex; align-items: center; gap: var(--s3); }
+.hero .label { color: var(--red-400); display: flex; align-items: center; gap: var(--s3); text-shadow: 0 1px 3px rgba(7, 11, 21, .7); }
 .hero .label::before { content: ""; width: 1.75rem; height: 1px; background: currentColor; }
 .hero-title {
 margin-top: var(--s5);

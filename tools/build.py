@@ -33,7 +33,9 @@ PROJECT_FIELDS = ("slug", "name", "sector", "location", "area_sqft", "floors", "
 
 ARROW_DOWN = ('<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.5v12M3.5 9 8 13.5 12.5 9" '
               'fill="none" stroke="currentColor" stroke-width="1.5"/></svg>')
-NOT_STATED = '<span class="muted" aria-label="not stated">—</span>'
+# Empty cells: a visible dash plus real text for screen readers. (aria-label on a plain
+# <span> is not allowed by ARIA and many screen readers ignore it.)
+NOT_STATED = '<span class="muted"><span aria-hidden="true">—</span><span class="visually-hidden">Not stated</span></span>'
 
 
 def e(text):
