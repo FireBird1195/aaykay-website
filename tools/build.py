@@ -5,9 +5,9 @@
 
 Why this exists: the navigation (three lists), the sector rows, the filter chips, the
 project record and the featured-card specs used to be typed by hand in several places,
-so counts drifted and a typo in a sector key silently hid a row. The client strip and the
-sector icons come from the same file. Now they are generated
-from one file and validated.
+so counts drifted and a typo in a sector key silently hid a row. The client logo strip, the
+architects and consultants list and the sector icons come from the same file. Now they are
+generated from one file and validated.
 
 How it works: index.html stays the hand-written page. Each generated region is the
 content of one container element (see REGIONS below: the nav lists, the sector list, the
@@ -20,8 +20,10 @@ the deployable site.
 """
 import html
 import json
+import math
 import os
 import re
+import struct
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -32,16 +34,13 @@ SPRITE_URL = "assets/icons/icons.svg"
 
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 NAV_PLACES = ("header", "mobile", "footer")
-BROCHURE_PREFIX = "brochure:"  # rows known only from the legacy AayKay Electrical Enterprises brochure
 PROJECT_FIELDS = ("slug", "name", "sector", "location", "area_sqft", "floors", "order_value",
                   "design_team", "status", "note", "source")
 
 ARROW_DOWN = ('<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.5v12M3.5 9 8 13.5 12.5 9" '
               'fill="none" stroke="currentColor" stroke-width="1.5"/></svg>')
-# Empty cells: the text "Not stated" is visually hidden and CSS draws a dash in its place
-# (.record .na), so screen readers read real words. (Previously aria-label on a plain
-# <span>, which ARIA does not allow.)
-NOT_STATED = '<span class="na">Not stated</span>'
+# Facts the sources don't state are left as empty cells. The page never says "not stated":
+# where a fact comes from is recorded in each project's "source" field, not shown to visitors.
 # Units shown only in the phone layout of the record, where there are no column headers
 # on screen ("200,000 sq ft · 4 floors · ₹3.5 Cr order"); hidden at table widths.
 UNIT = '<span class="u">%s</span>'
@@ -57,6 +56,48 @@ def icon(name, extra=""):
 def sprite_ids():
     with open(SPRITE, encoding="utf-8") as f:
         return set(re.findall(r'<symbol id="([^"]+)"', f.read()))
+
+
+def image_size(path):
+    """(width, height) of an SVG, PNG, WebP or JPEG file, read from its header, so whoever
+    adds a logo only sets its path. Returns None if the size can't be read."""
+    with open(path, "rb") as f:
+        head = f.read(65536)
+    if path.lower().endswith(".svg"):
+        text = head.decode("utf-8", "replace")
+        tag = re.search(r"<svg\b[^>]*>", text, re.S)
+        if not tag:
+            return None
+        vb = re.search(r'viewBox="\s*[-\d.]+[\s,]+[-\d.]+[\s,]+([\d.]+)[\s,]+([\d.]+)', tag.group(0))
+        if vb:
+            return float(vb.group(1)), float(vb.group(2))
+        w = re.search(r'\bwidth="([\d.]+)', tag.group(0))
+        h = re.search(r'\bheight="([\d.]+)', tag.group(0))
+        return (float(w.group(1)), float(h.group(1))) if w and h else None
+    if head[:8] == b"\x89PNG\r\n\x1a\n":
+        return struct.unpack(">II", head[16:24])
+    if head[:4] == b"RIFF" and head[8:12] == b"WEBP":
+        kind = head[12:16]
+        if kind == b"VP8X":
+            return 1 + int.from_bytes(head[24:27], "little"), 1 + int.from_bytes(head[27:30], "little")
+        if kind == b"VP8 ":
+            w, h = struct.unpack("<HH", head[26:30])
+            return w & 0x3FFF, h & 0x3FFF
+        if kind == b"VP8L":
+            b = int.from_bytes(head[21:25], "little")
+            return (b & 0x3FFF) + 1, ((b >> 14) & 0x3FFF) + 1
+    if head[:2] == b"\xff\xd8":
+        i = 2
+        while i < len(head) - 9:
+            if head[i] != 0xFF:
+                i += 1
+                continue
+            marker, length = head[i + 1], struct.unpack(">H", head[i + 2:i + 4])[0]
+            if 0xC0 <= marker <= 0xCF and marker not in (0xC4, 0xC8, 0xCC):
+                h, w = struct.unpack(">HH", head[i + 5:i + 9])
+                return w, h
+            i += 2 + length
+    return None
 
 
 def e(text):
@@ -109,12 +150,18 @@ def validate(data, page):
     for c in data["clients"]:
         if not c.get("name") or not c.get("source"):
             errors.append("client %r: name and source are required" % c.get("name"))
-        logo = c.get("logo")
-        if logo is not None:
-            if not all(isinstance(logo.get(k), int) for k in ("width", "height")) or not logo.get("src"):
-                errors.append("client %r: logo needs src, width and height" % c["name"])
-            elif not os.path.isfile(os.path.join(ROOT, logo["src"])):
-                errors.append("client %r: logo file %s does not exist" % (c["name"], logo["src"]))
+    for kind in ("clients", "firms"):
+        for c in data[kind]:
+            if not c.get("name"):
+                errors.append("%s: every entry needs a name" % kind)
+            logo = c.get("logo")
+            if logo is None:
+                continue
+            path = os.path.join(ROOT, logo) if isinstance(logo, str) else ""
+            if not path or not os.path.isfile(path):
+                errors.append("%s %r: logo file %r does not exist" % (kind, c.get("name"), logo))
+            elif not image_size(path):
+                errors.append("%s %r: can't read the size of %s (use SVG with a viewBox, PNG, WebP or JPEG)" % (kind, c.get("name"), logo))
     for slug in re.findall(r'<article[^>]*\bdata-project="([^"]+)"', page):
         if slug not in slugs:
             errors.append("featured card data-project=%r has no matching project" % slug)
@@ -152,10 +199,13 @@ def counts(data):
 
 def render_nav(data, place, indent):
     items = [n for n in data["nav"] if place in n["in"]]
+    def link(n):
+        cls = ' class="nav-cta"' if n.get("cta") else ""
+        return '<a href="%s"%s>%s</a>' % (e(n["href"]), cls, e(n["label"]))
     if place == "footer":
-        lines = ['<a href="%s">%s</a>' % (e(n["href"]), e(n["label"])) for n in items]
+        lines = [link(n) for n in items]
     else:
-        lines = ['<li><a href="%s">%s</a></li>' % (e(n["href"]), e(n["label"])) for n in items]
+        lines = ["<li>%s</li>" % link(n) for n in items]
     return ("\n" + indent).join(lines)
 
 
@@ -200,37 +250,64 @@ def render_record_rows(data, indent):
                 " p-status--done" if done else "", icon("circle-check" if done else "clock"), e(p["status"]))
         if p["note"]:
             meta += '<span class="p-note">%s</span>' % e(p["note"])
-        if p["source"].startswith(BROCHURE_PREFIX):
-            meta += '<span class="p-note">Earlier brochure</span>'
-        cell = lambda v, unit="": (e(v) + (UNIT % unit if unit else "")) if v else NOT_STATED
+        cell = lambda v, unit="": (e(v) + (UNIT % unit if unit else "")) if v else ""
         area = "{:,}".format(p["area_sqft"]) if p["area_sqft"] else None
         floors_unit = " floors" if (p["floors"] or "").isdigit() else ""
-        if not any((area, p["floors"], p["order_value"], p["design_team"])):
-            # Nothing but a name and place in the sources: one "not stated" cell across the
-            # four columns instead of four dashes, so the gaps don't dominate the table.
-            detail = '<td colspan="4" class="na-all">%s</td>' % NOT_STATED
-        else:
-            # A developer (residential rows) is named with its own "Developer:" prefix; the
-            # class stops the phone layout adding its "Design team" label in front of it.
-            team_cls = ' class="dev"' if (p["design_team"] or "").startswith("Developer:") else ""
-            detail = '<td class="num">%s</td><td>%s</td><td class="num">%s</td><td%s>%s</td>' % (
-                cell(area, " sq ft"), cell(p["floors"], floors_unit), cell(p["order_value"], " order"),
-                team_cls, cell(p["design_team"]))
+        # A developer (residential rows) is named with its own "Developer:" prefix; "dev"
+        # stops the phone layout adding its "Design team" label in front of it.
+        team_cls = "team dev" if (p["design_team"] or "").startswith("Developer:") else "team"
+        detail = '<td class="num">%s</td><td class="floors">%s</td><td class="num">%s</td><td class="%s">%s</td>' % (
+            cell(area, " sq ft"), cell(p["floors"], floors_unit), cell(p["order_value"], " order"),
+            team_cls, cell(p["design_team"]))
         rows.append(
             '<tr data-sector="%s"><th scope="row"><span class="p-name">%s</span>%s</th><td>%s</td>%s</tr>'
             % (e(p["sector"]), e(p["name"]), meta, cell(p["location"]), detail))
     return ("\n" + indent).join(rows)
 
 
+def logo_img(src, alt, area, max_w, max_h):
+    """An <img> sized for optical balance. Logos come in every shape (IBM is wide, Shell is
+    square), so giving them all the same height makes wide ones shout and square ones
+    vanish. Each logo gets roughly the same area instead, within a max width and height,
+    written as --logo-w / --logo-h (rem) for the CSS to use."""
+    w, h = image_size(os.path.join(ROOT, src))
+    ratio = w / h
+    lh = min(math.sqrt(area / ratio), max_h, max_w / ratio)
+    return ('<img class="logo" src="%s" width="%d" height="%d" alt="%s" style="--logo-h:%.2frem" loading="lazy" decoding="async">'
+            % (e(src), round(w), round(h), e(alt), lh))
+
+
 def render_clients(data, indent):
+    # Client strip: the logo, or the name set as a wordmark in the same cell when there is
+    # no logo yet, so the row reads as one set either way.
     out = []
     for c in data["clients"]:
-        logo = c.get("logo")
-        if logo:
-            out.append('<li class="client"><img src="%s" width="%d" height="%d" alt="%s" loading="lazy" decoding="async"></li>'
-                       % (e(logo["src"]), logo["width"], logo["height"], e(c["name"])))
+        if c.get("logo"):
+            out.append('<li class="client">%s</li>' % logo_img(c["logo"], c["name"], 11, 8, 2.4))
         else:
-            out.append('<li class="client">%s</li>' % e(c["name"]))
+            out.append('<li class="client client--word"><span>%s</span></li>' % e(c["name"]))
+    return ("\n" + indent).join(out)
+
+
+def monogram(name):
+    """Letters for a firm without a logo: an acronym as written (JLL, CBRE, ARKK), otherwise
+    the initials of the first two words (M Moser Associates -> MM)."""
+    words = [w for w in re.split(r"[\s()]+", name) if w and w[0].isalnum()]
+    if words and words[0].isupper() and 2 <= len(words[0]) <= 4 and words[0].isalpha():
+        return words[0]
+    return "".join(w[0].upper() for w in words[:2])
+
+
+def render_firms(data, indent):
+    # Lockup for every firm: a mark (its logo, or its letters in a neutral tile) beside the
+    # name. The name is always written out, so the mark is decorative to screen readers.
+    out = []
+    for f in data["firms"]:
+        if f.get("logo"):
+            mark = '<span class="firm-mark">%s</span>' % logo_img(f["logo"], "", 6, 5, 2)
+        else:
+            mark = '<span class="firm-mark firm-mark--letters" aria-hidden="true">%s</span>' % e(f.get("mark") or monogram(f["name"]))
+        out.append('<li class="firm">%s<span class="firm-name">%s</span></li>' % (mark, e(f["name"])))
     return ("\n" + indent).join(out)
 
 
@@ -256,6 +333,7 @@ REGIONS = {
     "nav-footer": ('<nav class="footer-nav" id="footer-nav" aria-label="Footer">', "</nav>"),
     "sector-rows": ('<ul class="sector-list">', "</ul>"),
     "clients": ('<ul class="client-list">', "</ul>"),
+    "firms": ('<ul class="firm-list">', "</ul>"),
     "chips": ('<div class="filters" role="group" aria-label="Filter projects by sector" hidden>', "</div>"),
     "record-rows": ('<tbody id="record-rows">', "</tbody>"),
 }
@@ -291,6 +369,7 @@ def build(data, page):
     page = replace_region(page, "nav-footer", lambda i: render_nav(data, "footer", i))
     page = replace_region(page, "sector-rows", lambda i: render_sector_rows(data, i))
     page = replace_region(page, "clients", lambda i: render_clients(data, i))
+    page = replace_region(page, "firms", lambda i: render_firms(data, i))
     page = replace_region(page, "chips", lambda i: render_chips(data, i))
     page = replace_region(page, "record-rows", lambda i: render_record_rows(data, i))
     return fill_cards(page, data)

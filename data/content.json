@@ -7,7 +7,8 @@
     "location, area_sqft (whole number or null), floors (as displayed), order_value (as displayed or null),",
     "design_team, status ('Ongoing' / 'Completed YYYY' or null), note, source (where the fact comes from).",
     "Sector 'icon' is a symbol id in assets/icons/icons.svg; the same icon marks the sector everywhere on the page.",
-    "Clients (the strip under the hero): name, logo (null, or {src, width, height} once AAYKAY supplies an approved file), source.",
+    "Navigation: 'in' lists where a link appears (header, mobile, footer). Keep the order the same as the sections on the page. 'cta': true styles the link as the orange call to action.",
+    "Logos (clients and firms): put the file in assets/logos/clients/ or assets/logos/firms/ (SVG best; PNG or WebP at least 400 px wide, transparent background, any colour: the page shows every logo in greyscale) and set 'logo' to its path. Size is read from the file and balanced automatically. With 'logo': null the name is shown instead (clients) or a lettered mark beside the name (firms); 'mark' overrides the letters.",
     "Leave a field null when the source does not state it. Never estimate."
   ],
   "company": {
@@ -20,8 +21,24 @@
   },
   "nav": [
     {
+      "href": "#services",
+      "label": "What we do",
+      "in": [
+        "header",
+        "mobile",
+        "footer"
+      ]
+    },
+    {
+      "href": "#sectors",
+      "label": "Sectors",
+      "in": [
+        "footer"
+      ]
+    },
+    {
       "href": "#work",
-      "label": "Work",
+      "label": "Projects",
       "in": [
         "header",
         "mobile",
@@ -32,15 +49,6 @@
       "href": "#record",
       "label": "Project record",
       "in": [
-        "footer"
-      ]
-    },
-    {
-      "href": "#sectors",
-      "label": "Sectors",
-      "in": [
-        "header",
-        "mobile",
         "footer"
       ]
     },
@@ -85,7 +93,8 @@
       "label": "Start a project",
       "in": [
         "mobile"
-      ]
+      ],
+      "cta": true
     },
     {
       "href": "#contact",
@@ -140,12 +149,12 @@
     },
     {
       "name": "Microsoft",
-      "logo": null,
+      "logo": "assets/logos/clients/microsoft.svg",
       "source": "project record: Microsoft R&D India (brochure)"
     },
     {
       "name": "Qualcomm",
-      "logo": null,
+      "logo": "assets/logos/clients/qualcomm.svg",
       "source": "project record: Qualcomm India (brochure)"
     },
     {
@@ -155,7 +164,7 @@
     },
     {
       "name": "Shell",
-      "logo": null,
+      "logo": "assets/logos/clients/shell.svg",
       "source": "project record: Shell @ Bagmane Xenon (profile)"
     },
     {
@@ -165,7 +174,7 @@
     },
     {
       "name": "IBM",
-      "logo": null,
+      "logo": "assets/logos/clients/ibm.svg",
       "source": "profile client-list page (image only); confirm with AAYKAY"
     },
     {
@@ -202,6 +211,132 @@
       "name": "My Home Group",
       "logo": null,
       "source": "project record: My Home Grawa, Nishada, Tridasa (profile)"
+    }
+  ],
+  "firms": [
+    {
+      "name": "ARKK Consulting",
+      "logo": null
+    },
+    {
+      "name": "Black Pencil",
+      "logo": null
+    },
+    {
+      "name": "Building Crafts (India)",
+      "logo": null
+    },
+    {
+      "name": "CBRE",
+      "logo": null
+    },
+    {
+      "name": "Cushman & Wakefield",
+      "logo": null
+    },
+    {
+      "name": "Design Transit",
+      "logo": null
+    },
+    {
+      "name": "Dhruva Engineering Consultants",
+      "logo": null
+    },
+    {
+      "name": "DSP Design Associates",
+      "logo": null
+    },
+    {
+      "name": "DWP Interics",
+      "logo": null
+    },
+    {
+      "name": "E Solutions",
+      "logo": null
+    },
+    {
+      "name": "Edifice",
+      "logo": null
+    },
+    {
+      "name": "Eshwari & Co",
+      "logo": null
+    },
+    {
+      "name": "Hyderabad Consultant Engineers",
+      "logo": null
+    },
+    {
+      "name": "JLL",
+      "logo": null
+    },
+    {
+      "name": "Kriticons",
+      "logo": null
+    },
+    {
+      "name": "Langdon & Seah",
+      "logo": null
+    },
+    {
+      "name": "Lead Consultants",
+      "logo": null
+    },
+    {
+      "name": "M Cube Design Studio",
+      "logo": null
+    },
+    {
+      "name": "M Moser Associates",
+      "logo": null
+    },
+    {
+      "name": "Penshell Design",
+      "logo": null
+    },
+    {
+      "name": "Raj Consultant",
+      "logo": null
+    },
+    {
+      "name": "Ralys Consulting Engineers",
+      "logo": null
+    },
+    {
+      "name": "RSP Design Consultants",
+      "logo": null
+    },
+    {
+      "name": "Savills",
+      "logo": null
+    },
+    {
+      "name": "Space Matrix Design & Consultants",
+      "logo": null
+    },
+    {
+      "name": "SWBI",
+      "logo": null
+    },
+    {
+      "name": "Synergy Infra Consultants",
+      "logo": null
+    },
+    {
+      "name": "Techtron Engineering Consultancy",
+      "logo": null
+    },
+    {
+      "name": "Venkataramanan Associates",
+      "logo": null
+    },
+    {
+      "name": "Yash Consultants",
+      "logo": null
+    },
+    {
+      "name": "Zyeta",
+      "logo": null
     }
   ],
   "projects": [

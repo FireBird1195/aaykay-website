@@ -364,14 +364,13 @@
       btn.hidden = false;
       btn.addEventListener('click', function () {
         var text = btn.getAttribute('data-copy');
-        // The visible word changes ("Copy" -> "Copied"); the hidden suffix ("phone number")
-        // stays, so the accessible name always contains the visible label.
-        var label = $('.copy-label', btn) || btn;
+        // The copy icon turns into a tick for a moment (data-state="copied", see .copy-btn
+        // in site.css); the result is announced through the #copy-status live region.
         var flash = function (msg) {
-          label.textContent = msg;
+          if (msg === 'Copied') { btn.setAttribute('data-state', 'copied'); btn.title = 'Copied'; }
           if (live) live.textContent = msg === 'Copied' ? text + ' copied to the clipboard.' : text + ' selected. Press Control+C or Command+C to copy.';
           clearTimeout(timer);
-          timer = setTimeout(function () { label.textContent = 'Copy'; if (live) live.textContent = ''; }, 1800);
+          timer = setTimeout(function () { btn.removeAttribute('data-state'); btn.title = 'Copy'; if (live) live.textContent = ''; }, 1800);
         };
         var selectFallback = function () {
           var t = document.getElementById(btn.getAttribute('data-copy-target'));
@@ -388,6 +387,65 @@
         } else selectFallback();
       });
     });
+  }
+
+  /* ---------- 9. current section in the navigation ---------- */
+  // The header link for the section being read gets aria-current="location", so the
+  // navigation shows where you are in the page. Sections are watched with an
+  // IntersectionObserver (no scroll handler); the active one is the last whose top has
+  // passed a line just under the header.
+  function initNavSpy() {
+    var links = $$('.nav-list a[href^="#"]');
+    if (!links.length || !('IntersectionObserver' in window)) return;
+    var map = links.map(function (a) { return { a: a, el: hashTarget(a.getAttribute('href')) }; })
+      .filter(function (m) { return m.el; });
+    var update = function () {
+      var line = headerOffset() + 8, current = null;
+      map.forEach(function (m) { if (m.el.getBoundingClientRect().top <= line) current = m; });
+      // Past the last section (pre-qualification), at the contact form: nothing is current.
+      var contact = $('#contact');
+      if (contact && contact.getBoundingClientRect().top <= line) current = null;
+      map.forEach(function (m) {
+        if (m === current) m.a.setAttribute('aria-current', 'location');
+        else m.a.removeAttribute('aria-current');
+      });
+    };
+    var io = new IntersectionObserver(update, { rootMargin: '-' + Math.round(headerOffset()) + 'px 0px 0px 0px', threshold: [0, 1] });
+    map.forEach(function (m) { io.observe(m.el); });
+    var contact = $('#contact'); if (contact) io.observe(contact);
+    update();
+  }
+
+  /* ---------- 10. delivery stages: progress along the track ---------- */
+  // The line joining the five stages fills as the list scrolls through the viewport, and
+  // each stage's marker turns solid once the fill reaches it (--fill and .is-reached). Without JavaScript, or with
+  // reduced motion, the track is shown complete (CSS default), so nothing depends on this.
+  function initStages() {
+    var list = $('.stages');
+    if (!list || reduceMotion || !('IntersectionObserver' in window)) return;
+    var stages = $$('.stage', list), ticking = false, active = false;
+    list.setAttribute('data-progress', '');
+    var update = function () {
+      ticking = false;
+      var r = list.getBoundingClientRect(), vh = window.innerHeight;
+      // 0 when the top of the list is 80% down the viewport, 1 when its bottom reaches 55%.
+      var p = (vh * 0.8 - r.top) / Math.max(1, r.height + vh * 0.25);
+      p = Math.min(1, Math.max(0, p));
+      // Spread across the n-1 joins: stage i's line is full once p * (n-1) passes i + 1.
+      var at = p * (stages.length - 1);
+      stages.forEach(function (s, i) {
+        s.style.setProperty('--fill', Math.min(1, Math.max(0, at - i)).toFixed(3));
+        s.classList.toggle('is-reached', at >= i - 0.001);
+      });
+    };
+    var onScroll = function () { if (active && !ticking) { ticking = true; requestAnimationFrame(update); } };
+    new IntersectionObserver(function (entries) {
+      active = entries[0].isIntersecting;
+      if (active) update();
+    }).observe(list);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
   }
 
   /* ---------- 8. enquiry form ---------- */
@@ -467,6 +525,8 @@
     safely('anchors', initAnchors);
     safely('lightbox', initLightbox);
     safely('copy', initCopy);
+    safely('nav spy', initNavSpy);
+    safely('stages', initStages);
     safely('form', initForm);
   }
 
