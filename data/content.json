@@ -1,0 +1,620 @@
+{
+  "_readme": [
+    "Single source of truth for the content the page repeats: navigation, sectors and the project record.",
+    "Edit this file, then run:  python3 tools/build.py   (writes index.html)",
+    "Check only (used in CI):    python3 tools/build.py --check",
+    "Project fields: slug (stable, lowercase-hyphenated, never reused), name, sector (a key from 'sectors'),",
+    "location, area_sqft (whole number or null), floors (as displayed), order_value (as displayed or null),",
+    "design_team, status ('Ongoing' / 'Completed YYYY' or null), note, source (where the fact comes from).",
+    "Leave a field null when the source does not state it. Never estimate."
+  ],
+  "company": {
+    "name": "AAYKAY Electricals",
+    "legal_name": "AAYKAY Electricals Private Limited",
+    "phone_display": "+91 40 6636 2094",
+    "phone_tel": "+914066362094",
+    "email": "projects@akelectricals.in",
+    "_note": "Phone, email and address are carried over from the AayKay Electrical Enterprises brochure and must be confirmed before launch. tools/build.py --check fails if index.html contains any other phone number or email address."
+  },
+  "nav": [
+    {
+      "href": "#work",
+      "label": "Work",
+      "in": [
+        "header",
+        "mobile",
+        "footer"
+      ]
+    },
+    {
+      "href": "#record",
+      "label": "Project record",
+      "in": [
+        "footer"
+      ]
+    },
+    {
+      "href": "#sectors",
+      "label": "Sectors",
+      "in": [
+        "header",
+        "mobile"
+      ]
+    },
+    {
+      "href": "#deliver",
+      "label": "How we deliver",
+      "in": [
+        "header",
+        "mobile",
+        "footer"
+      ]
+    },
+    {
+      "href": "#quality",
+      "label": "Quality & safety",
+      "in": [
+        "header",
+        "mobile",
+        "footer"
+      ]
+    },
+    {
+      "href": "#company",
+      "label": "Company",
+      "in": [
+        "header",
+        "mobile"
+      ]
+    },
+    {
+      "href": "#prequal",
+      "label": "Pre-qualification",
+      "in": [
+        "footer"
+      ]
+    },
+    {
+      "href": "#contact",
+      "label": "Start a project",
+      "in": [
+        "mobile"
+      ]
+    },
+    {
+      "href": "#contact",
+      "label": "Contact",
+      "in": [
+        "footer"
+      ]
+    }
+  ],
+  "sectors": [
+    {
+      "key": "healthcare",
+      "label": "Healthcare",
+      "description": "Internal electrification for multi-storey hospitals, up to 24 floors and 774,000 sq ft.",
+      "clients": "Krishna Sindhura · Yashoda · KIMS"
+    },
+    {
+      "key": "enterprise",
+      "label": "Enterprise & IT",
+      "description": "Office fit-outs and campuses, up to 15 floors and 475,000 sq ft on a single project.",
+      "clients": "Amazon · Microsoft · Qualcomm · Accenture · Shell · Walmart"
+    },
+    {
+      "key": "banking",
+      "label": "Banking & finance",
+      "description": "Offices for banks and investment firms.",
+      "clients": "HDFC Bank · Sequoia Capital · Arcesium"
+    },
+    {
+      "key": "residential",
+      "label": "Residential high-rise",
+      "description": "Towers from G+9 to G+49, up to 3.38 million sq ft in one development.",
+      "clients": "My Home · Ramky · Vasavi"
+    },
+    {
+      "key": "infrastructure",
+      "label": "Infrastructure & data centres",
+      "description": "Airport, data centre and tech-park external electrification.",
+      "clients": "GMR Hyderabad Airport · ITC Datacenter · Bagmane"
+    }
+  ],
+  "projects": [
+    {
+      "slug": "krishna-sindhura-hospital",
+      "name": "Krishna Sindhura Hospital (KSH)",
+      "sector": "healthcare",
+      "location": "Hyderabad",
+      "area_sqft": 774000,
+      "floors": "24",
+      "order_value": "₹14 Cr",
+      "design_team": "ARKK Consulting",
+      "status": null,
+      "note": null,
+      "source": "profile: similar projects executed"
+    },
+    {
+      "slug": "amazon-maa12",
+      "name": "Amazon MAA12",
+      "sector": "enterprise",
+      "location": "Chennai",
+      "area_sqft": 475000,
+      "floors": "15",
+      "order_value": "₹10 Cr",
+      "design_team": "M Moser Associates / Eshwari & Co",
+      "status": null,
+      "note": null,
+      "source": "profile: similar projects executed"
+    },
+    {
+      "slug": "shell-bagmane-xenon",
+      "name": "Shell @ Bagmane Xenon",
+      "sector": "enterprise",
+      "location": "Bengaluru",
+      "area_sqft": 270000,
+      "floors": "5",
+      "order_value": "₹8 Cr",
+      "design_team": "Raj Consultant / Techtron Engineering Consultancy",
+      "status": null,
+      "note": null,
+      "source": "profile: similar projects executed"
+    },
+    {
+      "slug": "cognizant-coimbatore",
+      "name": "Cognizant Technologies",
+      "sector": "enterprise",
+      "location": "Coimbatore",
+      "area_sqft": 220000,
+      "floors": "4",
+      "order_value": "₹7 Cr",
+      "design_team": "Venkataramanan Associates / Lead Consultants",
+      "status": null,
+      "note": null,
+      "source": "profile: similar projects executed"
+    },
+    {
+      "slug": "walmart-bengaluru",
+      "name": "Walmart",
+      "sector": "enterprise",
+      "location": "Bengaluru",
+      "area_sqft": 250000,
+      "floors": "5",
+      "order_value": "₹6.5 Cr",
+      "design_team": "DSP Design Associates / Lead Consultants",
+      "status": null,
+      "note": null,
+      "source": "profile: similar projects executed"
+    },
+    {
+      "slug": "yashoda-hospitals-project-2",
+      "name": "Yashoda Hospitals, Project II",
+      "sector": "healthcare",
+      "location": "Somajiguda, Hyderabad",
+      "area_sqft": 396000,
+      "floors": "11",
+      "order_value": "₹4.7 Cr",
+      "design_team": "Synergy",
+      "status": null,
+      "note": null,
+      "source": "profile: similar projects executed"
+    },
+    {
+      "slug": "legato-hyderabad",
+      "name": "Legato",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": 300000,
+      "floors": "3",
+      "order_value": "₹4 Cr",
+      "design_team": "Space Matrix Design & Consultants",
+      "status": null,
+      "note": null,
+      "source": "profile: similar projects executed"
+    },
+    {
+      "slug": "accenture-bdc-14",
+      "name": "Accenture BDC 14",
+      "sector": "enterprise",
+      "location": "Bengaluru",
+      "area_sqft": 200000,
+      "floors": "4",
+      "order_value": "₹3.5 Cr",
+      "design_team": "RSP Design Consultants",
+      "status": null,
+      "note": null,
+      "source": "profile: similar projects executed"
+    },
+    {
+      "slug": "hdfc-bank-hyderabad-a",
+      "name": "HDFC Bank",
+      "sector": "banking",
+      "location": "Hyderabad",
+      "area_sqft": 100000,
+      "floors": "6",
+      "order_value": "₹3 Cr",
+      "design_team": "Zyeta / Hyderabad Consultant Engineers",
+      "status": null,
+      "note": null,
+      "source": "profile: similar projects executed"
+    },
+    {
+      "slug": "servicenow-hyderabad",
+      "name": "ServiceNow",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": 200000,
+      "floors": "4",
+      "order_value": "₹3 Cr",
+      "design_team": "Space Matrix Design & Consultants",
+      "status": null,
+      "note": null,
+      "source": "profile: similar projects executed"
+    },
+    {
+      "slug": "sequoia-capital-bengaluru",
+      "name": "Sequoia Capital",
+      "sector": "banking",
+      "location": "Bengaluru",
+      "area_sqft": 50000,
+      "floors": "6",
+      "order_value": "₹2.5 Cr",
+      "design_team": "Space Matrix Design & Consultants",
+      "status": null,
+      "note": null,
+      "source": "profile: similar projects executed"
+    },
+    {
+      "slug": "yashoda-hospitals-project-1",
+      "name": "Yashoda Hospitals, Project I",
+      "sector": "healthcare",
+      "location": "Somajiguda, Hyderabad",
+      "area_sqft": 150000,
+      "floors": "11",
+      "order_value": "₹2.11 Cr",
+      "design_team": "Synergy",
+      "status": null,
+      "note": null,
+      "source": "profile: similar projects executed"
+    },
+    {
+      "slug": "yashoda-hospitals-project-3",
+      "name": "Yashoda Hospitals, Project III",
+      "sector": "healthcare",
+      "location": "Secunderabad",
+      "area_sqft": 120000,
+      "floors": "11",
+      "order_value": "₹1.78 Cr",
+      "design_team": "Synergy",
+      "status": null,
+      "note": null,
+      "source": "profile: similar projects executed"
+    },
+    {
+      "slug": "kims-hospitals-kondapur",
+      "name": "KIMS Hospitals",
+      "sector": "healthcare",
+      "location": "Kondapur, Hyderabad",
+      "area_sqft": 130000,
+      "floors": "10",
+      "order_value": "₹1.75 Cr",
+      "design_team": "Synergy",
+      "status": null,
+      "note": null,
+      "source": "profile: similar projects executed"
+    },
+    {
+      "slug": "hdfc-bank-hyderabad-b",
+      "name": "HDFC Bank",
+      "sector": "banking",
+      "location": "Hyderabad",
+      "area_sqft": 150000,
+      "floors": "4",
+      "order_value": "₹1 Cr",
+      "design_team": "Hyderabad Consultant Engineers (consultant)",
+      "status": null,
+      "note": null,
+      "source": "profile: similar projects executed"
+    },
+    {
+      "slug": "my-home-tridasa",
+      "name": "My Home Tridasa",
+      "sector": "residential",
+      "location": "Telapur, Hyderabad",
+      "area_sqft": 3379200,
+      "floors": "G+30, 2 towers",
+      "order_value": null,
+      "design_team": "Developer: My Home Construction",
+      "status": "Completed 2024",
+      "note": null,
+      "source": "profile: residential projects"
+    },
+    {
+      "slug": "my-home-nishada",
+      "name": "My Home Nishada",
+      "sector": "residential",
+      "location": "Kokapet, Hyderabad",
+      "area_sqft": 1800000,
+      "floors": "G+44, 2 towers",
+      "order_value": null,
+      "design_team": "Developer: My Home Construction",
+      "status": "Ongoing",
+      "note": null,
+      "source": "profile: residential projects"
+    },
+    {
+      "slug": "my-home-grawa",
+      "name": "My Home Grawa",
+      "sector": "residential",
+      "location": "Kokapet, Hyderabad",
+      "area_sqft": 1274000,
+      "floors": "G+49, 1 tower",
+      "order_value": null,
+      "design_team": "Developer: My Home Construction",
+      "status": "Ongoing",
+      "note": null,
+      "source": "profile: residential projects"
+    },
+    {
+      "slug": "ramky-one-harmony",
+      "name": "Ramky One Harmony",
+      "sector": "residential",
+      "location": "Pragati Nagar, Hyderabad",
+      "area_sqft": 1178400,
+      "floors": "G+9, 5 towers",
+      "order_value": null,
+      "design_team": "Developer: Ramky Estates",
+      "status": "Completed 2025",
+      "note": null,
+      "source": "profile: residential projects"
+    },
+    {
+      "slug": "vasavi-ananda-nilayam",
+      "name": "Vasavi Ananda Nilayam",
+      "sector": "residential",
+      "location": "LB Nagar, Hyderabad",
+      "area_sqft": 936000,
+      "floors": "G+30, 1 tower",
+      "order_value": null,
+      "design_team": "Developer: Vasavi Group",
+      "status": "Ongoing",
+      "note": null,
+      "source": "profile: residential projects"
+    },
+    {
+      "slug": "bagmane-cosmos-tech-park",
+      "name": "Bagmane Cosmos Tech Park",
+      "sector": "infrastructure",
+      "location": null,
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": null,
+      "note": "External electrification: Ariel, Vesta, MLCP, Vesta Extension",
+      "source": "profile: current projects"
+    },
+    {
+      "slug": "microsoft-rd-india",
+      "name": "Microsoft R&D India",
+      "sector": "enterprise",
+      "location": "Hyderabad & Bengaluru",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": null,
+      "note": null,
+      "source": "brochure: AayKay Electrical Enterprises"
+    },
+    {
+      "slug": "qualcomm-india",
+      "name": "Qualcomm India",
+      "sector": "enterprise",
+      "location": "Hyderabad, Bengaluru & Chennai",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": null,
+      "note": null,
+      "source": "brochure: AayKay Electrical Enterprises"
+    },
+    {
+      "slug": "accenture-services",
+      "name": "Accenture Services",
+      "sector": "enterprise",
+      "location": "Hyderabad, Bengaluru, Chennai & Kolkata",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": null,
+      "note": null,
+      "source": "brochure: AayKay Electrical Enterprises"
+    },
+    {
+      "slug": "gmr-hyderabad-airport",
+      "name": "GMR Hyderabad International Airport",
+      "sector": "infrastructure",
+      "location": "Shamshabad",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": null,
+      "note": null,
+      "source": "brochure: AayKay Electrical Enterprises"
+    },
+    {
+      "slug": "itc-datacenter",
+      "name": "ITC Datacenter",
+      "sector": "infrastructure",
+      "location": "Bengaluru",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": null,
+      "note": null,
+      "source": "brochure: AayKay Electrical Enterprises"
+    },
+    {
+      "slug": "tcs-hyderabad",
+      "name": "TCS",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": null,
+      "note": null,
+      "source": "brochure: AayKay Electrical Enterprises"
+    },
+    {
+      "slug": "tech-mahindra-hyderabad",
+      "name": "Tech Mahindra",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": null,
+      "note": null,
+      "source": "profile: current projects"
+    },
+    {
+      "slug": "amd-india",
+      "name": "AMD India",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": null,
+      "note": null,
+      "source": "brochure: AayKay Electrical Enterprises"
+    },
+    {
+      "slug": "uber-india",
+      "name": "Uber India",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": null,
+      "note": null,
+      "source": "brochure: AayKay Electrical Enterprises"
+    },
+    {
+      "slug": "arcesium",
+      "name": "Arcesium",
+      "sector": "banking",
+      "location": "Hyderabad",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": null,
+      "note": null,
+      "source": "brochure: AayKay Electrical Enterprises"
+    },
+    {
+      "slug": "network-18-noida",
+      "name": "Network 18",
+      "sector": "enterprise",
+      "location": "Noida",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": null,
+      "note": null,
+      "source": "profile: current projects"
+    },
+    {
+      "slug": "bosch-coimbatore",
+      "name": "Bosch",
+      "sector": "enterprise",
+      "location": "Coimbatore",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": null,
+      "note": null,
+      "source": "profile: current projects"
+    },
+    {
+      "slug": "ncr-hyderabad",
+      "name": "NCR",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": null,
+      "note": null,
+      "source": "profile: current projects"
+    },
+    {
+      "slug": "ramky-corporate-office",
+      "name": "Ramky Corporate Office",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": null,
+      "note": null,
+      "source": "brochure: AayKay Electrical Enterprises"
+    },
+    {
+      "slug": "ramky-ceo-enclave",
+      "name": "Ramky CEO Enclave",
+      "sector": "residential",
+      "location": "Hyderabad",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": null,
+      "note": null,
+      "source": "brochure: AayKay Electrical Enterprises"
+    },
+    {
+      "slug": "my-home-abhra",
+      "name": "My Home Abhra",
+      "sector": "residential",
+      "location": "Hyderabad",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": null,
+      "note": null,
+      "source": "brochure: AayKay Electrical Enterprises"
+    },
+    {
+      "slug": "jeeyer-vedic-hospital",
+      "name": "Jeeyer Vedic Hospital",
+      "sector": "healthcare",
+      "location": "Shamshabad",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": null,
+      "note": null,
+      "source": "brochure: AayKay Electrical Enterprises"
+    }
+  ]
+}
