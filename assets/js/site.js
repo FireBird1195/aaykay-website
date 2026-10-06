@@ -386,9 +386,12 @@
       e.preventDefault();
       var results = fields.map(check);
       if (results.indexOf(false) !== -1) {
-        var first = fields.filter(function (f) { return f.getAttribute('aria-invalid') === 'true'; })[0];
-        if (first) first.focus();
-        status.textContent = 'A few required details are missing. They are marked above.';
+        var invalid = fields.filter(function (f) { return f.getAttribute('aria-invalid') === 'true'; });
+        var missing = invalid.some(function (f) { return f.validity.valueMissing; });
+        if (invalid[0]) invalid[0].focus();
+        status.textContent = missing
+          ? 'Some required details are missing. They are marked above.'
+          : 'Please check the details marked above.';
         return;
       }
       var v = function (name) { var el = form.elements[name]; return el ? el.value.trim() : ''; };

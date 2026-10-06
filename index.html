@@ -703,7 +703,10 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
         <p class="visually-hidden" id="copy-status" role="status"></p>
       </div>
 
-      <form class="contact-form" id="enquiry" data-to="projects@akelectricals.in" data-phone="+91 40 6636 2094" action="#" method="post">
+      <!-- No form backend exists yet. With JavaScript the form opens the visitor's email app with a
+           composed message (site.js); without it the mailto action below does the same, so the
+           form never posts to this static host (which would return an error). -->
+      <form class="contact-form" id="enquiry" data-to="projects@akelectricals.in" data-phone="+91 40 6636 2094" action="mailto:projects@akelectricals.in" method="post" enctype="text/plain">
         <h3>Project enquiry</h3>
         <div class="form-grid">
           <div class="field">
@@ -749,7 +752,7 @@ window.AAYKAY_MOTION_LIBS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollT
           </div>
         </div>
         <div class="form-foot">
-          <p class="form-note">Sending opens your email app with these details filled in. Fields marked * are required.</p>
+          <p class="form-note">Sending opens your email app with these details filled in, so you can attach drawings or a BOQ before you send. Fields marked * are required.</p>
           <button class="btn btn--primary" type="submit">Send enquiry <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1.5 8h12M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
         </div>
         <p class="form-status" id="form-status" role="status"></p>
