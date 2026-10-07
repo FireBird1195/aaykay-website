@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
     <div class="wrap">
       <div class="clients-head">
         <h2 class="label" id="clients-title">Clients include</h2>
-        <p>A selection of our <?php echo esc_html( aaykay_setting( 'clients_served' ) ); ?> clients</p>
+        <p><?php echo esc_html( aaykay_join( ' ', array( 'A selection of our', aaykay_setting( 'clients_served' ), 'clients' ) ) ); ?></p>
       </div>
       <ul class="client-list">
         <?php echo aaykay_render_clients( '        ' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the renderer. ?>

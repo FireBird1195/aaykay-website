@@ -7,6 +7,16 @@
 
 defined( 'ABSPATH' ) || exit;
 $aaykay_contact = aaykay_contact();
+$aaykay_states  = count( aaykay_branches() );
+// ", with branches in seven states and more than 100 clients" (parts left out when not set).
+$aaykay_with  = array();
+if ( $aaykay_states ) {
+	$aaykay_with[] = 'branches in ' . aaykay_number_word( $aaykay_states ) . ( 1 === $aaykay_states ? ' state' : ' states' );
+}
+if ( '' !== aaykay_clients_phrase() ) {
+	$aaykay_with[] = aaykay_clients_phrase() . ' clients';
+}
+$aaykay_today = $aaykay_with ? ', with ' . implode( ' and ', $aaykay_with ) : '';
 ?>
   <section class="section" id="company" aria-labelledby="company-title">
     <div class="wrap">
@@ -31,8 +41,10 @@ $aaykay_contact = aaykay_contact();
           <dl class="glance">
             <div><dt>Company</dt><dd>AAYKAY Electricals Private Limited</dd></div>
             <div><dt>Established</dt><dd>2008</dd></div>
-            <div><dt>Head office</dt><dd><?php echo esc_html( $aaykay_contact['area'] . ', ' . $aaykay_contact['city'] ); ?></dd></div>
-            <div><dt>Branches</dt><dd><?php echo (int) count( aaykay_branches() ); ?> states</dd></div>
+            <div><dt>Head office</dt><dd><?php echo esc_html( aaykay_join( ', ', array( $aaykay_contact['area'], $aaykay_contact['city'] ) ) ); ?></dd></div>
+<?php if ( $aaykay_states ) : ?>
+            <div><dt>Branches</dt><dd><?php echo esc_html( $aaykay_states . ( 1 === $aaykay_states ? ' state' : ' states' ) ); ?></dd></div>
+<?php endif; ?>
           </dl>
           <p>Abdul Kareem P was Head of Operations at Naseer Electricals in Hyderabad before starting A K Electricals in 2008. His 30 years in the trade cover base-build, IT workspaces, labs, data centres, hospitals, industrial and high-rise projects.</p>
           <p>Repeat clients include HDFC Bank, Amazon, Accenture, Microsoft, Tech Mahindra, Cognizant, AMD, NCR and D. E. Shaw &amp; Co.</p>
@@ -43,7 +55,7 @@ $aaykay_contact = aaykay_contact();
           <ol class="timeline">
             <li><span class="tl-year">2008</span><p>A K Electricals starts in Hyderabad as a small electrical contractor for residential and commercial clients.</p></li>
             <li><span class="tl-year">2012</span><p>Merges with AayKay Electrical Enterprises. Branches follow in Bengaluru and Chennai.</p></li>
-            <li><span class="tl-year">Today</span><p>AAYKAY Electricals Private Limited: ISO 9001:2015 and ISO 45001:2018 certified, with branches in <?php echo esc_html( aaykay_number_word( count( aaykay_branches() ) ) ); ?> states and <?php echo esc_html( aaykay_clients_phrase() ); ?> clients.</p></li>
+            <li><span class="tl-year">Today</span><p>AAYKAY Electricals Private Limited: ISO 9001:2015 and ISO 45001:2018 certified<?php echo esc_html( $aaykay_today ); ?>.</p></li>
           </ol>
         </div>
       </div>

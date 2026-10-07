@@ -12,10 +12,13 @@ $aaykay_total = count( aaykay_projects() );
 // high-rise towers." The counts follow the content. The closing clause describes the
 // launch cards (healthcare, enterprise, residential) and is left out if cards from other
 // sectors are chosen, so the sentence never claims something the cards don't show.
-$aaykay_record = $aaykay_total >= 20 ? 'more than ' . aaykay_number_word( (int) floor( $aaykay_total / 10 ) * 10 ) : (string) $aaykay_total;
+// "more than thirty" for 31–40 (never "more than thirty" for exactly 30); exact below 21.
+$aaykay_record = $aaykay_total > 20
+	? 'more than ' . aaykay_number_word( (int) floor( ( $aaykay_total - 1 ) / 10 ) * 10 )
+	: aaykay_number_word( $aaykay_total );
 $aaykay_intro  = $aaykay_cards
 	? ucfirst( aaykay_number_word( count( $aaykay_cards ) ) ) . ' project' . ( 1 === count( $aaykay_cards ) ? '' : 's' ) . ' from a record of ' . $aaykay_record
-	: 'A record of ' . $aaykay_record . ' projects';
+	: 'A record of ' . $aaykay_record . ' project' . ( 1 === $aaykay_total ? '' : 's' );
 $aaykay_card_sectors = array_unique( wp_list_pluck( $aaykay_cards, 'sector' ) );
 if ( $aaykay_cards && ! array_diff( $aaykay_card_sectors, array( 'healthcare', 'enterprise', 'residential' ) ) ) {
 	$aaykay_intro .= ', across hospitals, corporate offices and high-rise towers';

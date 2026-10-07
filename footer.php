@@ -8,18 +8,23 @@
 defined( 'ABSPATH' ) || exit;
 $aaykay_contact  = aaykay_contact();
 $aaykay_branches = aaykay_branches();
+// ", from Hyderabad to seven states" (left out when no branches are set).
+$aaykay_reach = '';
+if ( $aaykay_branches ) {
+	$aaykay_reach = ', ' . aaykay_join( ' ', array( '' !== $aaykay_contact['city'] ? 'from ' . $aaykay_contact['city'] : '', 'to ' . aaykay_number_word( count( $aaykay_branches ) ) . ( 1 === count( $aaykay_branches ) ? ' state' : ' states' ) ) );
+}
 ?>
 <footer class="site-footer">
   <div class="wrap grid-12 footer-top">
     <div class="footer-brand">
       <a class="brand" href="<?php echo esc_attr( aaykay_section_url( 'top' ) ); ?>"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M3.5 28 14.6 4h2.8L28.5 28h-4.4L16 10.4 7.9 28Z" fill="currentColor"/><path d="M6.5 21.6 26.6 13l-1.5 3.5L8 24.8Z" fill="#E0452B"/></svg><span class="brand-word">AAYKAY</span><span class="visually-hidden"> Electricals, back to top</span></a>
-      <p>AAYKAY Electricals Private Limited. Electrical and MEP contracting since 2008, from <?php echo esc_html( $aaykay_contact['city'] ); ?> to <?php echo esc_html( aaykay_number_word( count( $aaykay_branches ) ) ); ?> states.</p>
+      <p>AAYKAY Electricals Private Limited. Electrical and MEP contracting since 2008<?php echo esc_html( $aaykay_reach ); ?>.</p>
     </div>
     <nav class="footer-nav" id="footer-nav" aria-label="Footer">
       <?php echo aaykay_render_nav( 'footer', '      ' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the renderer. ?>
 
     </nav>
-    <address class="footer-addr"><?php echo esc_html( $aaykay_contact['street'] . ', ' . $aaykay_contact['area'] . ', ' . $aaykay_contact['city'] . ' ' . $aaykay_contact['postcode'] ); ?><br><?php echo esc_html( $aaykay_contact['phone'] ); ?></address>
+    <address class="footer-addr"><?php echo esc_html( aaykay_join( ', ', array( $aaykay_contact['street'], $aaykay_contact['area'], aaykay_join( ' ', array( $aaykay_contact['city'], $aaykay_contact['postcode'] ) ) ) ) ); ?><br><?php echo esc_html( $aaykay_contact['phone'] ); ?></address>
   </div>
   <div class="wrap">
     <div class="footer-bottom">

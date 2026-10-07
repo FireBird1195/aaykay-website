@@ -94,6 +94,7 @@ foreach ( $aaykay_groups as $aaykay_group => $aaykay_rows ) :
             <li>D&amp;B certified</li>
           </ul>
         </div>
+<?php if ( aaykay_branches() ) : ?>
         <div class="pq-block">
           <h3 class="label icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#map-pin"/></svg>Branches</h3>
           <ul class="pq-plain">
@@ -106,6 +107,7 @@ foreach ( $aaykay_groups as $aaykay_group => $aaykay_rows ) :
 <?php endforeach; ?>
           </ul>
         </div>
+<?php endif; ?>
       </div>
     </div>
   </section>
