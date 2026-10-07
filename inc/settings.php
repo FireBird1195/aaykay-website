@@ -34,7 +34,7 @@ function aaykay_settings_fields() {
 		'maps_url'          => array( 'contact', 'Google Maps link (optional)', 'url', 'Leave empty to search Google Maps for the address above.' ),
 		'clients_served'    => array( 'company', 'Clients served', 'text', 'e.g. 100+. Shown in the hero figures, above the client logos and in the company timeline.' ),
 		'branches'          => array( 'company', 'States with branches', 'lines', 'One state per line. Put the head office state first. The number of lines is shown as "States with branches".' ),
-		'turnover'          => array( 'turnover', 'Annual turnover', 'turnover', 'Newest year first, in crore rupees (numbers only, e.g. 40.11). The first row is shown as the headline figure in the hero and pre-qualification sections; the change against the second row is worked out automatically. Leave rows empty to hide them.' ),
+		'turnover'          => array( 'turnover', 'Annual turnover', 'turnover', 'One row per financial year, in crore rupees (numbers only, e.g. 40.11). Rows can be in any order: the website shows them newest first, uses the newest year as the headline figure in the hero and pre-qualification sections, and works out the change against the year before. To add a year, use an empty row; when all rows are full, clear the oldest.' ),
 		'res_pm'            => array( 'resources', 'Project managers', 'count', '' ),
 		'res_pe'            => array( 'resources', 'Project engineers', 'count', '' ),
 		'res_sup'           => array( 'resources', 'Supervisors', 'count', 'Also shown in Quality & safety.' ),
@@ -113,6 +113,13 @@ function aaykay_turnover() {
 			'value' => (float) $row[1],
 		);
 	}
+	// Newest year first, whatever order the rows were typed in ("FY 2026–27" > "FY 2025–26").
+	usort(
+		$rows,
+		function ( $a, $b ) {
+			return strnatcasecmp( $b['label'], $a['label'] );
+		}
+	);
 	return $rows;
 }
 

@@ -63,7 +63,13 @@ add_action(
 		$wp_meta_boxes['dashboard']['normal']['core'] = array_merge( $mine, $normal ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- documented way to order dashboard widgets.
 	}
 );
-remove_action( 'welcome_panel', 'wp_welcome_panel' );
+// The generic "Welcome to WordPress" panel (added after this file loads, so removed later).
+add_action(
+	'load-index.php',
+	function () {
+		remove_action( 'welcome_panel', 'wp_welcome_panel' );
+	}
+);
 
 function aaykay_render_welcome_widget() {
 	$enquiries = wp_count_posts( 'aaykay_enquiry' );
@@ -125,7 +131,7 @@ function aaykay_render_project_box( $post ) {
 		aaykay_render_field( $post->ID, $key, $fields[ $key ] );
 	}
 	echo '<fieldset><legend>Homepage card (optional)</legend>';
-	echo '<p class="description">Up to five or six projects work best as large cards under “Selected work”. The first card is shown wide, the second medium, the rest in a row of three. Set the order with the <strong>Order</strong> box on the right (1 = first).</p>';
+	echo '<p class="description">Up to five or six projects work best as large cards under “Selected work”. The first card is shown wide, the second medium, the rest in a row of three. Set the order with the <strong>Card order</strong> box on the right (1 = first).</p>';
 	foreach ( array( 'featured', 'card_label', 'card_details', 'card_note' ) as $key ) {
 		aaykay_render_field( $post->ID, $key, $fields[ $key ] );
 	}
@@ -418,7 +424,7 @@ function aaykay_render_logo_box( $post ) {
 		$mark = (string) get_post_meta( $post->ID, '_aaykay_mark', true );
 		echo '<div><label for="aaykay-mark">Letters (optional)</label><input type="text" class="small-text" maxlength="5" id="aaykay-mark" name="aaykay_mark" value="' . esc_attr( $mark ) . '" aria-describedby="aaykay-mark-help"><p class="description" id="aaykay-mark-help">Shown when there is no logo. Leave empty to use the initials of the name.</p></div>';
 	} else {
-		echo '<p class="description">Clients are shown in the order of the <strong>Order</strong> box on the right (lower numbers first).</p>';
+		echo '<p class="description">Clients are shown in the order of the <strong>Display order</strong> box on the right (lower numbers first).</p>';
 	}
 	echo '</div>';
 }
