@@ -89,6 +89,12 @@ function aaykay_dot_line( $parts ) {
 	return $html;
 }
 
+/** The registered company name, from Homepage content > Company ("Company" fact). */
+function aaykay_legal_name() {
+	$name = function_exists( 'aaykay_t' ) ? aaykay_t( 'company', 'glance_company' ) : '';
+	return '' !== $name ? $name : 'AAYKAY Electricals Private Limited';
+}
+
 /** True for a non-empty string of digits only ("24", not "G+30"). */
 function aaykay_is_digits( $value ) {
 	return 1 === preg_match( '/^\d+$/', (string) $value );

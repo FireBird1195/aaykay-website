@@ -10,6 +10,7 @@ code changes go through this repository and deploy automatically. No plugins are
 | `theme/` | The WordPress theme. Everything that goes to the server. See `theme/README.md`. |
 | `.github/workflows/check.yml` | On every push: PHP syntax check, JavaScript check, starter-data check |
 | `.github/workflows/deploy.yml` | On every push to `main`: copies `theme/` to the `deploy` branch |
+| `docs/HANDOFF.md` | Short state-and-rules note for the next developer or AI session |
 | `docs/google-sheets-apps-script.gs` | Script pasted into AAYKAY's Google Sheet so enquiries also land in a sheet (not deployed) |
 
 The original static preview is kept at the Git tag `static-preview-final`.

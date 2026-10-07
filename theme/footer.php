@@ -29,7 +29,7 @@ $aaykay_regd    = trim( (string) aaykay_setting( 'registered_office' ) );
   </div>
   <div class="wrap">
     <div class="footer-bottom">
-      <span><?php echo aaykay_dot_line( array_merge( array( '© ' . wp_date( 'Y' ) . ' AAYKAY Electricals Private Limited' ), explode( ' · ', aaykay_t( 'brand', 'footer_bottom' ) ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_dot_line(). ?></span>
+      <span><?php echo aaykay_dot_line( array_merge( array( '© ' . wp_date( 'Y' ) . ' ' . aaykay_legal_name() ), explode( ' · ', aaykay_t( 'brand', 'footer_bottom' ) ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_dot_line(). ?></span>
 <?php if ( $aaykay_ids || '' !== $aaykay_regd ) : ?>
       <span><?php echo esc_html( aaykay_join( ' · ', array_merge( $aaykay_ids, array( '' !== $aaykay_regd ? 'Registered office: ' . $aaykay_regd : '' ) ) ) ); ?></span>
 <?php endif; ?>
