@@ -1,0 +1,2 @@
+# Hand-off folders (bundles, zips) passed between machines; never part of the site.
+*-handoff/
