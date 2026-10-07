@@ -1,6 +1,7 @@
 <?php
 /**
- * Home page: pre-qualification.
+ * Home page: pre-qualification. Headings and certificates: Homepage content >
+ * Pre-qualification. Turnover, resources and branches: Site settings.
  *
  * @package aaykay
  */
@@ -38,12 +39,14 @@ $aaykay_groups = array(
   <section class="section section--white" id="prequal" aria-labelledby="pq-title">
     <div class="wrap">
       <div class="sec-head">
-        <h2 class="h2" id="pq-title" data-reveal>Pre-qualification</h2>
-        <p class="sec-sub" data-reveal>The facts procurement and tender teams usually ask for first.</p>
+        <h2 class="h2" id="pq-title" data-reveal><?php aaykay_e( 'prequal', 'heading' ); ?></h2>
+<?php if ( '' !== aaykay_t( 'prequal', 'sub' ) ) : ?>
+        <p class="sec-sub" data-reveal><?php aaykay_e( 'prequal', 'sub' ); ?></p>
+<?php endif; ?>
       </div>
       <div class="pq-grid">
         <div class="pq-block">
-          <h3 class="label icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#chart-column-increasing"/></svg>Annual turnover</h3>
+          <h3 class="label icon-label"><?php echo aaykay_icon( aaykay_c( 'prequal', 'turnover_icon' ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><?php aaykay_e( 'prequal', 'turnover_heading' ); ?></h3>
 <?php if ( $aaykay_turnover ) : ?>
           <p class="stat-value">₹<?php echo esc_html( aaykay_crore( $aaykay_turnover[0]['value'] ) ); ?> Cr</p>
           <p class="stat-sub"><?php echo esc_html( aaykay_turnover_change() ); ?></p>
@@ -58,7 +61,7 @@ $aaykay_groups = array(
 <?php endif; ?>
         </div>
         <div class="pq-block">
-          <h3 class="label icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#users"/></svg>Resources</h3>
+          <h3 class="label icon-label"><?php echo aaykay_icon( aaykay_c( 'prequal', 'resources_icon' ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><?php aaykay_e( 'prequal', 'resources_heading' ); ?></h3>
 <?php
 foreach ( $aaykay_groups as $aaykay_group => $aaykay_rows ) :
 	$aaykay_rows = array_filter( $aaykay_rows, 'strlen' );
@@ -75,28 +78,24 @@ foreach ( $aaykay_groups as $aaykay_group => $aaykay_rows ) :
 <?php endforeach; ?>
         </div>
         <div class="pq-block">
-          <h3 class="label icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#badge-check"/></svg>Certifications &amp; registrations</h3>
-          <p class="pq-group">ISO certification</p>
+          <h3 class="label icon-label"><?php echo aaykay_icon( aaykay_c( 'prequal', 'certs_icon' ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><?php aaykay_e( 'prequal', 'certs_heading' ); ?></h3>
+<?php foreach ( aaykay_rows( 'prequal', 'cert_groups' ) as $aaykay_g ) : ?>
+<?php $aaykay_items = array_filter( array_map( 'trim', preg_split( '/\r\n|\r|\n/', (string) $aaykay_g['items'] ) ), 'strlen' ); ?>
+<?php if ( '' !== trim( $aaykay_g['heading'] ) ) : ?>
+          <p class="pq-group"><?php echo esc_html( $aaykay_g['heading'] ); ?></p>
+<?php endif; ?>
+<?php if ( $aaykay_items ) : ?>
           <ul class="pq-plain">
-            <li><b>ISO 9001:2015</b> quality management</li>
-            <li><b>ISO 45001:2018</b> occupational health &amp; safety</li>
+<?php foreach ( $aaykay_items as $aaykay_item ) : ?>
+            <li><?php echo aaykay_bold_line( $aaykay_item ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_bold_line(). ?></li>
+<?php endforeach; ?>
           </ul>
-          <p class="pq-group">Electrical contractor licences</p>
-          <ul class="pq-plain">
-            <li><b>Hyderabad</b></li>
-            <li><b>Bengaluru</b></li>
-          </ul>
-          <p class="pq-group">Company registrations</p>
-          <ul class="pq-plain">
-            <li>Private limited company, Certificate of Incorporation</li>
-            <li>MSME and GST registered</li>
-            <li>ESI and EPF registered</li>
-            <li>D&amp;B certified</li>
-          </ul>
+<?php endif; ?>
+<?php endforeach; ?>
         </div>
 <?php if ( aaykay_branches() ) : ?>
         <div class="pq-block">
-          <h3 class="label icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#map-pin"/></svg>Branches</h3>
+          <h3 class="label icon-label"><?php echo aaykay_icon( aaykay_c( 'prequal', 'branches_icon' ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><?php aaykay_e( 'prequal', 'branches_heading' ); ?></h3>
           <ul class="pq-plain">
 <?php foreach ( aaykay_branches() as $aaykay_i => $aaykay_state ) : ?>
 <?php if ( 0 === $aaykay_i ) : ?>
@@ -109,5 +108,8 @@ foreach ( $aaykay_groups as $aaykay_group => $aaykay_rows ) :
         </div>
 <?php endif; ?>
       </div>
+<?php if ( '' !== aaykay_t( 'prequal', 'request_label' ) ) : ?>
+      <p class="pq-request"><a class="btn btn--primary" href="#contact" data-enquiry-type="Pre-qualification documents"><?php aaykay_e( 'prequal', 'request_label' ); ?> <?php echo aaykay_arrow(); // phpcs:ignore WordPress.Security.EscapeOutput -- static SVG. ?></a></p>
+<?php endif; ?>
     </div>
   </section>

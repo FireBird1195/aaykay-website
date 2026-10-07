@@ -30,12 +30,34 @@ function aaykay_nav_items() {
 	);
 }
 
+/** The Homepage content section each navigation target belongs to. */
+function aaykay_nav_section( $id ) {
+	$map = array(
+		'services' => 'services',
+		'sectors'  => 'services',
+		'work'     => 'work',
+		'record'   => 'record',
+		'deliver'  => 'deliver',
+		'quality'  => 'quality',
+		'company'  => 'company',
+		'prequal'  => 'prequal',
+		'contact'  => 'contact',
+	);
+	return isset( $map[ $id ] ) ? $map[ $id ] : $id;
+}
+
 function aaykay_render_nav( $place, $indent ) {
 	$lines = array();
 	foreach ( aaykay_nav_items() as $item ) {
 		list( $id, $label, $in, $cta ) = $item;
-		if ( ! in_array( $place, $in, true ) ) {
+		// Skip places the link doesn't belong, and sections switched off in Homepage content.
+		if ( ! in_array( $place, $in, true ) || ! aaykay_section_on( aaykay_nav_section( $id ) ) ) {
 			continue;
+		}
+		if ( 'contact' === $id && $cta ) {
+			$label = aaykay_t( 'brand', 'header_cta' );
+		} elseif ( '' !== aaykay_t( 'brand', 'menu_' . $id ) ) {
+			$label = aaykay_t( 'brand', 'menu_' . $id );
 		}
 		$link    = '<a href="' . esc_attr( aaykay_section_url( $id ) ) . '"' . ( $cta ? ' class="nav-cta"' : '' ) . '>' . esc_html( $label ) . '</a>';
 		$lines[] = 'footer' === $place ? $link : '<li>' . $link . '</li>';
@@ -143,6 +165,11 @@ function aaykay_render_chips( $indent ) {
 
 /* ------------------------------------------------------------------ projects */
 
+/** Site settings > "Show order values on the website". */
+function aaykay_show_values() {
+	return '0' !== (string) aaykay_setting( 'show_order_values' );
+}
+
 /**
  * Published projects that have a sector, in record order: rows are grouped by how much
  * is stated (order value first, then area, then name only) and alphabetical within each
@@ -187,7 +214,7 @@ function aaykay_projects() {
 		$projects,
 		function ( $a, $b ) {
 			$tier = function ( $p ) {
-				return '' !== $p['order_value'] ? 0 : ( $p['area_sqft'] ? 1 : 2 );
+				return ( '' !== $p['order_value'] && aaykay_show_values() ) ? 0 : ( $p['area_sqft'] ? 1 : 2 );
 			};
 			$lower = function_exists( 'mb_strtolower' ) ? 'mb_strtolower' : 'strtolower';
 			return array( $tier( $a ), $lower( $a['name'] ), $a['slug'] ) <=> array( $tier( $b ), $lower( $b['name'] ), $b['slug'] );
@@ -229,15 +256,16 @@ function aaykay_render_record_rows( $indent ) {
 		// A developer (housing rows) is named with its own "Developer:" prefix; "dev" stops the
 		// phone layout adding its "Design team" label in front of it.
 		$team_class = 0 === strpos( $p['design_team'], 'Developer:' ) ? 'team dev' : 'team';
+		$value_cell = aaykay_show_values() ? '<td class="num">' . $unit( $p['order_value'], ' order' ) . '</td>' : '';
 		$rows[]     = sprintf(
-			'<tr data-sector="%s"><th scope="row"><span class="p-name">%s</span>%s</th><td>%s</td><td class="num">%s</td><td class="floors">%s</td><td class="num">%s</td><td class="%s">%s</td></tr>',
+			'<tr data-sector="%s"><th scope="row"><span class="p-name">%s</span>%s</th><td>%s</td><td class="num">%s</td><td class="floors">%s</td>%s<td class="%s">%s</td></tr>',
 			esc_attr( $p['sector'] ),
 			esc_html( $p['name'] ),
 			$meta,
 			$unit( $p['location'] ),
 			$unit( $area, ' sq ft' ),
 			$unit( $p['floors'], $floors_unit ),
-			$unit( $p['order_value'], ' order' ),
+			$value_cell,
 			$team_class,
 			$unit( $p['design_team'] )
 		);
@@ -271,7 +299,7 @@ function aaykay_card_specs( $p ) {
 	if ( '' !== $p['floors'] ) {
 		$specs[] = aaykay_floors_text( $p['floors'] );
 	}
-	if ( '' !== $p['order_value'] ) {
+	if ( '' !== $p['order_value'] && aaykay_show_values() ) {
 		$specs[] = $p['order_value'] . ' order';
 	} elseif ( '' !== $p['status'] ) {
 		$specs[] = $p['status'];

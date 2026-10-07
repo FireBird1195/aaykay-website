@@ -22,9 +22,7 @@ $aaykay_contact = aaykay_contact();
 <header class="site-header" data-state="top">
   <div class="wrap header-row">
     <a class="brand" href="<?php echo esc_attr( aaykay_section_url( 'top' ) ); ?>">
-      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M3.5 28 14.6 4h2.8L28.5 28h-4.4L16 10.4 7.9 28Z" fill="currentColor"/><path d="M6.5 21.6 26.6 13l-1.5 3.5L8 24.8Z" fill="#E0452B"/></svg>
-      <span class="brand-word">AAYKAY</span>
-      <span class="brand-sub">Electricals<br>Pvt. Ltd.</span>
+      <?php echo aaykay_brand_lockup( true ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the function. ?>
       <span class="visually-hidden">, back to top</span>
     </a>
     <nav class="site-nav" aria-label="Primary">
@@ -33,7 +31,7 @@ $aaykay_contact = aaykay_contact();
 
       </ul>
     </nav>
-    <a class="btn btn--sm btn--primary header-cta" href="<?php echo esc_attr( aaykay_section_url( 'contact' ) ); ?>">Start a project</a>
+    <a class="btn btn--sm btn--primary header-cta" href="<?php echo esc_attr( aaykay_section_url( 'contact' ) ); ?>"><?php aaykay_e( 'brand', 'header_cta' ); ?></a>
     <a class="btn btn--sm btn--outline-light menu-fallback" href="#footer-nav">Menu</a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu">
       <span class="menu-icon" aria-hidden="true"></span><span class="visually-hidden">Menu</span>

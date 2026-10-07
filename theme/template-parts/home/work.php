@@ -1,6 +1,7 @@
 <?php
 /**
- * Home page: selected work.
+ * Home page: selected work. Heading: Homepage content > Selected work.
+ * Cards: projects with "Show as a large card" ticked (Dashboard > Projects).
  *
  * @package aaykay
  */
@@ -24,11 +25,15 @@ if ( $aaykay_cards && ! array_diff( $aaykay_card_sectors, array( 'healthcare', '
 	$aaykay_intro .= ', across hospitals, corporate offices and high-rise towers';
 }
 $aaykay_intro .= '.';
+// An introduction typed in Homepage content replaces the automatic sentence.
+if ( '' !== aaykay_t( 'work', 'intro' ) ) {
+	$aaykay_intro = aaykay_t( 'work', 'intro' );
+}
 ?>
   <section class="section section--dark grain" id="work" aria-labelledby="work-title">
     <div class="wrap">
       <div class="sec-head">
-        <h2 class="h2" id="work-title" data-reveal>Selected work</h2>
+        <h2 class="h2" id="work-title" data-reveal><?php aaykay_e( 'work', 'heading' ); ?></h2>
         <p class="sec-sub" data-reveal><?php echo esc_html( $aaykay_intro ); ?></p>
       </div>
 <?php if ( $aaykay_cards ) : ?>
@@ -41,7 +46,9 @@ foreach ( $aaykay_cards as $aaykay_i => $aaykay_card ) {
       </div>
 <?php endif; ?>
       <div class="work-foot">
-        <a class="text-link" href="#record">Full project record <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.5v12M3.5 9 8 13.5 12.5 9" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
+        <?php if ( aaykay_section_on( 'record' ) ) : ?>
+        <a class="text-link" href="#record"><?php aaykay_e( 'work', 'link_label' ); ?> <?php echo aaykay_arrow( 'down' ); // phpcs:ignore WordPress.Security.EscapeOutput -- static SVG. ?></a>
+<?php endif; ?>
       </div>
     </div>
   </section>

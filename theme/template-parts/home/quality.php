@@ -1,25 +1,38 @@
 <?php
 /**
- * Home page: quality & safety.
+ * Home page: quality & safety. Content: Homepage content > Quality & safety.
+ * Staff numbers: Site settings > Resources.
  *
  * @package aaykay
  */
 
 defined( 'ABSPATH' ) || exit;
+$aaykay_certs  = aaykay_rows( 'quality', 'certs' );
+$aaykay_qrows  = aaykay_rows( 'quality', 'quality_rows' );
+$aaykay_srows  = aaykay_rows( 'quality', 'safety_rows' );
+$aaykay_photos = aaykay_rows( 'quality', 'photos' );
+$aaykay_kit    = aaykay_lines( 'quality', 'kit_items' );
+$aaykay_docs   = aaykay_rows( 'quality', 'docs' );
+$aaykay_psizes = array( '(min-width: 960px) 40vw, 100vw', '(min-width: 960px) 20vw, 50vw', '(min-width: 960px) 20vw, 50vw' );
 ?>
   <section class="section section--dark grain" id="quality" aria-labelledby="quality-title">
     <div class="wrap">
       <div class="sec-head">
-        <h2 class="h2" id="quality-title" data-reveal>Quality &amp; safety</h2>
-        <p class="sec-sub" data-reveal>Certified to ISO 9001:2015 and ISO 45001:2018, and run day to day by dedicated quality and safety staff.</p>
+        <h2 class="h2" id="quality-title" data-reveal><?php aaykay_e( 'quality', 'heading' ); ?></h2>
+<?php if ( '' !== aaykay_t( 'quality', 'sub' ) ) : ?>
+        <p class="sec-sub" data-reveal><?php aaykay_e( 'quality', 'sub' ); ?></p>
+<?php endif; ?>
       </div>
 
       <div class="qs grid-12">
         <div class="qs-text">
+<?php if ( $aaykay_certs ) : ?>
           <ul class="certs">
-            <li class="cert"><svg class="ic ic--lg" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#badge-check"/></svg><span><b>ISO 9001:2015</b> Quality management</span></li>
-            <li class="cert"><svg class="ic ic--lg" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#shield-check"/></svg><span><b>ISO 45001:2018</b> Occupational health &amp; safety</span></li>
+<?php foreach ( $aaykay_certs as $aaykay_cert ) : ?>
+            <li class="cert"><?php echo aaykay_icon( $aaykay_cert['icon'], 'ic--lg' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><span><b><?php echo esc_html( $aaykay_cert['title'] ); ?></b> <?php echo esc_html( $aaykay_cert['text'] ); ?></span></li>
+<?php endforeach; ?>
           </ul>
+<?php endif; ?>
           <dl class="qs-stats">
 <?php
 foreach ( array( 'res_quality' => 'Quality staff', 'res_safety' => 'Safety staff', 'res_sup' => 'Supervisors' ) as $aaykay_key => $aaykay_label ) :
@@ -31,84 +44,84 @@ foreach ( array( 'res_quality' => 'Quality staff', 'res_safety' => 'Safety staff
             <div class="qs-stat"><dt><?php echo esc_html( $aaykay_label ); ?></dt><dd><?php echo esc_html( $aaykay_n ); ?></dd></div>
 <?php endforeach; ?>
           </dl>
+<?php foreach ( array( array( 'quality', $aaykay_qrows ), array( 'safety', $aaykay_srows ) ) as $aaykay_block ) : ?>
+<?php if ( $aaykay_block[1] ) : ?>
           <div class="qs-block">
-            <h3 class="icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#badge-check"/></svg>Quality</h3>
+            <h3 class="icon-label"><?php echo aaykay_icon( aaykay_c( 'quality', $aaykay_block[0] . '_icon' ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><?php aaykay_e( 'quality', $aaykay_block[0] . '_heading' ); ?></h3>
             <ul class="qs-list">
-              <li><span class="qs-key">Agreed up front</span><span>QA requirements agreed with the client at the start of each project.</span></li>
-              <li><span class="qs-key">QC supervisor</span><span>A quality control supervisor runs QA checks, reports non-conformities and works with client QA inspectors.</span></li>
-              <li><span class="qs-key">Checklists</span><span>Work-type checklists kept current by the site team as execution progresses.</span></li>
-              <li><span class="qs-key">Sign-off</span><span>Every system tested, commissioned and signed off by the PMC or client.</span></li>
+<?php foreach ( $aaykay_block[1] as $aaykay_r ) : ?>
+              <li><span class="qs-key"><?php echo esc_html( $aaykay_r['key'] ); ?></span><span><?php echo esc_html( aaykay_tokens( $aaykay_r['text'] ) ); ?></span></li>
+<?php endforeach; ?>
             </ul>
           </div>
-          <div class="qs-block">
-            <h3 class="icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#shield-check"/></svg>Safety</h3>
-            <ul class="qs-list">
-              <li><span class="qs-key">24/7 response</span><span>An emergency response team on call 24/7.</span></li>
-              <li><span class="qs-key">Reviews</span><span>Project safety reviews every alternate day, and a weekly safety report reviewed by top management.</span></li>
-              <li><span class="qs-key">Risk &amp; permits</span><span>HIRA risk assessments, height and hot-work permits, and lock-out tag-out before live connections.</span></li>
-              <li><span class="qs-key">Training &amp; welfare</span><span>Toolbox talks, PPE for every worker, monthly medical camps and tie-ups with local hospitals.</span></li>
-            </ul>
-          </div>
+<?php endif; ?>
+<?php endforeach; ?>
         </div>
+<?php if ( $aaykay_photos ) : ?>
         <div class="qs-photos">
+<?php
+foreach ( $aaykay_photos as $aaykay_i => $aaykay_f ) :
+	$aaykay_img = aaykay_img( $aaykay_f['image'], array( 'sizes' => $aaykay_psizes[ min( $aaykay_i, 2 ) ] ) );
+	if ( '' === $aaykay_img ) {
+		continue;
+	}
+	?>
           <figure data-reveal-media>
-            <img src="<?php aaykay_a( 'assets/img/safety-toolbox-talk-667.webp' ); ?>" srcset="<?php aaykay_a( 'assets/img/safety-toolbox-talk-667.webp' ); ?> 667w" width="667" height="517" sizes="(min-width: 960px) 40vw, 100vw" alt="A large site workforce in hard hats and hi-vis vests seated for a toolbox talk." loading="lazy" decoding="async">
-            <figcaption class="fig-chip"><b>Fig. 8</b>Toolbox talk with the site workforce</figcaption>
+            <?php echo $aaykay_img; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_img(). ?>
+
+<?php if ( '' !== trim( $aaykay_f['caption'] . $aaykay_f['fig'] ) ) : ?>
+            <figcaption class="fig-chip"><?php echo '' !== trim( $aaykay_f['fig'] ) ? '<b>' . esc_html( $aaykay_f['fig'] ) . '</b>' : ''; ?><?php echo esc_html( $aaykay_f['caption'] ); ?></figcaption>
+<?php endif; ?>
           </figure>
-          <figure data-reveal-media>
-            <img src="<?php aaykay_a( 'assets/img/safety-cpr-709.webp' ); ?>" srcset="<?php aaykay_a( 'assets/img/safety-cpr-480.webp' ); ?> 480w, <?php aaykay_a( 'assets/img/safety-cpr-709.webp' ); ?> 709w" width="709" height="548" sizes="(min-width: 960px) 20vw, 50vw" alt="Workers in PPE watching a CPR demonstration on site." loading="lazy" decoding="async">
-            <figcaption class="fig-chip"><b>Fig. 9</b>CPR training</figcaption>
-          </figure>
-          <figure data-reveal-media>
-            <img src="<?php aaykay_a( 'assets/img/safety-briefing-726.webp' ); ?>" srcset="<?php aaykay_a( 'assets/img/safety-briefing-480.webp' ); ?> 480w, <?php aaykay_a( 'assets/img/safety-briefing-726.webp' ); ?> 726w" width="726" height="547" sizes="(min-width: 960px) 20vw, 50vw" alt="A site crew in red helmets and orange vests at a safety briefing." loading="lazy" decoding="async">
-            <figcaption class="fig-chip"><b>Fig. 10</b>Safety briefing</figcaption>
-          </figure>
+<?php endforeach; ?>
         </div>
+<?php endif; ?>
       </div>
 
+<?php if ( aaykay_c( 'quality', 'kit_enabled' ) && $aaykay_kit ) : ?>
       <div class="kit">
         <div class="subhead">
-          <h3>Our testing kit</h3>
-          <p>Used by our in-house commissioning team</p>
+          <h3><?php aaykay_e( 'quality', 'kit_heading' ); ?></h3>
+<?php if ( '' !== aaykay_t( 'quality', 'kit_sub' ) ) : ?>
+          <p><?php aaykay_e( 'quality', 'kit_sub' ); ?></p>
+<?php endif; ?>
         </div>
         <ul class="kit-list">
-          <li>Multimeter</li><li>Insulation tester</li><li>Multi-function tester</li><li>Digital light meter</li>
-          <li>Loop impedance tester</li><li>RCD tester</li><li>Torque wrench</li><li>Thermal imager</li>
-          <li>Infrared thermometer</li><li>Phase sequence meter</li><li>Digital clamp meter</li><li>Earth tester</li>
+<?php foreach ( $aaykay_kit as $aaykay_item ) : ?>
+          <li><?php echo esc_html( $aaykay_item ); ?></li>
+<?php endforeach; ?>
         </ul>
       </div>
+<?php endif; ?>
 
+<?php if ( aaykay_c( 'quality', 'docs_enabled' ) && $aaykay_docs ) : ?>
       <div class="recog">
         <div class="subhead">
-          <h3>Appreciation</h3>
-          <p>Select a document to view it</p>
+          <h3><?php aaykay_e( 'quality', 'docs_heading' ); ?></h3>
+<?php if ( '' !== aaykay_t( 'quality', 'docs_sub' ) ) : ?>
+          <p><?php aaykay_e( 'quality', 'docs_sub' ); ?></p>
+<?php endif; ?>
         </div>
         <div class="doc-grid">
-          <a class="doc" href="<?php aaykay_a( 'assets/img/doc-savills-ehs-1024.webp' ); ?>" data-lightbox="<?php aaykay_a( 'assets/img/doc-savills-ehs-1024.webp' ); ?>" data-caption="Savills EHS Certificate of Appreciation, best performer, November 2021 to February 2022.">
-            <img src="<?php aaykay_a( 'assets/img/doc-savills-ehs-1024.webp' ); ?>" srcset="<?php aaykay_a( 'assets/img/doc-savills-ehs-480.webp' ); ?> 480w, <?php aaykay_a( 'assets/img/doc-savills-ehs-1024.webp' ); ?> 1024w" width="1024" height="732" sizes="104px" alt="Savills EHS Certificate of Appreciation awarded to an AAYKAY site team member." loading="lazy" decoding="async">
+<?php
+foreach ( $aaykay_docs as $aaykay_d ) :
+	$aaykay_data = aaykay_image_data( $aaykay_d['image'] );
+	if ( ! $aaykay_data ) {
+		continue;
+	}
+	?>
+          <a class="doc" href="<?php echo esc_url( $aaykay_data['full'] ); ?>" data-lightbox="<?php echo esc_url( $aaykay_data['full'] ); ?>" data-caption="<?php echo esc_attr( $aaykay_d['caption'] ); ?>">
+            <?php echo aaykay_img( $aaykay_d['image'], array( 'sizes' => '104px' ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_img(). ?>
+
             <span>
-              <span class="doc-title">Savills · EHS certificate of appreciation</span>
-              <span class="doc-meta">“Best performer”, Nov 2021 – Feb 2022, awarded to an AAYKAY site team member.</span>
-              <span class="doc-open"><svg class="ic ic--sm" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#maximize-2"/></svg>View certificate</span>
+              <span class="doc-title"><?php echo esc_html( $aaykay_d['title'] ); ?></span>
+              <span class="doc-meta"><?php echo esc_html( $aaykay_d['meta'] ); ?></span>
+              <span class="doc-open"><?php echo aaykay_icon( 'maximize-2', 'ic--sm' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><?php echo esc_html( '' !== $aaykay_d['button'] ? $aaykay_d['button'] : 'View document' ); ?></span>
             </span>
           </a>
-          <a class="doc" href="<?php aaykay_a( 'assets/img/doc-efswin-551.webp' ); ?>" data-lightbox="<?php aaykay_a( 'assets/img/doc-efswin-551.webp' ); ?>" data-caption="EFSWIN 2012, Electrical and Fire Safety Workshop in India and Exhibition, Hyderabad, November 2012.">
-            <img src="<?php aaykay_a( 'assets/img/doc-efswin-551.webp' ); ?>" srcset="<?php aaykay_a( 'assets/img/doc-efswin-400.webp' ); ?> 400w, <?php aaykay_a( 'assets/img/doc-efswin-551.webp' ); ?> 551w" width="551" height="774" sizes="104px" alt="EFSWIN 2012 plaque presented to Mr. Abdul Kareem for invaluable support." loading="lazy" decoding="async">
-            <span>
-              <span class="doc-title">EFSWIN 2012 · Electrical &amp; Fire Safety Workshop in India</span>
-              <span class="doc-meta">Organised by FSAI with IEEE IAS. Presented to Abdul Kareem P “for invaluable support”, Hyderabad, November 2012.</span>
-              <span class="doc-open"><svg class="ic ic--sm" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#maximize-2"/></svg>View plaque</span>
-            </span>
-          </a>
-          <a class="doc" href="<?php aaykay_a( 'assets/img/doc-omsai-617.webp' ); ?>" data-lightbox="<?php aaykay_a( 'assets/img/doc-omsai-617.webp' ); ?>" data-caption="Om Sai Intex, Gratitude 15 partner appreciation, 4 May 2019.">
-            <img src="<?php aaykay_a( 'assets/img/doc-omsai-617.webp' ); ?>" srcset="<?php aaykay_a( 'assets/img/doc-omsai-400.webp' ); ?> 400w, <?php aaykay_a( 'assets/img/doc-omsai-617.webp' ); ?> 617w" width="617" height="774" sizes="104px" alt="Om Sai Intex Gratitude 15 appreciation presented to AayKay Electrical Enterprises, Bangalore." loading="lazy" decoding="async">
-            <span>
-              <span class="doc-title">Om Sai Intex · Partner appreciation</span>
-              <span class="doc-meta">“Gratitude 15”, presented to AayKay Electrical Enterprises, Bangalore, May 2019.</span>
-              <span class="doc-open"><svg class="ic ic--sm" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#maximize-2"/></svg>View plaque</span>
-            </span>
-          </a>
+<?php endforeach; ?>
         </div>
       </div>
+<?php endif; ?>
     </div>
   </section>

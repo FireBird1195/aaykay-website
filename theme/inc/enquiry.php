@@ -26,15 +26,10 @@ const AAYKAY_ENQUIRY_HARD_LIMIT  = 60; // Per connection per hour; beyond this, 
 
 /** Options in the "Project type" select (also the only values the server accepts). */
 function aaykay_project_types() {
-	return array(
-		'Hospital or healthcare',
-		'Office or IT fit-out',
-		'Bank or financial services',
-		'Residential high-rise',
-		'Data centre or critical power',
-		'Infrastructure or external works',
-		'Other',
-	);
+	$types = array_diff( aaykay_lines( 'contact', 'project_types' ), array( 'Other' ) );
+	$types = array_slice( array_values( $types ), 0, 20 );
+	$types[] = 'Other';
+	return $types;
 }
 
 /** Field name => array( label, required, max length, words for "Please enter your ..." ). */
@@ -48,6 +43,47 @@ function aaykay_enquiry_fields() {
 		'city'    => array( 'City', false, 100, '' ),
 		'message' => array( 'Scope and timeline', true, 5000, 'project scope' ),
 	);
+}
+
+/**
+ * Format rules for each field, so what arrives is usable rather than garbage. site.js
+ * applies the same rules as the visitor types (the patterns are kept identical there);
+ * these server checks are the ones that count, because a browser can be bypassed.
+ *
+ *   name     letters (any language), spaces, full stops, apostrophes and hyphens; no digits
+ *   company  must contain letters; letters, digits, spaces and & . , ( ) ' / + -
+ *   email    a real-looking address (WordPress is_email(), plus a dot in the domain)
+ *   phone    optional; digits, spaces, + ( ) -, with 7 to 15 digits in total
+ *   city     optional; letters, spaces, full stops, apostrophes and hyphens
+ *   message  at least 10 characters, including some letters
+ *
+ * Returns field => message for every field that breaks a rule.
+ */
+function aaykay_enquiry_check_formats( $d ) {
+	$e      = array();
+	$letter = '/\p{L}/u';
+	if ( '' !== $d['name'] && ( ! preg_match( "/^\\p{L}[\\p{L}\\p{M}\\s.'’-]*$/u", $d['name'] ) || mb_strlen( $d['name'] ) < 2 ) ) {
+		$e['name'] = 'Please use letters only for your name (no numbers or symbols).';
+	}
+	if ( '' !== $d['company'] && ( ! preg_match( "/^[\\p{L}\\p{N}][\\p{L}\\p{M}\\p{N}\\s&.,()'’\\/+-]*$/u", $d['company'] ) || preg_match_all( $letter, $d['company'] ) < 2 ) ) {
+		$e['company'] = 'Please enter your company’s name.';
+	}
+	if ( '' !== $d['email'] && ( ! is_email( $d['email'] ) || ! preg_match( '/@[^@\s]+\.[a-z]{2,}$/i', $d['email'] ) ) ) {
+		$e['email'] = 'Please enter an email address like name@company.com.';
+	}
+	if ( '' !== $d['phone'] ) {
+		$digits = preg_replace( '/\D/', '', $d['phone'] );
+		if ( ! preg_match( '/^\+?[\d\s()-]+$/', $d['phone'] ) || strlen( $digits ) < 7 || strlen( $digits ) > 15 ) {
+			$e['phone'] = 'Please enter a phone number using digits only, e.g. +91 98480 12345.';
+		}
+	}
+	if ( '' !== $d['city'] && ! preg_match( "/^\\p{L}[\\p{L}\\p{M}\\s.'’-]*$/u", $d['city'] ) ) {
+		$e['city'] = 'Please use letters only for the city.';
+	}
+	if ( '' !== $d['message'] && ( mb_strlen( $d['message'] ) < 10 || preg_match_all( $letter, $d['message'] ) < 5 ) ) {
+		$e['message'] = 'Please describe the scope and timeline in a few words.';
+	}
+	return $e;
 }
 
 add_action(
@@ -106,27 +142,28 @@ function aaykay_handle_enquiry() {
 		aaykay_enquiry_respond( $wants_json, true );
 	}
 
-	$data   = array();
-	$errors = array();
+	$data             = array();
+	$errors           = array();
+	$required_missing = array();
 	foreach ( aaykay_enquiry_fields() as $key => $f ) {
 		$raw = isset( $_POST[ $key ] ) ? wp_unslash( $_POST[ $key ] ) : '';
 		$raw = is_string( $raw ) ? $raw : '';
 		$val = 'message' === $key ? sanitize_textarea_field( $raw ) : sanitize_text_field( $raw );
 		$val = mb_substr( trim( $val ), 0, $f[2] ); // WordPress provides mb_substr() if mbstring is missing.
 		if ( $f[1] && '' === $val ) {
-			$errors[ $key ] = 'Please enter your ' . $f[3] . '.';
+			$errors[ $key ]     = 'Please enter your ' . $f[3] . '.';
+			$required_missing[] = $key;
 		}
 		$data[ $key ] = $val;
 	}
 	// phpcs:enable
-	if ( '' !== $data['email'] && ! is_email( $data['email'] ) ) {
-		$errors['email'] = 'Please enter an email address like name@company.com.';
-	}
+	$errors = array_merge( aaykay_enquiry_check_formats( $data ), $errors );
 	if ( '' !== $data['type'] && ! in_array( $data['type'], aaykay_project_types(), true ) ) {
 		$data['type'] = 'Other';
 	}
 	if ( $errors ) {
-		aaykay_enquiry_respond( $wants_json, false, $errors );
+		$missing = (bool) $required_missing;
+		aaykay_enquiry_respond( $wants_json, false, $errors, $missing ? 'Some required details are missing. They are marked above.' : 'Some details need a correction. They are marked above.' );
 	}
 
 	// Count enquiries per connection per hour (the address is hashed, never stored). Many
@@ -158,7 +195,16 @@ function aaykay_handle_enquiry() {
 		update_post_meta( $post_id, '_aaykay_' . $k, $v );
 	}
 
-	// 2. Email it.
+	// 2. Add it to the Google Sheet, if one is connected (inc/leads.php). Not for a busy hour
+	//    from one connection, which is held for a person to check first.
+	if ( $send_email ) {
+		$sheet = aaykay_send_to_sheet( $data, get_post_time( 'Y-m-d H:i:s', false, $post_id ) );
+		if ( null !== $sheet ) {
+			update_post_meta( $post_id, '_aaykay_sheet', $sheet ? '1' : '0' );
+		}
+	}
+
+	// 3. Email it.
 	if ( ! $send_email ) {
 		update_post_meta( $post_id, '_aaykay_mailed', 'held' );
 		aaykay_enquiry_respond( $wants_json, true );

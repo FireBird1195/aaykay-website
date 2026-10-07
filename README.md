@@ -1,14 +1,16 @@
 # AAYKAY Electricals website
 
 The website for AAYKAY Electricals Private Limited (akepl.in): a custom WordPress theme.
-AAYKAY edits projects, logos and company facts in the WordPress dashboard; design and
-code changes go through this repository and deploy automatically.
+AAYKAY edits every word, photo, icon, project, logo and company fact in the WordPress
+dashboard (Homepage content, Site settings, Projects, Clients, Consultants); design and
+code changes go through this repository and deploy automatically. No plugins are required.
 
 | Path | What it is |
 |---|---|
 | `theme/` | The WordPress theme. Everything that goes to the server. See `theme/README.md`. |
 | `.github/workflows/check.yml` | On every push: PHP syntax check, JavaScript check, starter-data check |
 | `.github/workflows/deploy.yml` | On every push to `main`: copies `theme/` to the `deploy` branch |
+| `docs/google-sheets-apps-script.gs` | Script pasted into AAYKAY's Google Sheet so enquiries also land in a sheet (not deployed) |
 
 The original static preview is kept at the Git tag `static-preview-final`.
 
@@ -50,6 +52,8 @@ as `aaykay/`) under Appearance → Themes → Add New → Upload Theme.
 
 - Confirm the address, phone and email (carried over from the older brochure) in Site settings.
 - Confirm AAYKAY is happy to publish order values, turnover, head counts, client names and photos.
+- Connect the Google Sheet (Site settings → Leads, steps in the guide) and press
+  "Send a test row". Every enquiry is also kept under Dashboard → Enquiries (CSV download).
 - Send a test enquiry and confirm it arrives by email. If it doesn't, the enquiry is still
   under Dashboard → Enquiries; set up an SMTP mailbox (see the guide) so email is reliable.
 - Swap the drawn "A" mark for the official logo when AAYKAY supplies it.
@@ -57,3 +61,14 @@ as `aaykay/`) under Appearance → Themes → Add New → Upload Theme.
   Google Search Console.
 - Never change DNS, MX or other records for `akelectricals.in` (company email) as part of
   website work.
+
+## Behaviour worth knowing
+
+- **Scroll position.** Opening the site starts at the top; a refresh or Back returns to the
+  exact place. Menu links change the address bar without `#hash` (so a shared link opens
+  at the top). Code: `initScrollPosition()` and `initAnchors()` in `theme/assets/js/site.js`.
+- **Enquiry form.** Checked in the browser and again on the server (`inc/enquiry.php`):
+  names letters only, phone digits only, valid email, honeypot, minimum fill time, per-IP
+  limits. Saved first, then sent to Google Sheets, then emailed.
+- **No animation libraries.** GSAP, ScrollTrigger and Lenis were removed; reveals use
+  IntersectionObserver and respect "reduce motion".

@@ -71,6 +71,10 @@ add_action(
 			echo '<meta property="' . esc_attr( $property ) . '" content="' . esc_attr( $content ) . '">' . "\n";
 		}
 		echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
+		$gsc = trim( (string) aaykay_setting( 'gsc_verification' ) );
+		if ( '' !== $gsc ) {
+			echo '<meta name="google-site-verification" content="' . esc_attr( $gsc ) . '">' . "\n";
+		}
 
 		$data = array(
 			'@context'      => 'https://schema.org',
@@ -101,4 +105,21 @@ add_action(
 		echo '<script type="application/ld+json">' . wp_json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG ) . '</script>' . "\n";
 	},
 	5
+);
+
+/**
+ * Cloudflare Web Analytics (optional, Site settings): cookie-free visitor counts, so no
+ * cookie banner is needed. Only printed when a token is set, and never for logged-in
+ * users (so editing the site doesn't count as visits).
+ */
+add_action(
+	'wp_footer',
+	function () {
+		$token = trim( (string) aaykay_setting( 'cf_analytics' ) );
+		if ( '' === $token || is_user_logged_in() || ! preg_match( '/^[A-Za-z0-9]{16,64}$/', $token ) ) {
+			return;
+		}
+		echo '<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="' . esc_attr( wp_json_encode( array( 'token' => $token ) ) ) . '"></script>' . "\n";
+	},
+	50
 );

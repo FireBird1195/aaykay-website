@@ -1,47 +1,63 @@
 <?php
 /**
- * Home page: hero.
+ * Home page: opening screen. Content: Homepage content > Opening screen.
  *
  * @package aaykay
  */
 
 defined( 'ABSPATH' ) || exit;
-$aaykay_turnover = aaykay_turnover();
-$aaykay_clients  = trim( (string) aaykay_setting( 'clients_served' ) );
-$aaykay_states   = count( aaykay_branches() );
+$aaykay_lines = aaykay_lines( 'hero', 'title' );
+$aaykay_kpis  = array();
+foreach ( aaykay_rows( 'hero', 'kpis' ) as $aaykay_row ) {
+	if ( ! aaykay_token_empty( isset( $aaykay_row['value'] ) ? $aaykay_row['value'] : '' ) ) {
+		$aaykay_kpis[] = $aaykay_row;
+	}
+}
 ?>
   <section class="hero grain" id="top" aria-labelledby="hero-title">
     <div class="hero-media">
-      <img src="<?php aaykay_a( 'assets/img/hero-ups-room-960.webp' ); ?>" srcset="<?php aaykay_a( 'assets/img/hero-ups-room-640.webp' ); ?> 640w, <?php aaykay_a( 'assets/img/hero-ups-room-960.webp' ); ?> 960w, <?php aaykay_a( 'assets/img/hero-ups-room-1280.webp' ); ?> 1280w" width="1280" height="578" class="hero-img" sizes="100vw" loading="eager" fetchpriority="high"
-           alt="A UPS battery room installed by AAYKAY: rows of battery racks under overhead cable trays." decoding="async">
+      <?php echo aaykay_img( aaykay_c( 'hero', 'image' ), array( 'class' => 'hero-img', 'sizes' => '100vw', 'loading' => 'eager', 'fetchpriority' => 'high' ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_img(). ?>
+
     </div>
     <div class="hero-scrim" aria-hidden="true"></div>
     <div class="wrap hero-inner">
-      <p class="label" data-hero-in>Electrical &amp; MEP contracting · Since 2008</p>
+<?php if ( '' !== aaykay_t( 'hero', 'label' ) ) : ?>
+      <p class="label" data-hero-in><span><?php echo aaykay_dot_line( aaykay_t( 'hero', 'label' ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_dot_line(). ?></span></p>
+<?php endif; ?>
       <h1 class="hero-title" id="hero-title">
-        <span class="line"><span>Electrical systems</span></span>
-        <span class="line"><span>for buildings that</span></span>
-        <span class="line"><span>can’t go dark<span class="stop">.</span></span></span>
+<?php
+foreach ( $aaykay_lines as $aaykay_i => $aaykay_line ) {
+	$aaykay_line = aaykay_tokens( $aaykay_line );
+	$aaykay_stop = '';
+	// A full stop at the end of the last line is set in red.
+	if ( count( $aaykay_lines ) - 1 === $aaykay_i && '.' === substr( $aaykay_line, -1 ) ) {
+		$aaykay_line = substr( $aaykay_line, 0, -1 );
+		$aaykay_stop = '<span class="stop">.</span>';
+	}
+	echo '        <span class="line"><span>' . esc_html( $aaykay_line ) . $aaykay_stop . "</span></span>\n"; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped.
+}
+?>
       </h1>
-      <p class="hero-lead" data-hero-in>AAYKAY designs, installs, tests and commissions electrical works for hospitals, enterprise campuses, data centres and high-rise towers, from shop drawing to handover.</p>
+<?php if ( '' !== aaykay_t( 'hero', 'lead' ) ) : ?>
+      <p class="hero-lead" data-hero-in><?php aaykay_e( 'hero', 'lead' ); ?></p>
+<?php endif; ?>
       <div class="hero-actions" data-hero-in>
-        <a class="btn btn--primary" href="#contact">Start a project <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1.5 8h12M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
-        <a class="btn btn--outline-light" href="#work">See our work</a>
+        <a class="btn btn--primary" href="#contact"><?php aaykay_e( 'hero', 'primary_label' ); ?> <?php echo aaykay_arrow(); // phpcs:ignore WordPress.Security.EscapeOutput -- static SVG. ?></a>
+<?php if ( '' !== aaykay_t( 'hero', 'secondary_label' ) ) : ?>
+        <a class="btn btn--outline-light" href="#work"><?php aaykay_e( 'hero', 'secondary_label' ); ?></a>
+<?php endif; ?>
       </div>
     </div>
     <div class="wrap hero-foot" data-hero-in>
+<?php if ( $aaykay_kpis ) : ?>
       <dl class="kpis">
-<?php if ( $aaykay_turnover ) : ?>
-        <div class="kpi"><dt>Turnover, <?php echo esc_html( $aaykay_turnover[0]['label'] ); ?></dt><dd>₹<?php echo esc_html( aaykay_crore( $aaykay_turnover[0]['value'] ) ); ?> Cr</dd></div>
-<?php endif; ?>
-<?php if ( '' !== $aaykay_clients ) : ?>
-        <div class="kpi"><dt>Clients served</dt><dd><?php echo esc_html( $aaykay_clients ); ?></dd></div>
-<?php endif; ?>
-<?php if ( $aaykay_states ) : ?>
-        <div class="kpi"><dt>States with branches</dt><dd><?php echo (int) $aaykay_states; ?></dd></div>
-<?php endif; ?>
-        <div class="kpi"><dt>ISO 9001:2015 &amp; 45001:2018</dt><dd>Certified</dd></div>
+<?php foreach ( $aaykay_kpis as $aaykay_kpi ) : ?>
+        <div class="kpi"><dt><?php echo esc_html( aaykay_tokens( $aaykay_kpi['label'] ) ); ?></dt><dd><?php echo esc_html( aaykay_tokens( $aaykay_kpi['value'] ) ); ?></dd></div>
+<?php endforeach; ?>
       </dl>
-      <p class="fig-cap-hero">Fig. 1 — UPS battery room, AAYKAY installation</p>
+<?php endif; ?>
+<?php if ( '' !== aaykay_t( 'hero', 'caption' ) ) : ?>
+      <p class="fig-cap-hero"><?php aaykay_e( 'hero', 'caption' ); ?></p>
+<?php endif; ?>
     </div>
   </section>
