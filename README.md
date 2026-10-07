@@ -11,12 +11,14 @@ planned as a lightweight WordPress theme so AAYKAY can add projects themselves.
 
 | Path | What it is |
 |---|---|
-| `index.html` | The page. Hand-written, except the contents of the nav lists, `.sector-list`, `.filters` and `tbody#record-rows` (generated) |
-| `data/content.json` | Navigation, sectors, contact values and the 38-project record (single source) |
+| `index.html` | The page. Hand-written, except the contents of the nav lists, `.client-list`, `.firm-list`, `.sector-list`, `.filters` and `tbody#record-rows` (generated) |
+| `data/content.json` | Navigation, sectors (with their icons), clients and firms (with their logos), contact values and the 38-project record (single source) |
+| `assets/logos/` | Client and firm logo files (`clients/`, `firms/`), referenced from `data/content.json` |
 | `tools/build.py` | Regenerates those regions (and the featured cards' titles/specs) from `data/content.json` and validates the data |
 | `assets/css/site.css` | Design tokens (top of file), then one block per section |
-| `assets/js/site.js` | Behaviour: scroll position and history, menu, project-record filter, document viewer, copy buttons, form, motion |
+| `assets/js/site.js` | Behaviour: scroll position and history, menu, current-section highlight, project-record filter, delivery-stage progress, document viewer, copy buttons, form, motion |
 | `assets/vendor/` | GSAP, ScrollTrigger, Lenis (motion only; versions and checksums in its README) |
+| `assets/icons/icons.svg` | Icon sprite: a subset of Lucide (ISC), referenced with `<use>`; see `assets/vendor/README.md` |
 | `assets/fonts/`, `assets/licenses/` | Self-hosted fonts and third-party licences |
 | `assets/img/` | Responsive WebP derivatives (not masters) |
 
@@ -38,6 +40,25 @@ the source does not state it (never estimate); always fill `source`. The record 
 grouped by how complete each row is and alphabetically within each group. It is never
 sorted by order value.
 
+**Icons:** one family (Lucide), one stroke weight, always next to words that say the same
+thing, so every icon is `aria-hidden`. Markup: `<svg class="ic" aria-hidden="true"><use href="assets/icons/icons.svg#gauge"/></svg>`.
+The same concept uses the same icon everywhere (each sector's icon is set once, in
+`data/content.json`). `--check` fails if the page or the data names an icon that is not in
+the sprite. To add one, copy its inner SVG from lucide.dev into a new `<symbol>` in the sprite.
+
+**Logos (clients and architects/consultants):**
+
+1. Save the logo in `assets/logos/clients/` or `assets/logos/firms/`. SVG is best. Otherwise use a PNG or WebP at least 400 px wide, on a transparent background. Any colour is fine: the page shows every logo in greyscale.
+2. In `data/content.json`, set that entry's `"logo"` to the path, for example `"logo": "assets/logos/clients/amazon.svg"`.
+3. Run `python3 tools/build.py`.
+
+You don't need to enter a size. The build reads it from the file and gives each logo a balanced size, so a wide wordmark and a square mark carry the same weight. Until a logo is added:
+
+- a client shows its name, set as a wordmark in the same cell;
+- a firm shows its initials on the same plate a logo would sit on (`"mark"` overrides the letters).
+
+`--check` fails if a logo path is wrong or its size can't be read. The current logo files and where they came from are listed in `assets/vendor/README.md`.
+
 **Everything else** (copy, photographs, the contact block, the footer) is edited directly
 in `index.html`. Do not hand-edit the generated parts; the next build overwrites them. The phone number and email also appear in `data/content.json`; change
 both, and `--check` will tell you if any copy was missed.
@@ -51,6 +72,14 @@ both, and `--check` will tell you if any copy was missed.
 - **Project filter in the URL.** `?sector=healthcare#record` opens the record filtered.
 - **Motion** loads after the page, only for visitors who have not asked for reduced
   motion, and never hides content that is already on screen.
+- **Project record on phones** (760 px and below) is shown as stacked records instead of a
+  sideways-scrolling table: CSS only, with units added from hidden `.u` spans. `site.js`
+  adds explicit table roles so screen readers keep the table structure.
+- **Navigation follows the page.** Header links are in the same order as the sections, and
+  the link for the section being read is underlined (`aria-current="location"`, set by
+  `initNavSpy()`). Keep the order in `data/content.json` matching the page.
+- **Delivery stages** fill along their track as the list scrolls into view
+  (`initStages()`). With reduced motion or no JavaScript the track is shown complete.
 - **No JavaScript.** All content, all 38 projects and the form (as a mail hand-off) still
   work; the header stays solid and a "Menu" link replaces the menu button.
 - **The enquiry form has no backend.** It opens the visitor's email app with the
@@ -58,11 +87,13 @@ both, and `--check` will tell you if any copy was missed.
 
 ## Page weight
 
-The HTML currently compresses to about 14.3 KB, just inside the amount a server can send
-in its first network round trip (about 14.6 KB including headers). Past that point the
-first paint on slow mobile connections waits for one more round trip (about +150 ms in
-Lighthouse's mobile model). Adding several more projects or long copy will cross it; that
-is acceptable, but check `gzip -9c index.html | wc -c` and Lighthouse when you do.
+The HTML compresses to about 15.6 KB. That is just past the amount a server can send in its
+first network round trip (about 14.6 KB including headers), so the first paint on slow
+mobile connections waits for one more round trip: about +150 ms in Lighthouse's mobile
+model (median of 3 runs: performance 96, FCP 1.7 s, LCP 2.6 s, CLS 0). This was accepted
+deliberately for the information-design and logo passes; the earlier 14.3 KB build
+measured FCP 2.0 s and LCP 2.7 s. Check `gzip -9c index.html | wc -c`
+and Lighthouse when adding content.
 
 ## Testing
 
