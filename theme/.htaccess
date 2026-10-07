@@ -1,0 +1,14 @@
+# Visitors only need assets/. Keep developer files (Git data, notes, starter data) out of reach.
+# Hostinger runs LiteSpeed, which reads this file like Apache does.
+<IfModule mod_alias.c>
+  RedirectMatch 404 /\.git
+</IfModule>
+<FilesMatch "\.(md|json|yml|yaml|sh)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>

@@ -1,9 +1,12 @@
-# Runs on every push and pull request. It only checks; it never builds or deploys.
+# Checks only; never builds or deploys. Runs on pull requests and branch pushes, and is
+# called by deploy.yml before anything is published.
 name: check
 
 on:
-  push:
   pull_request:
+  push:
+    branches-ignore: [main, deploy]
+  workflow_call:
 
 permissions:
   contents: read
@@ -13,7 +16,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: index.html matches data/content.json and the data is valid
-        run: python3 tools/build.py --check
+      - name: Every PHP file parses
+        run: find theme -name '*.php' -print0 | xargs -0 -n1 php -l
       - name: site.js parses
-        run: node --check assets/js/site.js
+        run: node --check theme/assets/js/site.js
+      - name: Starter data is valid and every file it names exists
+        run: |
+          python3 - <<'PY'
+          import json, os, re, sys
+          root = 'theme'
+          d = json.load(open(os.path.join(root, 'seed/content.json'), encoding='utf-8'))
+          errors = []
+          keys = {s['key'] for s in d['sectors']}
+          icons = set(re.findall(r'<symbol id="([^"]+)"', open(os.path.join(root, 'assets/icons/icons.svg')).read()))
+          slugs = set()
+          for s in d['sectors']:
+              if s['icon'] not in icons: errors.append('sector %s: icon %s not in sprite' % (s['key'], s['icon']))
+          for p in d['projects']:
+              if not re.match(r'^[a-z0-9]+(-[a-z0-9]+)*$', p['slug']): errors.append('bad slug ' + p['slug'])
+              if p['slug'] in slugs: errors.append('duplicate slug ' + p['slug'])
+              slugs.add(p['slug'])
+              if p['sector'] not in keys: errors.append('%s: unknown sector %s' % (p['slug'], p['sector']))
+              if not p.get('source'): errors.append('%s: source is required' % p['slug'])
+              if p.get('featured') and not os.path.isfile(os.path.join(root, p['featured']['image'])): errors.append('%s: missing card image' % p['slug'])
+          for kind in ('clients', 'firms'):
+              for c in d[kind]:
+                  if c.get('logo') and not os.path.isfile(os.path.join(root, c['logo'])): errors.append('%s %s: missing logo file' % (kind, c['name']))
+          if errors:
+              print('\n'.join(errors)); sys.exit(1)
+          print('OK: %d projects, %d sectors, %d clients, %d firms' % (len(d['projects']), len(d['sectors']), len(d['clients']), len(d['firms'])))
+          PY

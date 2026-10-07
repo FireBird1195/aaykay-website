@@ -317,8 +317,8 @@ line-height: .88; letter-spacing: .005em; text-transform: uppercase; color: #fff
 @keyframes hero-settle { from { transform: scale(1.08); } to { transform: none; } }
 /* Client strip: a logo wall. Every client gets the same cell (seven to a row on desktop,
    any short last row centred), holding its logo in greyscale, or its name set as a
-   wordmark until a logo file is added in data/content.json. build.py gives each logo a
-   balanced size (--logo-h), so wide and square marks carry the same visual weight. */
+   wordmark until a logo is added in WordPress (Client logos). The theme gives each logo a
+   balanced size (--logo-h, aaykay_logo_img()), so wide and square marks carry the same visual weight. */
 .clients { background: var(--white); border-bottom: 1px solid var(--rule); padding-block: var(--s6) var(--s7); }
 .clients-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: var(--s2) var(--s5); margin-bottom: var(--s5); padding-bottom: var(--s3); border-bottom: 1px solid var(--rule); }
 .clients-head .label { color: var(--ink); }
@@ -672,7 +672,7 @@ box-shadow: 0 1.5rem 3rem rgba(4, 10, 30, .35); transition: transform .5s var(--
 .fy td { padding: .5rem 0 .5rem .75rem; border-top: 1px solid var(--rule); width: 100%; }
 .bar-row { display: flex; align-items: center; gap: .6rem; }
 .bar-track { flex: 1; min-width: 2rem; }
-.bar { display: block; height: 10px; border-radius: 0 4px 4px 0; background: var(--bar-muted); width: calc(var(--v) / 42 * 100%); }
+.bar { display: block; height: 10px; border-radius: 0 4px 4px 0; background: var(--bar-muted); width: calc(var(--v) / var(--max, 42) * 100%); }
 .bar--now { background: var(--blue-600); }
 .bar-val { font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--ink); font-weight: 500; }
 .pq-list li { display: flex; justify-content: space-between; gap: var(--s3); padding-block: .5rem; border-top: 1px solid var(--rule); font-size: var(--fs-small); color: var(--ink-2); }
@@ -736,6 +736,7 @@ background-repeat: no-repeat; background-position: right .85rem center; backgrou
 .form-note { font-size: var(--fs-meta); color: var(--on-dark-3); max-width: 34ch; }
 .form-status { margin-top: var(--s4); font-size: var(--fs-small); color: var(--on-dark); }
 .form-status:empty { display: none; }
+.contact-form .btn[aria-disabled="true"] { opacity: .6; cursor: progress; }
 @media (max-width: 960px) { .contact-info, .contact-form { grid-column: 1 / -1; } }
 @media (max-width: 560px) { .form-grid { grid-template-columns: 1fr; } }
 .site-footer { background: var(--navy-950); color: var(--on-dark-2); border-top: 1px solid var(--rule-dark); padding-block: var(--s8) var(--s6); font-size: var(--fs-small); --focus: var(--red-400); }
@@ -763,6 +764,18 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-stopped { overflow: clip; }
+/* Other pages (privacy policy, 404): a dark title band under the fixed header, then
+   readable text. The home page does not use these. */
+.page-intro { padding-top: calc(var(--nav-h) + var(--section-y) * .6); padding-bottom: calc(var(--section-y) * .6); }
+.page-intro .h2 { max-width: 18ch; }
+.page-intro .lead { margin-top: var(--s5); max-width: 40ch; color: var(--on-dark-2); }
+.page-actions { margin-top: var(--s6); }
+.prose { max-width: 68ch; }
+.prose > * + * { margin-top: var(--s4); }
+.prose h2, .prose h3 { margin-top: var(--s7); font-size: var(--fs-h3); font-weight: 600; line-height: 1.25; }
+.prose ul, .prose ol { padding-left: 1.25rem; list-style: revert; }
+.prose li + li { margin-top: var(--s2); }
+.prose a { color: var(--blue-700); }
 @media (prefers-reduced-motion: reduce) {
 *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
 }

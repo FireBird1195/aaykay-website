@@ -1,0 +1,35 @@
+# Publishes theme/ to the "deploy" branch after the checks pass. Hostinger watches that
+# branch (auto-deployment) and pulls it into public_html/wp-content/themes/aaykay.
+#
+# git subtree split turns the history of theme/ into a branch whose root is the theme
+# folder. The same history always gives the same commits, so each push only moves the
+# branch forward and Hostinger can pull it without conflicts. Never commit to deploy by hand.
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  check:
+    uses: ./.github/workflows/check.yml
+
+  publish:
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Publish theme/ to the deploy branch
+        run: |
+          sha=$(git subtree split --prefix=theme HEAD)
+          git push origin "$sha:refs/heads/deploy"
+          echo "deploy branch is now $sha" >> "$GITHUB_STEP_SUMMARY"

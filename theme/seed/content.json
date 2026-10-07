@@ -1,144 +1,97 @@
 {
   "_readme": [
-    "Single source of truth for the content the page repeats: navigation, sectors and the project record.",
-    "Edit this file, then run:  python3 tools/build.py   (writes index.html)",
-    "Check only (used in CI):    python3 tools/build.py --check",
-    "Project fields: slug (stable, lowercase-hyphenated, never reused), name, sector (a key from 'sectors'),",
-    "location, area_sqft (whole number or null), floors (as displayed), order_value (as displayed or null),",
-    "design_team, status ('Ongoing' / 'Completed YYYY' or null), note, source (where the fact comes from).",
-    "Sector 'icon' is a symbol id in assets/icons/icons.svg; the same icon marks the sector everywhere on the page.",
-    "Navigation: 'in' lists where a link appears (header, mobile, footer). Keep the order the same as the sections on the page. 'cta': true styles the link as the orange call to action.",
-    "Logos (clients and firms): put the file in assets/logos/clients/ or assets/logos/firms/ (SVG best; PNG or WebP at least 400 px wide, transparent background, any colour: the page shows every logo in greyscale) and set 'logo' to its path. Size is read from the file and balanced automatically. With 'logo': null the name is shown instead (clients) or a lettered mark beside the name (firms); 'mark' overrides the letters.",
+    "Starter content for the AAYKAY theme. Imported once into WordPress when the theme is first activated",
+    "(or from Tools > AAYKAY starter content). After that, WordPress is the source of truth: edit content in",
+    "the dashboard, not here. Re-importing only adds items whose slug or name is missing; it never overwrites.",
+    "Project fields: slug, name, sector (a key from 'sectors'), location, area_sqft (whole number or null),",
+    "floors, order_value, design_team, status ('Ongoing' / 'Completed YYYY' or null), note, source (internal),",
+    "featured (null, or the homepage card: order, label, image, alt, details 'Label: value' lines, note).",
+    "Client 'logo' is a file bundled in the theme (SVG allowed); logos added later are uploaded in WordPress.",
     "Leave a field null when the source does not state it. Never estimate."
   ],
-  "company": {
-    "name": "AAYKAY Electricals",
-    "legal_name": "AAYKAY Electricals Private Limited",
-    "phone_display": "+91 40 6636 2094",
-    "phone_tel": "+914066362094",
+  "settings": {
+    "phone": "+91 40 6636 2094",
     "email": "projects@akelectricals.in",
-    "_note": "Phone, email and address are carried over from the AayKay Electrical Enterprises brochure and must be confirmed before launch. tools/build.py --check fails if index.html contains any other phone number or email address."
-  },
-  "nav": [
-    {
-      "href": "#services",
-      "label": "What we do",
-      "in": [
-        "header",
-        "mobile",
-        "footer"
-      ]
-    },
-    {
-      "href": "#sectors",
-      "label": "Sectors",
-      "in": [
-        "footer"
-      ]
-    },
-    {
-      "href": "#work",
-      "label": "Projects",
-      "in": [
-        "header",
-        "mobile",
-        "footer"
-      ]
-    },
-    {
-      "href": "#record",
-      "label": "Project record",
-      "in": [
-        "footer"
-      ]
-    },
-    {
-      "href": "#deliver",
-      "label": "How we deliver",
-      "in": [
-        "header",
-        "mobile",
-        "footer"
-      ]
-    },
-    {
-      "href": "#quality",
-      "label": "Quality & safety",
-      "in": [
-        "header",
-        "mobile",
-        "footer"
-      ]
-    },
-    {
-      "href": "#company",
-      "label": "Company",
-      "in": [
-        "header",
-        "mobile",
-        "footer"
-      ]
-    },
-    {
-      "href": "#prequal",
-      "label": "Pre-qualification",
-      "in": [
-        "header",
-        "mobile",
-        "footer"
-      ]
-    },
-    {
-      "href": "#contact",
-      "label": "Start a project",
-      "in": [
-        "mobile"
+    "enquiry_to": "projects@akelectricals.in",
+    "street": "#3D, 3rd Floor, Dhruva Tara Apartments",
+    "area": "Somajiguda",
+    "city": "Hyderabad",
+    "postcode": "500 082",
+    "state": "Telangana",
+    "maps_url": "",
+    "clients_served": "100+",
+    "branches": "Telangana\nAndhra Pradesh\nKarnataka\nMaharashtra\nTamil Nadu\nWest Bengal\nHaryana",
+    "turnover": [
+      [
+        "FY 2025–26",
+        "40.11"
       ],
-      "cta": true
-    },
-    {
-      "href": "#contact",
-      "label": "Contact",
-      "in": [
-        "footer"
+      [
+        "FY 2024–25",
+        "37.32"
+      ],
+      [
+        "FY 2023–24",
+        "35.44"
+      ],
+      [
+        "FY 2022–23",
+        "36.87"
       ]
-    }
-  ],
+    ],
+    "res_pm": "15",
+    "res_pe": "30",
+    "res_sup": "60",
+    "res_quality": "10",
+    "res_safety": "15",
+    "res_office": "30",
+    "res_skilled": "500",
+    "res_unskilled": "300",
+    "res_out_skilled": "200",
+    "res_out_unskilled": "100",
+    "seo_title": "AAYKAY Electricals | Electrical & MEP Contractor in Hyderabad",
+    "seo_description": "Electrical and MEP contractor in Hyderabad since 2008: design, installation, testing and commissioning for hospitals, offices, data centres and high-rise towers."
+  },
   "sectors": [
     {
       "key": "healthcare",
       "label": "Healthcare",
       "description": "Internal electrification for multi-storey hospitals, up to 24 floors and 774,000 sq ft.",
       "clients": "Krishna Sindhura · Yashoda · KIMS",
-      "icon": "hospital"
+      "icon": "hospital",
+      "short_label": "Healthcare"
     },
     {
       "key": "enterprise",
       "label": "Enterprise & IT",
       "description": "Office fit-outs and campuses, up to 15 floors and 475,000 sq ft on a single project.",
       "clients": "Amazon · Microsoft · Qualcomm · Accenture · Shell · Walmart",
-      "icon": "building-2"
+      "icon": "building-2",
+      "short_label": "Enterprise"
     },
     {
       "key": "banking",
       "label": "Banking & finance",
       "description": "Offices for banks and investment firms.",
       "clients": "HDFC Bank · Sequoia Capital · Arcesium",
-      "icon": "landmark"
+      "icon": "landmark",
+      "short_label": "Banking"
     },
     {
       "key": "residential",
       "label": "Residential high-rise",
       "description": "Towers from G+9 to G+49, in developments of up to 3.38 million sq ft.",
       "clients": "My Home · Ramky · Vasavi",
-      "icon": "building"
+      "icon": "building",
+      "short_label": "Residential"
     },
     {
       "key": "infrastructure",
       "label": "Infrastructure & data centres",
       "description": "Airport, data centre and tech-park external electrification.",
       "clients": "GMR Hyderabad Airport · ITC Datacenter · Bagmane",
-      "icon": "server"
+      "icon": "server",
+      "short_label": "Infrastructure"
     }
   ],
   "clients": [
@@ -351,7 +304,15 @@
       "design_team": "ARKK Consulting",
       "status": null,
       "note": null,
-      "source": "profile: similar projects executed"
+      "source": "profile: similar projects executed",
+      "featured": {
+        "order": 2,
+        "label": "Healthcare · Hyderabad",
+        "image": "seed/images/work-ksh-hospital-692.webp",
+        "alt": "Architectural rendering of Krishna Sindhura Hospital, Hyderabad, at dusk.",
+        "details": "Scope: Internal electrification\nArchitect & electrical consultant: ARKK Consulting",
+        "note": null
+      }
     },
     {
       "slug": "amazon-maa12",
@@ -364,7 +325,15 @@
       "design_team": "M Moser Associates / Eshwari & Co",
       "status": null,
       "note": null,
-      "source": "profile: similar projects executed"
+      "source": "profile: similar projects executed",
+      "featured": {
+        "order": 3,
+        "label": "Enterprise · Chennai",
+        "image": "seed/images/work-amazon-maa12-640.webp",
+        "alt": "Amazon MAA12 office towers in Chennai.",
+        "details": "Scope: Internal electrification\nArchitect: M Moser Associates\nElectrical consultant: Eshwari & Co",
+        "note": null
+      }
     },
     {
       "slug": "shell-bagmane-xenon",
@@ -377,7 +346,15 @@
       "design_team": "Raj Consultant / Techtron Engineering Consultancy",
       "status": null,
       "note": null,
-      "source": "profile: similar projects executed"
+      "source": "profile: similar projects executed",
+      "featured": {
+        "order": 1,
+        "label": "Enterprise · Bengaluru",
+        "image": "seed/images/work-shell-xenon-1200.webp",
+        "alt": "Shell office building at Bagmane Xenon, Bengaluru: a five-storey block with a dark glass and metal façade.",
+        "details": "Scope: Internal electrification\nArchitect: Raj Consultant\nElectrical consultant: Techtron Engineering Consultancy",
+        "note": null
+      }
     },
     {
       "slug": "cognizant-coimbatore",
@@ -390,7 +367,8 @@
       "design_team": "Venkataramanan Associates / Lead Consultants",
       "status": null,
       "note": null,
-      "source": "profile: similar projects executed"
+      "source": "profile: similar projects executed",
+      "featured": null
     },
     {
       "slug": "walmart-bengaluru",
@@ -403,7 +381,8 @@
       "design_team": "DSP Design Associates / Lead Consultants",
       "status": null,
       "note": null,
-      "source": "profile: similar projects executed"
+      "source": "profile: similar projects executed",
+      "featured": null
     },
     {
       "slug": "yashoda-hospitals-project-2",
@@ -416,7 +395,15 @@
       "design_team": "Synergy",
       "status": null,
       "note": null,
-      "source": "profile: similar projects executed"
+      "source": "profile: similar projects executed",
+      "featured": {
+        "order": 4,
+        "label": "Healthcare · Hyderabad",
+        "image": "seed/images/work-yashoda-1037.webp",
+        "alt": "Yashoda Hospitals building in Somajiguda, Hyderabad.",
+        "details": "Scope: Internal electrification\nArchitect & electrical consultant: Synergy",
+        "note": "One of three Yashoda projects."
+      }
     },
     {
       "slug": "legato-hyderabad",
@@ -429,7 +416,8 @@
       "design_team": "Space Matrix Design & Consultants",
       "status": null,
       "note": null,
-      "source": "profile: similar projects executed"
+      "source": "profile: similar projects executed",
+      "featured": null
     },
     {
       "slug": "accenture-bdc-14",
@@ -442,7 +430,8 @@
       "design_team": "RSP Design Consultants",
       "status": null,
       "note": null,
-      "source": "profile: similar projects executed"
+      "source": "profile: similar projects executed",
+      "featured": null
     },
     {
       "slug": "hdfc-bank-hyderabad-a",
@@ -455,7 +444,8 @@
       "design_team": "Zyeta / Hyderabad Consultant Engineers",
       "status": null,
       "note": null,
-      "source": "profile: similar projects executed"
+      "source": "profile: similar projects executed",
+      "featured": null
     },
     {
       "slug": "servicenow-hyderabad",
@@ -468,7 +458,8 @@
       "design_team": "Space Matrix Design & Consultants",
       "status": null,
       "note": null,
-      "source": "profile: similar projects executed"
+      "source": "profile: similar projects executed",
+      "featured": null
     },
     {
       "slug": "sequoia-capital-bengaluru",
@@ -481,7 +472,8 @@
       "design_team": "Space Matrix Design & Consultants",
       "status": null,
       "note": null,
-      "source": "profile: similar projects executed"
+      "source": "profile: similar projects executed",
+      "featured": null
     },
     {
       "slug": "yashoda-hospitals-project-1",
@@ -494,7 +486,8 @@
       "design_team": "Synergy",
       "status": null,
       "note": null,
-      "source": "profile: similar projects executed"
+      "source": "profile: similar projects executed",
+      "featured": null
     },
     {
       "slug": "yashoda-hospitals-project-3",
@@ -507,7 +500,8 @@
       "design_team": "Synergy",
       "status": null,
       "note": null,
-      "source": "profile: similar projects executed"
+      "source": "profile: similar projects executed",
+      "featured": null
     },
     {
       "slug": "kims-hospitals-kondapur",
@@ -520,7 +514,8 @@
       "design_team": "Synergy",
       "status": null,
       "note": null,
-      "source": "profile: similar projects executed"
+      "source": "profile: similar projects executed",
+      "featured": null
     },
     {
       "slug": "hdfc-bank-hyderabad-b",
@@ -533,7 +528,8 @@
       "design_team": "Hyderabad Consultant Engineers (consultant)",
       "status": null,
       "note": null,
-      "source": "profile: similar projects executed"
+      "source": "profile: similar projects executed",
+      "featured": null
     },
     {
       "slug": "my-home-tridasa",
@@ -546,7 +542,15 @@
       "design_team": "Developer: My Home Construction",
       "status": "Completed 2024",
       "note": null,
-      "source": "profile: residential projects"
+      "source": "profile: residential projects",
+      "featured": {
+        "order": 5,
+        "label": "Residential · Telapur",
+        "image": "seed/images/work-tridasa-1159.webp",
+        "alt": "My Home Tridasa residential towers in Telapur, behind the project's entrance signage.",
+        "details": "Developer: My Home Construction",
+        "note": null
+      }
     },
     {
       "slug": "my-home-nishada",
@@ -559,7 +563,8 @@
       "design_team": "Developer: My Home Construction",
       "status": "Ongoing",
       "note": null,
-      "source": "profile: residential projects"
+      "source": "profile: residential projects",
+      "featured": null
     },
     {
       "slug": "my-home-grawa",
@@ -572,7 +577,8 @@
       "design_team": "Developer: My Home Construction",
       "status": "Ongoing",
       "note": null,
-      "source": "profile: residential projects"
+      "source": "profile: residential projects",
+      "featured": null
     },
     {
       "slug": "ramky-one-harmony",
@@ -585,7 +591,8 @@
       "design_team": "Developer: Ramky Estates",
       "status": "Completed 2025",
       "note": null,
-      "source": "profile: residential projects"
+      "source": "profile: residential projects",
+      "featured": null
     },
     {
       "slug": "vasavi-ananda-nilayam",
@@ -598,7 +605,8 @@
       "design_team": "Developer: Vasavi Group",
       "status": "Ongoing",
       "note": null,
-      "source": "profile: residential projects"
+      "source": "profile: residential projects",
+      "featured": null
     },
     {
       "slug": "bagmane-cosmos-tech-park",
@@ -611,7 +619,8 @@
       "design_team": null,
       "status": null,
       "note": "External electrification: Ariel, Vesta, MLCP, Vesta Extension",
-      "source": "profile: current projects"
+      "source": "profile: current projects",
+      "featured": null
     },
     {
       "slug": "microsoft-rd-india",
@@ -624,7 +633,8 @@
       "design_team": null,
       "status": null,
       "note": null,
-      "source": "brochure: AayKay Electrical Enterprises"
+      "source": "brochure: AayKay Electrical Enterprises",
+      "featured": null
     },
     {
       "slug": "qualcomm-india",
@@ -637,7 +647,8 @@
       "design_team": null,
       "status": null,
       "note": null,
-      "source": "brochure: AayKay Electrical Enterprises"
+      "source": "brochure: AayKay Electrical Enterprises",
+      "featured": null
     },
     {
       "slug": "accenture-services",
@@ -650,7 +661,8 @@
       "design_team": null,
       "status": null,
       "note": null,
-      "source": "brochure: AayKay Electrical Enterprises"
+      "source": "brochure: AayKay Electrical Enterprises",
+      "featured": null
     },
     {
       "slug": "gmr-hyderabad-airport",
@@ -663,7 +675,8 @@
       "design_team": null,
       "status": null,
       "note": null,
-      "source": "brochure: AayKay Electrical Enterprises"
+      "source": "brochure: AayKay Electrical Enterprises",
+      "featured": null
     },
     {
       "slug": "itc-datacenter",
@@ -676,7 +689,8 @@
       "design_team": null,
       "status": null,
       "note": null,
-      "source": "brochure: AayKay Electrical Enterprises"
+      "source": "brochure: AayKay Electrical Enterprises",
+      "featured": null
     },
     {
       "slug": "tcs-hyderabad",
@@ -689,7 +703,8 @@
       "design_team": null,
       "status": null,
       "note": null,
-      "source": "brochure: AayKay Electrical Enterprises"
+      "source": "brochure: AayKay Electrical Enterprises",
+      "featured": null
     },
     {
       "slug": "tech-mahindra-hyderabad",
@@ -702,7 +717,8 @@
       "design_team": null,
       "status": null,
       "note": null,
-      "source": "profile: current projects"
+      "source": "profile: current projects",
+      "featured": null
     },
     {
       "slug": "amd-india",
@@ -715,7 +731,8 @@
       "design_team": null,
       "status": null,
       "note": null,
-      "source": "brochure: AayKay Electrical Enterprises"
+      "source": "brochure: AayKay Electrical Enterprises",
+      "featured": null
     },
     {
       "slug": "uber-india",
@@ -728,7 +745,8 @@
       "design_team": null,
       "status": null,
       "note": null,
-      "source": "brochure: AayKay Electrical Enterprises"
+      "source": "brochure: AayKay Electrical Enterprises",
+      "featured": null
     },
     {
       "slug": "arcesium",
@@ -741,7 +759,8 @@
       "design_team": null,
       "status": null,
       "note": null,
-      "source": "brochure: AayKay Electrical Enterprises"
+      "source": "brochure: AayKay Electrical Enterprises",
+      "featured": null
     },
     {
       "slug": "network-18-noida",
@@ -754,7 +773,8 @@
       "design_team": null,
       "status": null,
       "note": null,
-      "source": "profile: current projects"
+      "source": "profile: current projects",
+      "featured": null
     },
     {
       "slug": "bosch-coimbatore",
@@ -767,7 +787,8 @@
       "design_team": null,
       "status": null,
       "note": null,
-      "source": "profile: current projects"
+      "source": "profile: current projects",
+      "featured": null
     },
     {
       "slug": "ncr-hyderabad",
@@ -780,7 +801,8 @@
       "design_team": null,
       "status": null,
       "note": null,
-      "source": "profile: current projects"
+      "source": "profile: current projects",
+      "featured": null
     },
     {
       "slug": "ramky-corporate-office",
@@ -793,7 +815,8 @@
       "design_team": null,
       "status": null,
       "note": null,
-      "source": "brochure: AayKay Electrical Enterprises"
+      "source": "brochure: AayKay Electrical Enterprises",
+      "featured": null
     },
     {
       "slug": "ramky-ceo-enclave",
@@ -806,7 +829,8 @@
       "design_team": null,
       "status": null,
       "note": null,
-      "source": "brochure: AayKay Electrical Enterprises"
+      "source": "brochure: AayKay Electrical Enterprises",
+      "featured": null
     },
     {
       "slug": "my-home-abhra",
@@ -819,7 +843,8 @@
       "design_team": null,
       "status": null,
       "note": null,
-      "source": "brochure: AayKay Electrical Enterprises"
+      "source": "brochure: AayKay Electrical Enterprises",
+      "featured": null
     },
     {
       "slug": "jeeyer-vedic-hospital",
@@ -832,7 +857,8 @@
       "design_team": null,
       "status": null,
       "note": null,
-      "source": "brochure: AayKay Electrical Enterprises"
+      "source": "brochure: AayKay Electrical Enterprises",
+      "featured": null
     }
   ]
 }
