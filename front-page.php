@@ -15,6 +15,10 @@ get_header();
 
 <?php
 foreach ( array( 'hero', 'clients', 'services', 'work', 'record', 'photos', 'deliver', 'quality', 'company', 'letter', 'prequal', 'contact' ) as $aaykay_part ) {
+	// Sections can be switched off in Homepage content.
+	if ( ! aaykay_section_on( $aaykay_part ) ) {
+		continue;
+	}
 	get_template_part( 'template-parts/home/' . $aaykay_part );
 	echo "\n";
 }

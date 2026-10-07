@@ -70,29 +70,35 @@ add_action(
 	'wp_head',
 	function () {
 		echo '<meta name="theme-color" content="#070B15">' . "\n";
+		// Until a Site Icon is set (Appearance > Customize > Site Identity), the theme's own
+		// set: SVG for modern browsers, ICO for old ones, PNG for phones' home screens.
 		if ( ! has_site_icon() ) {
+			echo '<link rel="icon" href="' . esc_url( aaykay_asset( 'assets/favicon.ico' ) ) . '" sizes="32x32">' . "\n";
 			echo '<link rel="icon" href="' . esc_url( aaykay_asset( 'assets/favicon.svg' ) ) . '" type="image/svg+xml">' . "\n";
+			echo '<link rel="apple-touch-icon" href="' . esc_url( aaykay_asset( 'assets/icon-180.png' ) ) . '">' . "\n";
 		}
 		if ( is_front_page() ) {
 			foreach ( array( 'big-shoulders-display-latin-800-normal', 'ibm-plex-sans-latin-400-normal' ) as $font ) {
 				echo '<link rel="preload" href="' . esc_url( aaykay_asset( "assets/fonts/{$font}.woff2" ) ) . '" as="font" type="font/woff2" crossorigin>' . "\n";
 			}
-			$img = 'assets/img/hero-ups-room-';
-			printf(
-				'<link rel="preload" as="image" href="%1$s" imagesrcset="%2$s 640w, %3$s 960w, %1$s 1280w" imagesizes="100vw" fetchpriority="high">' . "\n",
-				esc_url( aaykay_asset( $img . '1280.webp' ) ),
-				esc_url( aaykay_asset( $img . '640.webp' ) ),
-				esc_url( aaykay_asset( $img . '960.webp' ) )
-			);
+			// The hero photo (Homepage content > Opening screen), so the browser fetches it first.
+			$hero = aaykay_image_data( aaykay_c( 'hero', 'image' ) );
+			if ( $hero && $hero['url'] ) {
+				printf(
+					'<link rel="preload" as="image" href="%s"%s imagesizes="100vw" fetchpriority="high">' . "\n",
+					esc_url( $hero['url'] ),
+					'' !== $hero['srcset'] ? ' imagesrcset="' . esc_attr( $hero['srcset'] ) . '"' : ''
+				);
+			}
 		}
 	},
 	1
 );
 
 /**
- * Right after the stylesheet (wp_print_styles runs at priority 8): swap the no-js class,
- * stop the browser restoring scroll position on its own (site.js handles it) and list the
- * motion libraries site.js loads after the page.
+ * Right after the stylesheet (wp_print_styles runs at priority 8): swap the no-js class and
+ * stop the browser restoring scroll position on its own (site.js decides: top for a fresh
+ * visit, the same place after a reload, the saved place for Back/Forward).
  *
  * Its position matters for speed: an inline script after a stylesheet makes the browser
  * finish the stylesheet before it reads on, so site.js and the icon sprite don't compete
@@ -102,12 +108,7 @@ add_action(
 add_action(
 	'wp_head',
 	function () {
-		$libs = array(
-			aaykay_asset( 'assets/vendor/gsap.min.js' ),
-			aaykay_asset( 'assets/vendor/ScrollTrigger.min.js' ),
-			aaykay_asset( 'assets/vendor/lenis.min.js' ),
-		);
-		echo "<script>\ndocument.documentElement.className = \"js\";\nhistory.scrollRestoration = \"manual\";\nwindow.AAYKAY_MOTION_LIBS = " . wp_json_encode( $libs, JSON_UNESCAPED_SLASHES ) . ";\n</script>\n";
+		echo "<script>\ndocument.documentElement.className = \"js\";\nhistory.scrollRestoration = \"manual\";\n</script>\n";
 	},
 	8
 );
@@ -222,5 +223,40 @@ add_action(
 		}
 	},
 	20,
+	2
+);
+
+/* ------------------------------------------------------------------ security headers */
+
+/**
+ * Basic browser protections on every page WordPress serves (audit dossier §18):
+ * no MIME sniffing, no framing by other sites, a referrer that doesn't leak full URLs,
+ * and no access to camera, microphone or location. HSTS (force HTTPS) is left to the
+ * host, to be switched on only once HTTPS works on both akepl.in and www.akepl.in.
+ */
+add_action(
+	'send_headers',
+	function () {
+		if ( headers_sent() ) {
+			return;
+		}
+		header( 'X-Content-Type-Options: nosniff' );
+		header( 'X-Frame-Options: SAMEORIGIN' );
+		header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+		header( 'Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()' );
+	}
+);
+
+/**
+ * Nobody edits theme or plugin code from the dashboard (Appearance > Theme File Editor):
+ * a typo there takes the site down, and the next deploy would overwrite the change anyway.
+ * Code changes go through Git. (Equivalent to DISALLOW_FILE_EDIT in wp-config.php.)
+ */
+add_filter(
+	'map_meta_cap',
+	function ( $caps, $cap ) {
+		return in_array( $cap, array( 'edit_themes', 'edit_plugins', 'edit_files' ), true ) ? array( 'do_not_allow' ) : $caps;
+	},
+	10,
 	2
 );

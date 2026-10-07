@@ -522,6 +522,10 @@ function aaykay_render_enquiry_box( $post ) {
 		'held' => 'Not emailed: many enquiries came from the same connection within an hour, so this one was only saved here. Check that it is genuine before replying.',
 	);
 	echo '<tr><th scope="row">Email notification</th><td>' . esc_html( isset( $mail_note[ $mailed ] ) ? $mail_note[ $mailed ] : 'Could not be sent. Reply to this enquiry directly, and ask your developer to check the email settings.' ) . '</td></tr>';
+	$sheet = get_post_meta( $post->ID, '_aaykay_sheet', true );
+	if ( '' !== $sheet ) {
+		echo '<tr><th scope="row">Google Sheet</th><td>' . ( '1' === $sheet ? 'Added.' : 'Could not be added. Use “Send a test row” in Site settings to check the connection.' ) . '</td></tr>';
+	}
 	echo '</tbody></table>';
 	echo '<p><a class="button button-primary" href="' . esc_url( 'mailto:' . get_post_meta( $post->ID, '_aaykay_email', true ) . '?subject=' . rawurlencode( 'Re: your enquiry to AAYKAY Electricals' ) ) . '">Reply by email</a> <a class="button" href="' . esc_url( get_delete_post_link( $post->ID ) ) . '">Move to bin</a> <a class="button-link" href="' . esc_url( admin_url( 'edit.php?post_type=aaykay_enquiry' ) ) . '">Back to all enquiries</a></p>';
 }

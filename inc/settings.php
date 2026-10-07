@@ -34,6 +34,10 @@ function aaykay_settings_fields() {
 		'maps_url'          => array( 'contact', 'Google Maps link (optional)', 'url', 'Leave empty to search Google Maps for the address above.' ),
 		'clients_served'    => array( 'company', 'Clients served', 'text', 'e.g. 100+. Shown in the hero figures, above the client logos and in the company timeline.' ),
 		'branches'          => array( 'company', 'States with branches', 'lines', 'One state per line. Put the head office state first. The number of lines is shown as "States with branches".' ),
+		'cin'               => array( 'company', 'CIN (optional)', 'text', 'Corporate Identification Number from the MCA record. Shown in the footer when filled in; procurement teams look for it.' ),
+		'gstin'             => array( 'company', 'GSTIN (optional)', 'text', 'Shown in the footer when filled in.' ),
+		'registered_office' => array( 'company', 'Registered office (optional)', 'text', 'Only if it differs from the head office. Shown in the footer.' ),
+		'show_order_values' => array( 'company', 'Show order values on the website', 'bool', 'When ticked, the AAYKAY order value of each project is shown in the project record and on the cards. Untick to hide every value at once (the values stay saved). Publish values only with the managing director’s approval and, where contracts require it, the client’s.' ),
 		'turnover'          => array( 'turnover', 'Annual turnover', 'turnover', 'One row per financial year, in crore rupees (numbers only, e.g. 40.11). Rows can be in any order: the website shows them newest first, uses the newest year as the headline figure in the hero and pre-qualification sections, and works out the change against the year before. To add a year, use an empty row; when all rows are full, clear the oldest.' ),
 		'res_pm'            => array( 'resources', 'Project managers', 'count', '' ),
 		'res_pe'            => array( 'resources', 'Project engineers', 'count', '' ),
@@ -45,6 +49,10 @@ function aaykay_settings_fields() {
 		'res_unskilled'     => array( 'resources', 'Workforce: unskilled', 'count', '' ),
 		'res_out_skilled'   => array( 'resources', 'Outsourced: skilled', 'count', '' ),
 		'res_out_unskilled' => array( 'resources', 'Outsourced: unskilled', 'count', '' ),
+		'sheets_url'        => array( 'leads', 'Google Sheets connection (web app URL)', 'url', 'Optional. Paste the web app URL from the Google Sheet’s Apps Script (it starts with https://script.google.com/macros/s/). Every new enquiry is then also added as a row in that sheet. Steps: client guide, section C10.' ),
+		'sheets_secret'     => array( 'leads', 'Google Sheets secret code', 'text', 'Paste the same code into the Apps Script, so only this website can add rows. Created automatically; change it only if it has been shared by mistake.' ),
+		'gsc_verification'  => array( 'seo', 'Google Search Console code (optional)', 'text', 'If Search Console offers an “HTML tag”, paste only the code inside content="…". Verifying with a DNS record instead needs nothing here.' ),
+		'cf_analytics'      => array( 'seo', 'Cloudflare Web Analytics token (optional)', 'text', 'Free, cookie-free visitor statistics. Paste the token from Cloudflare → Web Analytics → Add a site → “JS snippet” (the value of "token"). Leave empty for no analytics.' ),
 		'seo_title'         => array( 'seo', 'Page title in search results', 'text', 'About 50–60 characters. Also the browser tab title.' ),
 		'seo_description'   => array( 'seo', 'Description in search results', 'textarea', 'About 150–160 characters. Also used when the link is shared.' ),
 	);
@@ -56,6 +64,7 @@ function aaykay_settings_sections() {
 		'company'   => array( 'Company figures', '' ),
 		'turnover'  => array( 'Turnover', '' ),
 		'resources' => array( 'Resources', 'Head counts for the pre-qualification section. Leave a box empty to hide that line.' ),
+		'leads'     => array( 'Enquiries in Google Sheets', 'Every enquiry is always saved under Enquiries and emailed. Connecting a Google Sheet is optional: it gives the office a live spreadsheet of leads.' ),
 		'seo'       => array( 'Search engines', '' ),
 	);
 }
@@ -183,6 +192,9 @@ function aaykay_sanitize_settings( $input ) {
 	$out   = array();
 	foreach ( aaykay_settings_fields() as $key => $f ) {
 		$raw = isset( $input[ $key ] ) ? $input[ $key ] : '';
+		if ( 'bool' === $f[2] && ! isset( $input[ $key ] ) ) {
+			$raw = '';
+		}
 		if ( 'turnover' !== $f[2] && ! is_string( $raw ) ) {
 			$raw = '';
 		}
@@ -202,11 +214,18 @@ function aaykay_sanitize_settings( $input ) {
 				$out[ $key ] = $list ? implode( ', ', $list ) : aaykay_setting( $key );
 				break;
 			case 'url':
-				$out[ $key ] = esc_url_raw( trim( (string) $raw ) );
+				$out[ $key ] = esc_url_raw( trim( $raw ) );
+				if ( 'sheets_url' === $key && '' !== $out[ $key ] && 0 !== strpos( $out[ $key ], 'https://script.google.com/' ) ) {
+					add_settings_error( AAYKAY_SETTINGS_OPTION, $key, 'The Google Sheets address must start with https://script.google.com/, so it was not saved.' );
+					$out[ $key ] = '';
+				}
 				break;
 			case 'lines':
 			case 'textarea':
 				$out[ $key ] = sanitize_textarea_field( $raw );
+				break;
+			case 'bool':
+				$out[ $key ] = ! empty( $raw ) ? '1' : '0';
 				break;
 			case 'count':
 				$out[ $key ] = preg_replace( '/[^\d,+]/', '', (string) $raw );
@@ -229,6 +248,9 @@ function aaykay_sanitize_settings( $input ) {
 				break;
 			default:
 				$out[ $key ] = sanitize_text_field( $raw );
+				if ( 'sheets_secret' === $key && strlen( $out[ $key ] ) < 12 ) {
+					$out[ $key ] = wp_generate_password( 24, false );
+				}
 				if ( 'phone' === $key && '' === $out[ $key ] ) {
 					add_settings_error( AAYKAY_SETTINGS_OPTION, $key, 'The phone number can’t be empty, so the previous one was kept.' );
 					$out[ $key ] = aaykay_setting( $key );
@@ -292,6 +314,8 @@ function aaykay_render_settings_page() {
 										<?php endfor; ?>
 										</tbody>
 									</table>
+								<?php elseif ( 'bool' === $f[2] ) : ?>
+									<label><input type="checkbox" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( "{$name}[{$key}]" ); ?>" value="1"<?php checked( '1', (string) $value ); ?><?php echo $help; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above. ?>> Yes</label>
 								<?php elseif ( 'lines' === $f[2] || 'textarea' === $f[2] ) : ?>
 									<textarea class="large-text" rows="<?php echo 'lines' === $f[2] ? 8 : 3; ?>" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( "{$name}[{$key}]" ); ?>"<?php echo $help; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above. ?>><?php echo esc_textarea( $value ); ?></textarea>
 								<?php else : ?>
@@ -313,6 +337,7 @@ function aaykay_render_settings_page() {
 			<?php endforeach; ?>
 			<?php submit_button( 'Save settings' ); ?>
 		</form>
+		<?php aaykay_render_sheets_test(); ?>
 	</div>
 	<?php
 }

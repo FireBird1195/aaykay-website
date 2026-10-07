@@ -1,8 +1,9 @@
 /* AAYKAY Electricals — page behaviour.
    Progressive enhancement: the page is complete without this file. Each feature
    looks for its own elements and fails quietly, so one problem never blocks the rest.
-   Motion uses GSAP + ScrollTrigger + Lenis when they are present and the visitor
-   has not asked for reduced motion. */
+   Motion is a light reveal of sections as they scroll into view (CSS transitions started
+   by an IntersectionObserver), skipped for visitors who ask for reduced motion. There are
+   no third-party scripts and no smooth-scrolling library: the browser scrolls natively. */
 (function () {
   'use strict';
 
@@ -10,7 +11,6 @@
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
   var root = document.documentElement;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var lenis = null;
 
   function safely(name, fn) {
     try { return fn(); } catch (err) { if (window.console) console.warn('[aaykay] ' + name + ' disabled:', err); }
@@ -30,8 +30,7 @@
   }
   // instant: jump without animation (page load, Back/Forward).
   function scrollToY(y, instant) {
-    if (lenis) lenis.scrollTo(y, instant ? { immediate: true, force: true } : { duration: 1.1 });
-    else window.scrollTo({ top: y, behavior: (instant || reduceMotion) ? 'auto' : 'smooth' });
+    window.scrollTo({ top: y, behavior: (instant || reduceMotion) ? 'auto' : 'smooth' });
   }
   function scrollToEl(el, instant) { scrollToY(targetY(el), instant); }
   // The element a "#id" hash points to, or null.
@@ -41,29 +40,34 @@
   }
 
   /* ---------- history helpers ----------
-     In-page navigation adds history entries so Back and Forward move between sections.
-     Before leaving an entry we store the scroll position in it (state.y) so Back returns
-     the reader to exactly where they were. */
+     In-page navigation adds history entries so Back and Forward move between sections,
+     but the address stays clean (no #section is added), so a link copied from the
+     address bar always opens the page at the top. Before leaving an entry we store the
+     scroll position in it (state.y) so Back returns the reader to exactly where they were. */
+  var STORE_KEY = 'aaykay-scroll:' + location.pathname;
   function saveScroll() {
+    var y = Math.round(window.pageYOffset);
     try {
       var st = history.state && typeof history.state === 'object' ? history.state : {};
       var copy = {}; for (var k in st) copy[k] = st[k];
-      copy.y = Math.round(window.pageYOffset);
+      copy.y = y;
       history.replaceState(copy, '');
     } catch (_) { /* sandboxed viewers */ }
+    try { sessionStorage.setItem(STORE_KEY, String(y)); } catch (_) { /* private mode */ }
   }
-  function pushUrl(url) {
-    if (url === location.pathname + location.search + location.hash) return;
+  function pushEntry(url) {
     try { saveScroll(); history.pushState({}, '', url); } catch (_) { /* sandboxed viewers */ }
   }
 
   /* ---------- 0. where the page starts ----------
-     history.scrollRestoration is set to "manual" in <head>, so:
-       - a normal visit or a reload of the bare URL starts at the hero;
-       - a URL with #section (shared link, reload) starts at that section;
-       - Back/Forward from another page returns to the saved position.
-     The position is applied again after load and after web fonts settle, unless the
-     visitor has already started scrolling. */
+     history.scrollRestoration is "manual" (set in <head>), so this decides:
+       - a fresh visit (typed, bookmarked or shared link) starts at the top;
+       - a link that names a section (/#contact) or a filter (?sector=…) starts there;
+       - a reload returns to exactly where the reader was (saved in sessionStorage,
+         which lasts for the tab and is cleared when it closes);
+       - Back/Forward returns to the position saved in that history entry.
+     The position is re-applied after load and after web fonts settle, in case anything
+     above it changed height, unless the visitor has started scrolling by then. */
   function initScrollPosition() {
     var navEntry = window.performance && performance.getEntriesByType ? performance.getEntriesByType('navigation')[0] : null;
     var navType = navEntry ? navEntry.type : 'navigate';
@@ -72,90 +76,73 @@
     ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (ev) {
       window.addEventListener(ev, stop, { passive: true, once: true });
     });
+    var saved = null;
+    try { saved = sessionStorage.getItem(STORE_KEY); } catch (_) { /* private mode */ }
 
-    // Only touches the page when it is not already where it should be: on a plain visit it
-    // is at the top already, and scrolling anyway would force a full layout before first paint.
+    function wanted() {
+      var st = history.state;
+      if (navType === 'reload' && saved !== null) return parseInt(saved, 10) || 0;
+      if (navType === 'back_forward') {
+        if (st && typeof st.y === 'number') return st.y;
+        if (saved !== null) return parseInt(saved, 10) || 0;
+      }
+      var el = hashTarget(location.hash) || (/[?&]sector=/.test(location.search) ? document.getElementById('record') : null);
+      return el ? targetY(el) : 0;
+    }
     function place() {
       if (userMoved) return;
-      var st = history.state;
-      var y = 0;
-      if (navType === 'back_forward' && st && typeof st.y === 'number') y = st.y;
-      else {
-        var el = hashTarget(location.hash);
-        if (el) y = targetY(el);
-        else if (window.pageYOffset === 0) return;
-      }
-      if (Math.abs(window.pageYOffset - y) >= 1) scrollToY(y, true);
+      var y = Math.min(wanted(), document.documentElement.scrollHeight - window.innerHeight);
+      if (Math.abs(window.pageYOffset - y) >= 1) scrollToY(Math.max(0, y), true);
     }
     place();
     if (document.readyState !== 'complete') window.addEventListener('load', place);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
 
-    // Remember the position for Back/Forward when the browser cannot use its back/forward
-    // cache. Saved shortly after scrolling stops (not on pagehide: writing history during
-    // pagehide makes Chrome evict the page from that cache).
+    // Keep the saved position current: shortly after scrolling stops, and when the page is
+    // hidden (switching apps on a phone, closing the tab, reloading).
     var saveTimer = null;
     window.addEventListener('scroll', function () {
       clearTimeout(saveTimer);
       saveTimer = setTimeout(saveScroll, 150);
     }, { passive: true });
-    // Also on any link click, which covers "scroll, then immediately follow a link".
+    window.addEventListener('pagehide', function () {
+      try { sessionStorage.setItem(STORE_KEY, String(Math.round(window.pageYOffset))); } catch (_) { /* private mode */ }
+    });
     document.addEventListener('click', function (e) {
       if (e.target.closest && e.target.closest('a[href]')) saveScroll();
     }, true);
 
-    // Back/Forward between in-page entries: return to the saved position, else the section.
+    // Back/Forward between in-page entries: return to the saved position, else the target.
     window.addEventListener('popstate', function (e) {
-      if (e.state && typeof e.state.y === 'number') { scrollToY(e.state.y, true); return; }
-      var el = hashTarget(location.hash);
+      var st = e.state || {};
+      if (typeof st.y === 'number') { scrollToY(st.y, true); return; }
+      var el = st.target ? document.getElementById(st.target) : hashTarget(location.hash);
       scrollToY(el ? targetY(el) : 0, true);
     });
   }
 
-  /* ---------- 1. motion ---------- */
+  /* ---------- 1. motion ----------
+     Section headings rise in and photographs are uncovered once, as they scroll into
+     view. Only content still below the fold when the page starts is prepared (given
+     .is-pending, see site.css), so nothing already on screen ever disappears and fades
+     back in (a deep link, a reload part-way down, Back). Without JavaScript, or with
+     reduced motion, everything is simply shown. */
   function initMotion() {
-    var gsap = window.gsap;
-    if (reduceMotion || !gsap) return;
-    var ST = window.ScrollTrigger;
-    if (ST) gsap.registerPlugin(ST);
-
-    // Inertial scrolling for mouse and trackpad only; touch keeps native scrolling.
-    if (window.Lenis && !window.matchMedia('(pointer: coarse)').matches) {
-      lenis = new window.Lenis({ lerp: 0.1, smoothWheel: true });
-      if (ST) lenis.on('scroll', ST.update);
-      gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
-      gsap.ticker.lagSmoothing(0);
-    }
-
-    if (!ST) return;
-
-    // Hero photo drifts slower than the page.
-    gsap.to('.hero-media', {
-      yPercent: 10, ease: 'none',
-      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
-    });
-
-    // Reveals only apply to content still below the fold when motion starts. Motion loads
-    // after the page, so anything already on screen or scrolled past (a deep link, Back, a
-    // reload part-way down) stays visible instead of vanishing and fading back in.
+    if (reduceMotion || !('IntersectionObserver' in window)) return;
     var foldY = window.innerHeight;
-    var belowFold = function (el) { return el.getBoundingClientRect().top >= foldY; };
-
-    // Section headings rise in once.
-    $$('[data-reveal]').filter(belowFold).forEach(function (el) {
-      gsap.from(el, {
-        y: 28, opacity: 0, duration: 1, ease: 'power3.out',
-        scrollTrigger: { trigger: el, start: 'top 90%', once: true }
+    var items = $$('[data-reveal], [data-reveal-media]').filter(function (el) {
+      return el.getBoundingClientRect().top >= foldY;
+    });
+    if (!items.length) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        en.target.classList.add('is-revealed');
+        en.target.classList.remove('is-pending');
+        io.unobserve(en.target);
       });
-    });
-
-    // Photographs are uncovered from the bottom edge, once.
-    $$('[data-reveal-media]').filter(belowFold).forEach(function (el) {
-      var img = $('img', el);
-      var t = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 92%', once: true } });
-      t.fromTo(el, { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 1.15, ease: 'power3.inOut' });
-      if (img) t.fromTo(img, { scale: 1.12 }, { scale: 1, duration: 1.6, ease: 'power3.out' }, 0);
-    });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    items.forEach(function (el) { el.classList.add('is-pending'); io.observe(el); });
   }
 
   /* ---------- 2. header ---------- */
@@ -189,7 +176,6 @@
       btn.setAttribute('aria-expanded', 'true');
       header.classList.add('is-open');
       root.classList.add('menu-open');
-      if (lenis) lenis.stop();
       updateHeader();
       var first = $('a', menu);
       if (first) first.focus();
@@ -200,7 +186,6 @@
       btn.setAttribute('aria-expanded', 'false');
       header.classList.remove('is-open');
       root.classList.remove('menu-open');
-      if (lenis) lenis.start();
       updateHeader();
       if (returnFocus) btn.focus();
     }
@@ -231,8 +216,9 @@
       var target = id ? document.getElementById(id) : null;
       if (!target) return;
       e.preventDefault();
-      // "Back to top" (#top, the hero) leaves a clean URL rather than "/#top".
-      pushUrl(location.pathname + location.search + (id === 'top' ? '' : '#' + id));
+      // A history entry for Back, but no #section in the address (see history helpers).
+      pushEntry(location.pathname + location.search);
+      try { var st = {}; for (var k in (history.state || {})) st[k] = history.state[k]; st.target = id; history.replaceState(st, ''); } catch (_) { /* sandboxed viewers */ }
       scrollToEl(target);
       if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
       target.focus({ preventScroll: true });
@@ -295,7 +281,6 @@
         moreBtn.textContent = state.expanded ? 'Show fewer projects' : 'Show all ' + matching.length + ' projects';
         moreBtn.setAttribute('aria-expanded', String(state.expanded));
       }
-      if (window.ScrollTrigger) window.ScrollTrigger.refresh();
     }
 
     chips.forEach(function (c) {
@@ -320,7 +305,8 @@
         state.filter = link.getAttribute('data-filter');
         state.expanded = false;
         render();
-        pushUrl(urlFor(state.filter, '#record'));
+        pushEntry(urlFor(state.filter, ''));
+        try { history.replaceState({ target: 'record' }, ''); } catch (_) { /* sandboxed viewers */ }
         scrollToEl($('#record'));
         var chip = chips.filter(function (c) { return c.getAttribute('data-filter') === state.filter; })[0];
         if (chip) chip.focus({ preventScroll: true });
@@ -348,12 +334,11 @@
         img.alt = (trigger.querySelector('img') || {}).alt || '';
         cap.textContent = trigger.getAttribute('data-caption') || '';
         dlg.showModal();
-        if (lenis) lenis.stop();
       });
     });
     $('.lightbox-close', dlg).addEventListener('click', function () { dlg.close(); });
     dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
-    dlg.addEventListener('close', function () { if (lenis) lenis.start(); img.removeAttribute('src'); });
+    dlg.addEventListener('close', function () { img.removeAttribute('src'); });
   }
 
   /* ---------- 7. copy buttons ---------- */
@@ -475,18 +460,46 @@
       if (err) err.textContent = msg;
       if (f.required) f.setAttribute('aria-invalid', msg ? 'true' : 'false');
     }
+    // The same format rules as the server (aaykay_enquiry_check_formats in inc/enquiry.php),
+    // so mistakes are pointed out before sending. Keep the two in step.
+    var letters = function (v) { return (v.match(/\p{L}/gu) || []).length; };
+    var rules = {
+      name: function (v) { return /^\p{L}[\p{L}\p{M}\s.'’-]*$/u.test(v) && v.length >= 2 ? '' : 'Please use letters only for your name (no numbers or symbols).'; },
+      company: function (v) { return /^[\p{L}\p{N}][\p{L}\p{M}\p{N}\s&.,()'’\/+-]*$/u.test(v) && letters(v) >= 2 ? '' : 'Please enter your company’s name.'; },
+      email: function (v) { return /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v) ? '' : 'Please enter an email address like name@company.com.'; },
+      phone: function (v) { var d = v.replace(/\D/g, '').length; return /^\+?[\d\s()-]+$/.test(v) && d >= 7 && d <= 15 ? '' : 'Please enter a phone number using digits only, e.g. +91 98480 12345.'; },
+      city: function (v) { return /^\p{L}[\p{L}\p{M}\s.'’-]*$/u.test(v) ? '' : 'Please use letters only for the city.'; },
+      message: function (v) { return v.length >= 10 && letters(v) >= 5 ? '' : 'Please describe the scope and timeline in a few words.'; }
+    };
     function check(f) {
       var msg = '';
+      var v = f.value.trim();
       if (f.validity.valueMissing) msg = 'Please enter your ' + (f.getAttribute('data-label') || 'details') + '.';
-      else if (f.validity.typeMismatch && f.type === 'email') msg = 'Please enter an email address like name@company.com.';
+      else if (v && rules[f.name]) msg = rules[f.name](v);
       setError(f, msg);
       return !msg;
     }
+    // Buttons such as "Request pre-qualification documents" choose a project type.
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('[data-enquiry-type]');
+      var select = form.elements.type;
+      if (!a || !select) return;
+      var want = a.getAttribute('data-enquiry-type');
+      for (var i = 0; i < select.options.length; i++) {
+        if (select.options[i].text === want) { select.selectedIndex = i; break; }
+      }
+    });
+    // Phone: only digits, spaces, + ( ) - can be typed or pasted.
+    var phone = form.elements.phone;
+    if (phone) phone.addEventListener('input', function () {
+      var clean = phone.value.replace(/[^\d\s()+-]/g, '');
+      if (clean !== phone.value) phone.value = clean;
+    });
     function fallback() {
       return 'Please email ' + form.getAttribute('data-email') + ' or call ' + form.getAttribute('data-phone') + '.';
     }
     fields.forEach(function (f) {
-      f.addEventListener('blur', function () { if (f.required && f.value) check(f); });
+      f.addEventListener('blur', function () { if (f.value) check(f); });
       f.addEventListener('input', function () { if (f.getAttribute('aria-invalid') === 'true') check(f); });
     });
 
@@ -539,29 +552,8 @@
     });
   }
 
-  /* Motion libraries are an enhancement for content below the fold, so they are
-     fetched after the page has loaded instead of competing with the stylesheet,
-     fonts and hero image. If window.gsap already exists, it is used as-is. */
-  function loadScripts(list) {
-    return list.reduce(function (chain, src) {
-      return chain.then(function () {
-        return new Promise(function (resolve, reject) {
-          var s = document.createElement('script');
-          s.src = src; s.onload = resolve; s.onerror = reject;
-          document.head.appendChild(s);
-        });
-      });
-    }, Promise.resolve());
-  }
-  function startMotion() {
-    var libs = window.AAYKAY_MOTION_LIBS;
-    if (window.gsap || !libs || reduceMotion) { safely('motion', initMotion); return; }
-    var go = function () { loadScripts(libs).then(function () { safely('motion', initMotion); }, function () {}); };
-    if (document.readyState === 'complete') go(); else window.addEventListener('load', go);
-  }
-
   function start() {
-    startMotion();
+    safely('motion', initMotion);
     var updateHeader = safely('header', initHeader) || function () {};
     safely('menu', function () { initMenu(updateHeader); });
     safely('record', initRecord); // before positioning: it changes the page height

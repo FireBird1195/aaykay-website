@@ -63,6 +63,32 @@ function aaykay_join( $separator, $parts ) {
 	return implode( $separator, array_filter( array_map( 'trim', (array) $parts ), 'strlen' ) );
 }
 
+/**
+ * "A · B · C" as escaped HTML. A line never ends on "·" and a short part such as
+ * "ISO 9001:2015" is never split; the first short part stays with the word before it.
+ *
+ * @param string|array $parts Parts, or a string already joined with " · ".
+ * @return string Escaped HTML.
+ */
+function aaykay_dot_line( $parts ) {
+	if ( ! is_array( $parts ) ) {
+		$parts = explode( ' · ', (string) $parts );
+	}
+	$parts = array_values( array_filter( array_map( 'trim', $parts ), 'strlen' ) );
+	$html  = '';
+	foreach ( $parts as $i => $part ) {
+		if ( 0 === $i ) {
+			$html .= esc_html( $part );
+		} elseif ( strlen( $part ) <= 24 ) {
+			// The first short part sticks to the word before it; later ones may wrap as "· part".
+			$html .= ( 1 === $i ? '&nbsp;' : ' ' ) . '<span class="nowrap">· ' . esc_html( $part ) . '</span>';
+		} else {
+			$html .= ' · ' . esc_html( $part );
+		}
+	}
+	return $html;
+}
+
 /** True for a non-empty string of digits only ("24", not "G+30"). */
 function aaykay_is_digits( $value ) {
 	return 1 === preg_match( '/^\d+$/', (string) $value );

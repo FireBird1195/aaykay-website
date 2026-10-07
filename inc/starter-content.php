@@ -162,6 +162,7 @@ function aaykay_import_starter_content() {
 	}
 
 	aaykay_bin_untouched_samples();
+	aaykay_prepare_privacy_draft();
 	return $added;
 }
 
@@ -269,4 +270,44 @@ function aaykay_render_starter_page() {
 		</form>
 	</div>
 	<?php
+}
+
+/**
+ * WordPress creates a draft "Privacy Policy" page. Replace its generic text (only while it
+ * is an untouched draft) with a starting point that describes what this website actually
+ * does. It stays a draft: AAYKAY (ideally with legal advice) completes the bracketed parts
+ * and publishes it; the footer and the form then link to it automatically.
+ */
+function aaykay_prepare_privacy_draft() {
+	$page_id = (int) get_option( 'wp_page_for_privacy_policy' );
+	$page    = $page_id ? get_post( $page_id ) : null;
+	if ( ! $page || 'draft' !== $page->post_status || $page->post_modified_gmt !== $page->post_date_gmt ) {
+		return;
+	}
+	$p    = function ( $text ) {
+		return "<!-- wp:paragraph -->\n<p>" . esc_html( $text ) . "</p>\n<!-- /wp:paragraph -->\n\n";
+	};
+	$h    = function ( $text ) {
+		return "<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">" . esc_html( $text ) . "</h2>\n<!-- /wp:heading -->\n\n";
+	};
+	$body = $p( 'This notice explains what AAYKAY Electricals Private Limited does with information you give us through this website. [Draft: complete the parts in square brackets and have it reviewed before publishing.]' )
+		. $h( 'What we collect' )
+		. $p( 'When you send an enquiry we receive your name, company, work email, and, if you give them, your phone number, city, project type and the details you write. We do not ask for anything else.' )
+		. $h( 'Why we use it' )
+		. $p( 'Only to answer your enquiry and discuss the project with you. We do not sell it, and we do not use it for marketing lists.' )
+		. $h( 'Where it is kept' )
+		. $p( 'Each enquiry is stored in this website’s database (hosted by Hostinger) and emailed to our projects inbox. [If connected: it is also added to a private Google Sheet used by our office.] Only authorised AAYKAY staff can see it.' )
+		. $h( 'How long we keep it' )
+		. $p( '[For example: for 24 months after our last contact with you, then it is deleted.]' )
+		. $h( 'Cookies and statistics' )
+		. $p( 'This website does not set cookies for visitors. [If Cloudflare Web Analytics is switched on: we count visits with a cookie-free service that does not identify you.]' )
+		. $h( 'Your choices' )
+		. $p( 'You can ask to see, correct or delete the information you sent us by writing to [privacy contact email]. [Name or role of the grievance officer.]' );
+	wp_update_post(
+		array(
+			'ID'           => $page_id,
+			'post_title'   => 'Privacy notice',
+			'post_content' => $body,
+		)
+	);
 }

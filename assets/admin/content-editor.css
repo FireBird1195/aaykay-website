@@ -1,0 +1,40 @@
+/* Homepage content editor (Dashboard > Homepage content). */
+.aaykay-editor .aaykay-intro { max-width: 70ch; }
+.ak-layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 24px; align-items: start; margin-top: 16px; }
+.ak-tabs { position: sticky; top: 46px; display: flex; flex-direction: column; background: #fff; border: 1px solid #dcdcde; border-radius: 4px; padding: 6px 0; }
+.ak-tabs a { padding: 8px 14px; text-decoration: none; color: #1d2327; border-left: 3px solid transparent; }
+.ak-tabs a:hover, .ak-tabs a:focus { background: #f6f7f7; color: #1B3F8F; }
+.ak-tabs a[aria-current="page"] { border-left-color: #2271b1; background: #f0f6fc; font-weight: 600; }
+.ak-undo { border-top: 1px solid #dcdcde; margin-top: 6px; padding: 10px 14px 4px; }
+.ak-form { min-width: 0; }
+.ak-section { background: #fff; border: 1px solid #dcdcde; border-radius: 4px; padding: 6px 20px 20px; margin-bottom: 16px; }
+.ak-section > h2 { font-size: 1.3em; margin: 14px 0 4px; }
+.ak-section > .description { margin-bottom: 14px; max-width: 70ch; }
+.ak-toggle { background: #f6f7f7; padding: 8px 12px; border-radius: 4px; }
+.ak-field { margin: 0 0 16px; max-width: 760px; }
+.ak-field > label, .ak-image label { display: block; font-weight: 600; margin-bottom: 4px; }
+.ak-field--bool > label { font-weight: 600; }
+.ak-field .description { margin: 4px 0 0; }
+.ak-icon-pick { display: inline-flex; align-items: center; gap: 8px; }
+.ak-icon { width: 24px; height: 24px; stroke: #1B3F8F; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+.ak-image, .ak-list { border: 1px solid #dcdcde; border-radius: 4px; padding: 10px 14px 12px; margin: 0; }
+.ak-image legend, .ak-list > legend { font-weight: 600; padding: 0 6px; }
+.ak-image { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 14px; align-items: start; }
+.ak-image-preview { background: #f0f0f1; border-radius: 3px; min-height: 90px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.ak-image-preview img { display: block; max-width: 100%; max-height: 140px; }
+.ak-image-preview span { color: #646970; font-size: 12px; }
+.ak-image-controls p:first-child { margin-top: 0; }
+.ak-rows { list-style: none; margin: 8px 0 0; padding: 0; counter-reset: none; }
+.ak-row { background: #fbfbfc; border: 1px solid #e0e0e3; border-radius: 4px; padding: 0 12px 4px; margin-bottom: 10px; }
+.ak-row-bar { display: flex; gap: 12px; align-items: center; padding: 8px 0; border-bottom: 1px solid #ececef; margin-bottom: 10px; }
+.ak-row-title { font-weight: 600; margin-right: auto; }
+.ak-row .ak-field { max-width: none; }
+.ak-save { position: sticky; bottom: 0; background: #f0f0f1; padding: 12px 0; border-top: 1px solid #dcdcde; z-index: 5; }
+.ak-has-tabs .ak-section[hidden] { display: none; }
+@media (max-width: 960px) {
+  .ak-layout { grid-template-columns: 1fr; }
+  .ak-tabs { position: static; flex-direction: row; flex-wrap: wrap; }
+  .ak-tabs a { border-left: 0; border-bottom: 3px solid transparent; }
+  .ak-tabs a[aria-current="page"] { border-bottom-color: #2271b1; }
+  .ak-image { grid-template-columns: 1fr; }
+}

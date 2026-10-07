@@ -1,62 +1,75 @@
 <?php
 /**
- * Home page: company.
+ * Home page: company. Content: Homepage content > Company.
+ * Head office and branch count: Site settings.
  *
  * @package aaykay
  */
 
 defined( 'ABSPATH' ) || exit;
-$aaykay_contact = aaykay_contact();
-$aaykay_states  = count( aaykay_branches() );
-// ", with branches in seven states and more than 100 clients" (parts left out when not set).
-$aaykay_with  = array();
-if ( $aaykay_states ) {
-	$aaykay_with[] = 'branches in ' . aaykay_number_word( $aaykay_states ) . ( 1 === $aaykay_states ? ' state' : ' states' );
-}
-if ( '' !== aaykay_clients_phrase() ) {
-	$aaykay_with[] = aaykay_clients_phrase() . ' clients';
-}
-$aaykay_today = $aaykay_with ? ', with ' . implode( ' and ', $aaykay_with ) : '';
+$aaykay_contact  = aaykay_contact();
+$aaykay_states   = count( aaykay_branches() );
+$aaykay_creds    = aaykay_rows( 'company', 'creds' );
+$aaykay_timeline = aaykay_rows( 'company', 'timeline' );
+$aaykay_photo    = aaykay_img( aaykay_c( 'company', 'founder_photo' ), array( 'sizes' => '(min-width: 900px) 28vw, 22rem' ) );
 ?>
   <section class="section" id="company" aria-labelledby="company-title">
     <div class="wrap">
       <div class="sec-head">
-        <h2 class="h2" id="company-title" data-reveal>Company</h2>
-        <p class="sec-sub" data-reveal>Founded in Hyderabad in 2008 by an electrical engineer who still leads the business.</p>
+        <h2 class="h2" id="company-title" data-reveal><?php aaykay_e( 'company', 'heading' ); ?></h2>
+<?php if ( '' !== aaykay_t( 'company', 'sub' ) ) : ?>
+        <p class="sec-sub" data-reveal><?php aaykay_e( 'company', 'sub' ); ?></p>
+<?php endif; ?>
       </div>
       <div class="company grid-12">
         <div class="founder">
+<?php if ( '' !== $aaykay_photo ) : ?>
           <div class="founder-photo">
-            <img src="<?php aaykay_a( 'assets/img/founder-413.webp' ); ?>" srcset="<?php aaykay_a( 'assets/img/founder-413.webp' ); ?> 413w" width="413" height="447" sizes="(min-width: 900px) 28vw, 22rem" alt="Portrait of Abdul Kareem P, Managing Director of AAYKAY Electricals." loading="lazy" decoding="async">
+            <?php echo $aaykay_photo; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_img(). ?>
+
           </div>
-          <p class="founder-name">Abdul Kareem P</p>
-          <p class="label">Founder &amp; Managing Director</p>
+<?php endif; ?>
+          <p class="founder-name"><?php aaykay_e( 'company', 'founder_name' ); ?></p>
+          <p class="label"><?php aaykay_e( 'company', 'founder_title' ); ?></p>
+<?php if ( $aaykay_creds ) : ?>
           <ul class="creds">
-            <li class="icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#graduation-cap"/></svg>B.Tech, electrical engineering</li>
-            <li class="icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#id-card"/></svg>Supervisor’s licence, Electrical Inspectorate</li>
-            <li class="icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#history"/></svg>30 years in the trade</li>
+<?php foreach ( $aaykay_creds as $aaykay_cr ) : ?>
+            <li class="icon-label"><?php echo aaykay_icon( $aaykay_cr['icon'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><?php echo esc_html( aaykay_tokens( $aaykay_cr['text'] ) ); ?></li>
+<?php endforeach; ?>
           </ul>
+<?php endif; ?>
         </div>
         <div class="company-body">
           <dl class="glance">
-            <div><dt>Company</dt><dd>AAYKAY Electricals Private Limited</dd></div>
-            <div><dt>Established</dt><dd>2008</dd></div>
+<?php if ( '' !== aaykay_t( 'company', 'glance_company' ) ) : ?>
+            <div><dt>Company</dt><dd><?php aaykay_e( 'company', 'glance_company' ); ?></dd></div>
+<?php endif; ?>
+<?php if ( '' !== aaykay_t( 'company', 'glance_established' ) ) : ?>
+            <div><dt>Established</dt><dd><?php aaykay_e( 'company', 'glance_established' ); ?></dd></div>
+<?php endif; ?>
             <div><dt>Head office</dt><dd><?php echo esc_html( aaykay_join( ', ', array( $aaykay_contact['area'], $aaykay_contact['city'] ) ) ); ?></dd></div>
 <?php if ( $aaykay_states ) : ?>
             <div><dt>Branches</dt><dd><?php echo esc_html( $aaykay_states . ( 1 === $aaykay_states ? ' state' : ' states' ) ); ?></dd></div>
 <?php endif; ?>
           </dl>
-          <p>Abdul Kareem P was Head of Operations at Naseer Electricals in Hyderabad before starting A K Electricals in 2008. His 30 years in the trade cover base-build, IT workspaces, labs, data centres, hospitals, industrial and high-rise projects.</p>
-          <p>Repeat clients include HDFC Bank, Amazon, Accenture, Microsoft, Tech Mahindra, Cognizant, AMD, NCR and D. E. Shaw &amp; Co.</p>
+<?php foreach ( aaykay_paragraphs( aaykay_t( 'company', 'paragraphs' ) ) as $aaykay_para ) : ?>
+          <p><?php echo esc_html( $aaykay_para ); ?></p>
+<?php endforeach; ?>
+<?php if ( '' !== aaykay_t( 'company', 'quote' ) ) : ?>
           <figure class="pull">
-            <blockquote><p>“Listen hard, change fast.”</p></blockquote>
-            <figcaption>Abdul Kareem P, on how he asks the team to work</figcaption>
+            <blockquote><p><?php aaykay_e( 'company', 'quote' ); ?></p></blockquote>
+<?php if ( '' !== aaykay_t( 'company', 'quote_by' ) ) : ?>
+            <figcaption><?php aaykay_e( 'company', 'quote_by' ); ?></figcaption>
+<?php endif; ?>
           </figure>
+<?php endif; ?>
+<?php if ( $aaykay_timeline ) : ?>
           <ol class="timeline">
-            <li><span class="tl-year">2008</span><p>A K Electricals starts in Hyderabad as a small electrical contractor for residential and commercial clients.</p></li>
-            <li><span class="tl-year">2012</span><p>Merges with AayKay Electrical Enterprises. Branches follow in Bengaluru and Chennai.</p></li>
-            <li><span class="tl-year">Today</span><p>AAYKAY Electricals Private Limited: ISO 9001:2015 and ISO 45001:2018 certified<?php echo esc_html( $aaykay_today ); ?>.</p></li>
+<?php foreach ( $aaykay_timeline as $aaykay_tl ) : ?>
+            <li><span class="tl-year"><?php echo esc_html( $aaykay_tl['year'] ); ?></span><p><?php echo esc_html( aaykay_tokens( $aaykay_tl['text'] ) ); ?></p></li>
+<?php endforeach; ?>
           </ol>
+<?php endif; ?>
         </div>
       </div>
     </div>

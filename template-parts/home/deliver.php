@@ -1,108 +1,102 @@
 <?php
 /**
- * Home page: how we deliver.
+ * Home page: how we deliver. Content: Homepage content > How we deliver.
  *
  * @package aaykay
  */
 
 defined( 'ABSPATH' ) || exit;
+$aaykay_stages = aaykay_rows( 'deliver', 'stages' );
+$aaykay_p1     = aaykay_lines( 'deliver', 'panel1_items' );
+$aaykay_p2     = aaykay_lines( 'deliver', 'panel2_items' );
+$aaykay_s1     = aaykay_rows( 'deliver', 'sheet1_rows' );
+$aaykay_s2     = aaykay_rows( 'deliver', 'sheet2_rows' );
 ?>
   <section class="section" id="deliver" aria-labelledby="deliver-title">
     <div class="wrap">
       <div class="sec-head">
-        <h2 class="h2" id="deliver-title" data-reveal>How we deliver</h2>
-        <p class="sec-sub" data-reveal>Five stages, managed by our own project team, with the schedule risks dealt with first.</p>
+        <h2 class="h2" id="deliver-title" data-reveal><?php aaykay_e( 'deliver', 'heading' ); ?></h2>
+<?php if ( '' !== aaykay_t( 'deliver', 'sub' ) ) : ?>
+        <p class="sec-sub" data-reveal><?php aaykay_e( 'deliver', 'sub' ); ?></p>
+<?php endif; ?>
       </div>
 
       <div class="insight grid-12">
-        <p class="insight-statement" data-reveal>Electrical packages rarely slip on site. <em>They slip waiting on approvals and long-lead equipment, so that is where we start.</em></p>
+<?php if ( '' !== aaykay_t( 'deliver', 'insight' ) . aaykay_t( 'deliver', 'insight_em' ) ) : ?>
+        <p class="insight-statement" data-reveal><?php aaykay_e( 'deliver', 'insight' ); ?><?php echo '' !== aaykay_t( 'deliver', 'insight_em' ) ? ' <em>' . esc_html( aaykay_t( 'deliver', 'insight_em' ) ) . '</em>' : ''; ?></p>
+<?php endif; ?>
         <div class="insight-panels">
+<?php if ( $aaykay_p1 ) : ?>
           <div class="panel">
-            <h3 class="label">Agreed at kickoff</h3>
+            <h3 class="label"><?php aaykay_e( 'deliver', 'panel1_heading' ); ?></h3>
             <ul class="ticks">
-              <li>GFC drawings in hand before the kickoff meeting</li>
-              <li>Samples and technical data sheets approved within 5 days</li>
-              <li>Panel GA and shop drawings approved within one week</li>
-              <li>Ceiling layouts, IT power and raceway needs, and HVAC power loads confirmed up front</li>
+<?php foreach ( $aaykay_p1 as $aaykay_li ) : ?>
+              <li><?php echo esc_html( aaykay_tokens( $aaykay_li ) ); ?></li>
+<?php endforeach; ?>
             </ul>
           </div>
+<?php endif; ?>
+<?php if ( $aaykay_p2 ) : ?>
           <div class="panel">
-            <h3 class="label">Ordered early</h3>
+            <h3 class="label"><?php aaykay_e( 'deliver', 'panel2_heading' ); ?></h3>
             <ul class="ticks">
-              <li>LT panels</li>
-              <li>Light fixtures</li>
-              <li>Lighting management systems</li>
-              <li>Rising mains and busducts</li>
+<?php foreach ( $aaykay_p2 as $aaykay_li ) : ?>
+              <li><?php echo esc_html( aaykay_tokens( $aaykay_li ) ); ?></li>
+<?php endforeach; ?>
             </ul>
-            <p class="panel-note">Order placement, submittals and approvals for each are closed on a fixed timeline.</p>
+<?php if ( '' !== aaykay_t( 'deliver', 'panel2_note' ) ) : ?>
+            <p class="panel-note"><?php aaykay_e( 'deliver', 'panel2_note' ); ?></p>
+<?php endif; ?>
           </div>
+<?php endif; ?>
         </div>
       </div>
 
+<?php if ( $aaykay_stages ) : ?>
       <ol class="stages">
+<?php foreach ( $aaykay_stages as $aaykay_i => $aaykay_st ) : ?>
         <li class="stage">
-          <span class="stage-node" aria-hidden="true"><svg class="ic stage-ic"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#drafting-compass"/></svg></span>
-          <p class="stage-no">Stage 01</p>
-          <h3>Design</h3>
-          <p>We review the GFC drawings, then prepare shop and GA drawings to site conditions for approval by the PMC or consultant.</p>
-          <ul class="tags"><li>GFC review</li><li>Shop drawings</li><li>Submittals</li></ul>
+          <span class="stage-node" aria-hidden="true"><svg class="ic stage-ic"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#<?php echo esc_attr( $aaykay_st['icon'] ); ?>"/></svg></span>
+          <p class="stage-no">Stage <?php echo esc_html( sprintf( '%02d', $aaykay_i + 1 ) ); ?></p>
+          <h3><?php echo esc_html( aaykay_tokens( $aaykay_st['title'] ) ); ?></h3>
+          <p><?php echo esc_html( aaykay_tokens( $aaykay_st['text'] ) ); ?></p>
+<?php $aaykay_tags = array_filter( array_map( 'trim', explode( ',', $aaykay_st['tags'] ) ), 'strlen' ); ?>
+<?php if ( $aaykay_tags ) : ?>
+          <ul class="tags"><?php foreach ( $aaykay_tags as $aaykay_tag ) : ?><li><?php echo esc_html( $aaykay_tag ); ?></li><?php endforeach; ?></ul>
+<?php endif; ?>
         </li>
-        <li class="stage">
-          <span class="stage-node" aria-hidden="true"><svg class="ic stage-ic"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#package"/></svg></span>
-          <p class="stage-no">Stage 02</p>
-          <h3>Procurement</h3>
-          <p>Final quantities go to procurement alongside design. Vendors are validated and material is checked against the BOQ.</p>
-          <ul class="tags"><li>Vendor validation</li><li>ERP</li><li>Material tracking</li></ul>
-        </li>
-        <li class="stage">
-          <span class="stage-node" aria-hidden="true"><svg class="ic stage-ic"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#hard-hat"/></svg></span>
-          <p class="stage-no">Stage 03</p>
-          <h3>Construction</h3>
-          <p>We secure the site, stage materials and carry out the works to approved drawings and method statements, under a risk assessment.</p>
-          <ul class="tags"><li>Site logistics</li><li>Risk analysis</li><li>Checklists</li></ul>
-        </li>
-        <li class="stage">
-          <span class="stage-node" aria-hidden="true"><svg class="ic stage-ic"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#gauge"/></svg></span>
-          <p class="stage-no">Stage 04</p>
-          <h3>Testing &amp; commissioning</h3>
-          <p>Functional and visual checks, quality and safety inspections, and test reports from our own commissioning team.</p>
-          <ul class="tags"><li>Megger &amp; IR</li><li>Panel load</li><li>System test</li></ul>
-        </li>
-        <li class="stage">
-          <span class="stage-node" aria-hidden="true"><svg class="ic stage-ic"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#key-round"/></svg></span>
-          <p class="stage-no">Stage 05</p>
-          <h3>Handover</h3>
-          <p>As-built drawings, test reports and warranties. Snags are closed, the client’s team is trained, and a final walkthrough leads to sign-off.</p>
-          <ul class="tags"><li>As-builts</li><li>Training</li><li>Sign-off</li></ul>
-        </li>
+<?php endforeach; ?>
       </ol>
+<?php endif; ?>
 
+<?php if ( $aaykay_s1 || $aaykay_s2 ) : ?>
       <div class="sheets grid-12">
+<?php if ( $aaykay_s1 ) : ?>
         <div class="sheet">
-          <p class="label">From our method statements</p>
-          <h3 class="sheet-title">Standards our site teams work to</h3>
+          <p class="label"><?php aaykay_e( 'deliver', 'sheet1_label' ); ?></p>
+          <h3 class="sheet-title"><?php aaykay_e( 'deliver', 'sheet1_title' ); ?></h3>
           <dl>
-            <div><dt>Earth station resistance</dt><dd>2 ohms max., each</dd></div>
-            <div><dt>Conduit saddle spacing</dt><dd>2.5 m horiz. · 1.5 m vert.</dd></div>
-            <div><dt>Spare capacity in cable trays</dt><dd>20%</dd></div>
-            <div><dt>Clear space behind LV panels</dt><dd>750 mm min.</dd></div>
-            <div><dt>Buried cable depth</dt><dd>600 mm min., on 75 mm sand</dd></div>
-            <div><dt>Switch / socket height above floor</dt><dd>1350 mm / 300 mm</dd></div>
+<?php foreach ( $aaykay_s1 as $aaykay_r ) : ?>
+            <div><dt><?php echo esc_html( $aaykay_r['term'] ); ?></dt><dd><?php echo esc_html( $aaykay_r['value'] ); ?></dd></div>
+<?php endforeach; ?>
           </dl>
-          <p class="sheet-note">Unless the approved drawings or client specification say otherwise.</p>
+<?php if ( '' !== aaykay_t( 'deliver', 'sheet1_note' ) ) : ?>
+          <p class="sheet-note"><?php aaykay_e( 'deliver', 'sheet1_note' ); ?></p>
+<?php endif; ?>
         </div>
+<?php endif; ?>
+<?php if ( $aaykay_s2 ) : ?>
         <div class="sheet sheet--tools">
-          <p class="label">Tools &amp; supply chain</p>
-          <h3 class="sheet-title">Software, OEM channels and site tools</h3>
+          <p class="label"><?php aaykay_e( 'deliver', 'sheet2_label' ); ?></p>
+          <h3 class="sheet-title"><?php aaykay_e( 'deliver', 'sheet2_title' ); ?></h3>
           <dl>
-            <div><dt>Design</dt><dd>Autodesk Revit (BIM, MEP coordination) and AutoCAD (2D, quantity take-off)</dd></div>
-            <div><dt>LT panels</dt><dd>Schneider, L&amp;T, ABB, Legrand</dd></div>
-            <div><dt>Busducts &amp; rising mains</dt><dd>Schneider, L&amp;T, Legrand, EAE, C&amp;S</dd></div>
-            <div><dt>Lighting management</dt><dd>Lutron, Crestron, Enlighten</dd></div>
-            <div><dt>Light fixtures</dt><dd>Philips, Wipro, LT, ALW, XAL</dd></div>
-            <div><dt>On site</dt><dd>Dust-free battery drilling with extraction, laser marking, hydraulic cable pulling, factory-made tray bends</dd></div>
+<?php foreach ( $aaykay_s2 as $aaykay_r ) : ?>
+            <div><dt><?php echo esc_html( $aaykay_r['term'] ); ?></dt><dd><?php echo esc_html( $aaykay_r['value'] ); ?></dd></div>
+<?php endforeach; ?>
           </dl>
         </div>
+<?php endif; ?>
       </div>
+<?php endif; ?>
     </div>
   </section>

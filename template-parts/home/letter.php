@@ -1,22 +1,29 @@
 <?php
 /**
- * Home page: client letter.
+ * Home page: client letter. Content: Homepage content > Client letter.
  *
  * @package aaykay
  */
 
 defined( 'ABSPATH' ) || exit;
+if ( '' === aaykay_t( 'letter', 'quote' ) ) {
+	return;
+}
+$aaykay_doc = aaykay_image_data( aaykay_c( 'letter', 'image' ) );
 ?>
-  <section class="letter-band grain" aria-labelledby="letter-title">
+  <section class="letter-band grain<?php echo $aaykay_doc ? '' : ' letter-band--text'; ?>" aria-labelledby="letter-title">
     <div class="wrap grid-12 letter-grid">
       <figure class="letter-quote">
-        <h2 class="label" id="letter-title">From a client letter</h2>
-        <blockquote><p>“We also admire their aspiration for their prompt and flawless quality deliverables. We mark them as trusted Electrical Contracting Vendor.”</p></blockquote>
-        <figcaption><strong>Ramky Group</strong>, letter of appreciation, 29 June 2013.<br>Issued to AayKay Electrical Enterprises, now AAYKAY Electricals Private Limited.</figcaption>
+        <h2 class="label" id="letter-title"><?php aaykay_e( 'letter', 'label' ); ?></h2>
+        <blockquote><p><?php aaykay_e( 'letter', 'quote' ); ?></p></blockquote>
+        <figcaption><?php echo '' !== aaykay_t( 'letter', 'from' ) ? '<strong>' . esc_html( aaykay_t( 'letter', 'from' ) ) . '</strong>' . ( '' !== aaykay_t( 'letter', 'from_rest' ) ? ', ' : '' ) : ''; ?><?php aaykay_e( 'letter', 'from_rest' ); ?><?php echo '' !== aaykay_t( 'letter', 'note' ) ? '<br>' . esc_html( aaykay_t( 'letter', 'note' ) ) : ''; ?></figcaption>
       </figure>
-      <a class="letter-doc" href="<?php aaykay_a( 'assets/img/doc-ramky-letter-632.webp' ); ?>" data-lightbox="<?php aaykay_a( 'assets/img/doc-ramky-letter-632.webp' ); ?>" data-caption="Ramky Group letter of appreciation, 29 June 2013.">
-        <img src="<?php aaykay_a( 'assets/img/doc-ramky-letter-632.webp' ); ?>" srcset="<?php aaykay_a( 'assets/img/doc-ramky-letter-400.webp' ); ?> 400w, <?php aaykay_a( 'assets/img/doc-ramky-letter-632.webp' ); ?> 632w" width="632" height="762" sizes="(min-width: 900px) 224px, 176px" alt="Ramky Group letter of appreciation to Mr. Abdul Kareem P and the AayKay Electrical Enterprises project team, dated 29 June 2013." loading="lazy" decoding="async">
-        <span>View the letter</span>
+<?php if ( $aaykay_doc ) : ?>
+      <a class="letter-doc" href="<?php echo esc_url( $aaykay_doc['full'] ); ?>" data-lightbox="<?php echo esc_url( $aaykay_doc['full'] ); ?>" data-caption="<?php echo esc_attr( aaykay_t( 'letter', 'caption' ) ); ?>">
+        <?php echo aaykay_img( aaykay_c( 'letter', 'image' ), array( 'sizes' => '(min-width: 900px) 224px, 176px' ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_img(). ?>
+
+        <span><?php aaykay_e( 'letter', 'link_label' ); ?></span>
       </a>
+<?php endif; ?>
     </div>
   </section>
