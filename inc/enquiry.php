@@ -1,0 +1,209 @@
+<?php
+/**
+ * The enquiry form.
+ *
+ * The form posts to wp-admin/admin-post.php (action "aaykay_enquiry"). site.js sends it in
+ * the background and shows the result in place; without JavaScript the browser posts it
+ * normally and comes back to the contact section with a message.
+ *
+ * Every valid enquiry is saved under Dashboard > Enquiries first and then emailed to the
+ * "Send enquiries to" address in Site settings, so a lead is never lost if email fails.
+ *
+ * Spam protection without third-party services: a hidden field people never fill in
+ * (honeypot), a minimum time on the page (measured by site.js), and at most five
+ * enquiries an hour from one address. There is no nonce on purpose: the page is cached
+ * for visitors, and a cached nonce would expire and block real enquiries.
+ *
+ * @package aaykay
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+const AAYKAY_ENQUIRY_LIMIT = 5; // Per IP address per hour.
+
+/** Options in the "Project type" select (also the only values the server accepts). */
+function aaykay_project_types() {
+	return array(
+		'Hospital or healthcare',
+		'Office or IT fit-out',
+		'Bank or financial services',
+		'Residential high-rise',
+		'Data centre or critical power',
+		'Infrastructure or external works',
+		'Other',
+	);
+}
+
+/** Field name => array( label, required, max length, words for "Please enter your ..." ). */
+function aaykay_enquiry_fields() {
+	return array(
+		'name'    => array( 'Name', true, 100, 'name' ),
+		'company' => array( 'Company', true, 150, 'company name' ),
+		'email'   => array( 'Work email', true, 254, 'email address' ),
+		'phone'   => array( 'Phone', false, 40, '' ),
+		'type'    => array( 'Project type', false, 60, '' ),
+		'city'    => array( 'City', false, 100, '' ),
+		'message' => array( 'Scope and timeline', true, 5000, 'project scope' ),
+	);
+}
+
+add_action(
+	'init',
+	function () {
+		register_post_type(
+			'aaykay_enquiry',
+			array(
+				'labels'              => array(
+					'name'               => 'Enquiries',
+					'singular_name'      => 'Enquiry',
+					'edit_item'          => 'Enquiry',
+					'search_items'       => 'Search enquiries',
+					'not_found'          => 'No enquiries yet',
+					'not_found_in_trash' => 'No enquiries in the bin',
+					'all_items'          => 'All enquiries',
+					'menu_name'          => 'Enquiries',
+				),
+				'public'              => false,
+				'show_ui'             => true,
+				'show_in_menu'        => true,
+				'show_in_nav_menus'   => false,
+				'show_in_admin_bar'   => false,
+				'show_in_rest'        => false,
+				'exclude_from_search' => true,
+				'publicly_queryable'  => false,
+				'has_archive'         => false,
+				'rewrite'             => false,
+				'query_var'           => false,
+				'menu_icon'           => 'dashicons-email-alt',
+				'menu_position'       => 24,
+				'supports'            => array( 'title' ),
+				'capability_type'     => 'post',
+				'capabilities'        => array( 'create_posts' => 'do_not_allow' ),
+				'map_meta_cap'        => true,
+			)
+		);
+	}
+);
+
+add_action( 'admin_post_nopriv_aaykay_enquiry', 'aaykay_handle_enquiry' );
+add_action( 'admin_post_aaykay_enquiry', 'aaykay_handle_enquiry' );
+
+function aaykay_handle_enquiry() {
+	// phpcs:disable WordPress.Security.NonceVerification.Missing -- public form, see the file header.
+	$wants_json = isset( $_SERVER['HTTP_ACCEPT'] ) && false !== strpos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_ACCEPT'] ) ), 'application/json' );
+
+	// Bots: the honeypot is filled in, or the form was sent within 3 seconds of the page
+	// opening. Answer as if it worked so they learn nothing, and store nothing.
+	$honeypot = isset( $_POST['website'] ) ? trim( (string) wp_unslash( $_POST['website'] ) ) : '';
+	$elapsed  = isset( $_POST['elapsed'] ) ? (int) $_POST['elapsed'] : -1;
+	if ( '' !== $honeypot || ( $elapsed >= 0 && $elapsed < 3000 ) ) {
+		aaykay_enquiry_respond( $wants_json, true );
+	}
+
+	$data   = array();
+	$errors = array();
+	foreach ( aaykay_enquiry_fields() as $key => $f ) {
+		$raw = isset( $_POST[ $key ] ) ? wp_unslash( $_POST[ $key ] ) : '';
+		$raw = is_string( $raw ) ? $raw : '';
+		$val = 'message' === $key ? sanitize_textarea_field( $raw ) : sanitize_text_field( $raw );
+		$val = mb_substr( trim( $val ), 0, $f[2] );
+		if ( $f[1] && '' === $val ) {
+			$errors[ $key ] = 'Please enter your ' . $f[3] . '.';
+		}
+		$data[ $key ] = $val;
+	}
+	// phpcs:enable
+	if ( '' !== $data['email'] && ! is_email( $data['email'] ) ) {
+		$errors['email'] = 'Please enter an email address like name@company.com.';
+	}
+	if ( '' !== $data['type'] && ! in_array( $data['type'], aaykay_project_types(), true ) ) {
+		$data['type'] = 'Other';
+	}
+	if ( $errors ) {
+		aaykay_enquiry_respond( $wants_json, false, $errors );
+	}
+
+	// Rate limit by IP address (hashed: the address itself is not stored).
+	$ip    = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+	$key   = 'aaykay_enq_' . md5( $ip . wp_salt( 'nonce' ) );
+	$count = (int) get_transient( $key );
+	if ( $count >= AAYKAY_ENQUIRY_LIMIT ) {
+		aaykay_enquiry_respond( $wants_json, false, array(), 'Too many enquiries have been sent from this connection in the last hour. Please email or call us instead.' );
+	}
+	set_transient( $key, $count + 1, HOUR_IN_SECONDS );
+
+	// 1. Save it.
+	$post_id = wp_insert_post(
+		array(
+			'post_type'   => 'aaykay_enquiry',
+			'post_status' => 'private',
+			'post_title'  => $data['company'] . ' — ' . $data['name'],
+		),
+		true
+	);
+	if ( is_wp_error( $post_id ) ) {
+		aaykay_enquiry_respond( $wants_json, false, array(), 'Sorry, your enquiry could not be sent. Please email or call us instead.' );
+	}
+	foreach ( $data as $k => $v ) {
+		update_post_meta( $post_id, '_aaykay_' . $k, $v );
+	}
+
+	// 2. Email it.
+	$to = array_filter( array_map( 'trim', explode( ',', (string) aaykay_setting( 'enquiry_to' ) ) ), 'is_email' );
+	if ( ! $to ) {
+		$to = array( get_option( 'admin_email' ) );
+	}
+	$subject = 'Website enquiry: ' . $data['company'] . ( '' !== $data['type'] ? ' (' . $data['type'] . ')' : '' );
+	$lines   = array();
+	foreach ( aaykay_enquiry_fields() as $k => $f ) {
+		if ( 'message' !== $k && '' !== $data[ $k ] ) {
+			$lines[] = $f[0] . ': ' . $data[ $k ];
+		}
+	}
+	$lines[] = '';
+	$lines[] = $data['message'];
+	$lines[] = '';
+	$lines[] = '—';
+	$lines[] = 'Sent from the enquiry form on ' . home_url( '/' ) . '. Reply to this email to answer ' . $data['name'] . ' directly.';
+	$lines[] = 'All enquiries: ' . admin_url( 'edit.php?post_type=aaykay_enquiry' );
+	$headers = array( 'Reply-To: ' . str_replace( array( "\r", "\n", '"' ), '', $data['name'] ) . ' <' . $data['email'] . '>' );
+	$sent    = wp_mail( $to, $subject, implode( "\n", $lines ), $headers );
+	update_post_meta( $post_id, '_aaykay_mailed', $sent ? '1' : '0' );
+
+	aaykay_enquiry_respond( $wants_json, true );
+}
+
+/** Reply with JSON (site.js) or a redirect back to the contact section (no JavaScript). */
+function aaykay_enquiry_respond( $json, $ok, $errors = array(), $message = '' ) {
+	if ( '' === $message ) {
+		$message = $ok
+			? 'Thank you. Your enquiry has been sent and we will reply by email.'
+			: 'Some required details are missing. They are marked above.';
+	}
+	if ( $json ) {
+		wp_send_json(
+			array(
+				'ok'      => $ok,
+				'message' => $message,
+				'errors'  => (object) $errors,
+			),
+			$ok ? 200 : 422
+		);
+	}
+	$state = $ok ? 'sent' : ( $errors ? 'invalid' : 'failed' );
+	wp_safe_redirect( add_query_arg( 'enquiry', $state, home_url( '/' ) ) . '#contact', 303 );
+	exit;
+}
+
+/** Message for the no-JavaScript round trip (?enquiry=sent etc.), or ''. */
+function aaykay_enquiry_status_text() {
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only display of a fixed message.
+	$state    = isset( $_GET['enquiry'] ) ? sanitize_key( wp_unslash( $_GET['enquiry'] ) ) : '';
+	$contact  = aaykay_contact();
+	$messages = array(
+		'sent'    => 'Thank you. Your enquiry has been sent and we will reply by email.',
+		'invalid' => 'Some required details were missing, so the enquiry was not sent. Please fill in every field marked * and send it again.',
+		'failed'  => 'Sorry, your enquiry could not be sent. Please email ' . $contact['email'] . ' or call ' . $contact['phone'] . '.',
+	);
+	return isset( $messages[ $state ] ) ? $messages[ $state ] : '';
+}
