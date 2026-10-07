@@ -12,12 +12,22 @@ permissions:
   contents: read
 
 jobs:
+  # The theme supports PHP 7.4 and newer: check the oldest and a current version.
+  php:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['7.4', '8.3']
+    container: php:${{ matrix.php }}-cli
+    steps:
+      - uses: actions/checkout@v4
+      - name: Every PHP file parses on PHP ${{ matrix.php }}
+        run: find theme -name '*.php' -print0 | xargs -0 -n1 php -l
+
   check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Every PHP file parses
-        run: find theme -name '*.php' -print0 | xargs -0 -n1 php -l
       - name: site.js parses
         run: node --check theme/assets/js/site.js
       - name: Starter data is valid and every file it names exists

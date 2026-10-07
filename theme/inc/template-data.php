@@ -100,7 +100,10 @@ function aaykay_sector_by_key( $key ) {
 function aaykay_render_sector_rows( $indent ) {
 	$out = array();
 	foreach ( aaykay_sectors() as $s ) {
-		$c     = $s['count'];
+		$c = $s['count'];
+		if ( ! $c ) {
+			continue; // A sector with no published projects yet stays off the page.
+		}
 		$out[] = sprintf(
 			'<li><a class="sector-row" href="?sector=%1$s#record" data-filter="%1$s"><span class="sector-name">%2$s%3$s</span><span class="sector-info"><span class="sector-desc">%4$s</span><span class="sector-clients">%5$s</span></span><span class="sector-count">%6$d project%7$s</span><span class="sector-arrow" aria-hidden="true">%8$s</span></a></li>',
 			esc_attr( $s['key'] ),
@@ -119,7 +122,9 @@ function aaykay_render_sector_rows( $indent ) {
 function aaykay_render_chips( $indent ) {
 	$items = array( array( 'all', 'All sectors', count( aaykay_projects() ), '' ) );
 	foreach ( aaykay_sectors() as $s ) {
-		$items[] = array( $s['key'], $s['label'], $s['count'], aaykay_icon( $s['icon'] ) );
+		if ( $s['count'] ) {
+			$items[] = array( $s['key'], $s['label'], $s['count'], aaykay_icon( $s['icon'] ) );
+		}
 	}
 	$out = array();
 	foreach ( $items as $item ) {
@@ -184,7 +189,8 @@ function aaykay_projects() {
 			$tier = function ( $p ) {
 				return '' !== $p['order_value'] ? 0 : ( $p['area_sqft'] ? 1 : 2 );
 			};
-			return array( $tier( $a ), mb_strtolower( $a['name'] ), $a['slug'] ) <=> array( $tier( $b ), mb_strtolower( $b['name'] ), $b['slug'] );
+			$lower = function_exists( 'mb_strtolower' ) ? 'mb_strtolower' : 'strtolower';
+			return array( $tier( $a ), $lower( $a['name'] ), $a['slug'] ) <=> array( $tier( $b ), $lower( $b['name'] ), $b['slug'] );
 		}
 	);
 	return $projects;

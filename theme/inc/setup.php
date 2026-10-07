@@ -187,3 +187,40 @@ add_action(
 		}
 	}
 );
+
+/* ------------------------------------------------------------------ page cache */
+
+/**
+ * Hostinger serves the page from LiteSpeed Cache. The cache plugin clears itself when a
+ * public post changes, but not when Site settings, a sector, or one of this site's own
+ * (non-public) content types change, so ask it to clear everything then. Does nothing if
+ * LiteSpeed Cache is not installed. Enquiries are excluded: they don't change the page.
+ */
+function aaykay_purge_page_cache() {
+	do_action( 'litespeed_purge_all' );
+}
+add_action( 'update_option_' . AAYKAY_SETTINGS_OPTION, 'aaykay_purge_page_cache' );
+add_action( 'add_option_' . AAYKAY_SETTINGS_OPTION, 'aaykay_purge_page_cache' );
+foreach ( array( 'created_aaykay_sector', 'edited_aaykay_sector', 'delete_aaykay_sector' ) as $aaykay_hook ) {
+	add_action( $aaykay_hook, 'aaykay_purge_page_cache' );
+}
+add_action(
+	'transition_post_status',
+	function ( $new_status, $old_status, $post ) {
+		if ( in_array( $post->post_type, array( 'aaykay_project', 'aaykay_client', 'aaykay_firm' ), true ) && ( 'publish' === $new_status || 'publish' === $old_status ) ) {
+			aaykay_purge_page_cache();
+		}
+	},
+	10,
+	3
+);
+add_action(
+	'save_post',
+	function ( $post_id, $post ) {
+		if ( in_array( $post->post_type, array( 'aaykay_project', 'aaykay_client', 'aaykay_firm' ), true ) && 'publish' === $post->post_status && ! wp_is_post_revision( $post_id ) ) {
+			aaykay_purge_page_cache();
+		}
+	},
+	20,
+	2
+);

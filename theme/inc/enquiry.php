@@ -10,16 +10,19 @@
  * "Send enquiries to" address in Site settings, so a lead is never lost if email fails.
  *
  * Spam protection without third-party services: a hidden field people never fill in
- * (honeypot), a minimum time on the page (measured by site.js), and at most five
- * enquiries an hour from one address. There is no nonce on purpose: the page is cached
- * for visitors, and a cached nonce would expire and block real enquiries.
+ * (honeypot) and a minimum time on the page (measured by site.js; required whenever the
+ * form is sent by script). A connection that sends many enquiries in an hour still has
+ * them saved, but they are not emailed; only a flood is turned away. There is no nonce on
+ * purpose: the page is cached for visitors, and a cached nonce would expire and block
+ * real enquiries.
  *
  * @package aaykay
  */
 
 defined( 'ABSPATH' ) || exit;
 
-const AAYKAY_ENQUIRY_LIMIT = 5; // Per IP address per hour.
+const AAYKAY_ENQUIRY_EMAIL_LIMIT = 20; // Per connection per hour; beyond this, saved but not emailed.
+const AAYKAY_ENQUIRY_HARD_LIMIT  = 60; // Per connection per hour; beyond this, refused.
 
 /** Options in the "Project type" select (also the only values the server accepts). */
 function aaykay_project_types() {
@@ -93,10 +96,13 @@ function aaykay_handle_enquiry() {
 	$wants_json = isset( $_SERVER['HTTP_ACCEPT'] ) && false !== strpos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_ACCEPT'] ) ), 'application/json' );
 
 	// Bots: the honeypot is filled in, or the form was sent within 3 seconds of the page
-	// opening. Answer as if it worked so they learn nothing, and store nothing.
-	$honeypot = isset( $_POST['website'] ) ? trim( (string) wp_unslash( $_POST['website'] ) ) : '';
-	$elapsed  = isset( $_POST['elapsed'] ) ? (int) $_POST['elapsed'] : -1;
-	if ( '' !== $honeypot || ( $elapsed >= 0 && $elapsed < 3000 ) ) {
+	// opening. site.js always reports the time; a plain HTML post (no JavaScript) can't, so
+	// only those are let through without it. Answer as if it worked so bots learn nothing,
+	// and store nothing.
+	$honeypot = isset( $_POST['website'] ) ? ( is_string( $_POST['website'] ) ? trim( wp_unslash( $_POST['website'] ) ) : 'not a string' ) : '';
+	$elapsed  = isset( $_POST['elapsed'] ) && is_string( $_POST['elapsed'] ) && '' !== $_POST['elapsed'] ? (int) $_POST['elapsed'] : -1;
+	$too_fast = $wants_json ? $elapsed < 3000 : ( $elapsed >= 0 && $elapsed < 3000 );
+	if ( '' !== $honeypot || $too_fast ) {
 		aaykay_enquiry_respond( $wants_json, true );
 	}
 
@@ -106,7 +112,7 @@ function aaykay_handle_enquiry() {
 		$raw = isset( $_POST[ $key ] ) ? wp_unslash( $_POST[ $key ] ) : '';
 		$raw = is_string( $raw ) ? $raw : '';
 		$val = 'message' === $key ? sanitize_textarea_field( $raw ) : sanitize_text_field( $raw );
-		$val = mb_substr( trim( $val ), 0, $f[2] );
+		$val = mb_substr( trim( $val ), 0, $f[2] ); // WordPress provides mb_substr() if mbstring is missing.
 		if ( $f[1] && '' === $val ) {
 			$errors[ $key ] = 'Please enter your ' . $f[3] . '.';
 		}
@@ -123,14 +129,18 @@ function aaykay_handle_enquiry() {
 		aaykay_enquiry_respond( $wants_json, false, $errors );
 	}
 
-	// Rate limit by IP address (hashed: the address itself is not stored).
+	// Count enquiries per connection per hour (the address is hashed, never stored). Many
+	// people can share one mobile-network address, so a busy hour is saved without email
+	// rather than refused; only a flood is turned away.
 	$ip    = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
 	$key   = 'aaykay_enq_' . md5( $ip . wp_salt( 'nonce' ) );
 	$count = (int) get_transient( $key );
-	if ( $count >= AAYKAY_ENQUIRY_LIMIT ) {
-		aaykay_enquiry_respond( $wants_json, false, array(), 'Too many enquiries have been sent from this connection in the last hour. Please email or call us instead.' );
+	if ( $count >= AAYKAY_ENQUIRY_HARD_LIMIT ) {
+		$contact = aaykay_contact();
+		aaykay_enquiry_respond( $wants_json, false, array(), 'Too many enquiries have been sent from this connection in the last hour. Please email ' . $contact['email'] . ' or call ' . $contact['phone'] . '.' );
 	}
 	set_transient( $key, $count + 1, HOUR_IN_SECONDS );
+	$send_email = $count < AAYKAY_ENQUIRY_EMAIL_LIMIT;
 
 	// 1. Save it.
 	$post_id = wp_insert_post(
@@ -149,6 +159,10 @@ function aaykay_handle_enquiry() {
 	}
 
 	// 2. Email it.
+	if ( ! $send_email ) {
+		update_post_meta( $post_id, '_aaykay_mailed', 'held' );
+		aaykay_enquiry_respond( $wants_json, true );
+	}
 	$to = array_filter( array_map( 'trim', explode( ',', (string) aaykay_setting( 'enquiry_to' ) ) ), 'is_email' );
 	if ( ! $to ) {
 		$to = array( get_option( 'admin_email' ) );
@@ -166,7 +180,8 @@ function aaykay_handle_enquiry() {
 	$lines[] = '—';
 	$lines[] = 'Sent from the enquiry form on ' . home_url( '/' ) . '. Reply to this email to answer ' . $data['name'] . ' directly.';
 	$lines[] = 'All enquiries: ' . admin_url( 'edit.php?post_type=aaykay_enquiry' );
-	$headers = array( 'Reply-To: ' . str_replace( array( "\r", "\n", '"' ), '', $data['name'] ) . ' <' . $data['email'] . '>' );
+	// Commas and quotes would break the Reply-To header (wp_mail splits addresses on commas).
+	$headers = array( 'Reply-To: ' . str_replace( array( "\r", "\n", '"', ',', '<', '>' ), '', $data['name'] ) . ' <' . $data['email'] . '>' );
 	$sent    = wp_mail( $to, $subject, implode( "\n", $lines ), $headers );
 	update_post_meta( $post_id, '_aaykay_mailed', $sent ? '1' : '0' );
 
@@ -207,3 +222,47 @@ function aaykay_enquiry_status_text() {
 	);
 	return isset( $messages[ $state ] ) ? $messages[ $state ] : '';
 }
+
+/**
+ * Optional SMTP sending. PHP's built-in mail is often filtered as spam, so on the live site
+ * enquiries should go out through a real mailbox. Add these lines to wp-config.php (above
+ * "That's all, stop editing!"), with the mailbox created in Hostinger's Email section:
+ *
+ *   define( 'AAYKAY_SMTP_HOST', 'smtp.hostinger.com' );
+ *   define( 'AAYKAY_SMTP_PORT', 465 );
+ *   define( 'AAYKAY_SMTP_USER', 'website@akepl.in' );
+ *   define( 'AAYKAY_SMTP_PASS', 'the mailbox password' );
+ *
+ * The password stays in wp-config.php (not in the database or in Git). Without these lines
+ * WordPress sends mail the usual way.
+ */
+add_action(
+	'phpmailer_init',
+	function ( $mailer ) {
+		if ( ! defined( 'AAYKAY_SMTP_HOST' ) || ! defined( 'AAYKAY_SMTP_USER' ) || ! defined( 'AAYKAY_SMTP_PASS' ) ) {
+			return;
+		}
+		$port               = defined( 'AAYKAY_SMTP_PORT' ) ? (int) AAYKAY_SMTP_PORT : 465;
+		$mailer->isSMTP();
+		$mailer->Host       = AAYKAY_SMTP_HOST; // phpcs:ignore WordPress.NamingConventions.ValidVariableName -- PHPMailer property.
+		$mailer->Port       = $port; // phpcs:ignore WordPress.NamingConventions.ValidVariableName -- PHPMailer property.
+		$mailer->SMTPAuth   = true; // phpcs:ignore WordPress.NamingConventions.ValidVariableName -- PHPMailer property.
+		$mailer->SMTPSecure = 465 === $port ? 'ssl' : 'tls'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName -- PHPMailer property.
+		$mailer->Username   = AAYKAY_SMTP_USER; // phpcs:ignore WordPress.NamingConventions.ValidVariableName -- PHPMailer property.
+		$mailer->Password   = AAYKAY_SMTP_PASS; // phpcs:ignore WordPress.NamingConventions.ValidVariableName -- PHPMailer property.
+	}
+);
+
+// With SMTP set up, mail must come from that mailbox or it is rejected.
+add_filter(
+	'wp_mail_from',
+	function ( $from ) {
+		return defined( 'AAYKAY_SMTP_USER' ) && is_email( AAYKAY_SMTP_USER ) ? AAYKAY_SMTP_USER : $from;
+	}
+);
+add_filter(
+	'wp_mail_from_name',
+	function ( $name ) {
+		return defined( 'AAYKAY_SMTP_USER' ) ? 'AAYKAY website' : $name;
+	}
+);

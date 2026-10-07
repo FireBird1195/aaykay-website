@@ -45,7 +45,7 @@ function aaykay_project_meta( $post_id, $key ) {
 function aaykay_sector_fields() {
 	return array(
 		'short_label' => array( 'Short label', 'text', 'Used on homepage cards, e.g. "Enterprise" for "Enterprise & IT".' ),
-		'description' => array( 'Description', 'text', 'One sentence for the Sectors list on the home page.' ),
+		'description' => array( 'Description', 'text', 'One sentence for the Sectors list on the home page. A sector appears on the website once a published project uses it.' ),
 		'clients'     => array( 'Example clients', 'text', 'Separate with " · ", e.g. Yashoda · KIMS.' ),
 		'icon'        => array( 'Icon', 'icon', 'Shown next to the sector everywhere on the page.' ),
 		'order'       => array( 'Order', 'int', 'Lower numbers are listed first.' ),

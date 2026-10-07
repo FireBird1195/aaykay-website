@@ -7,6 +7,8 @@
 
 defined( 'ABSPATH' ) || exit;
 $aaykay_turnover = aaykay_turnover();
+$aaykay_clients  = trim( (string) aaykay_setting( 'clients_served' ) );
+$aaykay_states   = count( aaykay_branches() );
 ?>
   <section class="hero grain" id="top" aria-labelledby="hero-title">
     <div class="hero-media">
@@ -32,8 +34,12 @@ $aaykay_turnover = aaykay_turnover();
 <?php if ( $aaykay_turnover ) : ?>
         <div class="kpi"><dt>Turnover, <?php echo esc_html( $aaykay_turnover[0]['label'] ); ?></dt><dd>₹<?php echo esc_html( aaykay_crore( $aaykay_turnover[0]['value'] ) ); ?> Cr</dd></div>
 <?php endif; ?>
-        <div class="kpi"><dt>Clients served</dt><dd><?php echo esc_html( aaykay_setting( 'clients_served' ) ); ?></dd></div>
-        <div class="kpi"><dt>States with branches</dt><dd><?php echo (int) count( aaykay_branches() ); ?></dd></div>
+<?php if ( '' !== $aaykay_clients ) : ?>
+        <div class="kpi"><dt>Clients served</dt><dd><?php echo esc_html( $aaykay_clients ); ?></dd></div>
+<?php endif; ?>
+<?php if ( $aaykay_states ) : ?>
+        <div class="kpi"><dt>States with branches</dt><dd><?php echo (int) $aaykay_states; ?></dd></div>
+<?php endif; ?>
         <div class="kpi"><dt>ISO 9001:2015 &amp; 45001:2018</dt><dd>Certified</dd></div>
       </dl>
       <p class="fig-cap-hero">Fig. 1 — UPS battery room, AAYKAY installation</p>

@@ -461,6 +461,14 @@
     var fields = $$('input, select, textarea', form).filter(function (f) { return f.type !== 'hidden' && f.name !== 'website'; });
     var opened = Date.now();
     var sending = false;
+    // Back from a no-JavaScript submission (?enquiry=sent): the message is already on the
+    // page, so drop the parameter to stop it reappearing on reload or in a shared link.
+    if (/[?&]enquiry=/.test(location.search)) {
+      try {
+        var rest = location.search.replace(/^\?/, '').split('&').filter(function (p) { return p && p.indexOf('enquiry=') !== 0; });
+        history.replaceState(history.state, '', location.pathname + (rest.length ? '?' + rest.join('&') : '') + location.hash);
+      } catch (_) { /* sandboxed viewers */ }
+    }
 
     function setError(f, msg) {
       var err = document.getElementById(f.id + '-error');

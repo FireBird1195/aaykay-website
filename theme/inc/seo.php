@@ -94,8 +94,10 @@ add_action(
 			),
 			'telephone'     => $c['tel'],
 			'email'         => $c['email'],
-			'areaServed'    => aaykay_branches(),
 		);
+		if ( aaykay_branches() ) {
+			$data['areaServed'] = aaykay_branches();
+		}
 		echo '<script type="application/ld+json">' . wp_json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG ) . '</script>' . "\n";
 	},
 	5

@@ -328,7 +328,14 @@ function aaykay_save_sector( $term_id ) {
 	$input = isset( $_POST['aaykay_sector_meta'] ) && is_array( $_POST['aaykay_sector_meta'] ) ? wp_unslash( $_POST['aaykay_sector_meta'] ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitised per field below.
 	foreach ( aaykay_sector_fields() as $key => $f ) {
 		$raw = isset( $input[ $key ] ) ? (string) $input[ $key ] : '';
-		if ( 'int' === $f[1] ) {
+		if ( 'order' === $key && '' === trim( $raw ) ) {
+			// No order given: put the sector after the existing ones.
+			$max = 0;
+			foreach ( get_terms( array( 'taxonomy' => 'aaykay_sector', 'hide_empty' => false, 'exclude' => array( $term_id ) ) ) as $t ) {
+				$max = max( $max, (int) aaykay_sector_meta( $t->term_id, 'order' ) );
+			}
+			$value = (string) ( $max + 10 );
+		} elseif ( 'int' === $f[1] ) {
 			$value = (string) (int) $raw;
 		} elseif ( 'icon' === $f[1] ) {
 			$value = in_array( $raw, aaykay_icon_ids(), true ) ? $raw : 'building-2';
@@ -504,7 +511,11 @@ function aaykay_render_enquiry_box( $post ) {
 		}
 		echo '<tr><th scope="row">' . esc_html( $f[0] ) . '</th><td>' . $value_html . '</td></tr>'; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above.
 	}
-	echo '<tr><th scope="row">Email notification</th><td>' . ( '1' === $mailed ? 'Sent' : 'Could not be sent. Check the email settings, and reply to this enquiry directly.' ) . '</td></tr>';
+	$mail_note = array(
+		'1'    => 'Sent.',
+		'held' => 'Not emailed: many enquiries came from the same connection within an hour, so this one was only saved here. Check that it is genuine before replying.',
+	);
+	echo '<tr><th scope="row">Email notification</th><td>' . esc_html( isset( $mail_note[ $mailed ] ) ? $mail_note[ $mailed ] : 'Could not be sent. Reply to this enquiry directly, and ask your developer to check the email settings.' ) . '</td></tr>';
 	echo '</tbody></table>';
 	echo '<p><a class="button button-primary" href="' . esc_url( 'mailto:' . get_post_meta( $post->ID, '_aaykay_email', true ) . '?subject=' . rawurlencode( 'Re: your enquiry to AAYKAY Electricals' ) ) . '">Reply by email</a> <a class="button" href="' . esc_url( get_delete_post_link( $post->ID ) ) . '">Move to bin</a> <a class="button-link" href="' . esc_url( admin_url( 'edit.php?post_type=aaykay_enquiry' ) ) . '">Back to all enquiries</a></p>';
 }
@@ -529,7 +540,8 @@ add_action(
 	function ( $col, $post_id ) {
 		$key = substr( $col, 7 );
 		if ( 'mailed' === $key ) {
-			echo '1' === get_post_meta( $post_id, '_aaykay_mailed', true ) ? 'Yes' : '<strong>No</strong>';
+			$mailed = get_post_meta( $post_id, '_aaykay_mailed', true );
+			echo '1' === $mailed ? 'Yes' : ( 'held' === $mailed ? '<strong>Held</strong>' : '<strong>No</strong>' );
 		} elseif ( in_array( $key, array( 'email', 'phone', 'type', 'city' ), true ) ) {
 			echo esc_html( (string) get_post_meta( $post_id, '_aaykay_' . $key, true ) );
 		}
@@ -556,4 +568,67 @@ add_filter(
 	},
 	10,
 	2
+);
+
+// Enquiries are records: no Quick Edit or bulk editing, only reading and deleting.
+add_filter(
+	'post_row_actions',
+	function ( $actions, $post ) {
+		if ( 'aaykay_enquiry' === $post->post_type ) {
+			unset( $actions['inline hide-if-no-js'], $actions['edit'] );
+			$actions = array( 'view_enquiry' => '<a href="' . esc_url( get_edit_post_link( $post->ID ) ) . '">Read</a>' ) + $actions;
+		}
+		return $actions;
+	},
+	10,
+	2
+);
+add_filter(
+	'bulk_actions-edit-aaykay_enquiry',
+	function ( $actions ) {
+		unset( $actions['edit'] );
+		return $actions;
+	}
+);
+
+/** On the Projects list: say if published projects are hidden because they have no sector. */
+add_action(
+	'admin_notices',
+	function () {
+		$screen = get_current_screen();
+		if ( ! $screen || 'edit-aaykay_project' !== $screen->id ) {
+			return;
+		}
+		$orphans = get_posts(
+			array(
+				'post_type'   => 'aaykay_project',
+				'post_status' => 'publish',
+				'numberposts' => -1,
+				'fields'      => 'ids',
+				'tax_query'   => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- small admin-only query.
+					array(
+						'taxonomy' => 'aaykay_sector',
+						'operator' => 'NOT EXISTS',
+					),
+				),
+			)
+		);
+		if ( $orphans ) {
+			$names = array_map( 'get_the_title', array_slice( $orphans, 0, 5 ) );
+			printf(
+				'<div class="notice notice-warning"><p>%s</p></div>',
+				esc_html(
+					sprintf(
+						'%d published project%s %s not on the website because %s no sector: %s%s. Open each one and choose a sector.',
+						count( $orphans ),
+						1 === count( $orphans ) ? '' : 's',
+						1 === count( $orphans ) ? 'is' : 'are',
+						1 === count( $orphans ) ? 'it has' : 'they have',
+						implode( ', ', $names ),
+						count( $orphans ) > 5 ? '…' : ''
+					)
+				)
+			);
+		}
+	}
 );

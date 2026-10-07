@@ -48,7 +48,7 @@ $aaykay_contact = aaykay_contact();
 
     </ul>
     <div class="m-foot">
-      <p>Head office: <?php echo esc_html( $aaykay_contact['area'] . ', ' . $aaykay_contact['city'] ); ?></p>
+      <p>Head office: <?php echo esc_html( aaykay_join( ', ', array( $aaykay_contact['area'], $aaykay_contact['city'] ) ) ); ?></p>
       <p><a href="tel:<?php echo esc_attr( $aaykay_contact['tel'] ); ?>"><?php echo esc_html( $aaykay_contact['phone'] ); ?></a> · <a href="mailto:<?php echo esc_attr( $aaykay_contact['email'] ); ?>"><?php echo esc_html( $aaykay_contact['email'] ); ?></a></p>
     </div>
   </nav>

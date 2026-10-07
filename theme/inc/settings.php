@@ -176,18 +176,21 @@ function aaykay_sanitize_settings( $input ) {
 	$out   = array();
 	foreach ( aaykay_settings_fields() as $key => $f ) {
 		$raw = isset( $input[ $key ] ) ? $input[ $key ] : '';
+		if ( 'turnover' !== $f[2] && ! is_string( $raw ) ) {
+			$raw = '';
+		}
 		switch ( $f[2] ) {
 			case 'email':
 				$out[ $key ] = sanitize_email( $raw );
-				if ( '' !== trim( (string) $raw ) && '' === $out[ $key ] ) {
-					add_settings_error( AAYKAY_SETTINGS_OPTION, $key, 'The email address doesn’t look right, so it was not saved.' );
+				if ( '' === $out[ $key ] ) {
+					add_settings_error( AAYKAY_SETTINGS_OPTION, $key, '' === trim( $raw ) ? 'The email address can’t be empty, so the previous one was kept.' : 'The email address doesn’t look right, so the previous one was kept.' );
 					$out[ $key ] = aaykay_setting( $key );
 				}
 				break;
 			case 'emails':
-				$list = array_filter( array_map( 'sanitize_email', explode( ',', (string) $raw ) ) );
-				if ( ! $list && '' !== trim( (string) $raw ) ) {
-					add_settings_error( AAYKAY_SETTINGS_OPTION, $key, 'The enquiry address doesn’t look right, so it was not saved.' );
+				$list = array_filter( array_map( 'sanitize_email', explode( ',', $raw ) ) );
+				if ( ! $list ) {
+					add_settings_error( AAYKAY_SETTINGS_OPTION, $key, '' === trim( $raw ) ? 'Enquiries need an address to go to, so the previous one was kept.' : 'The enquiry address doesn’t look right, so the previous one was kept.' );
 				}
 				$out[ $key ] = $list ? implode( ', ', $list ) : aaykay_setting( $key );
 				break;
@@ -202,6 +205,7 @@ function aaykay_sanitize_settings( $input ) {
 				$out[ $key ] = preg_replace( '/[^\d,+]/', '', (string) $raw );
 				break;
 			case 'turnover':
+				$raw  = is_array( $raw ) ? $raw : array();
 				$rows = array();
 				for ( $i = 0; $i < AAYKAY_TURNOVER_ROWS; $i++ ) {
 					$label = isset( $raw[ $i ][0] ) ? sanitize_text_field( $raw[ $i ][0] ) : '';
@@ -218,6 +222,10 @@ function aaykay_sanitize_settings( $input ) {
 				break;
 			default:
 				$out[ $key ] = sanitize_text_field( $raw );
+				if ( 'phone' === $key && '' === $out[ $key ] ) {
+					add_settings_error( AAYKAY_SETTINGS_OPTION, $key, 'The phone number can’t be empty, so the previous one was kept.' );
+					$out[ $key ] = aaykay_setting( $key );
+				}
 		}
 	}
 	return $out;

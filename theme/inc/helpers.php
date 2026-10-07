@@ -58,6 +58,11 @@ function aaykay_tel( $phone ) {
 	return preg_replace( '/[^\d+]/', '', (string) $phone );
 }
 
+/** Join the non-empty parts: aaykay_join( ', ', array( 'Somajiguda', '', 'Hyderabad' ) ) -> "Somajiguda, Hyderabad". */
+function aaykay_join( $separator, $parts ) {
+	return implode( $separator, array_filter( array_map( 'trim', (array) $parts ), 'strlen' ) );
+}
+
 /** True for a non-empty string of digits only ("24", not "G+30"). */
 function aaykay_is_digits( $value ) {
 	return 1 === preg_match( '/^\d+$/', (string) $value );
@@ -87,16 +92,16 @@ function aaykay_image_size( $file ) {
 		if ( ! preg_match( '/<svg\b[^>]*>/s', $head, $tag ) ) {
 			return null;
 		}
+		$size = null;
 		if ( preg_match( '/viewBox="\s*[-\d.]+[\s,]+[-\d.]+[\s,]+([\d.]+)[\s,]+([\d.]+)/', $tag[0], $vb ) ) {
-			return array( (float) $vb[1], (float) $vb[2] );
+			$size = array( (float) $vb[1], (float) $vb[2] );
+		} elseif ( preg_match( '/\bwidth="([\d.]+)/', $tag[0], $w ) && preg_match( '/\bheight="([\d.]+)/', $tag[0], $h ) ) {
+			$size = array( (float) $w[1], (float) $h[1] );
 		}
-		if ( preg_match( '/\bwidth="([\d.]+)/', $tag[0], $w ) && preg_match( '/\bheight="([\d.]+)/', $tag[0], $h ) ) {
-			return array( (float) $w[1], (float) $h[1] );
-		}
-		return null;
+		return ( $size && $size[0] > 0 && $size[1] > 0 ) ? $size : null;
 	}
 	$size = @getimagesize( $file ); // phpcs:ignore WordPress.PHP.NoSilencedErrors -- unreadable files return null below.
-	return ( $size && $size[0] && $size[1] ) ? array( (float) $size[0], (float) $size[1] ) : null;
+	return ( $size && $size[0] > 0 && $size[1] > 0 ) ? array( (float) $size[0], (float) $size[1] ) : null;
 }
 
 /**
