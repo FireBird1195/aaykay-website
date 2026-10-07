@@ -45,6 +45,7 @@ permission. The page greyscales them with CSS, so the files keep their original 
 |---|---|
 | `clients/ibm.svg`, `clients/microsoft.svg`, `clients/qualcomm.svg` | svg-logos by Gil Barbara (CC0), via `@iconify-json/logos` 1.2.15 |
 | `clients/shell.svg` | Simple Icons 16.34.0 (CC0) |
+| `clients/amazon.svg` | Simple Icons (CC0) brand mark, supplied by Tejas, 7 Oct 2026 |
 
 Record any new logo file here with where it came from (ideally the company's own brand or
 press page).

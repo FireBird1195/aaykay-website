@@ -144,7 +144,7 @@
   "clients": [
     {
       "name": "Amazon",
-      "logo": null,
+      "logo": "assets/logos/clients/amazon.svg",
       "source": "project record: Amazon MAA12 (profile)"
     },
     {
