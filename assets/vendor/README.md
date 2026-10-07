@@ -46,6 +46,10 @@ permission. The page greyscales them with CSS, so the files keep their original 
 | `clients/ibm.svg`, `clients/microsoft.svg`, `clients/qualcomm.svg` | svg-logos by Gil Barbara (CC0), via `@iconify-json/logos` 1.2.15 |
 | `clients/shell.svg` | Simple Icons 16.34.0 (CC0) |
 | `clients/amazon.svg` | Simple Icons (CC0) brand mark, supplied by Tejas, 7 Oct 2026 |
+| `clients/hdfc-bank.svg`, `clients/servicenow.webp`, `clients/medtronic.webp`, `clients/cognizant.webp`, `clients/walmart.webp` | Wikimedia Commons, downloaded by Tejas, 7 Oct 2026. The WebP files are Commons renders, trimmed and resized to 400 px (Walmart's stacked 2025 version is 250 px as supplied). |
+| `clients/gmr-hyderabad-airport.svg` | hyderabad.aero (official site) |
+| `clients/my-home-group.svg` | myhomeconstructions.com (official site). The site's file has white letters for dark backgrounds, so they were set to dark navy for the white strip; the red mark is unchanged. |
+| `clients/yashoda-hospitals.svg` | Auto-traced (VTracer) from a small PNG of the official logo; replace with an original vector when AAYKAY or Yashoda supplies one. |
 
 Record any new logo file here with where it came from (ideally the company's own brand or
 press page).

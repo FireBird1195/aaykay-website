@@ -169,7 +169,7 @@
     },
     {
       "name": "Walmart",
-      "logo": null,
+      "logo": "assets/logos/clients/walmart.webp",
       "source": "project record: Walmart (profile)"
     },
     {
@@ -179,37 +179,37 @@
     },
     {
       "name": "HDFC Bank",
-      "logo": null,
+      "logo": "assets/logos/clients/hdfc-bank.svg",
       "source": "project record: HDFC Bank (profile)"
     },
     {
       "name": "ServiceNow",
-      "logo": null,
+      "logo": "assets/logos/clients/servicenow.webp",
       "source": "project record: ServiceNow (profile)"
     },
     {
       "name": "Medtronic",
-      "logo": null,
+      "logo": "assets/logos/clients/medtronic.webp",
       "source": "profile client-list page (image only); confirm with AAYKAY"
     },
     {
       "name": "Cognizant",
-      "logo": null,
+      "logo": "assets/logos/clients/cognizant.webp",
       "source": "project record: Cognizant Technologies (profile)"
     },
     {
       "name": "GMR Hyderabad Airport",
-      "logo": null,
+      "logo": "assets/logos/clients/gmr-hyderabad-airport.svg",
       "source": "project record: GMR Hyderabad International Airport (brochure)"
     },
     {
       "name": "Yashoda Hospitals",
-      "logo": null,
+      "logo": "assets/logos/clients/yashoda-hospitals.svg",
       "source": "project record: Yashoda Hospitals I-III (profile)"
     },
     {
       "name": "My Home Group",
-      "logo": null,
+      "logo": "assets/logos/clients/my-home-group.svg",
       "source": "project record: My Home Grawa, Nishada, Tridasa (profile)"
     }
   ],
