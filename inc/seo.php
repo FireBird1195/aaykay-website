@@ -49,7 +49,11 @@ add_action(
 		if ( ! is_front_page() ) {
 			return;
 		}
-		$name        = 'AAYKAY Electricals';
+		$name        = get_bloginfo( 'name' ) ? get_bloginfo( 'name' ) : 'AAYKAY Electricals';
+		$legal       = aaykay_legal_name();
+		$founded     = preg_replace( '/\D/', '', aaykay_t( 'company', 'glance_established' ) );
+		$founder     = aaykay_t( 'company', 'founder_name' );
+		$og_title    = trim( (string) aaykay_setting( 'seo_title' ) );
 		$description = trim( (string) aaykay_setting( 'seo_description' ) );
 		$home        = home_url( '/' );
 		$image       = aaykay_asset( 'assets/og-image.jpg' );
@@ -61,7 +65,7 @@ add_action(
 			'og:type'        => 'website',
 			'og:site_name'   => $name,
 			'og:url'         => $home,
-			'og:title'       => 'AAYKAY Electricals: electrical systems for buildings that can’t go dark',
+			'og:title'       => '' !== $og_title ? $og_title : $name,
 			'og:description' => $description,
 			'og:image'       => $image,
 			'og:image:width' => '1200',
@@ -80,14 +84,9 @@ add_action(
 			'@context'      => 'https://schema.org',
 			'@type'         => 'Organization',
 			'name'          => $name,
-			'legalName'     => 'AAYKAY Electricals Private Limited',
+			'legalName'     => $legal,
 			'alternateName' => 'AAYKAY',
 			'url'           => $home,
-			'foundingDate'  => '2008',
-			'founder'       => array(
-				'@type' => 'Person',
-				'name'  => 'Abdul Kareem P',
-			),
 			'address'       => array(
 				'@type'           => 'PostalAddress',
 				'streetAddress'   => trim( $c['street'] . ', ' . $c['area'], ', ' ),
@@ -99,6 +98,16 @@ add_action(
 			'telephone'     => $c['tel'],
 			'email'         => $c['email'],
 		);
+		// From Homepage content > Company, so the structured data follows what the page says.
+		if ( 4 === strlen( $founded ) ) {
+			$data['foundingDate'] = $founded;
+		}
+		if ( '' !== $founder ) {
+			$data['founder'] = array(
+				'@type' => 'Person',
+				'name'  => $founder,
+			);
+		}
 		if ( aaykay_branches() ) {
 			$data['areaServed'] = aaykay_branches();
 		}
