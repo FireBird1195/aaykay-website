@@ -879,12 +879,17 @@ html.menu-open .brochure-tab { visibility: hidden; }
 .branches::before { content: ""; display: block; margin-bottom: var(--section-y); border-top: 1px solid var(--rule-dark); }
 .branch-grid { align-items: center; row-gap: var(--s7); }
 .branch-map { grid-column: 1 / span 6; max-width: 34rem; }
-.branch-map-svg { display: block; width: 100%; height: auto; }
+.branch-map-svg { display: block; width: 100%; height: auto; overflow: visible; }
 .map-state { fill: none; stroke: rgba(255, 255, 255, .14); stroke-width: 1.2; stroke-linejoin: round; }
 .map-state.is-branch { fill: rgba(201, 214, 242, .16); stroke: rgba(201, 214, 242, .45); }
 .map-outline { fill: none; stroke: var(--on-dark-3); stroke-width: 2; stroke-linejoin: round; }
 .map-pin path { fill: var(--red-600); stroke: var(--navy-950); stroke-width: 1.5; }
 .map-pin circle { fill: #fff; }
+/* The state's name shows above a pin while the pointer is over it (the map is decorative; the list beside it says the same). */
+.map-tip { opacity: 0; pointer-events: none; fill: #fff; font-family: var(--font-sans); font-size: 30px; font-weight: 600; paint-order: stroke; stroke: var(--navy-950); stroke-width: 8px; stroke-linejoin: round; transition: opacity .15s var(--ease-out); }
+.map-mark:hover .map-tip { opacity: 1; }
+.map-mark:hover .map-pin path { fill: var(--red-400); }
+@media (prefers-reduced-motion: reduce) { .map-tip { transition: none; } }
 .branch-list { grid-column: 8 / span 5; }
 .branch-list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem .6rem; padding-block: .8rem; border-top: 1px solid var(--rule-dark); color: var(--on-dark); font-size: var(--fs-body); }
 .branch-list li:last-child { border-bottom: 1px solid var(--rule-dark); }
