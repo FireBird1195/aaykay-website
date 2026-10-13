@@ -170,8 +170,9 @@ add_filter(
 );
 
 /**
- * The site is one page. Author pages (which reveal login names), attachment pages, blog
- * archives and search results have nothing to show, so they go to the home page or 404.
+ * The site is its pages (inc/pages.php). Author pages (which reveal login names), attachment
+ * pages, blog archives and search results have nothing to show, so they go to the home
+ * page or 404.
  */
 add_action(
 	'template_redirect',

@@ -42,9 +42,9 @@ foreach ( $aaykay_lines as $aaykay_i => $aaykay_line ) {
       <p class="hero-lead" data-hero-in><?php aaykay_e( 'hero', 'lead' ); ?></p>
 <?php endif; ?>
       <div class="hero-actions" data-hero-in>
-        <a class="btn btn--primary" href="#contact"><?php aaykay_e( 'hero', 'primary_label' ); ?> <?php echo aaykay_arrow(); // phpcs:ignore WordPress.Security.EscapeOutput -- static SVG. ?></a>
+        <a class="btn btn--primary" href="<?php echo esc_url( aaykay_section_url( 'contact' ) ); ?>"><?php aaykay_e( 'hero', 'primary_label' ); ?> <?php echo aaykay_arrow(); // phpcs:ignore WordPress.Security.EscapeOutput -- static SVG. ?></a>
 <?php if ( '' !== aaykay_t( 'hero', 'secondary_label' ) ) : ?>
-        <a class="btn btn--outline-light" href="#work"><?php aaykay_e( 'hero', 'secondary_label' ); ?></a>
+        <a class="btn btn--outline-light" href="<?php echo esc_url( aaykay_section_url( 'work' ) ); ?>"><?php aaykay_e( 'hero', 'secondary_label' ); ?></a>
 <?php endif; ?>
       </div>
     </div>

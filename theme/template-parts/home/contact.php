@@ -1,6 +1,6 @@
 <?php
 /**
- * Home page: contact and the enquiry form. Texts: Homepage content > Contact and enquiry
+ * Contact Us page: contact details and the enquiry form. Texts: Homepage content > Contact and enquiry
  * form. Address, phone, email, branches: Site settings. Handling: inc/enquiry.php.
  *
  * @package aaykay
@@ -13,6 +13,8 @@ $aaykay_note  = esc_html( aaykay_t( 'contact', 'note' ) );
 if ( '' !== $aaykay_c['email'] ) {
 	$aaykay_note = str_replace( esc_html( $aaykay_c['email'] ), '<a href="mailto:' . esc_attr( $aaykay_c['email'] ) . '">' . esc_html( $aaykay_c['email'] ) . '</a>', $aaykay_note );
 }
+// A link such as "Request pre-qualification documents" (About Us) arrives with ?type=…
+$aaykay_want  = isset( $_GET['type'] ) ? sanitize_text_field( wp_unslash( $_GET['type'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- only preselects a list option.
 $aaykay_extra = array(
 	array( 'careers', '' ),
 	array( 'suppliers', '' ),
@@ -26,8 +28,8 @@ $aaykay_extra = array(
         <p class="lead"><?php aaykay_e( 'contact', 'lead' ); ?></p>
 <?php endif; ?>
         <dl class="contact-dl">
-          <div><dt class="label icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#map-pin"/></svg>Head office</dt><dd><?php echo '' !== $aaykay_c['street'] ? esc_html( $aaykay_c['street'] ) . ',<br>' : ''; ?><?php echo esc_html( aaykay_join( ', ', array( $aaykay_c['area'], aaykay_join( ' ', array( $aaykay_c['city'], $aaykay_c['postcode'] ) ), $aaykay_c['state'] ) ) ); ?><br><a href="<?php echo esc_url( $aaykay_c['maps_url'] ); ?>" target="_blank" rel="noopener">Open in Google Maps</a></dd></div>
-          <div><dt class="label icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#phone"/></svg>Phone</dt><dd><a href="tel:<?php echo esc_attr( $aaykay_c['tel'] ); ?>" id="c-phone"><?php echo esc_html( $aaykay_c['phone'] ); ?></a><button class="copy-btn" type="button" data-copy="<?php echo esc_attr( $aaykay_c['phone'] ); ?>" data-copy-target="c-phone" title="Copy" hidden><svg class="ic ic--sm copy-ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#copy"/></svg><svg class="ic ic--sm check-ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#check"/></svg><span class="visually-hidden">Copy phone number</span></button></dd></div>
+          <div><dt class="label icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#map-pin"/></svg>Head office</dt><dd><?php echo '' !== $aaykay_c['street'] ? esc_html( $aaykay_c['street'] ) . ',<br>' : ''; ?><?php echo esc_html( aaykay_join( ', ', array( $aaykay_c['area'], aaykay_join( ' ', array( $aaykay_c['city'], $aaykay_c['postcode'] ) ), $aaykay_c['state'] ) ) ); ?><?php if ( '' !== $aaykay_c['maps_url'] ) : ?><br><a href="<?php echo esc_url( $aaykay_c['maps_url'] ); ?>" target="_blank" rel="noopener">Open in Google Maps</a><?php endif; ?></dd></div>
+          <div><dt class="label icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#phone"/></svg>Phone</dt><dd><a href="tel:<?php echo esc_attr( $aaykay_c['tel'] ); ?>" id="c-phone"><?php echo esc_html( $aaykay_c['phone'] ); ?></a><button class="copy-btn" type="button" data-copy="<?php echo esc_attr( $aaykay_c['phone'] ); ?>" data-copy-target="c-phone" title="Copy" hidden><svg class="ic ic--sm copy-ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#copy"/></svg><svg class="ic ic--sm check-ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#check"/></svg><span class="visually-hidden">Copy phone number</span></button><?php if ( '' !== $aaykay_c['phone2'] ) : ?><br><a href="tel:<?php echo esc_attr( $aaykay_c['tel2'] ); ?>"><?php echo esc_html( $aaykay_c['phone2'] ); ?></a><?php endif; ?></dd></div>
           <div><dt class="label icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#mail"/></svg>Email</dt><dd><a href="mailto:<?php echo esc_attr( $aaykay_c['email'] ); ?>" id="c-email"><?php echo esc_html( $aaykay_c['email'] ); ?></a><button class="copy-btn" type="button" data-copy="<?php echo esc_attr( $aaykay_c['email'] ); ?>" data-copy-target="c-email" title="Copy" hidden><svg class="ic ic--sm copy-ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#copy"/></svg><svg class="ic ic--sm check-ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#check"/></svg><span class="visually-hidden">Copy email address</span></button></dd></div>
 <?php if ( aaykay_branches() ) : ?>
           <div><dt class="label icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#map"/></svg>Branches</dt><dd><?php echo esc_html( implode( ' · ', aaykay_branches() ) ); ?></dd></div>
@@ -80,7 +82,7 @@ foreach ( $aaykay_extra as $aaykay_x ) :
             <select id="f-type" name="type">
               <option value="">Select one</option>
 <?php foreach ( aaykay_project_types() as $aaykay_type ) : ?>
-              <option><?php echo esc_html( $aaykay_type ); ?></option>
+              <option<?php selected( $aaykay_want, $aaykay_type ); ?>><?php echo esc_html( $aaykay_type ); ?></option>
 <?php endforeach; ?>
             </select>
           </div>

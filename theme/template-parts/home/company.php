@@ -1,6 +1,6 @@
 <?php
 /**
- * Home page: company. Content: Homepage content > Company.
+ * About Us page: company. Content: Homepage content > Company.
  * Head office and branch count: Site settings.
  *
  * @package aaykay
@@ -12,6 +12,7 @@ $aaykay_states   = count( aaykay_branches() );
 $aaykay_creds    = aaykay_rows( 'company', 'creds' );
 $aaykay_timeline = aaykay_rows( 'company', 'timeline' );
 $aaykay_photo    = aaykay_img( aaykay_c( 'company', 'founder_photo' ), array( 'sizes' => '(min-width: 900px) 28vw, 22rem' ) );
+$aaykay_photo2   = aaykay_img( aaykay_c( 'company', 'person2_photo' ), array( 'sizes' => '(min-width: 900px) 28vw, 22rem' ) );
 ?>
   <section class="section" id="company" aria-labelledby="company-title">
     <div class="wrap">
@@ -38,6 +39,24 @@ $aaykay_photo    = aaykay_img( aaykay_c( 'company', 'founder_photo' ), array( 's
 <?php endforeach; ?>
           </ul>
 <?php endif; ?>
+<?php if ( '' !== aaykay_t( 'company', 'person2_name' ) ) : ?>
+          <div class="person">
+            <div class="founder-photo">
+<?php if ( '' !== $aaykay_photo2 ) : ?>
+              <?php echo $aaykay_photo2; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_img(). ?>
+
+<?php else : ?>
+              <?php echo aaykay_pending( 'Portrait of ' . aaykay_t( 'company', 'person2_name' ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_pending(). ?>
+
+<?php endif; ?>
+            </div>
+            <p class="founder-name"><?php aaykay_e( 'company', 'person2_name' ); ?></p>
+            <p class="label"><?php aaykay_e( 'company', 'person2_title' ); ?></p>
+<?php if ( '' !== aaykay_t( 'company', 'person2_text' ) ) : ?>
+            <p class="person-text"><?php aaykay_e( 'company', 'person2_text' ); ?></p>
+<?php endif; ?>
+          </div>
+<?php endif; ?>
         </div>
         <div class="company-body">
           <dl class="glance">
@@ -62,6 +81,9 @@ $aaykay_photo    = aaykay_img( aaykay_c( 'company', 'founder_photo' ), array( 's
             <figcaption><?php aaykay_e( 'company', 'quote_by' ); ?></figcaption>
 <?php endif; ?>
           </figure>
+<?php else : ?>
+          <?php echo aaykay_pending( 'A short quote from the Managing Director', 'pull' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_pending(). ?>
+
 <?php endif; ?>
 <?php if ( $aaykay_timeline ) : ?>
           <ol class="timeline">

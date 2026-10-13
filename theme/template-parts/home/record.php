@@ -1,7 +1,7 @@
 <?php
 /**
- * Home page: project record. Headings: Homepage content > Project record.
- * Rows: Dashboard > Projects. Firms: Dashboard > Architects & consultants.
+ * Projects page: the project record. Headings: Homepage content > Project record.
+ * Rows: Dashboard > Projects, alphabetical.
  *
  * @package aaykay
  */
@@ -47,14 +47,6 @@ $aaykay_values = aaykay_show_values();
       <p class="scroll-hint">Scroll the table sideways to see every column.</p>
       <div class="record-more">
         <button class="btn btn--outline" type="button" id="record-more" aria-controls="record-table" hidden>Show all projects</button>
-      </div>
-
-      <div class="firms grid-12">
-        <h3><?php aaykay_e( 'record', 'firms_heading' ); ?></h3>
-        <ul class="firm-list">
-          <?php echo aaykay_render_firms( '          ' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the renderer. ?>
-
-        </ul>
       </div>
     </div>
   </section>

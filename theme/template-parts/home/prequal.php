@@ -1,17 +1,15 @@
 <?php
 /**
- * Home page: pre-qualification. Headings and certificates: Homepage content >
- * Pre-qualification. Turnover, resources and branches: Site settings.
+ * Pre-qualification (About Us page). Headings and certificates: Homepage content >
+ * Pre-qualification. Resources and branches: Site settings. Turnover is not published
+ * (client brief, 10 Oct 2026).
  *
  * @package aaykay
  */
 
 defined( 'ABSPATH' ) || exit;
 $aaykay_contact  = aaykay_contact();
-$aaykay_turnover = aaykay_turnover();
-// Bars are drawn against the largest year plus 5% headroom.
-$aaykay_scale = $aaykay_turnover ? round( max( wp_list_pluck( $aaykay_turnover, 'value' ) ) * 1.05, 2 ) : 1;
-$aaykay_os    = aaykay_setting( 'res_out_skilled' );
+$aaykay_os       = aaykay_setting( 'res_out_skilled' );
 $aaykay_ou    = aaykay_setting( 'res_out_unskilled' );
 if ( '' !== $aaykay_os && '' !== $aaykay_ou ) {
 	$aaykay_out = array( 'Outsourced, skilled / unskilled' => $aaykay_os . ' / ' . $aaykay_ou );
@@ -45,21 +43,6 @@ $aaykay_groups = array(
 <?php endif; ?>
       </div>
       <div class="pq-grid">
-        <div class="pq-block">
-          <h3 class="label icon-label"><?php echo aaykay_icon( aaykay_c( 'prequal', 'turnover_icon' ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><?php aaykay_e( 'prequal', 'turnover_heading' ); ?></h3>
-<?php if ( $aaykay_turnover ) : ?>
-          <p class="stat-value">₹<?php echo esc_html( aaykay_crore( $aaykay_turnover[0]['value'] ) ); ?> Cr</p>
-          <p class="stat-sub"><?php echo esc_html( aaykay_turnover_change() ); ?></p>
-          <table class="fy" style="--max:<?php echo esc_attr( $aaykay_scale ); ?>">
-            <caption class="visually-hidden">Annual turnover by financial year, in crore rupees</caption>
-            <tbody>
-<?php foreach ( $aaykay_turnover as $aaykay_i => $aaykay_row ) : ?>
-              <tr><th scope="row"><?php echo esc_html( $aaykay_row['label'] ); ?></th><td><span class="bar-row"><span class="bar-track"><span class="bar<?php echo 0 === $aaykay_i ? ' bar--now' : ''; ?>" style="--v:<?php echo esc_attr( (string) $aaykay_row['value'] ); ?>"></span></span><span class="bar-val"><?php echo esc_html( aaykay_crore( $aaykay_row['value'] ) ); ?></span></span></td></tr>
-<?php endforeach; ?>
-            </tbody>
-          </table>
-<?php endif; ?>
-        </div>
         <div class="pq-block">
           <h3 class="label icon-label"><?php echo aaykay_icon( aaykay_c( 'prequal', 'resources_icon' ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><?php aaykay_e( 'prequal', 'resources_heading' ); ?></h3>
 <?php
@@ -109,7 +92,7 @@ foreach ( $aaykay_groups as $aaykay_group => $aaykay_rows ) :
 <?php endif; ?>
       </div>
 <?php if ( '' !== aaykay_t( 'prequal', 'request_label' ) ) : ?>
-      <p class="pq-request"><a class="btn btn--primary" href="#contact" data-enquiry-type="Pre-qualification documents"><?php aaykay_e( 'prequal', 'request_label' ); ?> <?php echo aaykay_arrow(); // phpcs:ignore WordPress.Security.EscapeOutput -- static SVG. ?></a></p>
+      <p class="pq-request"><a class="btn btn--primary" href="<?php echo esc_url( add_query_arg( 'type', rawurlencode( 'Pre-qualification documents' ), aaykay_page_url( 'contact' ) ) . '#contact' ); ?>" data-enquiry-type="Pre-qualification documents"><?php aaykay_e( 'prequal', 'request_label' ); ?> <?php echo aaykay_arrow(); // phpcs:ignore WordPress.Security.EscapeOutput -- static SVG. ?></a></p>
 <?php endif; ?>
     </div>
   </section>
