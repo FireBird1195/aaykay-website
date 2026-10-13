@@ -50,6 +50,19 @@ Version 5 of the content (`AAYKAY_DATA_VERSION`, `aaykay_upgrade_5`, `seed/upgra
 - Not changed, for the client to decide: Certifications now has 7 documents, so the last row
   of the three-column grid holds one card.
 
+## Client preview on GitHub Pages (13 Oct 2026)
+GitHub Pages cannot run WordPress, so the public preview is a snapshot: `tools/export-preview.py`
+fetches the six pages from a running copy of the site and writes plain HTML, with the theme files
+they use, to a folder. That folder is the whole of the orphan branch `gh-pages` (nothing else is on
+it; never merge it). Pages are noindex, a thin bar says it is a preview, and the enquiry form is
+switched off. Rebuild after any change: start the site, run
+`python3 tools/export-preview.py http://localhost:8080 OUT_DIR https://firebird1195.github.io/aaykay-website`,
+replace the contents of `gh-pages` with OUT_DIR, commit and push. In the repository's Settings >
+Pages, publish from branch `gh-pages`, folder `/ (root)`.
+- Map on Contact Us: hovering a pin shows the state's name above it (CSS only, `.map-tip`).
+- The empty "site team member in full PPE" photo slot on Quality & Safety is removed (also from
+  sites with saved content, by `aaykay_upgrade_5`).
+
 ## State (13 Oct 2026, second round): branch `feat/final-brief-oct13`
 On top of `feat/client-brief-oct10` (not merged). Version 3 of the content (`AAYKAY_DATA_VERSION`).
 - Pages: Home (slideshow of ten site photos, then About Us: company and "Our work", timeline,

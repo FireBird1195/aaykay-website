@@ -394,6 +394,7 @@ function aaykay_upgrade_4() {
  *     commissioning." and the GST registration certificate joins the Certifications &
  *     Licences list. Each is replaced only while the saved value is still exactly the version
  *     4 launch value (seed/upgrade-5.json), so nothing AAYKAY has edited is overwritten.
+ *   - The empty "site team member in full PPE" photo slot on Quality & Safety is removed.
  */
 function aaykay_upgrade_5() {
 	$old     = aaykay_upgrade_seed( 5 );
@@ -409,6 +410,18 @@ function aaykay_upgrade_5() {
 				$content[ $sid ][ $key ] = $defaults[ $sid ][ $key ];
 			}
 		}
+	}
+	// The "site team member in full PPE" photo slot (no photo was ever supplied) is removed.
+	if ( isset( $content['quality']['photos'] ) && is_array( $content['quality']['photos'] ) ) {
+		$content['quality']['photos'] = array_values(
+			array_filter(
+				$content['quality']['photos'],
+				function ( $row ) {
+					$img = is_array( $row ) && isset( $row['image'] ) && is_array( $row['image'] ) ? $row['image'] : array();
+					return ! ( is_array( $row ) && empty( $img['id'] ) && empty( $img['src'] ) && isset( $row['caption'] ) && 'A site team member in full PPE with the AAYKAY logo' === $row['caption'] );
+				}
+			)
+		);
 	}
 	update_option( AAYKAY_CONTENT_OPTION, $content );
 }

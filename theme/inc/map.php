@@ -83,15 +83,28 @@ function aaykay_branch_map() {
 	}
 	$svg .= '<path class="map-outline" d="' . esc_attr( $data['outline'] ) . '"/>';
 	// Pins: a teardrop whose point sits on the state's centre; the head office's is larger.
-	foreach ( $branches as $state => $hq ) {
+	// Each pin carries the state's name, shown above it while the pointer is over the pin
+	// (CSS only, see .map-tip). Pins are drawn from north to south so a name is never hidden
+	// behind a pin that belongs to a state further north.
+	$order = array_keys( $branches );
+	usort(
+		$order,
+		function ( $a, $b ) use ( $data ) {
+			return $data['states'][ $a ]['y'] <=> $data['states'][ $b ]['y'];
+		}
+	);
+	foreach ( $order as $state ) {
+		$hq   = $branches[ $state ];
 		$s    = $data['states'][ $state ];
-		$k    = $hq ? 1.5 : 1;
+		$k    = ( $hq ? 1.5 : 1 ) * 1.6;
 		$svg .= sprintf(
-			'<g class="%s" transform="translate(%s %s) scale(%s)"><path d="M0 0C-5-9-15-17-15-28a15 15 0 1 1 30 0C15-17 5-9 0 0Z"/><circle cx="0" cy="-28" r="5.5"/></g>',
-			$hq ? 'map-pin map-pin--hq' : 'map-pin',
+			'<g class="map-mark" transform="translate(%s %s)"><g class="%s" transform="scale(%s)"><path d="M0 0C-5-9-15-17-15-28a15 15 0 1 1 30 0C15-17 5-9 0 0Z"/><circle cx="0" cy="-28" r="5.5"/></g><text class="map-tip" y="%s" text-anchor="middle">%s</text></g>',
 			esc_attr( $s['x'] ),
 			esc_attr( $s['y'] ),
-			esc_attr( $k * 1.6 )
+			$hq ? 'map-pin map-pin--hq' : 'map-pin',
+			esc_attr( $k ),
+			esc_attr( round( -43 * $k - 12 ) ),
+			esc_html( $state )
 		);
 	}
 	return $svg . '</svg>';

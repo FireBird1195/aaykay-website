@@ -736,14 +736,6 @@
       "photos": [
         {
           "image": {
-            "id": 0,
-            "alt": ""
-          },
-          "fig": "",
-          "caption": "A site team member in full PPE with the AAYKAY logo"
-        },
-        {
-          "image": {
             "src": "assets/img/safety-toolbox-talk-667.webp",
             "srcset": [
               [
