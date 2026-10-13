@@ -11,6 +11,9 @@
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
   var root = document.documentElement;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Width at and below which the header shows the menu button instead of the menu
+  // (keep in step with the same number in site.css).
+  var NAV_BREAKPOINT = 1240;
 
   function safely(name, fn) {
     try { return fn(); } catch (err) { if (window.console) console.warn('[aaykay] ' + name + ' disabled:', err); }
@@ -167,7 +170,7 @@
     var isOpen = function () { return btn.getAttribute('aria-expanded') === 'true'; };
     // Everything except the menu and its button is made inert while the menu is open, so
     // screen readers and keyboard users cannot reach the page hidden behind it.
-    var behind = [$('.skip-link'), $('.brand', header), $('.site-nav', header), $('.header-cta', header), $('main'), $('.site-footer')]
+    var behind = [$('.skip-link'), $('.brand', header), $('.site-nav', header), $('.header-cta', header), $('main'), $('.site-footer'), $('.brochure-aside')]
       .filter(Boolean);
     var setInert = function (on) { behind.forEach(function (el) { if (on) el.setAttribute('inert', ''); else el.removeAttribute('inert'); }); };
     function open() {
@@ -196,12 +199,12 @@
       if (e.key === 'Escape') { close(true); return; }
       if (e.key !== 'Tab') return;
       // keep focus inside the open menu (button + menu links)
-      var items = [btn].concat($$('a', menu));
+      var items = [btn].concat($$('a, button', menu).filter(function (el) { return el.offsetParent !== null; }));
       var i = items.indexOf(document.activeElement);
       if (e.shiftKey && i <= 0) { e.preventDefault(); items[items.length - 1].focus(); }
       else if (!e.shiftKey && i === items.length - 1) { e.preventDefault(); items[0].focus(); }
     });
-    window.matchMedia('(min-width: 1081px)').addEventListener('change', function (e) {
+    window.matchMedia('(min-width: ' + (NAV_BREAKPOINT + 1) + 'px)').addEventListener('change', function (e) {
       if (e.matches && isOpen()) close(false);
     });
   }
@@ -210,9 +213,11 @@
   function initAnchors() {
     document.addEventListener('click', function (e) {
       if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
-      var a = e.target.closest('a[href^="#"]');
-      if (!a) return;
-      var id = a.getAttribute('href').slice(1);
+      // "#record", or this page's own address + "#record" (the menu dropdowns).
+      var a = e.target.closest('a[href*="#"]');
+      if (!a || a.target === '_blank') return;
+      if (a.getAttribute('href').charAt(0) !== '#' && (a.host !== location.host || a.pathname !== location.pathname)) return;
+      var id = a.hash.slice(1);
       var target = id ? document.getElementById(id) : null;
       if (!target) return;
       e.preventDefault();
@@ -406,8 +411,10 @@
   // each stage's marker turns solid once the fill reaches it (--fill and .is-reached). Without JavaScript, or with
   // reduced motion, the track is shown complete (CSS default), so nothing depends on this.
   function initStages() {
-    var list = $('.stages');
-    if (!list || reduceMotion || !('IntersectionObserver' in window)) return;
+    if (reduceMotion || !('IntersectionObserver' in window)) return;
+    $$('.stages').forEach(initStageList);
+  }
+  function initStageList(list) {
     var stages = $$('.stage', list), ticking = false, active = false;
     list.setAttribute('data-progress', '');
     var update = function () {
@@ -552,10 +559,138 @@
     });
   }
 
+
+  /* ---------- 11. menu dropdowns ----------
+     Desktop header: a page's dropdown opens on hover (CSS) and with its arrow button, for
+     keyboard and touch. The button says whether it is open (aria-expanded); Escape closes
+     the open dropdown and returns focus to its button; a click or focus elsewhere closes
+     it. Without JavaScript the button stays hidden and the page links work as usual. */
+  function initDropdowns() {
+    var items = $$('.site-nav .has-sub');
+    if (!items.length) return;
+    function set(li, open) {
+      li.classList.toggle('is-open', open);
+      var b = $('.sub-btn', li);
+      if (b) b.setAttribute('aria-expanded', String(open));
+    }
+    function closeAll(except) { items.forEach(function (li) { if (li !== except) set(li, false); }); }
+    items.forEach(function (li) {
+      var b = $('.sub-btn', li);
+      if (!b) return;
+      b.hidden = false;
+      b.addEventListener('click', function () {
+        var open = !li.classList.contains('is-open');
+        closeAll(li);
+        set(li, open);
+        li.classList.remove('is-dismissed');
+        if (open) { var first = $('.sub-menu a', li); if (first && keyboardUsed) first.focus(); }
+      });
+      // After Escape the panel stays shut even under the pointer, until the pointer leaves.
+      li.addEventListener('mouseleave', function () { li.classList.remove('is-dismissed'); });
+      li.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape') return;
+        if (li.classList.contains('is-open') || li.matches(':hover')) {
+          e.preventDefault();
+          set(li, false);
+          li.classList.add('is-dismissed');
+          b.focus();
+        }
+      });
+      li.addEventListener('focusout', function (e) {
+        if (!li.contains(e.relatedTarget)) set(li, false);
+      });
+      $$('.sub-menu a', li).forEach(function (a) { a.addEventListener('click', function () { set(li, false); li.classList.add('is-dismissed'); }); });
+    });
+    // Whether the last button press came from the keyboard (then focus moves into the list).
+    var keyboardUsed = false;
+    document.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') keyboardUsed = true; }, true);
+    document.addEventListener('pointerdown', function () { keyboardUsed = false; }, true);
+    document.addEventListener('click', function (e) { if (!e.target.closest('.site-nav .has-sub')) closeAll(); });
+  }
+
+  /* ---------- 12. opening-screen slideshow ----------
+     The photos cross-fade every 7 seconds (CSS transition on .is-active). The controls are
+     shown only here: a bar per photo and a pause button (WCAG 2.2.2: anything that moves by
+     itself can be paused). It does not start for visitors who ask for reduced motion
+     (they can still step through the photos), and pauses while the tab is hidden or the
+     keyboard is on the controls. */
+  function initSlideshow() {
+    var hero = $('.hero');
+    var slides = hero ? $$('.hero-slide', hero) : [];
+    var controls = hero ? $('.hero-controls', hero) : null;
+    if (slides.length < 2 || !controls) return;
+    var dots = $$('.hero-dot', controls), pauseBtn = $('.hero-pause', controls), caption = $('#hero-caption');
+    var current = 0, timer = null, playing = !reduceMotion, held = false;
+    controls.hidden = false;
+    // Photos after the first carry data-src until needed (see hero.php).
+    function load(slide) {
+      var img = $('img[data-src]', slide);
+      if (!img) return;
+      if (img.getAttribute('data-srcset')) img.setAttribute('srcset', img.getAttribute('data-srcset'));
+      img.setAttribute('src', img.getAttribute('data-src'));
+      img.removeAttribute('data-src'); img.removeAttribute('data-srcset');
+    }
+    function show(i) {
+      current = (i + slides.length) % slides.length;
+      slides.forEach(function (s, k) {
+        var on = k === current;
+        s.classList.toggle('is-active', on);
+        if (on) s.removeAttribute('aria-hidden'); else s.setAttribute('aria-hidden', 'true');
+        if (on) load(s);
+      });
+      dots.forEach(function (d, k) { if (k === current) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
+      if (caption) caption.textContent = slides[current].getAttribute('data-caption') || '';
+    }
+    function schedule() {
+      clearTimeout(timer);
+      if (playing && !held && !document.hidden) timer = setTimeout(function () { show(current + 1); schedule(); }, 7000);
+    }
+    function setPlaying(on) {
+      playing = on;
+      pauseBtn.setAttribute('data-state', on ? 'playing' : 'paused');
+      pauseBtn.setAttribute('aria-label', on ? 'Pause the slideshow' : 'Play the slideshow');
+      schedule();
+    }
+    dots.forEach(function (d, k) { d.addEventListener('click', function () { show(k); schedule(); }); });
+    pauseBtn.addEventListener('click', function () { setPlaying(!playing); });
+    controls.addEventListener('focusin', function () { held = true; schedule(); });
+    controls.addEventListener('focusout', function () { held = false; schedule(); });
+    document.addEventListener('visibilitychange', schedule);
+    // The other photos start loading once the page has loaded, so the first is never delayed.
+    var loadRest = function () { slides.forEach(load); };
+    if (document.readyState === 'complete') loadRest(); else window.addEventListener('load', loadRest);
+    setPlaying(playing);
+  }
+
+  /* ---------- 13. careers: filter positions by domain ----------
+     The chips are shown only here; without JavaScript every position is listed. */
+  function initJobs() {
+    var bar = $('.job-filters');
+    if (!bar) return;
+    var chips = $$('[data-domain]', bar), jobs = $$('.job'), count = $('#jobs-count');
+    bar.hidden = false;
+    if (count) count.setAttribute('aria-live', 'polite');
+    chips.forEach(function (c) {
+      c.addEventListener('click', function () {
+        var want = c.getAttribute('data-domain'), n = 0;
+        chips.forEach(function (x) { x.setAttribute('aria-pressed', String(x === c)); });
+        jobs.forEach(function (j) {
+          var show = want === 'all' || j.getAttribute('data-domain') === want;
+          j.hidden = !show;
+          if (show) n++;
+        });
+        if (count) count.textContent = n + (n === 1 ? ' position' : ' positions');
+      });
+    });
+  }
+
   function start() {
     safely('motion', initMotion);
     var updateHeader = safely('header', initHeader) || function () {};
     safely('menu', function () { initMenu(updateHeader); });
+    safely('dropdowns', initDropdowns);
+    safely('slideshow', initSlideshow);
+    safely('jobs', initJobs);
     safely('record', initRecord); // before positioning: it changes the page height
     safely('scroll position', initScrollPosition);
     safely('anchors', initAnchors);

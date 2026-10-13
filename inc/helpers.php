@@ -203,3 +203,17 @@ function aaykay_pending( $text, $class = '' ) {
 	}
 	return '<div class="pending' . ( $class ? ' ' . esc_attr( $class ) : '' ) . '"><span class="pending-label">To come</span><span class="pending-text">' . esc_html( $text ) . '</span></div>';
 }
+
+/**
+ * A copy button for a contact detail (phone number, email address): the same control
+ * everywhere. Hidden until site.js (initCopy) shows it, so it never appears where it would
+ * do nothing. $target is the id of the link showing the value (selected as a fallback when
+ * the clipboard is not available); $what names it for screen readers ("phone number").
+ */
+function aaykay_copy_button( $value, $target, $what ) {
+	return '<button class="copy-btn" type="button" data-copy="' . esc_attr( $value ) . '" data-copy-target="' . esc_attr( $target ) . '" hidden>'
+		. aaykay_icon( 'copy', 'ic--sm copy-ic' ) . aaykay_icon( 'check', 'ic--sm check-ic' )
+		. '<span class="visually-hidden">Copy ' . esc_html( $what ) . ' ' . esc_html( $value ) . '</span>'
+		. '</button><span class="copy-msg" aria-hidden="true">Copied</span>';
+}
+

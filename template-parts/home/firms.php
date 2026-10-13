@@ -1,6 +1,6 @@
 <?php
 /**
- * Architects, Consultants & PMCs page: the firms AAYKAY has worked with.
+ * Projects page: the architects, consultants and PMCs AAYKAY has worked with.
  * Heading: Homepage content > Architects, consultants and PMCs. Firms: Dashboard >
  * Architects & consultants (a logo, or letters when there is none).
  *

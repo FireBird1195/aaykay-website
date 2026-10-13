@@ -26,7 +26,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'AAYKAY_VERSION', '2.0.0' );
+define( 'AAYKAY_VERSION', '3.0.0' );
 define( 'AAYKAY_DIR', get_template_directory() );
 
 require AAYKAY_DIR . '/inc/helpers.php';
@@ -35,6 +35,7 @@ require AAYKAY_DIR . '/inc/pages.php';
 require AAYKAY_DIR . '/inc/content.php';
 require AAYKAY_DIR . '/inc/content-types.php';
 require AAYKAY_DIR . '/inc/template-data.php';
+require AAYKAY_DIR . '/inc/map.php';
 require AAYKAY_DIR . '/inc/enquiry.php';
 require AAYKAY_DIR . '/inc/leads.php';
 require AAYKAY_DIR . '/inc/setup.php';

@@ -13,41 +13,43 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Navigation: the website's pages (inc/pages.php), labelled with their titles from
- * Dashboard > Pages. Header and phone menu list the main pages and end with the call to
- * action (Contact Us); the footer lists every page, including those under Projects.
- * The page being read, or the main page it belongs to, is marked with aria-current.
+ * Dashboard > Pages, in the order of the client brief. A page with several sections has a
+ * dropdown of links to them (aaykay_menu()): it opens on hover, and with its arrow button
+ * by keyboard and touch (site.js, initDropdowns). Without JavaScript the arrow button stays
+ * hidden and the page link still works.
+ * Header: Contact Us is the button beside the menu. Phone menu: the pages only, Contact Us
+ * last (client brief, 13 Oct 2026: no dropdowns on phones). Footer: every page, without
+ * the dropdowns. The page being read is marked aria-current.
  */
 function aaykay_render_nav( $place, $indent ) {
 	$current = aaykay_current_page_key();
-	$reg     = aaykay_page_registry();
-	$parent  = ( '' !== $current && isset( $reg[ $current ] ) && $reg[ $current ][2] ) ? $reg[ $current ][2] : $current;
 	$lines   = array();
-	$link    = function ( $key, $label, $url, $class = '' ) use ( $current, $parent ) {
-		$attr = '';
-		if ( $key === $current ) {
-			$attr = ' aria-current="page"';
-		} elseif ( $key === $parent ) {
-			$attr = ' aria-current="true"';
-		}
-		return '<a href="' . esc_url( $url ) . '"' . ( $class ? ' class="' . esc_attr( $class ) . '"' : '' ) . $attr . '>' . esc_html( $label ) . '</a>';
-	};
 	foreach ( aaykay_menu() as $item ) {
 		list( $key, $label, $url, $children ) = $item;
+		$attr = $key === $current ? ' aria-current="page"' : '';
 		if ( 'footer' === $place ) {
-			$lines[] = $link( $key, $label, $url );
-			foreach ( $children as $c ) {
-				$lines[] = $link( $c[0], $c[1], $c[2] );
+			if ( 'home' !== $key ) {
+				$lines[] = '<a href="' . esc_url( $url ) . '"' . $attr . '>' . esc_html( $label ) . '</a>';
 			}
 			continue;
 		}
-		if ( 'contact' === $key ) {
-			// Header: the Contact Us button sits beside the menu. Phone menu: the last item.
-			if ( 'mobile' === $place ) {
-				$lines[] = '<li>' . $link( $key, aaykay_t( 'brand', 'header_cta' ), $url, 'nav-cta' ) . '</li>';
-			}
+		if ( 'contact' === $key && 'header' === $place ) {
+			continue; // The Contact Us button sits beside the menu (header.php).
+		}
+		$class = 'contact' === $key ? ' class="nav-cta"' : '';
+		$link  = '<a href="' . esc_url( $url ) . '"' . $class . $attr . '>' . esc_html( 'contact' === $key ? aaykay_t( 'brand', 'header_cta' ) : $label ) . '</a>';
+		if ( ! $children || 'mobile' === $place ) {
+			$lines[] = '<li>' . $link . '</li>'; // The phone menu lists the pages only (client brief).
 			continue;
 		}
-		$lines[] = '<li>' . $link( $key, $label, $url ) . '</li>';
+		$id   = 'sub-' . $key;
+		$subs = array();
+		foreach ( $children as $c ) {
+			$subs[] = '<li><a href="' . esc_url( $c[2] ) . '">' . esc_html( $c[1] ) . '</a></li>';
+		}
+		$lines[] = '<li class="has-sub">' . $link
+			. '<button class="sub-btn" type="button" aria-expanded="false" aria-controls="' . esc_attr( $id ) . '" hidden>' . aaykay_icon( 'chevron-down', 'ic--sm' ) . '<span class="visually-hidden">' . esc_html( $label ) . ': sections</span></button>'
+			. '<ul class="sub-menu" id="' . esc_attr( $id ) . '">' . implode( '', $subs ) . '</ul></li>';
 	}
 	return implode( "\n" . $indent, $lines );
 }
@@ -122,7 +124,7 @@ function aaykay_render_sector_rows( $indent ) {
 			esc_html( $s['clients'] ),
 			$c,
 			1 === $c ? '' : 's',
-			aaykay_arrow( 'projects' === aaykay_current_page_key() ? 'down' : 'right' ), // Right: the record is on the Projects page.
+			aaykay_arrow( 'projects' === aaykay_current_page_key() ? 'down' : 'right' ), // Down: the project list follows on the same page.
 			esc_url( add_query_arg( 'sector', $s['key'], aaykay_page_url( 'projects' ) ) . '#record' )
 		);
 	}
@@ -213,6 +215,25 @@ function aaykay_floors_text( $floors ) {
 	return aaykay_is_digits( $floors ) ? $floors . ' floors' : $floors;
 }
 
+/**
+ * A project's status as a small pill: a green dot for Completed (with the year, if given),
+ * amber for Ongoing, a dashed outline for a status AAYKAY has not confirmed yet (shown only
+ * while placeholders are on; a status is never guessed). The dot is decorative: the word
+ * says the same thing, so colour is never the only cue.
+ */
+function aaykay_status_pill( $status ) {
+	$status = trim( (string) $status );
+	if ( '' === $status ) {
+		return '' !== aaykay_pending( 'x' ) ? '<span class="status-pill status-pill--tbc">To be confirmed</span>' : '';
+	}
+	if ( preg_match( '/^completed\b\s*(.*)$/i', $status, $m ) ) {
+		$year = trim( $m[1], " \t,–-" );
+		return '<span class="status-pill status-pill--done"><span class="status-dot" aria-hidden="true"></span>Completed' . ( '' !== $year ? '<span class="status-year">' . esc_html( $year ) . '</span>' : '' ) . '</span>';
+	}
+	$ongoing = 0 === stripos( $status, 'ongoing' ) || 0 === stripos( $status, 'in progress' );
+	return '<span class="status-pill' . ( $ongoing ? ' status-pill--ongoing' : '' ) . '"><span class="status-dot" aria-hidden="true"></span>' . esc_html( $status ) . '</span>';
+}
+
 function aaykay_render_record_rows( $indent ) {
 	$unit = function ( $value, $u = '' ) {
 		if ( '' === (string) $value ) {
@@ -226,13 +247,9 @@ function aaykay_render_record_rows( $indent ) {
 		if ( ! $s ) {
 			continue;
 		}
-		// Under the name: the sector (icon + words), then optional markers. Status gets its
-		// own marker because it changes what the row means (finished vs in progress).
+		// Under the name: the sector (icon + words) and an optional note. Status has its own
+		// column (aaykay_status_pill()).
 		$meta = '<span class="p-meta">' . aaykay_icon( $s['icon'] ) . esc_html( $s['label'] ) . '</span>';
-		if ( '' !== $p['status'] ) {
-			$done  = 0 === strpos( $p['status'], 'Completed' );
-			$meta .= '<span class="p-status' . ( $done ? ' p-status--done' : '' ) . '">' . aaykay_icon( $done ? 'circle-check' : 'clock' ) . esc_html( $p['status'] ) . '</span>';
-		}
 		if ( '' !== $p['note'] ) {
 			$meta .= '<span class="p-note">' . esc_html( $p['note'] ) . '</span>';
 		}
@@ -243,13 +260,14 @@ function aaykay_render_record_rows( $indent ) {
 		$team_class = 0 === strpos( $p['design_team'], 'Developer:' ) ? 'team dev' : 'team';
 		$value_cell = aaykay_show_values() ? '<td class="num">' . $unit( $p['order_value'], ' order' ) . '</td>' : '';
 		$rows[]     = sprintf(
-			'<tr data-sector="%s"><th scope="row"><span class="p-name">%s</span>%s</th><td>%s</td><td class="num">%s</td><td class="floors">%s</td>%s<td class="%s">%s</td></tr>',
+			'<tr data-sector="%s"><th scope="row"><span class="p-name">%s</span>%s</th><td>%s</td><td class="num">%s</td><td class="floors">%s</td><td class="status">%s</td>%s<td class="%s">%s</td></tr>',
 			esc_attr( $p['sector'] ),
 			esc_html( $p['name'] ),
 			$meta,
 			$unit( $p['location'] ),
 			$unit( $area, ' sq ft' ),
 			$unit( $p['floors'], $floors_unit ),
+			aaykay_status_pill( $p['status'] ),
 			$value_cell,
 			$team_class,
 			$unit( $p['design_team'] )
@@ -344,19 +362,15 @@ function aaykay_render_card( $p, $position ) {
 	$city  = trim( explode( ',', $p['location'] )[0] );
 	$label = '' !== $p['card_label'] ? $p['card_label'] : implode( ' · ', array_filter( array( $s ? $s['short'] : '', $city ), 'strlen' ) );
 
-	// On the Projects page the first card is near the top: load it first, not lazily.
-	$first = 0 === $position && 'projects' === aaykay_current_page_key();
-	$img   = wp_get_attachment_image(
+	// The cards follow the sectors on the Projects page, below the first screen: lazy.
+	$img = wp_get_attachment_image(
 		$thumb,
 		'large',
 		false,
-		array_merge(
-			array(
-				'sizes'    => $sizes,
-				'loading'  => $first ? 'eager' : 'lazy',
-				'decoding' => 'async',
-			),
-			$first ? array( 'fetchpriority' => 'high' ) : array()
+		array(
+			'sizes'    => $sizes,
+			'loading'  => 'lazy',
+			'decoding' => 'async',
 		)
 	);
 
