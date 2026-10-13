@@ -18,14 +18,14 @@ $aaykay_regd    = trim( (string) aaykay_setting( 'registered_office' ) );
 <footer class="site-footer">
   <div class="wrap grid-12 footer-top">
     <div class="footer-brand">
-      <a class="brand" href="<?php echo esc_attr( aaykay_section_url( 'top' ) ); ?>"><?php echo aaykay_brand_lockup( false ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the function. ?><span class="visually-hidden"> Electricals, back to top</span></a>
+      <a class="brand" href="<?php echo esc_url( aaykay_section_url( 'top' ) ); ?>"><?php echo aaykay_brand_lockup(); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the function. ?><span class="visually-hidden"><?php echo is_front_page() ? ', back to top' : ', home'; ?></span></a>
       <p><?php aaykay_e( 'brand', 'footer_blurb' ); ?></p>
     </div>
     <nav class="footer-nav" id="footer-nav" aria-label="Footer">
       <?php echo aaykay_render_nav( 'footer', '      ' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the renderer. ?>
 
     </nav>
-    <address class="footer-addr"><?php echo esc_html( aaykay_join( ', ', array( $aaykay_contact['street'], $aaykay_contact['area'], aaykay_join( ' ', array( $aaykay_contact['city'], $aaykay_contact['postcode'] ) ) ) ) ); ?><br><?php echo esc_html( $aaykay_contact['phone'] ); ?></address>
+    <address class="footer-addr"><?php echo esc_html( aaykay_join( ', ', array( $aaykay_contact['street'], $aaykay_contact['area'], aaykay_join( ' ', array( $aaykay_contact['city'], $aaykay_contact['postcode'] ) ), $aaykay_contact['full'] ? '' : $aaykay_contact['state'] ) ) ); ?><br><?php echo esc_html( aaykay_join( ' · ', array( $aaykay_contact['phone'], $aaykay_contact['phone2'] ) ) ); ?></address>
   </div>
   <div class="wrap">
     <div class="footer-bottom">

@@ -1,7 +1,7 @@
 <?php
 /**
- * Home page: quality & safety. Content: Homepage content > Quality & safety.
- * Staff numbers: Site settings > Resources.
+ * Quality & Safety page. Content: Homepage content > Quality & safety.
+ * Staff numbers: Site settings > Resources. Appreciation documents: appreciations.php.
  *
  * @package aaykay
  */
@@ -12,7 +12,6 @@ $aaykay_qrows  = aaykay_rows( 'quality', 'quality_rows' );
 $aaykay_srows  = aaykay_rows( 'quality', 'safety_rows' );
 $aaykay_photos = aaykay_rows( 'quality', 'photos' );
 $aaykay_kit    = aaykay_lines( 'quality', 'kit_items' );
-$aaykay_docs   = aaykay_rows( 'quality', 'docs' );
 $aaykay_psizes = array( '(min-width: 960px) 40vw, 100vw', '(min-width: 960px) 20vw, 50vw', '(min-width: 960px) 20vw, 50vw' );
 ?>
   <section class="section section--dark grain" id="quality" aria-labelledby="quality-title">
@@ -63,6 +62,8 @@ foreach ( array( 'res_quality' => 'Quality staff', 'res_safety' => 'Safety staff
 foreach ( $aaykay_photos as $aaykay_i => $aaykay_f ) :
 	$aaykay_img = aaykay_img( $aaykay_f['image'], array( 'sizes' => $aaykay_psizes[ min( $aaykay_i, 2 ) ] ) );
 	if ( '' === $aaykay_img ) {
+		// A photo described but not yet uploaded is a placeholder (Site settings > Placeholders).
+		echo '' !== trim( $aaykay_f['caption'] ) ? '          ' . aaykay_pending( 'Photo: ' . $aaykay_f['caption'] ) . "\n" : ''; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_pending().
 		continue;
 	}
 	?>
@@ -91,36 +92,6 @@ foreach ( $aaykay_photos as $aaykay_i => $aaykay_f ) :
           <li><?php echo esc_html( $aaykay_item ); ?></li>
 <?php endforeach; ?>
         </ul>
-      </div>
-<?php endif; ?>
-
-<?php if ( aaykay_c( 'quality', 'docs_enabled' ) && $aaykay_docs ) : ?>
-      <div class="recog">
-        <div class="subhead">
-          <h3><?php aaykay_e( 'quality', 'docs_heading' ); ?></h3>
-<?php if ( '' !== aaykay_t( 'quality', 'docs_sub' ) ) : ?>
-          <p><?php aaykay_e( 'quality', 'docs_sub' ); ?></p>
-<?php endif; ?>
-        </div>
-        <div class="doc-grid">
-<?php
-foreach ( $aaykay_docs as $aaykay_d ) :
-	$aaykay_data = aaykay_image_data( $aaykay_d['image'] );
-	if ( ! $aaykay_data ) {
-		continue;
-	}
-	?>
-          <a class="doc" href="<?php echo esc_url( $aaykay_data['full'] ); ?>" data-lightbox="<?php echo esc_url( $aaykay_data['full'] ); ?>" data-caption="<?php echo esc_attr( $aaykay_d['caption'] ); ?>">
-            <?php echo aaykay_img( $aaykay_d['image'], array( 'sizes' => '104px' ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_img(). ?>
-
-            <span>
-              <span class="doc-title"><?php echo esc_html( $aaykay_d['title'] ); ?></span>
-              <span class="doc-meta"><?php echo esc_html( $aaykay_d['meta'] ); ?></span>
-              <span class="doc-open"><?php echo aaykay_icon( 'maximize-2', 'ic--sm' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><?php echo esc_html( '' !== $aaykay_d['button'] ? $aaykay_d['button'] : 'View document' ); ?></span>
-            </span>
-          </a>
-<?php endforeach; ?>
-        </div>
       </div>
 <?php endif; ?>
     </div>

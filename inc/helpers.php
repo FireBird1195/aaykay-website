@@ -45,12 +45,17 @@ function aaykay_arrow( $direction = 'right' ) {
 }
 
 /**
- * Link to a section of the home page: "#work" on the home page itself, the full URL
- * (https://akepl.in/#work) anywhere else, so the header works on every page.
+ * Link to a section: "#work" when the section is on the page being shown, otherwise the
+ * address of the page it is on (inc/pages.php) followed by #work, so links work from
+ * every page. "top" is the home page.
  */
 function aaykay_section_url( $id ) {
-	$hash = '#' . ltrim( $id, '#' );
-	return is_front_page() ? $hash : home_url( '/' ) . $hash;
+	$id = ltrim( $id, '#' );
+	if ( 'top' === $id ) {
+		return is_front_page() ? '#top' : home_url( '/' );
+	}
+	$page = aaykay_section_page( $id );
+	return aaykay_current_page_key() === $page ? '#' . $id : aaykay_page_url( $page ) . '#' . $id;
 }
 
 /** "+91 40 6636 2094" -> "+914066362094" for tel: links. */
@@ -185,4 +190,16 @@ function aaykay_monogram( $name ) {
 /** Echo the escaped URL of a theme file (used throughout the templates). */
 function aaykay_a( $path ) {
 	echo esc_url( aaykay_asset( $path ) );
+}
+
+/**
+ * A visible "to come" box marking content AAYKAY has not supplied yet (client brief,
+ * 10 Oct 2026: missing items are shown as labelled placeholders). Returns '' once
+ * Site settings > "Show “to come” placeholders" is unticked. $text says what is missing.
+ */
+function aaykay_pending( $text, $class = '' ) {
+	if ( '1' !== (string) aaykay_setting( 'show_pending' ) ) {
+		return '';
+	}
+	return '<div class="pending' . ( $class ? ' ' . esc_attr( $class ) : '' ) . '"><span class="pending-label">To come</span><span class="pending-text">' . esc_html( $text ) . '</span></div>';
 }
