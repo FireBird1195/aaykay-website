@@ -1,6 +1,7 @@
 <?php
 /**
- * Home page: how we deliver. Content: Homepage content > How we deliver.
+ * Home page, About Us: project methodology (the five stages on an animated track, the
+ * electrical works schedule and the tools sheet). Content: Homepage content > About Us: project methodology.
  *
  * @package aaykay
  */
@@ -72,7 +73,7 @@ $aaykay_s2     = aaykay_rows( 'deliver', 'sheet2_rows' );
 <?php if ( $aaykay_s1 || $aaykay_s2 ) : ?>
       <div class="sheets grid-12">
 <?php if ( $aaykay_s1 ) : ?>
-        <div class="sheet">
+        <div class="sheet sheet--tools sheet--schedule">
           <p class="label"><?php aaykay_e( 'deliver', 'sheet1_label' ); ?></p>
           <h3 class="sheet-title"><?php aaykay_e( 'deliver', 'sheet1_title' ); ?></h3>
           <dl>

@@ -47,6 +47,12 @@ add_action(
 	'wp_head',
 	function () {
 		if ( ! is_front_page() ) {
+			// The website's other pages: WordPress prints their title and canonical link; the
+			// description is the page's own Excerpt (inc/pages.php), never a copy of the home
+			// page's (Google advises against identical descriptions).
+			if ( '' !== aaykay_current_page_key() && has_excerpt( get_queried_object_id() ) ) {
+				echo '<meta name="description" content="' . esc_attr( wp_strip_all_tags( get_the_excerpt( get_queried_object_id() ) ) ) . '">' . "\n";
+			}
 			return;
 		}
 		$name        = get_bloginfo( 'name' ) ? get_bloginfo( 'name' ) : 'AAYKAY Electricals';
@@ -98,6 +104,7 @@ add_action(
 			'telephone'     => $c['tel'],
 			'email'         => $c['email'],
 		);
+		$data['address'] = array_filter( $data['address'], 'strlen' ); // No empty street or PIN when the address is not published.
 		// From Homepage content > Company, so the structured data follows what the page says.
 		if ( 4 === strlen( $founded ) ) {
 			$data['foundingDate'] = $founded;

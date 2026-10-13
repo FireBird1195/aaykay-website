@@ -1,7 +1,7 @@
 <?php
 /**
- * The home page: the whole website is this one page.
- * Sections are in template-parts/home/, in the order they appear.
+ * The home page. Its sections are listed in aaykay_page_registry() (inc/pages.php); the
+ * other pages reuse the remaining sections in template-parts/home/ (aaykay-page.php).
  *
  * @package aaykay
  */
@@ -14,14 +14,11 @@ get_header();
 <main id="main">
 
 <?php
-foreach ( array( 'hero', 'clients', 'services', 'work', 'record', 'photos', 'deliver', 'quality', 'company', 'letter', 'prequal', 'contact' ) as $aaykay_part ) {
-	// Sections can be switched off in Homepage content.
-	if ( ! aaykay_section_on( $aaykay_part ) ) {
-		continue;
-	}
+foreach ( aaykay_page_sections( 'home' ) as $aaykay_part ) {
 	get_template_part( 'template-parts/home/' . $aaykay_part );
 	echo "\n";
 }
+aaykay_page_end();
 ?>
 </main>
 

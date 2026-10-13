@@ -1,7 +1,7 @@
 <?php
 /**
- * Starter content: seed/content.json (38 projects, 5 sectors, 14 clients, 31 firms, the
- * five homepage cards and the Site settings) is imported once, the first time the theme
+ * Starter content: seed/content.json (95 projects, 6 sectors, 14 clients, 31 firms, the
+ * five project cards, the Site settings and the pages) is imported once, the first time the theme
  * is activated. After that WordPress is the source of truth.
  *
  * Tools > AAYKAY starter content runs the import again. It only adds what is missing
@@ -161,6 +161,7 @@ function aaykay_import_starter_content() {
 		++$added['firms'];
 	}
 
+	aaykay_ensure_pages();
 	aaykay_bin_untouched_samples();
 	aaykay_prepare_privacy_draft();
 	return $added;

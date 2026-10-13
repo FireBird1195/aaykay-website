@@ -81,8 +81,9 @@ add_action(
 			foreach ( array( 'big-shoulders-display-latin-800-normal', 'ibm-plex-sans-latin-400-normal' ) as $font ) {
 				echo '<link rel="preload" href="' . esc_url( aaykay_asset( "assets/fonts/{$font}.woff2" ) ) . '" as="font" type="font/woff2" crossorigin>' . "\n";
 			}
-			// The hero photo (Homepage content > Opening screen), so the browser fetches it first.
-			$hero = aaykay_image_data( aaykay_c( 'hero', 'image' ) );
+			// The first hero photo (Homepage content > Opening screen), so the browser fetches it first.
+			$slides = aaykay_hero_slides();
+			$hero   = $slides ? aaykay_image_data( $slides[0]['image'] ) : null;
 			if ( $hero && $hero['url'] ) {
 				printf(
 					'<link rel="preload" as="image" href="%s"%s imagesizes="100vw" fetchpriority="high">' . "\n",
@@ -170,8 +171,9 @@ add_filter(
 );
 
 /**
- * The site is one page. Author pages (which reveal login names), attachment pages, blog
- * archives and search results have nothing to show, so they go to the home page or 404.
+ * The site is its pages (inc/pages.php). Author pages (which reveal login names), attachment
+ * pages, blog archives and search results have nothing to show, so they go to the home
+ * page or 404.
  */
 add_action(
 	'template_redirect',

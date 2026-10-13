@@ -1,6 +1,8 @@
 <?php
 /**
- * Home page: site photographs. Content: Homepage content > Site photographs.
+ * A photo mosaic: the site photographs on Our Capabilities (Homepage content > Site
+ * photographs), and the same component for the site safety photographs on Quality & Safety
+ * (safety-photos.php passes $args['section'] = 'safety_photos', $args['id'] = 'safety-photos').
  *
  * The mosaic in site.css is laid out for six photos (.m-a … .m-f). With more, the pattern
  * repeats; with fewer, the first slots are used.
@@ -9,7 +11,9 @@
  */
 
 defined( 'ABSPATH' ) || exit;
-$aaykay_figs  = aaykay_rows( 'photos', 'figures' );
+$aaykay_sid   = isset( $args['section'] ) ? $args['section'] : 'photos';
+$aaykay_id    = isset( $args['id'] ) ? $args['id'] : 'site-photos';
+$aaykay_figs  = aaykay_rows( $aaykay_sid, 'figures' );
 $aaykay_slots = array(
 	'm-a' => '(min-width: 760px) 42vw, 82vw',
 	'm-b' => '(min-width: 760px) 58vw, 100vw',
@@ -23,12 +27,12 @@ if ( ! $aaykay_figs ) {
 	return;
 }
 ?>
-  <section class="section section--dark grain" id="site-photos" aria-labelledby="photos-title">
+  <section class="section section--dark grain" id="<?php echo esc_attr( $aaykay_id ); ?>" aria-labelledby="<?php echo esc_attr( $aaykay_id ); ?>-title">
     <div class="wrap">
       <div class="sec-head">
-        <h2 class="h2" id="photos-title" data-reveal><?php aaykay_e( 'photos', 'heading' ); ?></h2>
-<?php if ( '' !== aaykay_t( 'photos', 'sub' ) ) : ?>
-        <p class="sec-sub" data-reveal><?php aaykay_e( 'photos', 'sub' ); ?></p>
+        <h2 class="h2" id="<?php echo esc_attr( $aaykay_id ); ?>-title" data-reveal><?php aaykay_e( $aaykay_sid, 'heading' ); ?></h2>
+<?php if ( '' !== aaykay_t( $aaykay_sid, 'sub' ) ) : ?>
+        <p class="sec-sub" data-reveal><?php aaykay_e( $aaykay_sid, 'sub' ); ?></p>
 <?php endif; ?>
       </div>
       <div class="mosaic">

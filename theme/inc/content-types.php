@@ -26,7 +26,7 @@ function aaykay_project_fields() {
 		'floors'       => array( 'Floors', 'text', 'A number (10) or a description (G+30, 2 towers).' ),
 		'order_value'  => array( 'AAYKAY order value', 'text', 'As it should be shown, e.g. ₹1.75 Cr. Leave empty to keep it private.' ),
 		'design_team'  => array( 'Architect / electrical consultant', 'text', 'Separate several with " / ". For housing, write "Developer: My Home Construction".' ),
-		'status'       => array( 'Status', 'text', '"Ongoing", "Completed 2025", or empty.' ),
+		'status'       => array( 'Status', 'text', '"Ongoing", "Completed" or "Completed 2025". Leave empty until AAYKAY confirms it: the project list then shows “To be confirmed” while placeholders are on (Site settings).' ),
 		'note'         => array( 'Note under the name', 'text', 'Optional, e.g. External electrification: Ariel, Vesta, MLCP.' ),
 		'source'       => array( 'Source (internal)', 'text', 'Where these facts come from (profile, brochure, client letter). Never shown on the website.' ),
 		'featured'     => array( 'Show as a large card in “Selected work”', 'bool', 'Needs a Card photo (box on the right). Cards are shown in the order set in Card order.' ),

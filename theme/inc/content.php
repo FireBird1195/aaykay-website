@@ -1,7 +1,8 @@
 <?php
 /**
  * Homepage content: every heading, paragraph, list, photo, icon and button label on the
- * page, editable in Dashboard > Homepage content (inc/admin-content.php).
+ * website's pages, editable in Dashboard > Homepage content (inc/admin-content.php).
+ * Which page shows which section: aaykay_page_registry() in inc/pages.php.
  *
  * How it fits together
  *   - aaykay_content_schema() describes each section and its fields (type, label, help).
@@ -31,41 +32,32 @@ const AAYKAY_CONTENT_OPTION = 'aaykay_content';
 
 /** Placeholder help, shown in the editor next to fields that accept them. */
 function aaykay_token_help() {
-	return 'Placeholders filled from Site settings: {clients} (e.g. 100+), {branches} (number of branch states), {branches_word} (seven), {turnover} (latest, e.g. 40.11), {turnover_year} (e.g. FY 2025–26), {city} (head office city), {email}, {phone}.';
+	return 'Placeholders filled from Site settings: {clients} (e.g. 100+), {branches} (number of branch states), {branches_word} (seven), {area} (area of completed projects, e.g. 69 lakh+), {city} (head office city), {email}, {phone}.';
 }
 
 /**
- * The sections of the home page, in page order, and their fields.
+ * The sections of the website, and their fields (the editor shows them in this order).
  * Field: key => array( type, label, help [, extra] ). Lists carry 'fields' (sub-fields)
  * and optionally 'max' and 'item' (what one row is called).
  */
 function aaykay_content_schema() {
 	$tokens = aaykay_token_help();
 	return array(
-		'brand'    => array(
+		'brand'            => array(
 			'title'  => 'Logo, header and footer',
-			'desc'   => 'The logo and the short texts in the header and footer, on every page.',
+			'desc'   => 'The logo mark, the company name and the short texts in the header and footer, on every page. The menu lists the pages (Dashboard > Pages); a page’s title is its name in the menu.',
 			'toggle' => false,
 			'fields' => array(
-				'logo'          => array( 'image', 'Logo (optional)', 'Upload the official logo in a light/white version (PNG or WebP, transparent background, at least 400 px wide): the header and footer are dark. Until a logo is uploaded, the drawn “A” mark and the name below are shown.' ),
-				'word'          => array( 'text', 'Name next to the mark', 'Shown when no logo image is uploaded.' ),
-				'sub1'          => array( 'text', 'Small line 1 next to the name', '' ),
+				'logo'          => array( 'image', 'Logo mark', 'The round AEK mark, shown before the company name in the header and footer. A square image with a transparent background outside the circle (PNG or WebP, at least 192 × 192 px). Remove it to show the drawn “A” instead.' ),
+				'word'          => array( 'text', 'Company name', 'Shown large next to the mark.' ),
+				'sub1'          => array( 'text', 'Small line 1 next to the name', 'With line 2, completes the registered name (Electricals / Private Limited).' ),
 				'sub2'          => array( 'text', 'Small line 2 next to the name', '' ),
-				'header_cta'    => array( 'text', 'Header button', 'The orange button at the top right. It always goes to the enquiry form.' ),
-				'menu_services' => array( 'text', 'Menu: What we do', 'The menu labels, in page order. A section switched off is left out of the menu automatically.' ),
-				'menu_sectors'  => array( 'text', 'Menu: Sectors (footer only)', '' ),
-				'menu_work'     => array( 'text', 'Menu: Projects', '' ),
-				'menu_record'   => array( 'text', 'Menu: Project record (footer only)', '' ),
-				'menu_deliver'  => array( 'text', 'Menu: How we deliver', '' ),
-				'menu_quality'  => array( 'text', 'Menu: Quality & safety', '' ),
-				'menu_company'  => array( 'text', 'Menu: Company', '' ),
-				'menu_prequal'  => array( 'text', 'Menu: Pre-qualification', '' ),
-				'menu_contact'  => array( 'text', 'Menu: Contact (footer only)', '' ),
+				'header_cta'    => array( 'text', 'Header button', 'The orange button at the top right (and the last item of the phone menu). It goes to the Contact Us page.' ),
 				'footer_blurb'  => array( 'textarea', 'Footer sentence', 'Use {reach} for “, from Hyderabad to seven states” (worked out from Site settings). ' . $tokens ),
 				'footer_bottom' => array( 'text', 'Footer, after “© year company name”', '' ),
 			),
 		),
-		'hero'     => array(
+		'hero'             => array(
 			'title'  => 'Opening screen',
 			'desc'   => 'The first screen: photo, headline, introduction, buttons and key figures.',
 			'toggle' => false,
@@ -73,10 +65,21 @@ function aaykay_content_schema() {
 				'label'           => array( 'text', 'Small label above the headline', '' ),
 				'title'           => array( 'lines', 'Headline', 'One line of the headline per line. Three short lines look best. A full stop at the end is shown in red.' ),
 				'lead'            => array( 'textarea', 'Introduction', 'One or two sentences under the headline.' ),
-				'primary_label'   => array( 'text', 'Orange button', 'Goes to the enquiry form.' ),
-				'secondary_label' => array( 'text', 'Outline button', 'Goes to Selected work.' ),
-				'image'           => array( 'image', 'Background photo', 'A wide landscape photo of AAYKAY’s own installation, at least 2400 px wide. The centre of the photo stays visible on phones.' ),
-				'caption'         => array( 'text', 'Photo caption', 'Small text at the bottom right on large screens.' ),
+				'primary_label'   => array( 'text', 'Orange button', 'Goes to the Contact Us page.' ),
+				'secondary_label' => array( 'text', 'Outline button', 'Goes to the project list (Projects page).' ),
+				'slides'          => array(
+					'list',
+					'Background photos (slideshow)',
+					'The photos behind the headline, shown one after another (a new one every 7 seconds; visitors can pause). The first one loads first, so put the best photo at the top. Use wide landscape photos of AAYKAY’s own installations, at least 2000 px wide; the centre stays visible on phones. One photo shows without the slideshow controls.',
+					array(
+						'item'   => 'photo',
+						'max'    => 12,
+						'fields' => array(
+							'image'   => array( 'image', 'Photo', '' ),
+							'caption' => array( 'text', 'Caption', 'Small text at the bottom right on large screens, e.g. UPS battery room, AAYKAY installation.' ),
+						),
+					),
+				),
 				'kpis'            => array(
 					'list',
 					'Key figures',
@@ -92,18 +95,35 @@ function aaykay_content_schema() {
 				),
 			),
 		),
-		'clients'  => array(
-			'title'  => 'Client logos strip',
-			'desc'   => 'The heading above the client logos. The logos themselves are under Client logos in the menu.',
+		'menu'             => array(
+			'title'  => 'Menu',
+			'desc'   => 'The menu entry for About Us and the names of the links in the dropdowns under About Us and Projects (desktop menu). Each goes to that section. Leave a name empty to leave the link out; a section that is switched off is left out automatically. Other menu entries are the page titles (Dashboard > Pages).',
+			'toggle' => false,
+			'fields' => array(
+				'about'         => array( 'text', 'About Us: name in the menu', 'Goes to the About Us part of the home page.' ),
+				'company'       => array( 'text', 'About Us > the company', '' ),
+				'timeline'      => array( 'text', 'About Us > timeline', '' ),
+				'team'          => array( 'text', 'About Us > team', '' ),
+				'deliver'       => array( 'text', 'About Us > project methodology', '' ),
+				'sectors'       => array( 'text', 'Projects > sectors', '' ),
+				'record'        => array( 'text', 'Projects > project list', '' ),
+				'clients'       => array( 'text', 'Projects > clients', '' ),
+				'firms'         => array( 'text', 'Projects > architects, consultants & PMCs', '' ),
+				'appreciations' => array( 'text', 'Projects > appreciation certificates', '' ),
+			),
+		),
+		'clients'          => array(
+			'title'  => 'Clients',
+			'desc'   => 'The heading above the client logos (Projects page). The logos themselves are under Client logos in the menu.',
 			'toggle' => true,
 			'fields' => array(
 				'heading' => array( 'text', 'Heading', '' ),
 				'sub'     => array( 'text', 'Line on the right', $tokens ),
 			),
 		),
-		'services' => array(
-			'title'  => 'What we do',
-			'desc'   => 'Introduction, the three strengths, the “What we install” grid and the Sectors heading. Sector rows themselves are under Projects → Sectors.',
+		'services'         => array(
+			'title'  => 'Our Capabilities',
+			'desc'   => 'Introduction, the three strengths and the capability cards (Our Capabilities page).',
 			'toggle' => true,
 			'fields' => array(
 				'heading'         => array( 'text', 'Heading', '' ),
@@ -122,28 +142,37 @@ function aaykay_content_schema() {
 						),
 					),
 				),
-				'scope_heading'   => array( 'text', '“What we install” heading', '' ),
+				'scope_heading'   => array( 'text', 'Capabilities heading', '' ),
 				'scope'           => array(
 					'list',
-					'What we install',
-					'Four or eight items fill the grid evenly.',
+					'Capabilities',
+					'One card each, in this order (drag to reorder). Nine fill three rows of three; four or eight fill rows of four. A card with a link address shows a link under its text (opens in a new tab), e.g. “More about Fire Safety”. A card whose text is empty shows a “to come” box (Site settings > Placeholders).',
 					array(
-						'item'   => 'item',
+						'item'   => 'capability',
 						'max'    => 12,
 						'fields' => array(
-							'icon'  => array( 'icon', 'Icon', '' ),
-							'title' => array( 'text', 'Title', '' ),
-							'text'  => array( 'textarea', 'Text', '' ),
+							'icon'       => array( 'icon', 'Icon', '' ),
+							'title'      => array( 'text', 'Title', '' ),
+							'text'       => array( 'textarea', 'Text', '' ),
+							'link_url'   => array( 'text', 'Link address (optional)', 'A full address starting with https://. Opens in a new tab.' ),
+							'link_label' => array( 'text', 'Link text', 'e.g. More about Fire Safety. When the card has a link label but no address yet, a “to come” note marks the missing link.' ),
 						),
 					),
 				),
-				'sectors_heading' => array( 'text', 'Sectors heading', '' ),
-				'sectors_hint'    => array( 'text', 'Sectors hint', '' ),
 			),
 		),
-		'work'     => array(
+		'sectors'          => array(
+			'title'  => 'Sectors served',
+			'desc'   => 'The heading of the sector list at the top of the Projects page. The sectors themselves are under Projects → Sectors; selecting one filters the project list.',
+			'toggle' => true,
+			'fields' => array(
+				'heading' => array( 'text', 'Heading', '' ),
+				'hint'    => array( 'text', 'Line on the right', '' ),
+			),
+		),
+		'work'             => array(
 			'title'  => 'Selected work',
-			'desc'   => 'The heading of the large project cards. Which projects appear is chosen on each project (Projects → tick “Show as a large card”).',
+			'desc'   => 'Large project cards. Not shown on any page at present (client brief, 13 Oct 2026: the Projects page lists sectors, then the project list); kept so the cards can be brought back. Which projects appear is chosen on each project (Projects → tick “Show as a large card”).',
 			'toggle' => true,
 			'fields' => array(
 				'heading'    => array( 'text', 'Heading', '' ),
@@ -151,19 +180,26 @@ function aaykay_content_schema() {
 				'link_label' => array( 'text', 'Link to the project record', '' ),
 			),
 		),
-		'record'   => array(
+		'record'           => array(
 			'title'  => 'Project record',
-			'desc'   => 'Headings around the project table. The rows are your Projects; the firm list is Architects & consultants.',
+			'desc'   => 'Headings around the project list (Projects page). The rows are your Projects, in alphabetical order; a project without a status shows “To be confirmed” while placeholders are on.',
 			'toggle' => true,
 			'fields' => array(
-				'heading'       => array( 'text', 'Heading', '' ),
-				'sub'           => array( 'textarea', 'Line on the right', '' ),
-				'firms_heading' => array( 'text', 'Architects and consultants heading', '' ),
+				'heading' => array( 'text', 'Heading', '' ),
+				'sub'     => array( 'textarea', 'Line on the right', '' ),
 			),
 		),
-		'photos'   => array(
+		'firms'            => array(
+			'title'  => 'Architects, consultants and PMCs',
+			'desc'   => 'The heading of the firm list (Projects page). The firms are under Architects & consultants in the menu.',
+			'toggle' => true,
+			'fields' => array(
+				'heading' => array( 'text', 'Heading', '' ),
+			),
+		),
+		'photos'           => array(
 			'title'  => 'Site photographs',
-			'desc'   => 'The dark gallery of installation photos.',
+			'desc'   => 'The dark gallery of installation photos (Our Capabilities page).',
 			'toggle' => true,
 			'fields' => array(
 				'heading' => array( 'text', 'Heading', '' ),
@@ -184,9 +220,32 @@ function aaykay_content_schema() {
 				),
 			),
 		),
-		'deliver'  => array(
-			'title'  => 'How we deliver',
-			'desc'   => 'The delivery statement, the two panels, the five stages and the two reference sheets.',
+		'safety_photos'    => array(
+			'title'  => 'Site safety photographs',
+			'desc'   => 'The gallery of site safety procedures on the Quality & Safety page (toolbox meetings, barricading, medical check-ups…).',
+			'toggle' => true,
+			'fields' => array(
+				'heading' => array( 'text', 'Heading', '' ),
+				'sub'     => array( 'textarea', 'Line on the right', '' ),
+				'figures' => array(
+					'list',
+					'Photos',
+					'Six photos fill the mosaic exactly; other numbers also work. Use AAYKAY’s own site photos only, with people wearing full safety gear.',
+					array(
+						'item'   => 'photo',
+						'max'    => 12,
+						'fields' => array(
+							'image'   => array( 'image', 'Photo', '' ),
+							'fig'     => array( 'text', 'Number label (e.g. Fig. 2)', 'Optional.' ),
+							'caption' => array( 'text', 'Caption', 'What it shows; add the project and year if known.' ),
+						),
+					),
+				),
+			),
+		),
+		'deliver'          => array(
+			'title'  => 'About Us: project methodology',
+			'desc'   => 'About Us, home page: the project methodology (statement, two panels, the five stages with their animated track) and the two reference sheets: the electrical works schedule and the tools and supply chain.',
 			'toggle' => true,
 			'fields' => array(
 				'heading'        => array( 'text', 'Heading', '' ),
@@ -246,9 +305,9 @@ function aaykay_content_schema() {
 				),
 			),
 		),
-		'quality'  => array(
+		'quality'          => array(
 			'title'  => 'Quality & safety',
-			'desc'   => 'Certificates, quality and safety practice, photos, the testing kit and the appreciation documents. Staff numbers come from Site settings.',
+			'desc'   => 'Certificates, quality and safety practice, photos and the testing kit. Staff numbers come from Site settings.',
 			'toggle' => true,
 			'fields' => array(
 				'heading'         => array( 'text', 'Heading', '' ),
@@ -300,7 +359,7 @@ function aaykay_content_schema() {
 				'photos'          => array(
 					'list',
 					'Photos',
-					'Three fit the layout: one large, two small. People must be wearing full safety gear and have agreed to appear.',
+					'Three fit the layout: one large, two small. People must be wearing full safety gear and have agreed to appear. A photo with a caption but no picture yet shows a “to come” box (Site settings > Placeholders).',
 					array(
 						'item'   => 'photo',
 						'max'    => 3,
@@ -315,16 +374,22 @@ function aaykay_content_schema() {
 				'kit_heading'     => array( 'text', 'Testing kit heading', '' ),
 				'kit_sub'         => array( 'text', 'Testing kit line', '' ),
 				'kit_items'       => array( 'lines', 'Testing kit', 'One instrument per line.' ),
-				'docs_enabled'    => array( 'bool', 'Show the appreciation documents', '' ),
-				'docs_heading'    => array( 'text', 'Documents heading', '' ),
-				'docs_sub'        => array( 'text', 'Documents line', '' ),
-				'docs'            => array(
+			),
+		),
+		'appreciations'    => array(
+			'title'  => 'Appreciations',
+			'desc'   => 'Certificates and letters of appreciation, the last section of the Projects page. Each opens full size when clicked.',
+			'toggle' => true,
+			'fields' => array(
+				'heading' => array( 'text', 'Heading', '' ),
+				'sub'     => array( 'text', 'Line on the right', '' ),
+				'docs'    => array(
 					'list',
 					'Documents',
-					'Scans of certificates or letters. Describe each one exactly as the document says; visitors can open the scan and compare.',
+					'Scans of certificates or letters. Describe each one exactly as the document says; visitors can open the scan and compare. A row with a title but no scan yet shows a “to come” box (Site settings > Placeholders).',
 					array(
 						'item'   => 'document',
-						'max'    => 8,
+						'max'    => 12,
 						'fields' => array(
 							'image'   => array( 'image', 'Scan', 'A flat, sharp scan; it opens full size when clicked.' ),
 							'title'   => array( 'text', 'Title', '' ),
@@ -336,13 +401,32 @@ function aaykay_content_schema() {
 				),
 			),
 		),
-		'company'  => array(
-			'title'  => 'Company',
-			'desc'   => 'Founder, company facts, history text, quote and timeline. Head office and branch count come from Site settings.',
+		'company'          => array(
+			'title'  => 'About Us: company, timeline and leadership',
+			'desc'   => 'The About Us part of the home page: the company (facts, company brief, our work, why AAYKAY), the timeline, and the directors with the Managing Director’s message. Head office and branch count come from Site settings.',
 			'toggle' => true,
 			'fields' => array(
 				'heading'            => array( 'text', 'Heading', '' ),
 				'sub'                => array( 'textarea', 'Line on the right', '' ),
+				'work_heading'       => array( 'text', 'Our work: heading', '' ),
+				'work_items'         => array(
+					'list',
+					'Our work',
+					'Short statements with an icon (company profile, “Our work”). Four fit best.',
+					array(
+						'item'   => 'statement',
+						'max'    => 6,
+						'fields' => array(
+							'icon' => array( 'icon', 'Icon', '' ),
+							'text' => array( 'textarea', 'Text', '' ),
+						),
+					),
+				),
+				'why_heading'        => array( 'text', 'Why AAYKAY: heading', '' ),
+				'why_items'          => array( 'lines', 'Why AAYKAY', 'One point per line (company profile, “Why AAYKAY?”).' ),
+				'timeline_heading'   => array( 'text', 'Timeline: heading', '' ),
+				'timeline_sub'       => array( 'textarea', 'Timeline: line on the right', '' ),
+				'leadership_heading' => array( 'text', 'Leadership: heading', 'Shown above the directors, in the team section.' ),
 				'founder_photo'      => array( 'image', 'Founder photo', 'A portrait at least 1000 px tall, shown in black and white.' ),
 				'founder_name'       => array( 'text', 'Founder name', 'Also given to Google as the company’s founder.' ),
 				'founder_title'      => array( 'text', 'Founder title', '' ),
@@ -359,15 +443,19 @@ function aaykay_content_schema() {
 						),
 					),
 				),
+				'person2_photo'      => array( 'image', 'Second director: photo', 'A portrait like the founder’s, at least 1000 px tall. Until one is uploaded, a “to come” box is shown.' ),
+				'person2_name'       => array( 'text', 'Second director: name', 'Leave empty to show only the founder.' ),
+				'person2_title'      => array( 'text', 'Second director: title', '' ),
+				'person2_text'       => array( 'textarea', 'Second director: a line about them (optional)', '' ),
 				'glance_company'     => array( 'text', 'Company name (facts box)', 'The registered company name. Also used in the footer copyright line and given to Google.' ),
 				'glance_established' => array( 'text', 'Established (facts box)', 'The year, e.g. 2008. Also given to Google as the founding year.' ),
-				'paragraphs'         => array( 'textarea', 'History text', 'Leave an empty line between paragraphs.' ),
-				'quote'              => array( 'textarea', 'Quote (optional)', 'Leave empty to hide the quote.' ),
-				'quote_by'           => array( 'text', 'Quote attribution', '' ),
+				'paragraphs'         => array( 'textarea', 'Company brief', 'Leave an empty line between paragraphs.' ),
+				'quote'              => array( 'textarea', 'Director’s message', 'Publish only the wording the director has approved. Leave an empty line between paragraphs. While empty, a “to come” box is shown in its place (Site settings > Placeholders). Draft options for the director: docs/HANDOFF.md.' ),
+				'quote_by'           => array( 'text', 'Message signed by', 'e.g. Abdul Kareem P, Managing Director' ),
 				'timeline'           => array(
 					'list',
 					'Timeline',
-					'Use {with} for “, with branches in seven states and more than 100 clients” (from Site settings). ' . $tokens,
+					'The company’s history, oldest first, shown as a line of milestones. Three to five fit best. Use {with} for “, with branches in seven states and more than 100 clients” (from Site settings). ' . $tokens,
 					array(
 						'item'   => 'year',
 						'max'    => 10,
@@ -379,7 +467,31 @@ function aaykay_content_schema() {
 				),
 			),
 		),
-		'letter'   => array(
+		'team'             => array(
+			'title'  => 'About Us: team',
+			'desc'   => 'The team section of the home page: the directors (edited under About Us: company, timeline and leadership), then the team, one card each (photo, name, designation). Only members with a name are shown; while there are none, eight “to come” cards mark the space (Site settings > Placeholders).',
+			'toggle' => true,
+			'fields' => array(
+				'heading' => array( 'text', 'Heading', '' ),
+				'sub'     => array( 'textarea', 'Line on the right', '' ),
+				'members_heading' => array( 'text', 'Team: heading', 'Above the team cards, under the directors.' ),
+				'members' => array(
+					'list',
+					'Team members',
+					'Four to a row. Use real photos and titles, with each person’s agreement.',
+					array(
+						'item'   => 'person',
+						'max'    => 12,
+						'fields' => array(
+							'photo' => array( 'image', 'Photo', 'A portrait at least 800 px tall, shown in black and white like the directors’.' ),
+							'name'  => array( 'text', 'Name', '' ),
+							'role'  => array( 'text', 'Designation', 'e.g. Project Manager' ),
+						),
+					),
+				),
+			),
+		),
+		'letter'           => array(
 			'title'  => 'Client letter',
 			'desc'   => 'The quote from a client letter, with a scan of the letter.',
 			'toggle' => true,
@@ -394,15 +506,13 @@ function aaykay_content_schema() {
 				'caption'    => array( 'text', 'Caption in the viewer', '' ),
 			),
 		),
-		'prequal'  => array(
+		'prequal'          => array(
 			'title'  => 'Pre-qualification',
-			'desc'   => 'Headings, certificates and registrations. Turnover, staff numbers and branches come from Site settings.',
+			'desc'   => 'Headings, certificates and registrations. Staff numbers and branches come from Site settings.',
 			'toggle' => true,
 			'fields' => array(
 				'heading'           => array( 'text', 'Heading', '' ),
 				'sub'               => array( 'textarea', 'Line on the right', '' ),
-				'turnover_icon'     => array( 'icon', 'Turnover icon', '' ),
-				'turnover_heading'  => array( 'text', 'Turnover heading', '' ),
 				'resources_icon'    => array( 'icon', 'Resources icon', '' ),
 				'resources_heading' => array( 'text', 'Resources heading', '' ),
 				'certs_icon'        => array( 'icon', 'Certifications icon', '' ),
@@ -425,13 +535,66 @@ function aaykay_content_schema() {
 				'request_label'     => array( 'text', 'Request button', 'A button that opens the enquiry form with “Pre-qualification documents” chosen. Leave empty to hide it.' ),
 			),
 		),
-		'contact'  => array(
-			'title'  => 'Contact and enquiry form',
-			'desc'   => 'Texts around the enquiry form, the project types, and optional careers and supplier notes. Address, phone and email are in Site settings.',
+		'careers'          => array(
+			'title'  => 'Careers',
+			'desc'   => 'The Careers page: employee welfare, the open positions (job title, domain, location, experience and the job description) and how to apply.',
+			'toggle' => true,
+			'fields' => array(
+				'heading'          => array( 'text', 'Heading', '' ),
+				'sub'              => array( 'textarea', 'Line on the right', '' ),
+				'benefits_heading' => array( 'text', 'Benefits heading', '' ),
+				'benefits'         => array(
+					'list',
+					'Benefits',
+					'',
+					array(
+						'item'   => 'benefit',
+						'max'    => 10,
+						'fields' => array(
+							'icon' => array( 'icon', 'Icon', '' ),
+							'key'  => array( 'text', 'Short label', '' ),
+							'text' => array( 'textarea', 'Text', '' ),
+						),
+					),
+				),
+				'roles_heading'    => array( 'text', 'Open positions: heading', '' ),
+				'roles_sub'        => array( 'textarea', 'Open positions: line on the right', '' ),
+				'roles'            => array(
+					'list',
+					'Open positions',
+					'One row per opening, shown as a list visitors can filter by domain and open for the full description. Remove a row as soon as the position is filled. While there are none, a “to come” box is shown.',
+					array(
+						'item'   => 'position',
+						'max'    => 20,
+						'fields' => array(
+							'title'            => array( 'text', 'Job title', 'e.g. Project Engineer – Electrical' ),
+							'domain'           => array( 'text', 'Domain', 'e.g. Project execution, Safety, Quality, Design, Procurement. Positions are grouped and filtered by this.' ),
+							'location'         => array( 'text', 'Location', 'e.g. Hyderabad, or Hyderabad / Bengaluru' ),
+							'experience'       => array( 'text', 'Experience', 'e.g. 3–6 years' ),
+							'type'             => array( 'text', 'Employment type', 'e.g. Full-time' ),
+							'summary'          => array( 'textarea', 'Role summary', 'Two or three sentences.' ),
+							'responsibilities' => array( 'lines', 'Responsibilities', 'One per line.' ),
+							'requirements'     => array( 'lines', 'Requirements', 'One per line (qualification, experience, skills).' ),
+						),
+					),
+				),
+				'apply_heading'    => array( 'text', 'How to apply: heading', '' ),
+				'apply_text'       => array( 'textarea', 'How to apply', '' ),
+				'form_url'         => array( 'text', 'Application form address (optional)', 'A link to an application form owned by the company account (e.g. a Google Form). When filled in, the Apply buttons open it in a new tab; otherwise they open an email to the careers address below.' ),
+				'form_label'       => array( 'text', 'Apply button text', '' ),
+				'email'            => array( 'text', 'Careers email', 'Applications are sent here (Apply buttons open an email with the job title as subject). Empty: the email in Site settings is used.' ),
+				'note'             => array( 'textarea', 'Note (optional)', 'A small line at the end, e.g. that AAYKAY never asks for money for a job or an interview (only if the company confirms it).' ),
+			),
+		),
+		'contact'          => array(
+			'title'  => 'Contact Us',
+			'desc'   => 'The Contact Us page: texts around the contact details and the enquiry form, the branches map, the project types, and optional careers and supplier notes. Address, phones, email and the branch states are in Site settings.',
 			'toggle' => false,
 			'fields' => array(
 				'heading'           => array( 'text', 'Heading', '' ),
 				'lead'              => array( 'textarea', 'Introduction', '' ),
+				'branches_heading'  => array( 'text', 'Branches heading', 'Above the map of India. The states come from Site settings > States with branches (head office first).' ),
+				'branches_sub'      => array( 'text', 'Branches: line on the right', '' ),
 				'form_heading'      => array( 'text', 'Form heading', '' ),
 				'button'            => array( 'text', 'Send button', '' ),
 				'note'              => array( 'textarea', 'Note under the form', $tokens ),
@@ -507,7 +670,6 @@ function aaykay_tokens( $text ) {
 	}
 	$contact  = aaykay_contact();
 	$branches = aaykay_branches();
-	$turnover = aaykay_turnover();
 	$n        = count( $branches );
 	$with     = array();
 	if ( $n ) {
@@ -523,9 +685,8 @@ function aaykay_tokens( $text ) {
 	$map  = array(
 		'{clients}'       => trim( (string) aaykay_setting( 'clients_served' ) ),
 		'{branches}'      => $n ? (string) $n : '',
+		'{area}'          => trim( (string) aaykay_setting( 'area_delivered' ) ),
 		'{branches_word}' => $n ? aaykay_number_word( $n ) : '',
-		'{turnover}'      => $turnover ? aaykay_crore( $turnover[0]['value'] ) : '',
-		'{turnover_year}' => $turnover ? $turnover[0]['label'] : '',
 		'{city}'          => $contact['city'],
 		'{email}'         => $contact['email'],
 		'{phone}'         => $contact['phone'],
@@ -536,7 +697,7 @@ function aaykay_tokens( $text ) {
 	return trim( preg_replace( '/ {2,}/', ' ', $text ) );
 }
 
-/** True if a figure's value would be empty once placeholders are filled ("₹ Cr" counts as empty). */
+/** True if a figure's value would be empty once placeholders are filled. */
 function aaykay_token_empty( $value ) {
 	if ( preg_match_all( '/\{[a-z_]+\}/', (string) $value, $m ) ) {
 		foreach ( $m[0] as $token ) {
@@ -627,6 +788,46 @@ function aaykay_img( $value, $attrs = array() ) {
 	return $html . ' decoding="async">';
 }
 
+/** The opening screen's slideshow: the rows of Background photos that have a photo. */
+function aaykay_hero_slides() {
+	$slides = array();
+	foreach ( aaykay_rows( 'hero', 'slides' ) as $row ) {
+		$d = isset( $row['image'] ) ? aaykay_image_data( $row['image'] ) : null;
+		if ( $d && '' !== $d['url'] ) {
+			$slides[] = $row;
+		}
+	}
+	return $slides;
+}
+
+/**
+ * Address for a link typed in the editor: "#record" (a section, wherever its page is),
+ * "{brochure}" (the brochure PDF), or a full https:// address. '' if it is none of these.
+ */
+function aaykay_link_url( $value ) {
+	$value = trim( (string) $value );
+	if ( '' === $value ) {
+		return '';
+	}
+	if ( '{brochure}' === $value ) {
+		return aaykay_brochure_url();
+	}
+	if ( '#' === $value[0] ) {
+		return aaykay_section_url( substr( $value, 1 ) );
+	}
+	return esc_url( $value, array( 'http', 'https', 'mailto', 'tel' ) );
+}
+
+/** Whether a link typed in the editor leaves the website (opened in a new tab). */
+function aaykay_link_is_external( $value ) {
+	$value = trim( (string) $value );
+	if ( '{brochure}' === $value ) {
+		return true;
+	}
+	$host = wp_parse_url( $value, PHP_URL_HOST );
+	return is_string( $host ) && wp_parse_url( home_url(), PHP_URL_HOST ) !== $host;
+}
+
 /** "ISO 9001:2015 | quality management" -> <b>ISO 9001:2015</b> quality management. */
 function aaykay_bold_line( $line ) {
 	$parts = explode( '|', $line, 2 );
@@ -676,8 +877,14 @@ function aaykay_sanitize_field( $field, $raw, $sid = '', $key = '' ) {
 					'alt' => $alt,
 				);
 			}
-			// No upload: keep the launch photo (with the alt text as edited) if there is one.
-			$default = isset( $raw['default'] ) ? json_decode( (string) $raw['default'], true ) : null;
+			// No upload: keep the launch photo (with the alt text as edited) if there is one. The
+			// editor posts it as JSON in 'default'; a value that was already cleaned (WordPress
+			// sanitises a new option twice) carries it directly as 'src'.
+			if ( isset( $raw['default'] ) ) {
+				$default = json_decode( (string) $raw['default'], true );
+			} else {
+				$default = ! empty( $raw['src'] ) ? $raw : null;
+			}
 			if ( is_array( $default ) && ! empty( $default['src'] ) && 0 === strpos( (string) $default['src'], 'assets/img/' ) && false === strpos( (string) $default['src'], '..' ) && empty( $raw['remove'] ) ) {
 				$clean = array(
 					'src'    => (string) $default['src'],
@@ -743,18 +950,20 @@ function aaykay_e( $section, $field ) {
 }
 
 /**
- * The brand in the header and footer: the uploaded logo (Homepage content > Logo, header
- * and footer), or the drawn "A" mark with the name. $with_sub adds the two small lines
- * next to the name (header only).
+ * The brand in the header and footer: the round logo mark (Homepage content > Logo,
+ * header and footer; the drawn "A" if there is none), then the company name: the name
+ * and the two small lines next to it (AAYKAY · Electricals / Private Limited). The mark is
+ * decorative: the name says the same thing.
  */
-function aaykay_brand_lockup( $with_sub ) {
+function aaykay_brand_lockup() {
 	$logo = aaykay_image_data( aaykay_c( 'brand', 'logo' ) );
 	if ( $logo && $logo['url'] ) {
-		return '<img class="brand-logo" src="' . esc_url( $logo['url'] ) . '"' . ( $logo['w'] && $logo['h'] ? ' width="' . (int) $logo['w'] . '" height="' . (int) $logo['h'] . '"' : '' ) . ' alt="' . esc_attr( '' !== $logo['alt'] ? $logo['alt'] : 'AAYKAY Electricals' ) . '">';
+		$html = '<img class="brand-mark brand-mark--img" src="' . esc_url( $logo['url'] ) . '"' . ( '' !== $logo['srcset'] ? ' srcset="' . esc_attr( $logo['srcset'] ) . '" sizes="2.25rem"' : '' ) . ' width="36" height="36" alt="">';
+	} else {
+		$html = '<svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M3.5 28 14.6 4h2.8L28.5 28h-4.4L16 10.4 7.9 28Z" fill="currentColor"/><path d="M6.5 21.6 26.6 13l-1.5 3.5L8 24.8Z" fill="#E0452B"/></svg>';
 	}
-	$html  = '<svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M3.5 28 14.6 4h2.8L28.5 28h-4.4L16 10.4 7.9 28Z" fill="currentColor"/><path d="M6.5 21.6 26.6 13l-1.5 3.5L8 24.8Z" fill="#E0452B"/></svg>';
 	$html .= '<span class="brand-word">' . esc_html( aaykay_t( 'brand', 'word' ) ) . '</span>';
-	if ( $with_sub && ( '' !== aaykay_t( 'brand', 'sub1' ) || '' !== aaykay_t( 'brand', 'sub2' ) ) ) {
+	if ( '' !== aaykay_t( 'brand', 'sub1' ) || '' !== aaykay_t( 'brand', 'sub2' ) ) {
 		$html .= '<span class="brand-sub">' . esc_html( aaykay_t( 'brand', 'sub1' ) ) . '<br>' . esc_html( aaykay_t( 'brand', 'sub2' ) ) . '</span>';
 	}
 	return $html;

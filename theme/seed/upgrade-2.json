@@ -1,0 +1,410 @@
+{
+  "_readme": [
+    "Launch values of version 1 (before the client brief of 10 Oct 2026) that changed in version 2.",
+    "inc/upgrade.php gives a site the new launch content only where it still shows these old values,",
+    "so nothing AAYKAY has edited is overwritten. Not used on a new install."
+  ],
+  "settings": {
+    "phone": "+91 40 6636 2094",
+    "street": "#3D, 3rd Floor, Dhruva Tara Apartments",
+    "show_order_values": "1"
+  },
+  "content": {
+    "brand": {
+      "logo": {
+        "id": 0,
+        "alt": ""
+      },
+      "sub2": "Pvt. Ltd.",
+      "header_cta": "Start a project"
+    },
+    "hero": {
+      "caption": "Fig. 1 — UPS battery room, AAYKAY installation",
+      "kpis": [
+        {
+          "label": "Turnover, {turnover_year}",
+          "value": "₹{turnover} Cr"
+        },
+        {
+          "label": "Clients served",
+          "value": "{clients}"
+        },
+        {
+          "label": "States with branches",
+          "value": "{branches}"
+        },
+        {
+          "label": "ISO 9001:2015 & 45001:2018",
+          "value": "Certified"
+        }
+      ]
+    },
+    "services": {
+      "scope": [
+        {
+          "icon": "rows-3",
+          "title": "Containment",
+          "text": "Conduit in slabs, walls and floors; sleeves and back boxes; GI cable trays, ladders, trunking and raceways."
+        },
+        {
+          "icon": "cable",
+          "title": "Wiring & cabling",
+          "text": "Power and lighting wiring, DB-to-equipment wiring, HT/LT cable laying, dressing, tagging, glanding and termination."
+        },
+        {
+          "icon": "inspection-panel",
+          "title": "Panels & distribution",
+          "text": "LT panels and capacitor banks, MDBs, SMDBs and DBs, control wiring and panel earthing."
+        },
+        {
+          "icon": "arrow-up-from-line",
+          "title": "Busducts & rising mains",
+          "text": "Busbar trunking and rising mains, supplied through OEM channels and installed to approved GA drawings."
+        },
+        {
+          "icon": "lightbulb",
+          "title": "Lighting & accessories",
+          "text": "LED fixtures, lighting management systems, switches and sockets, fans and junction boxes."
+        },
+        {
+          "icon": "battery-charging",
+          "title": "Critical power",
+          "text": "UPS and battery installation, server-room electrical works, AC unit connections, pumps and motors."
+        },
+        {
+          "icon": "earth-ground",
+          "title": "Earthing & protection",
+          "text": "Earth pits and grids, GI and copper strip, surge protection devices and lightning arresters."
+        },
+        {
+          "icon": "gauge",
+          "title": "Testing",
+          "text": "Megger, IR and continuity tests, panel load tests, circuit verification and HT/LT equipment testing."
+        }
+      ]
+    },
+    "record": {
+      "sub": "Scale, order value and design team for each project. Order values are the value of AAYKAY’s electrical work order."
+    },
+    "photos": {
+      "figures": [
+        {
+          "image": {
+            "src": "assets/img/fig-db-termination-800.webp",
+            "srcset": [
+              [
+                "assets/img/fig-db-termination-480.webp",
+                480
+              ],
+              [
+                "assets/img/fig-db-termination-800.webp",
+                800
+              ],
+              [
+                "assets/img/fig-db-termination-1099.webp",
+                1099
+              ]
+            ],
+            "w": 1099,
+            "h": 1450,
+            "alt": "Open distribution boards with rows of circuit breakers and dressed wiring."
+          },
+          "fig": "Fig. 2",
+          "caption": "Distribution boards during termination"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-lt-panels-974.webp",
+            "srcset": [
+              [
+                "assets/img/fig-lt-panels-480.webp",
+                480
+              ],
+              [
+                "assets/img/fig-lt-panels-974.webp",
+                974
+              ]
+            ],
+            "w": 974,
+            "h": 485,
+            "alt": "A long line-up of LT panels in a plant room."
+          },
+          "fig": "Fig. 3",
+          "caption": "LT panel line-up in a plant room"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-tray-bends-485.webp",
+            "srcset": [
+              [
+                "assets/img/fig-tray-bends-485.webp",
+                485
+              ]
+            ],
+            "w": 485,
+            "h": 503,
+            "alt": "Ceiling-level cable trays sweeping through a set of bends."
+          },
+          "fig": "Fig. 4",
+          "caption": "Cable tray bends at a ceiling junction"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-ladder-ducting-465.webp",
+            "srcset": [
+              [
+                "assets/img/fig-ladder-ducting-465.webp",
+                465
+              ]
+            ],
+            "w": 465,
+            "h": 485,
+            "alt": "Cable ladder and steel supports routed alongside HVAC ducting."
+          },
+          "fig": "Fig. 5",
+          "caption": "Cable ladder beside HVAC ducting"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-switchboard-924.webp",
+            "srcset": [
+              [
+                "assets/img/fig-switchboard-480.webp",
+                480
+              ],
+              [
+                "assets/img/fig-switchboard-924.webp",
+                924
+              ]
+            ],
+            "w": 924,
+            "h": 655,
+            "alt": "A row of main switchboard panels with metering and breaker compartments."
+          },
+          "fig": "Fig. 6",
+          "caption": "Main switchboard panels"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-bench-power-609.webp",
+            "srcset": [
+              [
+                "assets/img/fig-bench-power-609.webp",
+                609
+              ]
+            ],
+            "w": 609,
+            "h": 457,
+            "alt": "Laboratory workbenches with power sockets mounted on a blue raceway."
+          },
+          "fig": "Fig. 7",
+          "caption": "Workbench power on raceway-mounted sockets"
+        }
+      ]
+    },
+    "deliver": {
+      "sheet1_label": "From our method statements",
+      "sheet1_title": "Standards our site teams work to",
+      "sheet1_rows": [
+        {
+          "term": "Earth station resistance",
+          "value": "2 ohms max., each"
+        },
+        {
+          "term": "Conduit saddle spacing",
+          "value": "2.5 m horiz. · 1.5 m vert."
+        },
+        {
+          "term": "Spare capacity in cable trays",
+          "value": "20%"
+        },
+        {
+          "term": "Clear space behind LV panels",
+          "value": "750 mm min."
+        },
+        {
+          "term": "Buried cable depth",
+          "value": "600 mm min., on 75 mm sand"
+        },
+        {
+          "term": "Switch / socket height above floor",
+          "value": "1350 mm / 300 mm"
+        }
+      ],
+      "sheet1_note": "Unless the approved drawings or client specification say otherwise.",
+      "sheet2_title": "Software, OEM channels and site tools",
+      "sheet2_rows": [
+        {
+          "term": "Design",
+          "value": "Autodesk Revit (BIM, MEP coordination) and AutoCAD (2D, quantity take-off)"
+        },
+        {
+          "term": "LT panels",
+          "value": "Schneider, L&T, ABB, Legrand"
+        },
+        {
+          "term": "Busducts & rising mains",
+          "value": "Schneider, L&T, Legrand, EAE, C&S"
+        },
+        {
+          "term": "Lighting management",
+          "value": "Lutron, Crestron, Enlighten"
+        },
+        {
+          "term": "Light fixtures",
+          "value": "Philips, Wipro, LT, ALW, XAL"
+        },
+        {
+          "term": "On site",
+          "value": "Dust-free battery drilling with extraction, laser marking, hydraulic cable pulling, factory-made tray bends"
+        }
+      ]
+    },
+    "quality": {
+      "heading": "Quality & safety",
+      "photos": [
+        {
+          "image": {
+            "src": "assets/img/safety-toolbox-talk-667.webp",
+            "srcset": [
+              [
+                "assets/img/safety-toolbox-talk-667.webp",
+                667
+              ]
+            ],
+            "w": 667,
+            "h": 517,
+            "alt": "A large site workforce in hard hats and hi-vis vests seated for a toolbox talk."
+          },
+          "fig": "Fig. 8",
+          "caption": "Toolbox talk with the site workforce"
+        },
+        {
+          "image": {
+            "src": "assets/img/safety-cpr-709.webp",
+            "srcset": [
+              [
+                "assets/img/safety-cpr-480.webp",
+                480
+              ],
+              [
+                "assets/img/safety-cpr-709.webp",
+                709
+              ]
+            ],
+            "w": 709,
+            "h": 548,
+            "alt": "Workers in PPE watching a CPR demonstration on site."
+          },
+          "fig": "Fig. 9",
+          "caption": "CPR training"
+        },
+        {
+          "image": {
+            "src": "assets/img/safety-briefing-726.webp",
+            "srcset": [
+              [
+                "assets/img/safety-briefing-480.webp",
+                480
+              ],
+              [
+                "assets/img/safety-briefing-726.webp",
+                726
+              ]
+            ],
+            "w": 726,
+            "h": 547,
+            "alt": "A site crew in red helmets and orange vests at a safety briefing."
+          },
+          "fig": "Fig. 10",
+          "caption": "Safety briefing"
+        }
+      ]
+    },
+    "appreciations": {
+      "heading": "Appreciation",
+      "sub": "Select a document to view it",
+      "docs": [
+        {
+          "image": {
+            "src": "assets/img/doc-savills-ehs-1024.webp",
+            "srcset": [
+              [
+                "assets/img/doc-savills-ehs-480.webp",
+                480
+              ],
+              [
+                "assets/img/doc-savills-ehs-1024.webp",
+                1024
+              ]
+            ],
+            "w": 1024,
+            "h": 732,
+            "alt": "Savills EHS Certificate of Appreciation awarded to an AAYKAY site team member.",
+            "full": "assets/img/doc-savills-ehs-1024.webp"
+          },
+          "title": "Savills · EHS certificate of appreciation",
+          "meta": "“Best performer”, Nov 2021 – Feb 2022, awarded to an AAYKAY site team member.",
+          "button": "View certificate",
+          "caption": "Savills EHS Certificate of Appreciation, best performer, November 2021 to February 2022."
+        },
+        {
+          "image": {
+            "src": "assets/img/doc-efswin-551.webp",
+            "srcset": [
+              [
+                "assets/img/doc-efswin-400.webp",
+                400
+              ],
+              [
+                "assets/img/doc-efswin-551.webp",
+                551
+              ]
+            ],
+            "w": 551,
+            "h": 774,
+            "alt": "EFSWIN 2012 plaque presented to Mr. Abdul Kareem for invaluable support.",
+            "full": "assets/img/doc-efswin-551.webp"
+          },
+          "title": "EFSWIN 2012 · Electrical & Fire Safety Workshop in India",
+          "meta": "Organised by FSAI with IEEE IAS. Presented to Abdul Kareem P “for invaluable support”, Hyderabad, November 2012.",
+          "button": "View plaque",
+          "caption": "EFSWIN 2012, Electrical and Fire Safety Workshop in India and Exhibition, Hyderabad, November 2012."
+        },
+        {
+          "image": {
+            "src": "assets/img/doc-omsai-617.webp",
+            "srcset": [
+              [
+                "assets/img/doc-omsai-400.webp",
+                400
+              ],
+              [
+                "assets/img/doc-omsai-617.webp",
+                617
+              ]
+            ],
+            "w": 617,
+            "h": 774,
+            "alt": "Om Sai Intex Gratitude 15 appreciation presented to AayKay Electrical Enterprises, Bangalore.",
+            "full": "assets/img/doc-omsai-617.webp"
+          },
+          "title": "Om Sai Intex · Partner appreciation",
+          "meta": "“Gratitude 15”, presented to AayKay Electrical Enterprises, Bangalore, May 2019.",
+          "button": "View plaque",
+          "caption": "Om Sai Intex, Gratitude 15 partner appreciation, 4 May 2019."
+        }
+      ]
+    },
+    "company": {
+      "paragraphs": "Abdul Kareem P was Head of Operations at Naseer Electricals in Hyderabad before starting A K Electricals in 2008. His 30 years in the trade cover base-build, IT workspaces, labs, data centres, hospitals, industrial and high-rise projects.\n\nRepeat clients include HDFC Bank, Amazon, Accenture, Microsoft, Tech Mahindra, Cognizant, AMD, NCR and D. E. Shaw & Co.",
+      "quote": "“Listen hard, change fast.”",
+      "quote_by": "Abdul Kareem P, on how he asks the team to work"
+    }
+  },
+  "sectors": {
+    "enterprise": {
+      "description": "Office fit-outs and campuses, up to 15 floors and 475,000 sq ft on a single project."
+    }
+  }
+}

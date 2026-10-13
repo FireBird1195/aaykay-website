@@ -45,3 +45,20 @@ permission. The page greyscales them with CSS, so the files keep their original 
 
 Record any new logo file here with where it came from (ideally the company's own brand or
 press page).
+
+## Map of India (`seed/india-map.json`)
+
+Built by `tools/build-india-map.py` from Natural Earth 1:10m data (public domain,
+naturalearthdata.com): `ne_10m_admin_0_countries_ind` (India's outline as India officially
+shows it) and `ne_10m_admin_1_states_provinces` (state boundaries). No attribution required.
+
+## Photos added on 13 Oct 2026
+
+`img/safety-*.webp` (scaffolding, temporary DB, cable drums, work area, medical check-up,
+safety posters): AAYKAY's own site photos from the company profile of Aug 2026 (pp. 53–55),
+extracted at their embedded size and converted to WebP.
+
+## Icons added on 13 Oct 2026
+
+`flame`, `file-text`, `chevron-down`, `pause`, `play`, `heart-pulse`, `wallet`, `coffee`,
+`arrow-up-right`: Lucide (ISC licence), lucide-static 0.460.0.
