@@ -50,7 +50,9 @@ function aaykay_settings_fields() {
 		'res_unskilled'     => array( 'resources', 'Workforce: unskilled', 'count', '' ),
 		'res_out_skilled'   => array( 'resources', 'Outsourced: skilled', 'count', '' ),
 		'res_out_unskilled' => array( 'resources', 'Outsourced: unskilled', 'count', '' ),
-		'show_pending'      => array( 'pending', 'Show “to come” placeholders', 'bool', 'Dashed boxes marking content AAYKAY is still to supply (photos, the founder’s quote, the Safety Solutions link, the careers form). Untick before launch to hide every placeholder at once.' ),
+		'brochure_url'      => array( 'brochure', 'Brochure (PDF) address', 'doc', 'The PDF that the “Brochure” tab on the left edge of the website opens. To use a new PDF: Media > Add New, upload it, open it, “Copy URL to clipboard”, and paste it here. A link to a PDF in the company’s cloud storage also works. Leave empty to hide the tab. Launch file: the company profile of Aug 2026 (theme file assets/docs/aaykay-company-profile.pdf), which still includes the turnover figures.' ),
+		'brochure_label'    => array( 'brochure', 'Brochure tab text', 'text', 'One short word reads best on the vertical tab, e.g. Brochure.' ),
+		'show_pending'      => array( 'pending', 'Show “to come” placeholders', 'bool', 'Dashed boxes marking content AAYKAY is still to supply (photos, the director’s message, team members, the Fire Safety text and link, project statuses, the careers form). Untick before launch to hide every placeholder at once.' ),
 		'sheets_url'        => array( 'leads', 'Google Sheets connection (web app URL)', 'url', 'Optional. Paste the web app URL from the Google Sheet’s Apps Script (it starts with https://script.google.com/macros/s/). Every new enquiry is then also added as a row in that sheet. Steps: client guide, section C10.' ),
 		'sheets_secret'     => array( 'leads', 'Google Sheets secret code', 'text', 'Paste the same code into the Apps Script, so only this website can add rows. Created automatically; change it only if it has been shared by mistake.' ),
 		'gsc_verification'  => array( 'seo', 'Google Search Console code (optional)', 'text', 'If Search Console offers an “HTML tag”, paste only the code inside content="…". Verifying with a DNS record instead needs nothing here.' ),
@@ -66,6 +68,7 @@ function aaykay_settings_sections() {
 		'company'   => array( 'Company figures', '' ),
 		'resources' => array( 'Resources', 'Head counts for the pre-qualification section. Leave a box empty to hide that line.' ),
 		'leads'     => array( 'Enquiries in Google Sheets', 'Every enquiry is always saved under Enquiries and emailed. Connecting a Google Sheet is optional: it gives the office a live spreadsheet of leads.' ),
+		'brochure'  => array( 'Brochure', 'The tab on the left edge of every page (on phones: in the menu).' ),
 		'seo'       => array( 'Search engines', '' ),
 		'pending'   => array( 'Placeholders', '' ),
 	);
@@ -119,6 +122,24 @@ function aaykay_contact() {
 function aaykay_branches() {
 	$lines = preg_split( '/\r\n|\r|\n/', (string) aaykay_setting( 'branches' ) );
 	return array_values( array_filter( array_map( 'trim', $lines ), 'strlen' ) );
+}
+
+/** Address of the brochure PDF (Site settings > Brochure), or '' when there is none. */
+function aaykay_brochure_url() {
+	$v = trim( (string) aaykay_setting( 'brochure_url' ) );
+	if ( '' === $v ) {
+		return '';
+	}
+	if ( 0 === strpos( $v, 'assets/docs/' ) ) {
+		return is_readable( get_theme_file_path( $v ) ) ? aaykay_asset( $v ) : '';
+	}
+	return esc_url( $v );
+}
+
+/** Text on the brochure tab. */
+function aaykay_brochure_label() {
+	$v = trim( (string) aaykay_setting( 'brochure_label' ) );
+	return '' !== $v ? $v : 'Brochure';
 }
 
 /** "100+" -> "more than 100" for running text. */
@@ -190,6 +211,18 @@ function aaykay_sanitize_settings( $input ) {
 				if ( 'sheets_url' === $key && '' !== $out[ $key ] && 0 !== strpos( $out[ $key ], 'https://script.google.com/' ) ) {
 					add_settings_error( AAYKAY_SETTINGS_OPTION, $key, 'The Google Sheets address must start with https://script.google.com/, so it was not saved.' );
 					$out[ $key ] = '';
+				}
+				break;
+			case 'doc':
+				// A web address, or the launch file inside the theme (assets/docs/…).
+				$raw = trim( $raw );
+				if ( preg_match( '#^assets/docs/[\w.-]+\.pdf$#', $raw ) ) {
+					$out[ $key ] = $raw;
+				} else {
+					$out[ $key ] = esc_url_raw( $raw, array( 'http', 'https' ) );
+					if ( '' !== $raw && '' === $out[ $key ] ) {
+						add_settings_error( AAYKAY_SETTINGS_OPTION, $key, 'The brochure address must start with https://, so it was not saved.' );
+					}
 				}
 				break;
 			case 'lines':

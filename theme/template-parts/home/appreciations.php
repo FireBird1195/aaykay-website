@@ -1,6 +1,6 @@
 <?php
 /**
- * Appreciations page: certificates and letters, each opening full size in the document
+ * Projects page, last section: appreciation certificates and letters, each opening full size in the document
  * viewer (footer.php). Content: Homepage content > Appreciations.
  *
  * @package aaykay

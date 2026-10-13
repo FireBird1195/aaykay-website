@@ -1,6 +1,6 @@
 <?php
 /**
- * Projects page: selected work. Heading: Homepage content > Selected work.
+ * Projects page: selected work (large cards, before the project list). Heading: Homepage content > Selected work.
  * Cards: projects with "Show as a large card" ticked (Dashboard > Projects).
  *
  * @package aaykay

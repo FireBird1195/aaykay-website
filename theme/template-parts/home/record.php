@@ -1,6 +1,6 @@
 <?php
 /**
- * Projects page: the project record. Headings: Homepage content > Project record.
+ * Projects page: the project list (alphabetical, with status). Headings: Homepage content > Project record.
  * Rows: Dashboard > Projects, alphabetical.
  *
  * @package aaykay
@@ -25,13 +25,14 @@ $aaykay_values = aaykay_show_values();
       <p class="record-status" id="record-status" aria-live="polite"></p>
       <div class="table-scroll" role="region" aria-labelledby="record-caption" tabindex="0">
         <table class="record" id="record-table">
-          <caption id="record-caption" class="visually-hidden">AAYKAY project record: project, location, built-up area, floors, <?php echo $aaykay_values ? 'AAYKAY order value ' : ''; ?>and design team</caption>
+          <caption id="record-caption" class="visually-hidden">AAYKAY project list: project, location, built-up area, floors, status, <?php echo $aaykay_values ? 'AAYKAY order value, ' : ''; ?>and architect or electrical consultant</caption>
           <thead>
             <tr>
               <th scope="col">Project</th>
               <th scope="col">Location</th>
               <th scope="col" class="num">Area (sq ft)</th>
               <th scope="col" class="floors">Floors</th>
+              <th scope="col" class="status">Status</th>
 <?php if ( $aaykay_values ) : ?>
               <th scope="col" class="num">Order value</th>
 <?php endif; ?>

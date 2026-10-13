@@ -1,6 +1,6 @@
 <?php
 /**
- * Home page and Clients page: client logos strip. Heading: Homepage content > Client logos strip.
+ * Projects page: the clients (logo wall). Heading: Homepage content > Client logos strip.
  * Logos: Dashboard > Client logos.
  *
  * @package aaykay
@@ -8,7 +8,7 @@
 
 defined( 'ABSPATH' ) || exit;
 ?>
-  <section class="clients" aria-labelledby="clients-title">
+  <section class="clients" id="clients" aria-labelledby="clients-title">
     <div class="wrap">
       <div class="clients-head">
         <h2 class="label" id="clients-title"><?php aaykay_e( 'clients', 'heading' ); ?></h2>
