@@ -45,7 +45,9 @@
     "cf_analytics": "",
     "show_pending": "1",
     "sheets_url": "",
-    "sheets_secret": ""
+    "sheets_secret": "",
+    "brochure_url": "assets/docs/aaykay-company-profile.pdf",
+    "brochure_label": "Brochure"
   },
   "content": {
     "brand": {
@@ -78,29 +80,192 @@
       "label": "Electrical & MEP contracting · Since 2008",
       "title": "Electrical systems\nfor buildings that\ncan’t go dark.",
       "lead": "AAYKAY designs, installs, tests and commissions electrical works for hospitals, enterprise campuses, data centres and high-rise towers, from shop drawing to handover.",
-      "primary_label": "Start a project",
-      "secondary_label": "See our work",
-      "image": {
-        "src": "assets/img/hero-ups-room-960.webp",
-        "srcset": [
-          [
-            "assets/img/hero-ups-room-640.webp",
-            640
-          ],
-          [
-            "assets/img/hero-ups-room-960.webp",
-            960
-          ],
-          [
-            "assets/img/hero-ups-room-1280.webp",
-            1280
-          ]
-        ],
-        "w": 1280,
-        "h": 578,
-        "alt": "A UPS battery room installed by AAYKAY: rows of battery racks under overhead cable trays."
-      },
-      "caption": "UPS battery room, AAYKAY installation",
+      "primary_label": "Contact us",
+      "secondary_label": "View projects",
+      "slides": [
+        {
+          "image": {
+            "src": "assets/img/hero-ups-room-960.webp",
+            "srcset": [
+              [
+                "assets/img/hero-ups-room-640.webp",
+                640
+              ],
+              [
+                "assets/img/hero-ups-room-960.webp",
+                960
+              ],
+              [
+                "assets/img/hero-ups-room-1280.webp",
+                1280
+              ]
+            ],
+            "w": 1280,
+            "h": 578,
+            "alt": "A UPS battery room installed by AAYKAY: rows of battery racks under overhead cable trays."
+          },
+          "caption": "UPS battery room, AAYKAY installation"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-lt-panels-974.webp",
+            "srcset": [
+              [
+                "assets/img/fig-lt-panels-480.webp",
+                480
+              ],
+              [
+                "assets/img/fig-lt-panels-974.webp",
+                974
+              ]
+            ],
+            "w": 974,
+            "h": 485,
+            "alt": "A long line-up of LT panels in a plant room."
+          },
+          "caption": "LT panel line-up in a plant room, AAYKAY installation"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-switchboard-924.webp",
+            "srcset": [
+              [
+                "assets/img/fig-switchboard-480.webp",
+                480
+              ],
+              [
+                "assets/img/fig-switchboard-924.webp",
+                924
+              ]
+            ],
+            "w": 924,
+            "h": 655,
+            "alt": "A row of main switchboard panels with metering and breaker compartments."
+          },
+          "caption": "Main switchboard panels, AAYKAY installation"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-db-termination-800.webp",
+            "srcset": [
+              [
+                "assets/img/fig-db-termination-480.webp",
+                480
+              ],
+              [
+                "assets/img/fig-db-termination-800.webp",
+                800
+              ],
+              [
+                "assets/img/fig-db-termination-1099.webp",
+                1099
+              ]
+            ],
+            "w": 1099,
+            "h": 1450,
+            "alt": "Open distribution boards with rows of circuit breakers and dressed wiring."
+          },
+          "caption": "Distribution boards during termination, AAYKAY installation"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-tray-bends-485.webp",
+            "srcset": [
+              [
+                "assets/img/fig-tray-bends-485.webp",
+                485
+              ]
+            ],
+            "w": 485,
+            "h": 503,
+            "alt": "Ceiling-level cable trays sweeping through a set of bends."
+          },
+          "caption": "Cable tray bends at a ceiling junction, AAYKAY installation"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-ladder-ducting-465.webp",
+            "srcset": [
+              [
+                "assets/img/fig-ladder-ducting-465.webp",
+                465
+              ]
+            ],
+            "w": 465,
+            "h": 485,
+            "alt": "Cable ladder and steel supports routed alongside HVAC ducting."
+          },
+          "caption": "Cable ladder beside HVAC ducting, AAYKAY installation"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-bench-power-609.webp",
+            "srcset": [
+              [
+                "assets/img/fig-bench-power-609.webp",
+                609
+              ]
+            ],
+            "w": 609,
+            "h": 457,
+            "alt": "Laboratory workbenches with power sockets mounted on a blue raceway."
+          },
+          "caption": "Workbench power on raceway-mounted sockets, AAYKAY installation"
+        },
+        {
+          "image": {
+            "src": "assets/img/safety-toolbox-talk-667.webp",
+            "srcset": [
+              [
+                "assets/img/safety-toolbox-talk-667.webp",
+                667
+              ]
+            ],
+            "w": 667,
+            "h": 517,
+            "alt": "A large site workforce in hard hats and hi-vis vests seated for a toolbox talk."
+          },
+          "caption": "Toolbox talk with the site workforce"
+        },
+        {
+          "image": {
+            "src": "assets/img/safety-cpr-709.webp",
+            "srcset": [
+              [
+                "assets/img/safety-cpr-480.webp",
+                480
+              ],
+              [
+                "assets/img/safety-cpr-709.webp",
+                709
+              ]
+            ],
+            "w": 709,
+            "h": 548,
+            "alt": "Workers in PPE watching a CPR demonstration on site."
+          },
+          "caption": "CPR training on site"
+        },
+        {
+          "image": {
+            "src": "assets/img/safety-temporary-db-731.webp",
+            "srcset": [
+              [
+                "assets/img/safety-temporary-db-480.webp",
+                480
+              ],
+              [
+                "assets/img/safety-temporary-db-731.webp",
+                731
+              ]
+            ],
+            "w": 731,
+            "h": 539,
+            "alt": "A temporary distribution board on site, barricaded, with a fire extinguisher and a rubber mat in front."
+          },
+          "caption": "Temporary distribution board, set up to site safety rules"
+        }
+      ],
       "kpis": [
         {
           "label": "Sq ft of completed projects",
@@ -120,15 +285,27 @@
         }
       ]
     },
+    "menu": {
+      "about": "About Us",
+      "company": "Company",
+      "timeline": "Timeline",
+      "team": "Our Team",
+      "deliver": "Project Methodology",
+      "sectors": "Sectors",
+      "record": "Project List",
+      "clients": "Clients",
+      "firms": "Architects, Consultants & PMCs",
+      "appreciations": "Appreciation Certificates"
+    },
     "clients": {
       "enabled": true,
-      "heading": "Clients include",
+      "heading": "Clients",
       "sub": "A selection of our {clients} clients"
     },
     "services": {
       "enabled": true,
-      "heading": "What we do",
-      "lead": "We take on the complete electrical package: containment, cabling, panels, lighting, earthing and critical power. We coordinate it in Revit, install it to written method statements and test it with our own commissioning team before handover.",
+      "heading": "Our Capabilities",
+      "lead": "Complete electrical packages, from HT/LT panels, containment and cabling to lighting, earthing, critical power and fire safety: coordinated in Revit, installed to method statements and tested by our own commissioning team before handover.",
       "pillars": [
         {
           "icon": "drafting-compass",
@@ -146,79 +323,97 @@
           "text": "Dedicated safety staff, HIRA risk assessments and an emergency response team on call 24/7."
         }
       ],
-      "scope_heading": "What we install",
+      "scope_heading": "Scope of Works",
       "scope": [
+        {
+          "icon": "inspection-panel",
+          "title": "Panels & distribution",
+          "text": "HT/LT panels, Capacitor Panels, MDBs, Distribution Boards along with accessories.",
+          "link_url": "",
+          "link_label": ""
+        },
         {
           "icon": "rows-3",
           "title": "Containment",
-          "text": "Conduit in slabs, walls and floors; sleeves and back boxes; GI cable trays, ladders, trunking and raceways."
+          "text": "Conduit in slabs, walls and floors; sleeves and back boxes; GI cable trays, ladders, trunking and raceways.",
+          "link_url": "",
+          "link_label": ""
         },
         {
           "icon": "cable",
           "title": "Wiring & cabling",
-          "text": "Power and lighting wiring, DB-to-equipment wiring, HT/LT cable laying, dressing, tagging, glanding and termination."
-        },
-        {
-          "icon": "inspection-panel",
-          "title": "Panels & distribution",
-          "text": "LT panels and capacitor banks, MDBs, SMDBs and DBs, control wiring and panel earthing."
+          "text": "Power and lighting wiring, DB-to-equipment wiring, HT/LT cable laying, dressing, tagging, glanding and termination.",
+          "link_url": "",
+          "link_label": ""
         },
         {
           "icon": "arrow-up-from-line",
           "title": "Busducts & rising mains",
-          "text": "Busbar trunking and rising mains, supplied through OEM channels and installed to approved GA drawings."
+          "text": "Busbar trunking and rising mains, supplied through OEM channels and installed to approved GA drawings.",
+          "link_url": "",
+          "link_label": ""
         },
         {
           "icon": "lightbulb",
           "title": "Lighting & accessories",
-          "text": "LED fixtures, lighting management systems, switches and sockets, fans and junction boxes."
+          "text": "LED fixtures, lighting management systems, switches and sockets, fans and junction boxes.",
+          "link_url": "",
+          "link_label": ""
         },
         {
           "icon": "battery-charging",
           "title": "Critical power",
-          "text": "UPS and battery installation, server-room electrical works, AC unit connections, pumps and motors."
+          "text": "UPS and battery installation, server-room electrical works, AC unit connections, pumps and motors.",
+          "link_url": "",
+          "link_label": ""
         },
         {
           "icon": "earth-ground",
           "title": "Earthing & protection",
-          "text": "Earth pits and grids, GI and copper strip, surge protection devices and lightning arresters."
+          "text": "Earth pits and grids, GI and copper strip, surge protection devices and lightning arresters.",
+          "link_url": "",
+          "link_label": ""
         },
         {
           "icon": "gauge",
-          "title": "Testing & maintenance",
-          "text": "Megger, IR and continuity tests, panel load tests, circuit verification and HT/LT equipment testing. Annual maintenance contracts (AMC)."
+          "title": "Testing",
+          "text": "Megger, IR and continuity tests, panel load tests, circuit verification and HT/LT equipment testing.",
+          "link_url": "",
+          "link_label": ""
+        },
+        {
+          "icon": "flame",
+          "title": "Fire Safety",
+          "text": "Fire alarm and detection systems, emergency lighting and power supply to fire-fighting equipment, installed and tested to approved drawings and local fire norms.",
+          "link_url": "",
+          "link_label": "More about Fire Safety"
         }
-      ],
-      "sectors_heading": "Sectors",
-      "sectors_hint": "Select a sector to see its projects."
+      ]
     },
-    "safety_solutions": {
+    "sectors": {
       "enabled": true,
-      "heading": "AAYKAY Safety Solutions",
-      "sub": "",
-      "text": "",
-      "link_url": "",
-      "link_label": "Visit AAYKAY Safety Solutions"
+      "heading": "Sectors",
+      "hint": "Select a sector to filter the project list below."
     },
     "work": {
       "enabled": true,
       "heading": "Selected work",
       "intro": "",
-      "link_label": "Full project record"
+      "link_label": "Full project list"
     },
     "record": {
       "enabled": true,
-      "heading": "Project record",
+      "heading": "Project List",
       "sub": "Location, built-up area, status and design team for each project, in alphabetical order."
     },
     "firms": {
       "enabled": true,
-      "heading": "Architects, consultants and PMCs we have worked with"
+      "heading": "Architects, Consultants & PMCs"
     },
     "photos": {
       "enabled": true,
-      "heading": "The work, up close",
-      "sub": "Containment, panels, distribution and critical power on AAYKAY sites, as installed.",
+      "heading": "Site Gallery",
+      "sub": "Containment, panels, distribution and critical power on AAYKAY sites.",
       "figures": [
         {
           "image": {
@@ -334,17 +529,144 @@
         }
       ]
     },
+    "safety_photos": {
+      "enabled": true,
+      "heading": "Site Safety Procedures",
+      "sub": "Barricading, safety mock-ups, medical check-ups and safety awareness on AAYKAY sites.",
+      "figures": [
+        {
+          "image": {
+            "src": "assets/img/safety-scaffolding-593.webp",
+            "srcset": [
+              [
+                "assets/img/safety-scaffolding-480.webp",
+                480
+              ],
+              [
+                "assets/img/safety-scaffolding-593.webp",
+                593
+              ]
+            ],
+            "w": 593,
+            "h": 1280,
+            "alt": "A worker in a safety harness on mobile scaffolding at ceiling level."
+          },
+          "fig": "",
+          "caption": "Scaffolding work under safety"
+        },
+        {
+          "image": {
+            "src": "assets/img/safety-temporary-db-731.webp",
+            "srcset": [
+              [
+                "assets/img/safety-temporary-db-480.webp",
+                480
+              ],
+              [
+                "assets/img/safety-temporary-db-731.webp",
+                731
+              ]
+            ],
+            "w": 731,
+            "h": 539,
+            "alt": "A temporary distribution board on site, barricaded, with a fire extinguisher and a rubber mat in front."
+          },
+          "fig": "",
+          "caption": "Temporary DB set-up"
+        },
+        {
+          "image": {
+            "src": "assets/img/safety-cable-drums-730.webp",
+            "srcset": [
+              [
+                "assets/img/safety-cable-drums-480.webp",
+                480
+              ],
+              [
+                "assets/img/safety-cable-drums-730.webp",
+                730
+              ]
+            ],
+            "w": 730,
+            "h": 538,
+            "alt": "Cable drums on site behind red and white barricade tape."
+          },
+          "fig": "",
+          "caption": "Cable drum barricading"
+        },
+        {
+          "image": {
+            "src": "assets/img/safety-work-area-713.webp",
+            "srcset": [
+              [
+                "assets/img/safety-work-area-480.webp",
+                480
+              ],
+              [
+                "assets/img/safety-work-area-713.webp",
+                713
+              ]
+            ],
+            "w": 713,
+            "h": 542,
+            "alt": "A corridor work area cordoned off with cones and tape, with a work-in-progress sign."
+          },
+          "fig": "",
+          "caption": "Work area barricading during execution"
+        },
+        {
+          "image": {
+            "src": "assets/img/safety-medical-checkup-820.webp",
+            "srcset": [
+              [
+                "assets/img/safety-medical-checkup-480.webp",
+                480
+              ],
+              [
+                "assets/img/safety-medical-checkup-820.webp",
+                820
+              ]
+            ],
+            "w": 820,
+            "h": 512,
+            "alt": "A site worker in a hi-vis vest having his blood pressure checked at a medical camp."
+          },
+          "fig": "",
+          "caption": "Medical check-up"
+        },
+        {
+          "image": {
+            "src": "assets/img/safety-posters-821.webp",
+            "srcset": [
+              [
+                "assets/img/safety-posters-480.webp",
+                480
+              ],
+              [
+                "assets/img/safety-posters-821.webp",
+                821
+              ]
+            ],
+            "w": 821,
+            "h": 582,
+            "alt": "An AAYKAY safety park banner showing personal protective equipment."
+          },
+          "fig": "",
+          "caption": "Safety posters"
+        }
+      ]
+    },
     "deliver": {
       "enabled": true,
-      "heading": "How we deliver",
-      "sub": "Five stages, managed by our own project team, with the schedule risks dealt with first.",
-      "insight": "Electrical packages rarely slip on site.",
-      "insight_em": "They slip waiting on approvals and long-lead equipment, so that is where we start.",
-      "panel1_heading": "Agreed at kickoff",
+      "heading": "Project Methodology",
+      "sub": "Five stages, from GFC review to handover, managed by our own project team.",
+      "insight": "Approvals and long-lead equipment are planned first.",
+      "insight_em": "Schedule risk is addressed before work begins on site.",
+      "panel1_heading": "Kick-off requirements",
       "panel1_items": "GFC drawings in hand before the kickoff meeting\nSamples and technical data sheets approved within 5 days\nPanel GA and shop drawings approved within one week\nCeiling layouts, IT power and raceway needs, and HVAC power loads confirmed up front",
-      "panel2_heading": "Ordered early",
+      "panel2_heading": "Early procurement",
       "panel2_items": "LT panels\nLight fixtures\nLighting management systems\nRising mains and busducts",
-      "panel2_note": "Order placement, submittals and approvals for each are closed on a fixed timeline.",
+      "panel2_note": "Order placement, submittals and approvals are closed on a fixed timeline.",
       "stages": [
         {
           "icon": "drafting-compass",
@@ -377,9 +699,46 @@
           "tags": "As-builts, Training, Sign-off"
         }
       ],
-      "sheet1_label": "",
-      "sheet1_title": "",
-      "sheet1_rows": [],
+      "sheet1_label": "Project schedule",
+      "sheet1_title": "Electrical works sequence",
+      "sheet1_rows": [
+        {
+          "term": "01 Mobilisation & preparation",
+          "value": "Site handover and inspection, safety induction and manpower deployment, material procurement plan and vendor finalisation, storage set-up, coordination with the client, PMC and civil team."
+        },
+        {
+          "term": "02 Conduiting & cable trays",
+          "value": "Marking and layout; conduit in slabs, walls and floors; sleeves and back boxes; horizontal and vertical cable trays, GI supports and trunking."
+        },
+        {
+          "term": "03 Wiring & cabling",
+          "value": "Light and power point wiring, DB-to-equipment wiring and earthing wire routing; HT/LT cable route marking, laying, dressing, tagging, glanding and termination."
+        },
+        {
+          "term": "04 Panels & DBs",
+          "value": "MDB, SMDB and DB installation and wiring, control wiring, panel earthing and panel testing."
+        },
+        {
+          "term": "05 Light fixtures & accessories",
+          "value": "LED fixtures, switches and sockets, exhaust and ceiling fans, junction box terminations."
+        },
+        {
+          "term": "06 Equipment",
+          "value": "UPS installation, AC unit connections, server room electrical works, pump and motor hook-up."
+        },
+        {
+          "term": "07 Earthing & lightning protection",
+          "value": "Earth pits, earthing grid and GI strip, surge protection devices and lightning arresters."
+        },
+        {
+          "term": "08 Testing & commissioning",
+          "value": "Megger, IR and continuity tests, panel load tests, light testing and circuit verification, HT/LT equipment testing."
+        },
+        {
+          "term": "09 Final checks & handover",
+          "value": "As-built drawings, test reports, snag rectification, final walkthrough with the client and project handover."
+        }
+      ],
       "sheet1_note": "",
       "sheet2_label": "Tools & supply chain",
       "sheet2_title": "Software, brands and site tools",
@@ -400,7 +759,7 @@
     },
     "quality": {
       "enabled": true,
-      "heading": "Standards & practice",
+      "heading": "Quality & Safety",
       "sub": "Certified to ISO 9001:2015 and ISO 45001:2018, and run day to day by dedicated quality and safety staff.",
       "certs": [
         {
@@ -452,6 +811,10 @@
         {
           "key": "Training & welfare",
           "text": "Toolbox talks, PPE for every worker, monthly medical camps and tie-ups with local hospitals."
+        },
+        {
+          "key": "Labour compliance",
+          "text": "Statutory registers kept at every site under labour laws (labour licence, ESI and PF, Forms 9 to 19, leave and in-out registers), with a person assigned to maintain them."
         }
       ],
       "photos": [
@@ -501,14 +864,14 @@
         }
       ],
       "kit_enabled": true,
-      "kit_heading": "Our testing kit",
+      "kit_heading": "Testing Equipment",
       "kit_sub": "Used by our in-house commissioning team",
       "kit_items": "Multimeter\nInsulation tester\nMulti-function tester\nDigital light meter\nLoop impedance tester\nRCD tester\nTorque wrench\nThermal imager\nInfrared thermometer\nPhase sequence meter\nDigital clamp meter\nEarth tester"
     },
     "appreciations": {
       "enabled": true,
-      "heading": "Certificates and letters",
-      "sub": "Select a document to view it",
+      "heading": "Appreciation Certificates",
+      "sub": "Select a document to view it.",
       "docs": [
         {
           "image": {
@@ -639,8 +1002,32 @@
     },
     "company": {
       "enabled": true,
-      "heading": "Company",
-      "sub": "Founded in Hyderabad in 2008 by an electrical engineer who still leads the business.",
+      "heading": "About Us",
+      "sub": "An ISO 9001:2015 and ISO 45001:2018 certified MEP contracting company, established in Hyderabad in 2008.",
+      "work_heading": "Our work",
+      "work_items": [
+        {
+          "icon": "lightbulb",
+          "text": "All-round electrical services: design, supply, installation, testing and commissioning."
+        },
+        {
+          "icon": "hard-hat",
+          "text": "Internal and external electrical works, as well as complete MEP packages."
+        },
+        {
+          "icon": "gauge",
+          "text": "Inspection of electrical systems and maintenance of electrical installations, including annual maintenance contracts."
+        },
+        {
+          "icon": "users",
+          "text": "Coordination with project management consultants, architects, quantity surveyors, design consultants and real estate service companies."
+        }
+      ],
+      "why_heading": "Why AAYKAY",
+      "why_items": "High-quality execution\nQualified, experienced team of engineers\nAssured work timelines\nQualified MEP contractor\nCompetitive pricing\nFlexible execution to client requirements",
+      "timeline_heading": "Timeline",
+      "timeline_sub": "From an electrical contractor in Hyderabad to a private limited MEP company with branches in {branches_word} states.",
+      "leadership_heading": "Leadership",
       "founder_photo": {
         "src": "assets/img/founder-413.webp",
         "srcset": [
@@ -679,8 +1066,8 @@
       "glance_company": "AAYKAY Electricals Private Limited",
       "glance_established": "2008",
       "paragraphs": "AAYKAY Electricals Private Limited is one of the leading ISO 9001:2015 and ISO 45001:2018 certified MEP contracting firms, established in 2008.\n\nWith its focus on quality, safety, excellent service, a customer-centric approach, timely completion of projects and technical expertise in design, supply, erection, maintenance, testing and commissioning, AAYKAY has become one of the most preferred MEP contractors with top MNCs and Indian client partners since its inception in 2008.\n\nAAYKAY has completed projects in a wide range of market segments: banks, hospitals, industries, data centres, IT parks, interior fit-outs, substations, and commercial and high-rise residential buildings.\n\nIts site execution team of project managers, project engineers, safety and quality engineers, planning and coordination engineers, supervisors and electricians is supported by tender and marketing, procurement, design and billing engineers, and the accounts, finance, HR and administration team.",
-      "quote": "",
-      "quote_by": "",
+      "quote": "With 30 years in this field, across base builds, IT workspaces, laboratories, data centres, hospitals, industries, and commercial and high-rise buildings, I know how much a project depends on electrical work done right.\n\nSince 2008, AAYKAY Electricals Private Limited has been committed to well-executed MEP works. Many of our clients have continued to work with us over the years, and most have become regular clients.\n\nWith the support of a dedicated team, AAYKAY has met challenge after challenge and reached new milestones. The journey continues, and with our team and our clients, I am confident the company will keep growing for years to come.",
+      "quote_by": "Abdul Kareem P, Managing Director",
       "timeline": [
         {
           "year": "2008",
@@ -696,9 +1083,16 @@
         }
       ]
     },
+    "team": {
+      "enabled": true,
+      "heading": "Our Team",
+      "sub": "The leadership and the people who run AAYKAY’s projects.",
+      "members_heading": "Project & Office Team",
+      "members": []
+    },
     "letter": {
       "enabled": true,
-      "label": "From a client letter",
+      "label": "Client letter",
       "quote": "“We also admire their aspiration for their prompt and flawless quality deliverables. We mark them as trusted Electrical Contracting Vendor.”",
       "from": "Ramky Group",
       "from_rest": "letter of appreciation, 29 June 2013.",
@@ -725,8 +1119,8 @@
     },
     "prequal": {
       "enabled": true,
-      "heading": "Pre-qualification",
-      "sub": "The facts procurement and tender teams usually ask for first.",
+      "heading": "Compliance & Pre-qualification",
+      "sub": "Resources, certifications, registrations and branches, as procurement and tender teams require them.",
       "resources_icon": "users",
       "resources_heading": "Resources",
       "certs_icon": "badge-check",
@@ -742,7 +1136,7 @@
         },
         {
           "heading": "Company registrations",
-          "items": "Private limited company, Certificate of Incorporation\nMSME and GST registered\nESI and EPF registered\nD&B certified"
+          "items": "Certificate of Incorporation | private limited company\nMSME certificate |\nGST registration |\nESI and EPF registration |\nPAN |\nD&B certified |"
         }
       ],
       "branches_icon": "map-pin",
@@ -751,38 +1145,87 @@
     },
     "careers": {
       "enabled": true,
-      "heading": "Work with us",
-      "sub": "What we provide our people on site, current openings and how to apply.",
-      "benefits_heading": "What we provide",
+      "heading": "Careers",
+      "sub": "Join the teams that build, test and hand over AAYKAY’s electrical installations across India.",
+      "benefits_heading": "Employee Welfare",
       "benefits": [
         {
+          "icon": "hard-hat",
           "key": "Safety gear",
           "text": "Safety and PPE equipment: harnesses, jackets, helmets, belts and shoes."
         },
         {
+          "icon": "coffee",
           "key": "On site",
           "text": "Drinking water, mobile toilets, snacks and refreshments."
         },
         {
+          "icon": "wallet",
           "key": "Allowance",
           "text": "Shift allowance."
         },
         {
+          "icon": "heart-pulse",
           "key": "Health",
           "text": "Medical facilities, and a monthly medical camp to check fitness."
         },
         {
+          "icon": "shield-check",
           "key": "Social security",
           "text": "Gratuity, pension, provident fund and ESI."
         },
         {
+          "icon": "users",
           "key": "Training",
           "text": "Toolbox meetings on site."
         }
       ],
-      "roles_heading": "Current openings",
-      "roles": "",
-      "apply_text": "Apply with your CV and the role you are interested in.",
+      "roles_heading": "Open Positions",
+      "roles_sub": "Select a position to read the full description and apply.",
+      "roles": [
+        {
+          "title": "Project Engineer – Electrical",
+          "domain": "Project execution",
+          "location": "Hyderabad",
+          "experience": "3–6 years",
+          "type": "Full-time",
+          "summary": "Plans and executes electrical works on commercial, healthcare and IT projects, from shop drawings to handover.",
+          "responsibilities": "Execute electrical works to approved drawings, method statements and the project schedule\nCoordinate with the client, PMC, consultants and other services on site\nTrack material, manpower and progress, and report to the project manager\nCarry out quality checks and support testing and commissioning",
+          "requirements": "B.E./B.Tech or diploma in electrical engineering\n3–6 years in electrical or MEP site execution\nWorking knowledge of AutoCAD and electrical drawings\nSound understanding of site safety practice"
+        },
+        {
+          "title": "Site Supervisor – Electrical",
+          "domain": "Project execution",
+          "location": "Hyderabad / Bengaluru",
+          "experience": "5+ years",
+          "type": "Full-time",
+          "summary": "Supervises electricians and subcontractors on site, so that work is installed to drawings, safely and on schedule.",
+          "responsibilities": "Allocate and supervise daily work of electricians and helpers\nCheck installations against drawings and checklists\nMaintain site records, material stock and daily progress reports\nEnforce PPE, permits and barricading on site",
+          "requirements": "Diploma or ITI in electrical trade\n5 or more years supervising electrical installation\nAbility to read electrical layouts and single-line diagrams"
+        },
+        {
+          "title": "Safety Officer",
+          "domain": "Safety",
+          "location": "Hyderabad",
+          "experience": "2–5 years",
+          "type": "Full-time",
+          "summary": "Runs site safety on AAYKAY projects in line with ISO 45001:2018 and the client’s requirements.",
+          "responsibilities": "Conduct safety inductions and toolbox talks\nPrepare and review HIRA risk assessments and work permits\nInspect PPE, scaffolding, barricading and temporary electrical set-ups\nReport incidents and prepare weekly safety reports",
+          "requirements": "Diploma or certificate in industrial safety\n2–5 years in construction site safety\nWorking knowledge of ISO 45001 and statutory safety requirements"
+        },
+        {
+          "title": "Design Engineer – Electrical",
+          "domain": "Design",
+          "location": "Hyderabad",
+          "experience": "2–4 years",
+          "type": "Full-time",
+          "summary": "Prepares shop drawings, GA drawings and MEP coordination models for AAYKAY projects.",
+          "responsibilities": "Prepare shop and GA drawings from GFC drawings\nCoordinate MEP services in Autodesk Revit\nPrepare quantity take-offs and technical submittals\nUpdate as-built drawings at handover",
+          "requirements": "B.E./B.Tech in electrical engineering\n2–4 years in electrical design or drafting\nProficiency in AutoCAD and Autodesk Revit"
+        }
+      ],
+      "apply_heading": "How to Apply",
+      "apply_text": "Apply for a listed position with its Apply button, or send your CV with the role you are interested in.",
       "form_url": "",
       "form_label": "Apply now",
       "email": "",
@@ -790,9 +1233,11 @@
     },
     "contact": {
       "enabled": true,
-      "heading": "Start a project",
-      "lead": "Tell us the scope, location and timeline, and we’ll come back to you.",
-      "form_heading": "Project enquiry",
+      "heading": "Contact Us",
+      "lead": "Call or email us, or send an enquiry with the form.",
+      "branches_heading": "Our branches",
+      "branches_sub": "Head office in {city}, with branches in {branches_word} states.",
+      "form_heading": "Project Enquiry",
       "button": "Send enquiry",
       "note": "To share drawings or a BOQ, email them to {email}. Fields marked * are required.",
       "project_types": "Hospital or healthcare\nOffice or IT fit-out\nBank or financial services\nResidential high-rise\nData centre or critical power\nInfrastructure or external works\nOther\nPre-qualification documents",
