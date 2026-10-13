@@ -3,7 +3,25 @@
 The full explanation is the PDF **AAYKAY developer handbook** (kept with the hand-off files and in
 the claude.ai project "Aakay Electricals"). This page is the short version.
 
-## State (13 Oct 2026)
+## State (13 Oct 2026, second round): branch `feat/final-brief-oct13`
+On top of `feat/client-brief-oct10` (not merged). Version 3 of the content (`AAYKAY_DATA_VERSION`).
+- Pages: Home (slideshow of ten site photos, then About Us: company and "Our work", timeline,
+  team, project methodology with the electrical works schedule), Our Capabilities (nine cards,
+  Fire Safety ninth, site gallery), Projects (sectors, project list with a status column,
+  clients, architects/consultants/PMCs, appreciation certificates, client letter), Quality &
+  Safety (unchanged section, site safety photos, compliance & pre-qualification), Careers (open
+  positions with domain filter and job descriptions, employee welfare, how to apply), Contact Us
+  (both phones and email with copy buttons, form, branches map). Every page except Contact Us
+  ends with the enquiry form.
+- Menu: Home, About Us (dropdown to the home sections), Our Capabilities, Projects (dropdown),
+  Quality & Safety, Careers, Contact Us. No dropdowns on phones. Old addresses (/about-us/,
+  /projects/clients/…) redirect (301) to the new place.
+- Brochure tab on the left edge (Site settings > Brochure); launch file: the Aug 2026 company
+  profile, images recompressed (6.9 MB), which still shows turnover.
+- Written for client approval (see the pull request): Fire Safety card text, the four sample
+  open positions, the Managing Director's message (copyedited from profile p.6), "Why AAYKAY"
+  wording, formal headings.
+
 - Branch `feat/client-brief-oct10` (not merged): the client brief of 10 Oct 2026 on top of
   version 1. Ten pages instead of one, the client's project list (95 projects, alphabetical),
   no turnover or order values, full company name with the AEK mark, second director, Careers,
