@@ -1,6 +1,6 @@
 <?php
 /**
- * Home page: client letter. Content: Homepage content > Client letter.
+ * Projects page, after the appreciation certificates: a client letter. Content: Homepage content > Client letter.
  *
  * @package aaykay
  */

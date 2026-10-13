@@ -1,7 +1,7 @@
 <?php
 /**
- * Home page: project record. Headings: Homepage content > Project record.
- * Rows: Dashboard > Projects. Firms: Dashboard > Architects & consultants.
+ * Projects page: the project list (alphabetical, with status). Headings: Homepage content > Project record.
+ * Rows: Dashboard > Projects, alphabetical.
  *
  * @package aaykay
  */
@@ -25,13 +25,14 @@ $aaykay_values = aaykay_show_values();
       <p class="record-status" id="record-status" aria-live="polite"></p>
       <div class="table-scroll" role="region" aria-labelledby="record-caption" tabindex="0">
         <table class="record" id="record-table">
-          <caption id="record-caption" class="visually-hidden">AAYKAY project record: project, location, built-up area, floors, <?php echo $aaykay_values ? 'AAYKAY order value ' : ''; ?>and design team</caption>
+          <caption id="record-caption" class="visually-hidden">AAYKAY project list: project, location, built-up area, floors, status, <?php echo $aaykay_values ? 'AAYKAY order value, ' : ''; ?>and architect or electrical consultant</caption>
           <thead>
             <tr>
               <th scope="col">Project</th>
               <th scope="col">Location</th>
               <th scope="col" class="num">Area (sq ft)</th>
               <th scope="col" class="floors">Floors</th>
+              <th scope="col" class="status">Status</th>
 <?php if ( $aaykay_values ) : ?>
               <th scope="col" class="num">Order value</th>
 <?php endif; ?>
@@ -47,14 +48,6 @@ $aaykay_values = aaykay_show_values();
       <p class="scroll-hint">Scroll the table sideways to see every column.</p>
       <div class="record-more">
         <button class="btn btn--outline" type="button" id="record-more" aria-controls="record-table" hidden>Show all projects</button>
-      </div>
-
-      <div class="firms grid-12">
-        <h3><?php aaykay_e( 'record', 'firms_heading' ); ?></h3>
-        <ul class="firm-list">
-          <?php echo aaykay_render_firms( '          ' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the renderer. ?>
-
-        </ul>
       </div>
     </div>
   </section>

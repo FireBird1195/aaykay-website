@@ -1,0 +1,121 @@
+{
+  "_readme": [
+    "Values of the version 3 launch content that version 4 (client review of 13 Oct 2026) changed.",
+    "inc/upgrade.php (aaykay_upgrade_4) replaces a saved value only while it is still exactly this one."
+  ],
+  "content": {
+    "services": {
+      "scope_heading": "Scope of Works",
+      "scope": [
+        {
+          "icon": "inspection-panel",
+          "title": "Panels & distribution",
+          "text": "HT/LT panels, Capacitor Panels, MDBs, Distribution Boards along with accessories.",
+          "link_url": "",
+          "link_label": ""
+        },
+        {
+          "icon": "rows-3",
+          "title": "Containment",
+          "text": "Conduit in slabs, walls and floors; sleeves and back boxes; GI cable trays, ladders, trunking and raceways.",
+          "link_url": "",
+          "link_label": ""
+        },
+        {
+          "icon": "cable",
+          "title": "Wiring & cabling",
+          "text": "Power and lighting wiring, DB-to-equipment wiring, HT/LT cable laying, dressing, tagging, glanding and termination.",
+          "link_url": "",
+          "link_label": ""
+        },
+        {
+          "icon": "arrow-up-from-line",
+          "title": "Busducts & rising mains",
+          "text": "Busbar trunking and rising mains, supplied through OEM channels and installed to approved GA drawings.",
+          "link_url": "",
+          "link_label": ""
+        },
+        {
+          "icon": "lightbulb",
+          "title": "Lighting & accessories",
+          "text": "LED fixtures, lighting management systems, switches and sockets, fans and junction boxes.",
+          "link_url": "",
+          "link_label": ""
+        },
+        {
+          "icon": "battery-charging",
+          "title": "Critical power",
+          "text": "UPS and battery installation, server-room electrical works, AC unit connections, pumps and motors.",
+          "link_url": "",
+          "link_label": ""
+        },
+        {
+          "icon": "earth-ground",
+          "title": "Earthing & protection",
+          "text": "Earth pits and grids, GI and copper strip, surge protection devices and lightning arresters.",
+          "link_url": "",
+          "link_label": ""
+        },
+        {
+          "icon": "gauge",
+          "title": "Testing",
+          "text": "Megger, IR and continuity tests, panel load tests, circuit verification and HT/LT equipment testing.",
+          "link_url": "",
+          "link_label": ""
+        },
+        {
+          "icon": "flame",
+          "title": "Fire Safety",
+          "text": "Fire alarm and detection systems, emergency lighting and power supply to fire-fighting equipment, installed and tested to approved drawings and local fire norms.",
+          "link_url": "",
+          "link_label": "More about Fire Safety"
+        }
+      ]
+    },
+    "deliver": {
+      "stages": [
+        {
+          "icon": "drafting-compass",
+          "title": "Design",
+          "text": "We review the GFC drawings, then prepare shop and GA drawings to site conditions for approval by the PMC or consultant.",
+          "tags": "GFC review, Shop drawings, Submittals"
+        },
+        {
+          "icon": "package",
+          "title": "Procurement",
+          "text": "Final quantities go to procurement alongside design. Vendors are validated and material is checked against the BOQ.",
+          "tags": "Vendor validation, ERP, Material tracking"
+        },
+        {
+          "icon": "hard-hat",
+          "title": "Construction",
+          "text": "We secure the site, stage materials and carry out the works to approved drawings and method statements, under a risk assessment.",
+          "tags": "Site logistics, Risk analysis, Checklists"
+        },
+        {
+          "icon": "gauge",
+          "title": "Testing & commissioning",
+          "text": "Functional and visual checks, quality and safety inspections, and test reports from our own commissioning team.",
+          "tags": "Megger & IR, Panel load, System test"
+        },
+        {
+          "icon": "key-round",
+          "title": "Handover",
+          "text": "As-built drawings, test reports and warranties. Snags are closed, the client’s team is trained, and a final walkthrough leads to sign-off.",
+          "tags": "As-builts, Training, Sign-off"
+        }
+      ]
+    },
+    "appreciations": {
+      "sub": "Select a document to view it."
+    }
+  },
+  "pages": {
+    "excerpts": {
+      "quality": "AAYKAY Electricals is certified to ISO 9001:2015 and ISO 45001:2018: quality and safety practice, site safety procedures, testing equipment, compliance and pre-qualification."
+    }
+  },
+  "moved": {
+    "scope_card_title": "Panels & distribution"
+  }
+}

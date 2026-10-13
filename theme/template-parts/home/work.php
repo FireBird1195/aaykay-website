@@ -1,6 +1,6 @@
 <?php
 /**
- * Home page: selected work. Heading: Homepage content > Selected work.
+ * Projects page: selected work (large cards, before the project list). Heading: Homepage content > Selected work.
  * Cards: projects with "Show as a large card" ticked (Dashboard > Projects).
  *
  * @package aaykay
@@ -47,7 +47,7 @@ foreach ( $aaykay_cards as $aaykay_i => $aaykay_card ) {
 <?php endif; ?>
       <div class="work-foot">
         <?php if ( aaykay_section_on( 'record' ) ) : ?>
-        <a class="text-link" href="#record"><?php aaykay_e( 'work', 'link_label' ); ?> <?php echo aaykay_arrow( 'down' ); // phpcs:ignore WordPress.Security.EscapeOutput -- static SVG. ?></a>
+        <a class="text-link" href="<?php echo esc_url( aaykay_section_url( 'record' ) ); ?>"><?php aaykay_e( 'work', 'link_label' ); ?> <?php echo aaykay_arrow( 'down' ); // phpcs:ignore WordPress.Security.EscapeOutput -- static SVG. ?></a>
 <?php endif; ?>
       </div>
     </div>

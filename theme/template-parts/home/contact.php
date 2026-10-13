@@ -1,7 +1,9 @@
 <?php
 /**
- * Home page: contact and the enquiry form. Texts: Homepage content > Contact and enquiry
- * form. Address, phone, email, branches: Site settings. Handling: inc/enquiry.php.
+ * Contact Us page: contact details (each phone number and the email with a copy button),
+ * the enquiry form, and the branches with the map of India (inc/map.php). This section is on
+ * the Contact Us page only (client review of 13 Oct). Texts: Homepage content > Contact Us. Address, phones, email, branch states: Site settings. Form
+ * handling: inc/enquiry.php.
  *
  * @package aaykay
  */
@@ -13,6 +15,10 @@ $aaykay_note  = esc_html( aaykay_t( 'contact', 'note' ) );
 if ( '' !== $aaykay_c['email'] ) {
 	$aaykay_note = str_replace( esc_html( $aaykay_c['email'] ), '<a href="mailto:' . esc_attr( $aaykay_c['email'] ) . '">' . esc_html( $aaykay_c['email'] ) . '</a>', $aaykay_note );
 }
+// A link such as "Request pre-qualification documents" (About Us) arrives with ?type=…
+$aaykay_want  = isset( $_GET['type'] ) ? sanitize_text_field( wp_unslash( $_GET['type'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- only preselects a list option.
+$aaykay_branches = aaykay_branches();
+$aaykay_map      = $aaykay_branches ? aaykay_branch_map() : '';
 $aaykay_extra = array(
 	array( 'careers', '' ),
 	array( 'suppliers', '' ),
@@ -26,14 +32,10 @@ $aaykay_extra = array(
         <p class="lead"><?php aaykay_e( 'contact', 'lead' ); ?></p>
 <?php endif; ?>
         <dl class="contact-dl">
-          <div><dt class="label icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#map-pin"/></svg>Head office</dt><dd><?php echo '' !== $aaykay_c['street'] ? esc_html( $aaykay_c['street'] ) . ',<br>' : ''; ?><?php echo esc_html( aaykay_join( ', ', array( $aaykay_c['area'], aaykay_join( ' ', array( $aaykay_c['city'], $aaykay_c['postcode'] ) ), $aaykay_c['state'] ) ) ); ?><br><a href="<?php echo esc_url( $aaykay_c['maps_url'] ); ?>" target="_blank" rel="noopener">Open in Google Maps</a></dd></div>
-          <div><dt class="label icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#phone"/></svg>Phone</dt><dd><a href="tel:<?php echo esc_attr( $aaykay_c['tel'] ); ?>" id="c-phone"><?php echo esc_html( $aaykay_c['phone'] ); ?></a><button class="copy-btn" type="button" data-copy="<?php echo esc_attr( $aaykay_c['phone'] ); ?>" data-copy-target="c-phone" title="Copy" hidden><svg class="ic ic--sm copy-ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#copy"/></svg><svg class="ic ic--sm check-ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#check"/></svg><span class="visually-hidden">Copy phone number</span></button></dd></div>
-          <div><dt class="label icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#mail"/></svg>Email</dt><dd><a href="mailto:<?php echo esc_attr( $aaykay_c['email'] ); ?>" id="c-email"><?php echo esc_html( $aaykay_c['email'] ); ?></a><button class="copy-btn" type="button" data-copy="<?php echo esc_attr( $aaykay_c['email'] ); ?>" data-copy-target="c-email" title="Copy" hidden><svg class="ic ic--sm copy-ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#copy"/></svg><svg class="ic ic--sm check-ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#check"/></svg><span class="visually-hidden">Copy email address</span></button></dd></div>
-<?php if ( aaykay_branches() ) : ?>
-          <div><dt class="label icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#map"/></svg>Branches</dt><dd><?php echo esc_html( implode( ' · ', aaykay_branches() ) ); ?></dd></div>
-<?php endif; ?>
+          <div><dt class="label icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#map-pin"/></svg>Head office</dt><dd><?php echo '' !== $aaykay_c['street'] ? esc_html( $aaykay_c['street'] ) . ',<br>' : ''; ?><?php echo esc_html( aaykay_join( ', ', array( $aaykay_c['area'], aaykay_join( ' ', array( $aaykay_c['city'], $aaykay_c['postcode'] ) ), $aaykay_c['state'] ) ) ); ?><?php if ( '' !== $aaykay_c['maps_url'] ) : ?><br><a href="<?php echo esc_url( $aaykay_c['maps_url'] ); ?>" target="_blank" rel="noopener">Open in Google Maps</a><?php endif; ?></dd></div>
+          <div><dt class="label icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#phone"/></svg>Phone</dt><dd><span class="copy-row"><a href="tel:<?php echo esc_attr( $aaykay_c['tel'] ); ?>" id="c-phone"><?php echo esc_html( $aaykay_c['phone'] ); ?></a><?php echo aaykay_copy_button( $aaykay_c['phone'], 'c-phone', 'phone number' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></span><?php if ( '' !== $aaykay_c['phone2'] ) : ?><span class="copy-row"><a href="tel:<?php echo esc_attr( $aaykay_c['tel2'] ); ?>" id="c-phone2"><?php echo esc_html( $aaykay_c['phone2'] ); ?></a><?php echo aaykay_copy_button( $aaykay_c['phone2'], 'c-phone2', 'phone number' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></span><?php endif; ?></dd></div>
+          <div><dt class="label icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#mail"/></svg>Email</dt><dd><span class="copy-row"><a href="mailto:<?php echo esc_attr( $aaykay_c['email'] ); ?>" id="c-email"><?php echo esc_html( $aaykay_c['email'] ); ?></a><?php echo aaykay_copy_button( $aaykay_c['email'], 'c-email', 'email address' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></span></dd></div>
         </dl>
-        <p class="visually-hidden" id="copy-status" role="status"></p>
 <?php
 foreach ( $aaykay_extra as $aaykay_x ) :
 	$aaykay_text  = aaykay_t( 'contact', $aaykay_x[0] . '_text' );
@@ -80,7 +82,7 @@ foreach ( $aaykay_extra as $aaykay_x ) :
             <select id="f-type" name="type">
               <option value="">Select one</option>
 <?php foreach ( aaykay_project_types() as $aaykay_type ) : ?>
-              <option><?php echo esc_html( $aaykay_type ); ?></option>
+              <option<?php selected( $aaykay_want, $aaykay_type ); ?>><?php echo esc_html( $aaykay_type ); ?></option>
 <?php endforeach; ?>
             </select>
           </div>
@@ -102,4 +104,24 @@ foreach ( $aaykay_extra as $aaykay_x ) :
         <p class="form-status" id="form-status" role="status"><?php echo esc_html( aaykay_enquiry_status_text() ); ?></p>
       </form>
     </div>
+<?php if ( $aaykay_branches ) : ?>
+    <div class="wrap branches" id="branches">
+      <div class="sec-head">
+        <h3 class="h2" id="branches-title"><?php aaykay_e( 'contact', 'branches_heading' ); ?></h3>
+<?php if ( '' !== aaykay_t( 'contact', 'branches_sub' ) ) : ?>
+        <p class="sec-sub"><?php aaykay_e( 'contact', 'branches_sub' ); ?></p>
+<?php endif; ?>
+      </div>
+      <div class="branch-grid grid-12">
+<?php if ( '' !== $aaykay_map ) : ?>
+        <div class="branch-map"><?php echo $aaykay_map; // phpcs:ignore WordPress.Security.EscapeOutput -- built from the theme's own data, attributes escaped in aaykay_branch_map(). ?></div>
+<?php endif; ?>
+        <ul class="branch-list" aria-labelledby="branches-title">
+<?php foreach ( $aaykay_branches as $aaykay_i => $aaykay_b ) : ?>
+          <li class="<?php echo 0 === $aaykay_i ? 'is-hq' : ''; ?>"><span class="branch-pin" aria-hidden="true"></span><span class="branch-name"><?php echo esc_html( $aaykay_b ); ?></span><?php if ( 0 === $aaykay_i ) : ?> <span class="pq-tag">Head office<?php echo '' !== $aaykay_c['city'] ? ', ' . esc_html( $aaykay_c['city'] ) : ''; ?></span><?php endif; ?></li>
+<?php endforeach; ?>
+        </ul>
+      </div>
+    </div>
+<?php endif; ?>
   </section>

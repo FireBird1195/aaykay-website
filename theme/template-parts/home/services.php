@@ -1,7 +1,9 @@
 <?php
 /**
- * Home page: what we do + sectors. Content: Homepage content > What we do.
- * Sector rows: Dashboard > Projects > Sectors.
+ * Our Capabilities page: introduction, strengths and the capability cards (final client
+ * brief, 13 Oct 2026: "Our Capabilities", nine cards, Fire Safety ninth with a link to its
+ * website). Content: Homepage content > Our Capabilities; card order = order in the editor.
+ * The sectors moved to the Projects page (sectors.php).
  *
  * @package aaykay
  */
@@ -32,29 +34,34 @@ $aaykay_scope   = aaykay_rows( 'services', 'scope' );
       </div>
 
 <?php if ( $aaykay_scope ) : ?>
-      <div class="scope">
+      <div class="scope" id="capabilities">
         <div class="subhead">
           <h3><?php aaykay_e( 'services', 'scope_heading' ); ?></h3>
         </div>
-        <div class="scope-grid">
+        <div class="scope-grid<?php echo ( 0 === count( $aaykay_scope ) % 3 && 0 !== count( $aaykay_scope ) % 4 ) ? ' scope-grid--3' : ''; ?>">
 <?php foreach ( $aaykay_scope as $aaykay_s ) : ?>
-          <div class="scope-item"><h4 class="icon-label"><?php echo aaykay_icon( $aaykay_s['icon'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><?php echo esc_html( aaykay_tokens( $aaykay_s['title'] ) ); ?></h4><p><?php echo esc_html( aaykay_tokens( $aaykay_s['text'] ) ); ?></p></div>
+<?php
+	$aaykay_text  = trim( aaykay_tokens( $aaykay_s['text'] ) );
+	$aaykay_url   = isset( $aaykay_s['link_url'] ) ? esc_url( trim( $aaykay_s['link_url'] ), array( 'http', 'https' ) ) : '';
+	$aaykay_label = isset( $aaykay_s['link_label'] ) ? trim( aaykay_tokens( $aaykay_s['link_label'] ) ) : '';
+?>
+          <div class="scope-item">
+            <h4 class="icon-label"><?php echo aaykay_icon( $aaykay_s['icon'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><?php echo esc_html( aaykay_tokens( $aaykay_s['title'] ) ); ?></h4>
+<?php if ( '' !== $aaykay_text ) : ?>
+            <p><?php echo esc_html( $aaykay_text ); ?></p>
+<?php else : ?>
+            <?php echo aaykay_pending( 'What AAYKAY offers in ' . aaykay_tokens( $aaykay_s['title'] ) . ', in a few lines', 'scope-pending' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_pending(). ?>
+
+<?php endif; ?>
+<?php if ( '' !== $aaykay_url ) : ?>
+            <p class="scope-link">For more information click <a href="<?php echo $aaykay_url; // phpcs:ignore WordPress.Security.EscapeOutput -- esc_url() above. ?>" target="_blank" rel="noopener">here<span class="visually-hidden"> (more about <?php echo esc_html( aaykay_tokens( $aaykay_s['title'] ) ); ?>, opens in a new tab)</span></a>.</p>
+<?php elseif ( '' !== $aaykay_label && '1' === (string) aaykay_setting( 'show_pending' ) ) : ?>
+            <p class="scope-link">For more information click <span class="scope-link-todo" title="Link address to come">here</span>.</p>
+<?php endif; ?>
+          </div>
 <?php endforeach; ?>
         </div>
       </div>
 <?php endif; ?>
-
-      <div class="sectors" id="sectors">
-        <div class="sectors-head">
-          <h3 class="label"><?php aaykay_e( 'services', 'sectors_heading' ); ?></h3>
-<?php if ( '' !== aaykay_t( 'services', 'sectors_hint' ) ) : ?>
-          <p><?php aaykay_e( 'services', 'sectors_hint' ); ?></p>
-<?php endif; ?>
-        </div>
-        <ul class="sector-list">
-          <?php echo aaykay_render_sector_rows( '          ' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the renderer. ?>
-
-        </ul>
-      </div>
     </div>
   </section>

@@ -1,0 +1,153 @@
+{
+  "_readme": [
+    "Values of the version 4 launch content that version 5 (client review of 13 Oct 2026, second round) changed.",
+    "inc/upgrade.php (aaykay_upgrade_5) replaces a saved value only while it is still exactly this one."
+  ],
+  "content": {
+    "hero": {
+      "title": "Electrical systems\nfor buildings that\ncan’t go dark."
+    },
+    "certificates": {
+      "docs": [
+        {
+          "image": {
+            "src": "assets/img/cert-iso-9001-400.webp",
+            "srcset": [
+              [
+                "assets/img/cert-iso-9001-400.webp",
+                335
+              ],
+              [
+                "assets/img/cert-iso-9001-1200.webp",
+                1006
+              ]
+            ],
+            "w": 1006,
+            "h": 1200,
+            "alt": "ISO 9001:2015 certificate of registration for AAYKAY Electricals Private Limited, issued by Certification Partner Global.",
+            "full": "assets/img/cert-iso-9001-1200.webp"
+          },
+          "title": "ISO 9001:2015 · Quality management system",
+          "meta": "Certificate of registration from Certification Partner Global (JAS-ANZ accredited) for the execution of HT & LT electrification works. Valid to September 2028.",
+          "button": "View certificate",
+          "caption": "ISO 9001:2015 certificate of registration, Certification Partner Global. Registered 9 September 2025, valid to 9 September 2028."
+        },
+        {
+          "image": {
+            "src": "assets/img/cert-ohsms-45001-400.webp",
+            "srcset": [
+              [
+                "assets/img/cert-ohsms-45001-400.webp",
+                303
+              ],
+              [
+                "assets/img/cert-ohsms-45001-1200.webp",
+                910
+              ]
+            ],
+            "w": 910,
+            "h": 1200,
+            "alt": "ISO 45001:2018 certificate of registration for AAYKAY Electricals Private Limited, issued by Certification Partner Global.",
+            "full": "assets/img/cert-ohsms-45001-1200.webp"
+          },
+          "title": "ISO 45001:2018 · Occupational health & safety management system",
+          "meta": "Certificate of registration from Certification Partner Global (JAS-ANZ accredited) for the execution of HT & LT electrification works. Valid to September 2028.",
+          "button": "View certificate",
+          "caption": "ISO 45001:2018 certificate of registration, Certification Partner Global, valid to September 2028."
+        },
+        {
+          "image": {
+            "src": "assets/img/cert-licence-hyd-400.webp",
+            "srcset": [
+              [
+                "assets/img/cert-licence-hyd-400.webp",
+                262
+              ],
+              [
+                "assets/img/cert-licence-hyd-1200.webp",
+                785
+              ]
+            ],
+            "w": 785,
+            "h": 1200,
+            "alt": "Electrical Contractors Licence, Grade A, issued by the Telangana Electrical Licensing Board.",
+            "full": "assets/img/cert-licence-hyd-1200.webp"
+          },
+          "title": "Electrical contractor licence · Telangana",
+          "meta": "Electrical Contractors Licence, Grade A, from the Telangana Electrical Licensing Board, Government of Telangana.",
+          "button": "View licence",
+          "caption": "Electrical Contractors Licence, Grade A, Telangana Electrical Licensing Board."
+        },
+        {
+          "image": {
+            "src": "assets/img/cert-licence-blr-400.webp",
+            "srcset": [
+              [
+                "assets/img/cert-licence-blr-400.webp",
+                267
+              ],
+              [
+                "assets/img/cert-licence-blr-1200.webp",
+                802
+              ]
+            ],
+            "w": 802,
+            "h": 1200,
+            "alt": "Class I Electrical Contractor Licence issued by the Department of Electrical Inspectorate, Karnataka State.",
+            "full": "assets/img/cert-licence-blr-1200.webp"
+          },
+          "title": "Electrical contractor licence · Karnataka",
+          "meta": "Class I Electrical Contractor Licence from the Department of Electrical Inspectorate, Karnataka State.",
+          "button": "View licence",
+          "caption": "Class I Electrical Contractor Licence, Department of Electrical Inspectorate, Karnataka."
+        },
+        {
+          "image": {
+            "src": "assets/img/cert-incorporation-400.webp",
+            "srcset": [
+              [
+                "assets/img/cert-incorporation-400.webp",
+                316
+              ],
+              [
+                "assets/img/cert-incorporation-1200.webp",
+                947
+              ]
+            ],
+            "w": 947,
+            "h": 1200,
+            "alt": "Certificate of Incorporation of AAYKAY Electricals Private Limited, Ministry of Corporate Affairs, Government of India.",
+            "full": "assets/img/cert-incorporation-1200.webp"
+          },
+          "title": "Certificate of Incorporation",
+          "meta": "AAYKAY Electricals Private Limited, incorporated under the Companies Act, 2013. Ministry of Corporate Affairs, Government of India.",
+          "button": "View certificate",
+          "caption": "Certificate of Incorporation of AAYKAY Electricals Private Limited, Ministry of Corporate Affairs."
+        },
+        {
+          "image": {
+            "src": "assets/img/cert-msme-400.webp",
+            "srcset": [
+              [
+                "assets/img/cert-msme-400.webp",
+                309
+              ],
+              [
+                "assets/img/cert-msme-1200.webp",
+                928
+              ]
+            ],
+            "w": 928,
+            "h": 1200,
+            "alt": "Udyam Registration Certificate of AAYKAY Electricals Private Limited, Ministry of Micro, Small and Medium Enterprises.",
+            "full": "assets/img/cert-msme-1200.webp"
+          },
+          "title": "MSME · Udyam registration",
+          "meta": "Udyam Registration Certificate from the Ministry of Micro, Small and Medium Enterprises, Government of India.",
+          "button": "View certificate",
+          "caption": "Udyam Registration Certificate (MSME), Government of India."
+        }
+      ]
+    }
+  }
+}
