@@ -59,14 +59,12 @@ function aaykay_content_schema() {
 		),
 		'hero'             => array(
 			'title'  => 'Opening screen',
-			'desc'   => 'The first screen: photo, headline, introduction, buttons and key figures.',
+			'desc'   => 'The first screen: the slideshow of photos, the headline and the introduction.',
 			'toggle' => false,
 			'fields' => array(
 				'label'           => array( 'text', 'Small label above the headline', '' ),
 				'title'           => array( 'lines', 'Headline', 'One line of the headline per line. Three short lines look best. A full stop at the end is shown in red.' ),
 				'lead'            => array( 'textarea', 'Introduction', 'One or two sentences under the headline.' ),
-				'primary_label'   => array( 'text', 'Orange button', 'Goes to the Contact Us page.' ),
-				'secondary_label' => array( 'text', 'Outline button', 'Goes to the project list (Projects page).' ),
 				'slides'          => array(
 					'list',
 					'Background photos (slideshow)',
@@ -77,19 +75,6 @@ function aaykay_content_schema() {
 						'fields' => array(
 							'image'   => array( 'image', 'Photo', '' ),
 							'caption' => array( 'text', 'Caption', 'Small text at the bottom right on large screens, e.g. UPS battery room, AAYKAY installation.' ),
-						),
-					),
-				),
-				'kpis'            => array(
-					'list',
-					'Key figures',
-					'Up to four figures along the bottom of the opening screen. A figure whose value is empty is not shown. ' . $tokens,
-					array(
-						'item'   => 'figure',
-						'max'    => 4,
-						'fields' => array(
-							'label' => array( 'text', 'Label', '' ),
-							'value' => array( 'text', 'Figure', '' ),
 						),
 					),
 				),
@@ -222,15 +207,13 @@ function aaykay_content_schema() {
 		),
 		'safety_photos'    => array(
 			'title'  => 'Site safety photographs',
-			'desc'   => 'The gallery of site safety procedures on the Quality & Safety page (toolbox meetings, barricading, medical check-ups…).',
+			'desc'   => 'Photos of site safety procedures (toolbox meetings, barricading, medical check-ups…), shown in the photo gallery at the top of the Quality & Safety page after the quality & safety photos. Switch off to leave them out.',
 			'toggle' => true,
 			'fields' => array(
-				'heading' => array( 'text', 'Heading', '' ),
-				'sub'     => array( 'textarea', 'Line on the right', '' ),
 				'figures' => array(
 					'list',
 					'Photos',
-					'Six photos fill the mosaic exactly; other numbers also work. Use AAYKAY’s own site photos only, with people wearing full safety gear.',
+					'Use AAYKAY’s own site photos only, with people wearing full safety gear. Each opens full size when clicked.',
 					array(
 						'item'   => 'photo',
 						'max'    => 12,
@@ -245,12 +228,12 @@ function aaykay_content_schema() {
 		),
 		'deliver'          => array(
 			'title'  => 'About Us: project methodology',
-			'desc'   => 'About Us, home page: the project methodology (statement, two panels, the five stages with their animated track) and the two reference sheets: the electrical works schedule and the tools and supply chain.',
+			'desc'   => 'About Us, home page: the project methodology. The five stages come first, on their animated track; under them the statement and the two panels on what is planned before site work.',
 			'toggle' => true,
 			'fields' => array(
 				'heading'        => array( 'text', 'Heading', '' ),
 				'sub'            => array( 'textarea', 'Line on the right', '' ),
-				'insight'        => array( 'textarea', 'Statement, first part', 'Shown large.' ),
+				'insight'        => array( 'textarea', 'Statement, first part', 'Shown under the stages, in large type.' ),
 				'insight_em'     => array( 'textarea', 'Statement, second part', 'Shown large in a lighter colour.' ),
 				'panel1_heading' => array( 'text', 'Left panel heading', '' ),
 				'panel1_items'   => array( 'lines', 'Left panel points', 'One point per line.' ),
@@ -260,7 +243,7 @@ function aaykay_content_schema() {
 				'stages'         => array(
 					'list',
 					'Delivery stages',
-					'Numbered automatically (Stage 01, 02…). Five fit the design best.',
+					'Numbered automatically (Stage 01, 02…). Five fit the design best. Keep each text to one or two short sentences.',
 					array(
 						'item'   => 'stage',
 						'max'    => 8,
@@ -268,38 +251,6 @@ function aaykay_content_schema() {
 							'icon'  => array( 'icon', 'Icon', '' ),
 							'title' => array( 'text', 'Title', '' ),
 							'text'  => array( 'textarea', 'Text', '' ),
-							'tags'  => array( 'text', 'Tags', 'Separate with commas.' ),
-						),
-					),
-				),
-				'sheet1_label'   => array( 'text', 'Sheet 1: small label', '' ),
-				'sheet1_title'   => array( 'text', 'Sheet 1: title', '' ),
-				'sheet1_rows'    => array(
-					'list',
-					'Sheet 1: rows',
-					'',
-					array(
-						'item'   => 'row',
-						'max'    => 12,
-						'fields' => array(
-							'term'  => array( 'text', 'Item', '' ),
-							'value' => array( 'text', 'Value', '' ),
-						),
-					),
-				),
-				'sheet1_note'    => array( 'text', 'Sheet 1: note', '' ),
-				'sheet2_label'   => array( 'text', 'Sheet 2: small label', '' ),
-				'sheet2_title'   => array( 'text', 'Sheet 2: title', '' ),
-				'sheet2_rows'    => array(
-					'list',
-					'Sheet 2: rows',
-					'',
-					array(
-						'item'   => 'row',
-						'max'    => 12,
-						'fields' => array(
-							'term'  => array( 'text', 'Item', '' ),
-							'value' => array( 'textarea', 'Value', '' ),
 						),
 					),
 				),
@@ -307,7 +258,7 @@ function aaykay_content_schema() {
 		),
 		'quality'          => array(
 			'title'  => 'Quality & safety',
-			'desc'   => 'Certificates, quality and safety practice, photos and the testing kit. Staff numbers come from Site settings.',
+			'desc'   => 'Photos first, then the ISO certificates and the quality and safety practice. Staff numbers come from Site settings.',
 			'toggle' => true,
 			'fields' => array(
 				'heading'         => array( 'text', 'Heading', '' ),
@@ -359,10 +310,10 @@ function aaykay_content_schema() {
 				'photos'          => array(
 					'list',
 					'Photos',
-					'Three fit the layout: one large, two small. People must be wearing full safety gear and have agreed to appear. A photo with a caption but no picture yet shows a “to come” box (Site settings > Placeholders).',
+					'Shown first in the photo gallery at the top of the Quality & Safety page, before the site safety photographs. People must be wearing full safety gear and have agreed to appear. A photo with a caption but no picture yet shows a “to come” box (Site settings > Placeholders).',
 					array(
 						'item'   => 'photo',
-						'max'    => 3,
+						'max'    => 12,
 						'fields' => array(
 							'image'   => array( 'image', 'Photo', '' ),
 							'fig'     => array( 'text', 'Number label', 'Optional.' ),
@@ -370,15 +321,11 @@ function aaykay_content_schema() {
 						),
 					),
 				),
-				'kit_enabled'     => array( 'bool', 'Show the testing kit list', '' ),
-				'kit_heading'     => array( 'text', 'Testing kit heading', '' ),
-				'kit_sub'         => array( 'text', 'Testing kit line', '' ),
-				'kit_items'       => array( 'lines', 'Testing kit', 'One instrument per line.' ),
 			),
 		),
 		'appreciations'    => array(
 			'title'  => 'Appreciations',
-			'desc'   => 'Certificates and letters of appreciation, the last section of the Projects page. Each opens full size when clicked.',
+			'desc'   => 'Certificates and letters of appreciation (Projects page). Each opens full size; visitors step through them with Previous / Next.',
 			'toggle' => true,
 			'fields' => array(
 				'heading' => array( 'text', 'Heading', '' ),
@@ -401,9 +348,34 @@ function aaykay_content_schema() {
 				),
 			),
 		),
+		'certificates'     => array(
+			'title'  => 'Certifications & licences',
+			'desc'   => 'Scans of the company’s certificates, licences and registrations (Quality & Safety page, after the quality and safety practice). Each opens full size; visitors step through them with Previous / Next.',
+			'toggle' => true,
+			'fields' => array(
+				'heading' => array( 'text', 'Heading', '' ),
+				'sub'     => array( 'text', 'Line on the right', '' ),
+				'docs'    => array(
+					'list',
+					'Documents',
+					'Scans of certificates, licences and registrations, in the order shown. Describe each one exactly as the document says. Check a document is still valid before it is shown, and leave out documents that carry identity numbers meant for officials only (PAN card, GST, ESI and PF registrations). A row with a title but no scan yet shows a “to come” box (Site settings > Placeholders).',
+					array(
+						'item'   => 'document',
+						'max'    => 16,
+						'fields' => array(
+							'image'   => array( 'image', 'Scan', 'A flat, sharp scan; it opens full size when clicked.' ),
+							'title'   => array( 'text', 'Title', '' ),
+							'meta'    => array( 'textarea', 'Description', '' ),
+							'button'  => array( 'text', 'Link text', 'e.g. View certificate' ),
+							'caption' => array( 'textarea', 'Caption in the viewer', '' ),
+						),
+					),
+				),
+			),
+		),
 		'company'          => array(
 			'title'  => 'About Us: company, timeline and leadership',
-			'desc'   => 'The About Us part of the home page: the company (facts, company brief, our work, why AAYKAY), the timeline, and the directors with the Managing Director’s message. Head office and branch count come from Site settings.',
+			'desc'   => 'The About Us part of the home page: the company (facts, company brief, our work), the timeline, and the directors with the Managing Director’s message. Head office and branch count come from Site settings.',
 			'toggle' => true,
 			'fields' => array(
 				'heading'            => array( 'text', 'Heading', '' ),
@@ -422,8 +394,6 @@ function aaykay_content_schema() {
 						),
 					),
 				),
-				'why_heading'        => array( 'text', 'Why AAYKAY: heading', '' ),
-				'why_items'          => array( 'lines', 'Why AAYKAY', 'One point per line (company profile, “Why AAYKAY?”).' ),
 				'timeline_heading'   => array( 'text', 'Timeline: heading', '' ),
 				'timeline_sub'       => array( 'textarea', 'Timeline: line on the right', '' ),
 				'leadership_heading' => array( 'text', 'Leadership: heading', 'Shown above the directors, in the team section.' ),
@@ -532,7 +502,6 @@ function aaykay_content_schema() {
 				),
 				'branches_icon'     => array( 'icon', 'Branches icon', '' ),
 				'branches_heading'  => array( 'text', 'Branches heading', '' ),
-				'request_label'     => array( 'text', 'Request button', 'A button that opens the enquiry form with “Pre-qualification documents” chosen. Leave empty to hide it.' ),
 			),
 		),
 		'careers'          => array(
@@ -748,7 +717,8 @@ function aaykay_image_data( $value ) {
 			'w'      => (int) $value['w'],
 			'h'      => (int) $value['h'],
 			'alt'    => isset( $value['alt'] ) ? (string) $value['alt'] : '',
-			'full'   => aaykay_asset( ! empty( $value['full'] ) ? $value['full'] : $value['src'] ),
+			// Full size: the file named as such, else the widest in the srcset, else src.
+			'full'   => aaykay_asset( ! empty( $value['full'] ) ? $value['full'] : ( ! empty( $value['srcset'] ) ? $value['srcset'][ count( $value['srcset'] ) - 1 ][0] : $value['src'] ) ),
 		);
 	}
 	return null;

@@ -1,9 +1,8 @@
 <?php
 /**
  * Contact Us page: contact details (each phone number and the email with a copy button),
- * the enquiry form, and the branches with the map of India (inc/map.php). Every other page
- * ends with the same section without the map ($args['compact'], see aaykay_page_end()). Texts: Homepage
- * content > Contact Us. Address, phones, email, branch states: Site settings. Form
+ * the enquiry form, and the branches with the map of India (inc/map.php). This section is on
+ * the Contact Us page only (client review of 13 Oct). Texts: Homepage content > Contact Us. Address, phones, email, branch states: Site settings. Form
  * handling: inc/enquiry.php.
  *
  * @package aaykay
@@ -18,15 +17,14 @@ if ( '' !== $aaykay_c['email'] ) {
 }
 // A link such as "Request pre-qualification documents" (About Us) arrives with ?type=…
 $aaykay_want  = isset( $_GET['type'] ) ? sanitize_text_field( wp_unslash( $_GET['type'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- only preselects a list option.
-$aaykay_compact  = ! empty( $args['compact'] ); // At the end of the other pages: no branches map.
-$aaykay_branches = $aaykay_compact ? array() : aaykay_branches();
+$aaykay_branches = aaykay_branches();
 $aaykay_map      = $aaykay_branches ? aaykay_branch_map() : '';
 $aaykay_extra = array(
 	array( 'careers', '' ),
 	array( 'suppliers', '' ),
 );
 ?>
-  <section class="section section--dark grain contact<?php echo $aaykay_compact ? ' contact--footer' : ''; ?>" id="contact" aria-labelledby="contact-title">
+  <section class="section section--dark grain contact" id="contact" aria-labelledby="contact-title">
     <div class="wrap grid-12 contact-grid">
       <div class="contact-info">
         <h2 class="h2" id="contact-title" data-reveal><?php aaykay_e( 'contact', 'heading' ); ?></h2>
@@ -38,7 +36,6 @@ $aaykay_extra = array(
           <div><dt class="label icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#phone"/></svg>Phone</dt><dd><span class="copy-row"><a href="tel:<?php echo esc_attr( $aaykay_c['tel'] ); ?>" id="c-phone"><?php echo esc_html( $aaykay_c['phone'] ); ?></a><?php echo aaykay_copy_button( $aaykay_c['phone'], 'c-phone', 'phone number' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></span><?php if ( '' !== $aaykay_c['phone2'] ) : ?><span class="copy-row"><a href="tel:<?php echo esc_attr( $aaykay_c['tel2'] ); ?>" id="c-phone2"><?php echo esc_html( $aaykay_c['phone2'] ); ?></a><?php echo aaykay_copy_button( $aaykay_c['phone2'], 'c-phone2', 'phone number' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></span><?php endif; ?></dd></div>
           <div><dt class="label icon-label"><svg class="ic" aria-hidden="true"><use href="<?php aaykay_a( 'assets/icons/icons.svg' ); ?>#mail"/></svg>Email</dt><dd><span class="copy-row"><a href="mailto:<?php echo esc_attr( $aaykay_c['email'] ); ?>" id="c-email"><?php echo esc_html( $aaykay_c['email'] ); ?></a><?php echo aaykay_copy_button( $aaykay_c['email'], 'c-email', 'email address' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></span></dd></div>
         </dl>
-        <p class="visually-hidden" id="copy-status" role="status"></p>
 <?php
 foreach ( $aaykay_extra as $aaykay_x ) :
 	$aaykay_text  = aaykay_t( 'contact', $aaykay_x[0] . '_text' );

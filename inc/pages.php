@@ -30,7 +30,8 @@ defined( 'ABSPATH' ) || exit;
  * then About Us (the company, its timeline, its team, its project methodology). The menu
  * reads Home, About Us (links to those sections), Our Capabilities, Projects (Sectors,
  * Project list, Clients, Architects/Consultants/PMCs, Appreciation certificates), Quality &
- * Safety, Careers, Contact Us. Every page except Contact Us ends with the enquiry form.
+ * Safety, Careers, Contact Us. Client review of 13 Oct: the contact details and the enquiry
+ * form are on Contact Us only; every page's footer has the address, phones and email.
  */
 function aaykay_page_registry() {
 	return array(
@@ -69,7 +70,7 @@ function aaykay_page_registry() {
 				'appreciations' => 'appreciations',
 			),
 		),
-		'quality'      => array( 'Quality & Safety', 'quality-safety', '', array( 'quality', 'safety-photos', 'prequal' ), 'AAYKAY Electricals is certified to ISO 9001:2015 and ISO 45001:2018: quality and safety practice, site safety procedures, testing equipment, compliance and pre-qualification.', array() ),
+		'quality'      => array( 'Quality & Safety', 'quality-safety', '', array( 'quality', 'certificates', 'prequal' ), 'AAYKAY Electricals is certified to ISO 9001:2015 and ISO 45001:2018: photos of site safety practice, quality and safety procedures, certificates and licences, compliance and pre-qualification.', array() ),
 		'careers'      => array( 'Careers', 'careers', '', array( 'careers' ), 'Careers at AAYKAY Electricals: open positions in project management, site engineering, supervision and safety, and how to apply.', array() ),
 		'contact'      => array( 'Contact Us', 'contact-us', '', array( 'contact' ), 'Contact AAYKAY Electricals, Hyderabad: phone numbers, email, branches and the enquiry form.', array() ),
 	);
@@ -280,17 +281,6 @@ function aaykay_page_sections( $key ) {
 			}
 		)
 	);
-}
-
-/**
- * The end of every page except Contact Us: the contact details and the enquiry form
- * (client brief, 13 Oct 2026: "the footer has the contact information and the form").
- */
-function aaykay_page_end() {
-	if ( 'contact' !== aaykay_current_page_key() ) {
-		get_template_part( 'template-parts/home/contact', null, array( 'compact' => true ) );
-		echo "\n";
-	}
 }
 
 /* ------------------------------------------------------------------ menu */

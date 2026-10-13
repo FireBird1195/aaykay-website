@@ -1,9 +1,8 @@
 <?php
 /**
- * Compliance & pre-qualification (Quality & Safety page). The request button goes to the
- * enquiry form at the end of the same page and chooses "Pre-qualification documents"
- * (site.js, initForm). Headings and certificates: Homepage content >
- * Pre-qualification. Resources and branches: Site settings. Turnover is not published
+ * Compliance & pre-qualification (Quality & Safety page): resources, certificates and
+ * branches. No request button (client review of 13 Oct). Headings and certificates:
+ * Homepage content > Pre-qualification. Resources and branches: Site settings. Turnover is not published
  * (client brief, 10 Oct 2026).
  *
  * @package aaykay
@@ -93,8 +92,5 @@ foreach ( $aaykay_groups as $aaykay_group => $aaykay_rows ) :
         </div>
 <?php endif; ?>
       </div>
-<?php if ( '' !== aaykay_t( 'prequal', 'request_label' ) ) : ?>
-      <p class="pq-request"><a class="btn btn--primary" href="#contact" data-enquiry-type="Pre-qualification documents"><?php aaykay_e( 'prequal', 'request_label' ); ?> <?php echo aaykay_arrow(); // phpcs:ignore WordPress.Security.EscapeOutput -- static SVG. ?></a></p>
-<?php endif; ?>
     </div>
   </section>

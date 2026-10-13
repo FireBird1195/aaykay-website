@@ -1,8 +1,9 @@
 <?php
 /**
- * Home page, About Us: the company's timeline. The milestones sit on the same animated
- * track as the project methodology stages (a line that fills as it scrolls into view, see
- * site.js initStages; shown complete without JavaScript or with reduced motion).
+ * Home page, About Us: the company's timeline, as a compact row of milestones: the year set
+ * large, the event under it (client review of 13 Oct: the timeline took too much space, and
+ * it must not look like the project methodology's animated stages, so it has no track and no
+ * animation). On phones each milestone is a row: year on the left, event on the right.
  * Content: Homepage content > About Us: company, timeline and leadership > Timeline.
  *
  * @package aaykay
@@ -14,7 +15,7 @@ if ( ! $aaykay_timeline ) {
 	return;
 }
 ?>
-  <section class="section section--white" id="timeline" aria-labelledby="timeline-title">
+  <section class="section section--white section--tight" id="timeline" aria-labelledby="timeline-title">
     <div class="wrap">
       <div class="sec-head">
         <h2 class="h2" id="timeline-title" data-reveal><?php aaykay_e( 'company', 'timeline_heading' ); ?></h2>
@@ -22,11 +23,10 @@ if ( ! $aaykay_timeline ) {
         <p class="sec-sub" data-reveal><?php aaykay_e( 'company', 'timeline_sub' ); ?></p>
 <?php endif; ?>
       </div>
-      <ol class="stages stages--timeline" style="--steps: <?php echo (int) count( $aaykay_timeline ); ?>">
+      <ol class="milestones">
 <?php foreach ( $aaykay_timeline as $aaykay_tl ) : ?>
-        <li class="stage">
-          <span class="stage-node" aria-hidden="true"><?php echo aaykay_icon( 'history', 'stage-ic' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?></span>
-          <h3 class="tl-year"><?php echo esc_html( $aaykay_tl['year'] ); ?></h3>
+        <li class="milestone">
+          <h3 class="milestone-year"><?php echo esc_html( $aaykay_tl['year'] ); ?></h3>
           <p><?php echo esc_html( aaykay_tokens( $aaykay_tl['text'] ) ); ?></p>
         </li>
 <?php endforeach; ?>
