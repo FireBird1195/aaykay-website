@@ -326,20 +326,42 @@
     render();
   }
 
-  /* ---------- 6. document viewer ---------- */
+  /* ---------- 6. document and photo viewer ----------
+     A thumbnail with data-lightbox opens its full-size image in the <dialog> (footer.php).
+     Thumbnails inside the same [data-gallery] element form a set: the viewer shows
+     "3 of 8" and previous/next buttons, and the arrow keys step through the set (Escape
+     closes, as for every <dialog>). Without JavaScript each link opens the image itself. */
   function initLightbox() {
     var dlg = $('#lightbox');
-    if (!dlg || typeof dlg.showModal !== 'function') return; // links still open the image
-    var img = $('img', dlg);
-    var cap = $('.lightbox-caption', dlg);
+    if (!dlg || typeof dlg.showModal !== 'function') return;
+    var img = $('img', dlg), cap = $('.lightbox-caption', dlg), count = $('.lightbox-count', dlg);
+    var prev = $('.lightbox-prev', dlg), next = $('.lightbox-next', dlg);
+    var set = [], at = 0;
+    function show(i) {
+      at = (i + set.length) % set.length;
+      var t = set[at];
+      img.src = t.getAttribute('data-lightbox');
+      img.alt = (t.querySelector('img') || {}).alt || '';
+      cap.textContent = t.getAttribute('data-caption') || '';
+      var many = set.length > 1;
+      prev.hidden = next.hidden = count.hidden = !many;
+      count.textContent = many ? (at + 1) + ' of ' + set.length : '';
+    }
     $$('[data-lightbox]').forEach(function (trigger) {
       trigger.addEventListener('click', function (e) {
         e.preventDefault();
-        img.src = trigger.getAttribute('data-lightbox');
-        img.alt = (trigger.querySelector('img') || {}).alt || '';
-        cap.textContent = trigger.getAttribute('data-caption') || '';
+        var group = trigger.closest('[data-gallery]');
+        set = group ? $$('[data-lightbox]', group) : [trigger];
+        show(set.indexOf(trigger));
         dlg.showModal();
       });
+    });
+    prev.addEventListener('click', function () { show(at - 1); });
+    next.addEventListener('click', function () { show(at + 1); });
+    dlg.addEventListener('keydown', function (e) {
+      if (set.length < 2) return;
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(at - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(at + 1); }
     });
     $('.lightbox-close', dlg).addEventListener('click', function () { dlg.close(); });
     dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
@@ -379,30 +401,42 @@
     });
   }
 
-  /* ---------- 9. current section in the navigation ---------- */
-  // The header link for the section being read gets aria-current="location", so the
-  // navigation shows where you are in the page. Sections are watched with an
-  // IntersectionObserver (no scroll handler); the active one is the last whose top has
-  // passed a line just under the header.
+  /* ---------- 9. current section in the navigation ----------
+     While a section of this page is on screen, its menu entry is marked: the dropdown
+     link gets aria-current="location" and its menu item (About Us, Projects) is underlined
+     (data-here). On the home page, Home stays marked over the opening screen and About Us
+     takes over from the first About Us section. Sections are those the menu links to on
+     this page; the current one is the last whose top has passed a line under the header.
+     Scroll events are batched with requestAnimationFrame. */
   function initNavSpy() {
-    var links = $$('.nav-list a[href^="#"]');
-    if (!links.length || !('IntersectionObserver' in window)) return;
-    var map = links.map(function (a) { return { a: a, el: hashTarget(a.getAttribute('href')) }; })
-      .filter(function (m) { return m.el; });
+    var nav = $('.nav-list');
+    if (!nav) return;
+    var here = location.origin + location.pathname;
+    var links = $$('a[href*="#"]', nav).filter(function (a) {
+      return a.href.split('#')[0] === here && hashTarget(a.hash);
+    });
+    if (!links.length) return;
+    var items = links.map(function (a) {
+      return { a: a, el: hashTarget(a.hash), li: a.closest('.nav-list > li') };
+    });
+    var ticking = false;
     var update = function () {
-      var line = headerOffset() + 8, current = null;
-      map.forEach(function (m) { if (m.el.getBoundingClientRect().top <= line) current = m; });
-      // Past the last section (pre-qualification), at the contact form: nothing is current.
-      var contact = $('#contact');
-      if (contact && contact.getBoundingClientRect().top <= line) current = null;
-      map.forEach(function (m) {
-        if (m === current) m.a.setAttribute('aria-current', 'location');
-        else m.a.removeAttribute('aria-current');
+      ticking = false;
+      var line = headerOffset() + 24, current = null;
+      items.forEach(function (m) { if (m.el.getBoundingClientRect().top <= line) current = m; });
+      items.forEach(function (m) {
+        var sub = m.a.closest('.sub-menu');
+        if (current && m.el === current.el && sub) m.a.setAttribute('aria-current', 'location');
+        else if (sub) m.a.removeAttribute('aria-current');
+      });
+      $$(':scope > li', nav).forEach(function (li) {
+        if (current && li === current.li) li.setAttribute('data-here', '');
+        else li.removeAttribute('data-here');
       });
     };
-    var io = new IntersectionObserver(update, { rootMargin: '-' + Math.round(headerOffset()) + 'px 0px 0px 0px', threshold: [0, 1] });
-    map.forEach(function (m) { io.observe(m.el); });
-    var contact = $('#contact'); if (contact) io.observe(contact);
+    var onScroll = function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
     update();
   }
 
@@ -610,7 +644,7 @@
 
   /* ---------- 12. opening-screen slideshow ----------
      The photos cross-fade every 7 seconds (CSS transition on .is-active). The controls are
-     shown only here: a bar per photo and a pause button (WCAG 2.2.2: anything that moves by
+     shown only here: previous and next arrows, a bar per photo and a pause button (WCAG 2.2.2: anything that moves by
      itself can be paused). It does not start for visitors who ask for reduced motion
      (they can still step through the photos), and pauses while the tab is hidden or the
      keyboard is on the controls. */
@@ -652,6 +686,9 @@
       schedule();
     }
     dots.forEach(function (d, k) { d.addEventListener('click', function () { show(k); schedule(); }); });
+    $$('.hero-arrow', controls).forEach(function (b) {
+      b.addEventListener('click', function () { show(current + Number(b.getAttribute('data-step'))); schedule(); });
+    });
     pauseBtn.addEventListener('click', function () { setPlaying(!playing); });
     controls.addEventListener('focusin', function () { held = true; schedule(); });
     controls.addEventListener('focusout', function () { held = false; schedule(); });

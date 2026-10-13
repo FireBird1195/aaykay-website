@@ -3,6 +3,32 @@
 The full explanation is the PDF **AAYKAY developer handbook** (kept with the hand-off files and in
 the claude.ai project "Aakay Electricals"). This page is the short version.
 
+## State (13 Oct 2026, client review): branch `feat/review-oct13`
+On top of `feat/final-brief-oct13` (not merged). Version 4 of the content (`AAYKAY_DATA_VERSION`;
+`aaykay_upgrade_4()` updates a version 3 site, replacing only values still as launched).
+- Home: slideshow with previous/next arrows (bars hidden on phones), no buttons and no key
+  figures; About Us without "Why AAYKAY"; timeline as a compact row of years (no animation, so
+  it does not repeat the methodology track); leaders one row each, photo left and words right
+  (Managing Director, then Shakeel Shuaib Ambur), then the project and office team; project
+  methodology with the five-stage track first and the planning text under it (the works
+  schedule and the tools sheet are removed).
+- Contact details and the form are on Contact Us only. Every page's footer has the address,
+  phones and email with copy buttons, and quick links.
+- The menu follows the reader: on the home page About Us and its dropdown entry are marked
+  for the section on screen (site.js `initNavSpy`); the same on Projects.
+- Quality & Safety: all photos (quality and site safety) in one gallery first, then the ISO
+  certificates and practice; testing equipment list removed; new "Certifications & Licences"
+  (ISO 9001, ISO 45001, Telangana and Karnataka contractor licences, incorporation, MSME,
+  scanned from the company profile p.9); no pre-qualification request button.
+- Projects: architects, consultants & PMCs as names only.
+- Image viewer: scans and photos in a set open with previous/next, "3 of 8", arrow keys.
+- Our Capabilities: "Scope of Works" renamed "Works We Undertake"; first card "HT/LT Panels &
+  Distribution".
+- Browser tab icon made from the AAYKAY mark (assets/favicon.ico, favicon-32.png, icon-*.png).
+- Section spacing reduced (`--section-y`); two sections on the same background share padding.
+- Not published on purpose: PAN card, GST, ESI and PF scans from the profile p.9 (identity
+  numbers). They can be added in Homepage content > Certifications & licences if AAYKAY wants.
+
 ## State (13 Oct 2026, second round): branch `feat/final-brief-oct13`
 On top of `feat/client-brief-oct10` (not merged). Version 3 of the content (`AAYKAY_DATA_VERSION`).
 - Pages: Home (slideshow of ten site photos, then About Us: company and "Our work", timeline,

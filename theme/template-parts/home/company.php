@@ -1,8 +1,8 @@
 <?php
 /**
  * Home page, About Us: the company (client brief, 13 Oct 2026: after the company profile's
- * "Company brief" and "Our work" pages): key facts, the company brief, what AAYKAY does and
- * why clients choose it. Then come timeline.php, team.php and deliver.php.
+ * "Company brief" and "Our work" pages): key facts, the company brief and what AAYKAY does.
+ * Then come timeline.php, team.php and deliver.php.
  * Content: Homepage content > About Us: company, timeline and leadership. Head office and
  * branch count: Site settings.
  *
@@ -13,7 +13,6 @@ defined( 'ABSPATH' ) || exit;
 $aaykay_contact = aaykay_contact();
 $aaykay_states  = count( aaykay_branches() );
 $aaykay_work    = aaykay_rows( 'company', 'work_items' );
-$aaykay_why     = aaykay_lines( 'company', 'why_items' );
 ?>
   <section class="section" id="about" aria-labelledby="about-title">
     <div class="wrap">
@@ -52,17 +51,5 @@ $aaykay_why     = aaykay_lines( 'company', 'why_items' );
         </div>
 <?php endif; ?>
       </div>
-<?php if ( $aaykay_why ) : ?>
-      <div class="scope why">
-        <div class="subhead">
-          <h3><?php aaykay_e( 'company', 'why_heading' ); ?></h3>
-        </div>
-        <ul class="why-list">
-<?php foreach ( $aaykay_why as $aaykay_line ) : ?>
-          <li class="icon-label"><?php echo aaykay_icon( 'circle-check' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><?php echo esc_html( aaykay_tokens( $aaykay_line ) ); ?></li>
-<?php endforeach; ?>
-        </ul>
-      </div>
-<?php endif; ?>
     </div>
   </section>

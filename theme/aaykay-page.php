@@ -27,7 +27,6 @@ foreach ( aaykay_page_sections( $aaykay_key ) as $aaykay_part ) {
 	get_template_part( 'template-parts/home/' . $aaykay_part );
 	echo "\n";
 }
-aaykay_page_end();
 ?>
 </main>
 

@@ -60,5 +60,9 @@ extracted at their embedded size and converted to WebP.
 
 ## Icons added on 13 Oct 2026
 
-`flame`, `file-text`, `chevron-down`, `pause`, `play`, `heart-pulse`, `wallet`, `coffee`,
+`flame`, `file-text`, `chevron-down`, `chevron-left`, `chevron-right`, `x`, `pause`, `play`, `heart-pulse`, `wallet`, `coffee`,
 `arrow-up-right`: Lucide (ISC licence), lucide-static 0.460.0.
+
+## Certificate scans
+`assets/img/cert-*.webp`: cropped from the AAYKAY company profile (p.9, “Compliances & statutory
+documents”), supplied by the client. AAYKAY’s own documents; not third-party material.

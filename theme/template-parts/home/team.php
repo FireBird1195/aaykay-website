@@ -1,10 +1,11 @@
 <?php
 /**
- * Home page, About Us: the team. First the leadership: the founder and the second director
- * side by side, with the Managing Director's message (Homepage content > About Us: company,
- * timeline and leadership). Then the team, one card per person: photo, name, designation
- * (Homepage content > About Us: team). Only members with a name are shown; while there are
- * none, eight "to come" cards hold the space (Site settings > Placeholders).
+ * Home page, About Us: the team (client review of 13 Oct). First the Founder & Managing
+ * Director: photo on the left, his message on the right. Then the second director the same
+ * way: photo on the left, a few words on the right (Homepage content > About Us: company,
+ * timeline and leadership). Then the project and office team, one card per person: photo,
+ * name, designation (Homepage content > About Us: team). Only members with a name are shown; while there are
+ * none, four "to come" cards hold the space (Site settings > Placeholders).
  *
  * @package aaykay
  */
@@ -22,7 +23,7 @@ $aaykay_members = array_values(
 		}
 	)
 );
-$aaykay_slots   = ( $aaykay_members || ! aaykay_section_on( 'team' ) ) ? 0 : ( '' !== aaykay_pending( 'x' ) ? 8 : 0 );
+$aaykay_slots   = ( $aaykay_members || ! aaykay_section_on( 'team' ) ) ? 0 : ( '' !== aaykay_pending( 'x' ) ? 4 : 0 );
 ?>
   <section class="section" id="team" aria-labelledby="team-title">
     <div class="wrap">
@@ -36,25 +37,46 @@ $aaykay_slots   = ( $aaykay_members || ! aaykay_section_on( 'team' ) ) ? 0 : ( '
       <div class="subhead">
         <h3><?php aaykay_e( 'company', 'leadership_heading' ); ?></h3>
       </div>
-      <div class="company leadership grid-12">
-        <div class="founder">
+      <div class="leaders">
+        <div class="leader grid-12">
+          <div class="leader-id">
 <?php if ( '' !== $aaykay_photo ) : ?>
-          <div class="founder-photo">
-            <?php echo $aaykay_photo; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_img(). ?>
+            <div class="founder-photo">
+              <?php echo $aaykay_photo; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_img(). ?>
 
-          </div>
+            </div>
 <?php endif; ?>
-          <h4 class="founder-name"><?php aaykay_e( 'company', 'founder_name' ); ?></h4>
-          <p class="label"><?php aaykay_e( 'company', 'founder_title' ); ?></p>
+            <h4 class="founder-name"><?php aaykay_e( 'company', 'founder_name' ); ?></h4>
+            <p class="label"><?php aaykay_e( 'company', 'founder_title' ); ?></p>
 <?php if ( $aaykay_creds ) : ?>
-          <ul class="creds">
+            <ul class="creds">
 <?php foreach ( $aaykay_creds as $aaykay_cr ) : ?>
-            <li class="icon-label"><?php echo aaykay_icon( $aaykay_cr['icon'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><?php echo esc_html( aaykay_tokens( $aaykay_cr['text'] ) ); ?></li>
+              <li class="icon-label"><?php echo aaykay_icon( $aaykay_cr['icon'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><?php echo esc_html( aaykay_tokens( $aaykay_cr['text'] ) ); ?></li>
 <?php endforeach; ?>
-          </ul>
+            </ul>
 <?php endif; ?>
+          </div>
+          <div class="leader-words">
+<?php if ( $aaykay_message ) : ?>
+            <figure class="pull message">
+              <blockquote>
+<?php foreach ( $aaykay_message as $aaykay_i => $aaykay_para ) : ?>
+                <p<?php echo $aaykay_i ? ' class="message-more"' : ''; ?>><?php echo esc_html( $aaykay_para ); ?></p>
+<?php endforeach; ?>
+              </blockquote>
+<?php if ( '' !== aaykay_t( 'company', 'quote_by' ) ) : ?>
+              <figcaption><?php aaykay_e( 'company', 'quote_by' ); ?></figcaption>
+<?php endif; ?>
+            </figure>
+<?php else : ?>
+            <?php echo aaykay_pending( 'The Managing Director’s message, in the wording he approves', 'pull' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_pending(). ?>
+
+<?php endif; ?>
+          </div>
+        </div>
 <?php if ( '' !== aaykay_t( 'company', 'person2_name' ) ) : ?>
-          <div class="person">
+        <div class="leader grid-12">
+          <div class="leader-id">
             <div class="founder-photo">
 <?php if ( '' !== $aaykay_photo2 ) : ?>
               <?php echo $aaykay_photo2; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_img(). ?>
@@ -66,29 +88,21 @@ $aaykay_slots   = ( $aaykay_members || ! aaykay_section_on( 'team' ) ) ? 0 : ( '
             </div>
             <h4 class="founder-name"><?php aaykay_e( 'company', 'person2_name' ); ?></h4>
             <p class="label"><?php aaykay_e( 'company', 'person2_title' ); ?></p>
-<?php if ( '' !== aaykay_t( 'company', 'person2_text' ) ) : ?>
-            <p class="person-text"><?php aaykay_e( 'company', 'person2_text' ); ?></p>
-<?php endif; ?>
           </div>
-<?php endif; ?>
-        </div>
-        <div class="company-body">
-<?php if ( $aaykay_message ) : ?>
-          <figure class="pull message">
-            <blockquote>
-<?php foreach ( $aaykay_message as $aaykay_i => $aaykay_para ) : ?>
-              <p<?php echo $aaykay_i ? ' class="message-more"' : ''; ?>><?php echo esc_html( $aaykay_para ); ?></p>
+          <div class="leader-words">
+<?php if ( '' !== aaykay_t( 'company', 'person2_text' ) ) : ?>
+            <div class="leader-text">
+<?php foreach ( aaykay_paragraphs( aaykay_t( 'company', 'person2_text' ) ) as $aaykay_para ) : ?>
+              <p><?php echo esc_html( $aaykay_para ); ?></p>
 <?php endforeach; ?>
-            </blockquote>
-<?php if ( '' !== aaykay_t( 'company', 'quote_by' ) ) : ?>
-            <figcaption><?php aaykay_e( 'company', 'quote_by' ); ?></figcaption>
-<?php endif; ?>
-          </figure>
+            </div>
 <?php else : ?>
-          <?php echo aaykay_pending( 'The Managing Director’s message, in the wording he approves', 'pull' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_pending(). ?>
+            <?php echo aaykay_pending( 'A few words from ' . aaykay_t( 'company', 'person2_name' ), 'pull' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_pending(). ?>
 
 <?php endif; ?>
+          </div>
         </div>
+<?php endif; ?>
       </div>
 
 <?php if ( $aaykay_members || $aaykay_slots ) : ?>

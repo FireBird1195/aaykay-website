@@ -71,10 +71,12 @@ add_action(
 	function () {
 		echo '<meta name="theme-color" content="#070B15">' . "\n";
 		// Until a Site Icon is set (Appearance > Customize > Site Identity), the theme's own
-		// set: SVG for modern browsers, ICO for old ones, PNG for phones' home screens.
+		// set, made from the AAYKAY mark (assets/img/brand): ICO for old browsers, PNG for
+		// browser tabs and phones' home screens.
 		if ( ! has_site_icon() ) {
-			echo '<link rel="icon" href="' . esc_url( aaykay_asset( 'assets/favicon.ico' ) ) . '" sizes="32x32">' . "\n";
-			echo '<link rel="icon" href="' . esc_url( aaykay_asset( 'assets/favicon.svg' ) ) . '" type="image/svg+xml">' . "\n";
+			echo '<link rel="icon" href="' . esc_url( aaykay_asset( 'assets/favicon.ico' ) ) . '" sizes="16x16 32x32 48x48">' . "\n";
+			echo '<link rel="icon" href="' . esc_url( aaykay_asset( 'assets/favicon-32.png' ) ) . '" type="image/png" sizes="32x32">' . "\n";
+			echo '<link rel="icon" href="' . esc_url( aaykay_asset( 'assets/icon-192.png' ) ) . '" type="image/png" sizes="192x192">' . "\n";
 			echo '<link rel="apple-touch-icon" href="' . esc_url( aaykay_asset( 'assets/icon-180.png' ) ) . '">' . "\n";
 		}
 		if ( is_front_page() ) {

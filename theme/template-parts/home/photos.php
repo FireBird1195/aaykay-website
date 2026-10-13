@@ -1,8 +1,7 @@
 <?php
 /**
  * A photo mosaic: the site photographs on Our Capabilities (Homepage content > Site
- * photographs), and the same component for the site safety photographs on Quality & Safety
- * (safety-photos.php passes $args['section'] = 'safety_photos', $args['id'] = 'safety-photos').
+ * photographs). $args['section'] and $args['id'] let another section reuse it.
  *
  * The mosaic in site.css is laid out for six photos (.m-a … .m-f). With more, the pattern
  * repeats; with fewer, the first slots are used.

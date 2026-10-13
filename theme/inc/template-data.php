@@ -450,21 +450,13 @@ function aaykay_render_clients( $indent ) {
 }
 
 /**
- * Architects and consultants: a mark (logo, or letters on a neutral plate) beside the name.
- * The name is always written out, so the mark is decorative for screen readers.
+ * Architects, consultants and PMCs: their names, as a list (client review of 13 Oct: no
+ * logos). Logos uploaded in Dashboard > Architects & consultants are kept but not shown.
  */
 function aaykay_render_firms( $indent ) {
 	$out = array();
 	foreach ( aaykay_logo_posts( 'aaykay_firm', 'title' ) as $post ) {
-		$name = $post->post_title;
-		$logo = aaykay_logo( $post->ID );
-		if ( $logo ) {
-			$mark = '<span class="firm-mark">' . aaykay_logo_img( $logo[0], $logo[1], $logo[2], '', 6, 5, 2 ) . '</span>';
-		} else {
-			$letters = (string) get_post_meta( $post->ID, '_aaykay_mark', true );
-			$mark    = '<span class="firm-mark firm-mark--letters" aria-hidden="true">' . esc_html( '' !== $letters ? $letters : aaykay_monogram( $name ) ) . '</span>';
-		}
-		$out[] = '<li class="firm">' . $mark . '<span class="firm-name">' . esc_html( $name ) . '</span></li>';
+		$out[] = '<li class="firm"><span class="firm-name">' . esc_html( $post->post_title ) . '</span></li>';
 	}
 	return implode( "\n" . $indent, $out );
 }
