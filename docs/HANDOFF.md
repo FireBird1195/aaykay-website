@@ -6,7 +6,7 @@ the claude.ai project "Aakay Electricals"). This page is the short version.
 ## State (13 Oct 2026, client review): branch `feat/review-oct13`
 On top of `feat/final-brief-oct13` (not merged). Version 4 of the content (`AAYKAY_DATA_VERSION`;
 `aaykay_upgrade_4()` updates a version 3 site, replacing only values still as launched).
-- Home: slideshow with previous/next arrows (bars hidden on phones), no buttons and no key
+- Home: slideshow with previous/next arrows (progress bars added in the third round), no buttons and no key
   figures; About Us without "Why AAYKAY"; timeline as a compact row of years (no animation, so
   it does not repeat the methodology track); leaders one row each, photo left and words right
   (Managing Director, then Shakeel Shuaib Ambur), then the project and office team; project
@@ -26,8 +26,29 @@ On top of `feat/final-brief-oct13` (not merged). Version 4 of the content (`AAYK
   Distribution".
 - Browser tab icon made from the AAYKAY mark (assets/favicon.ico, favicon-32.png, icon-*.png).
 - Section spacing reduced (`--section-y`); two sections on the same background share padding.
-- Not published on purpose: PAN card, GST, ESI and PF scans from the profile p.9 (identity
-  numbers). They can be added in Homepage content > Certifications & licences if AAYKAY wants.
+- Not published on purpose: PAN card, ESI and PF scans from the profile p.9 (identity
+  numbers; GST was added later, see the third round). They can be added in Homepage content > Certifications & licences if AAYKAY wants.
+
+## State (13 Oct 2026, third round): branch `feat/review-oct13`
+Version 5 of the content (`AAYKAY_DATA_VERSION`, `aaykay_upgrade_5`, `seed/upgrade-5.json`).
+- Opening headline: "Complete electrical installations, from design to commissioning." (three
+  lines, red full stop). Headline size (`--fs-hero`) now follows the longest line, so it holds
+  on three lines from tablet up and the longest word fits a 320px phone.
+- Slideshow bars work like Instagram stories: the bar of the photo on screen fills over 7
+  seconds (`--hero-dur` in site.css), earlier bars are full, later bars empty; the photo changes
+  when the fill ends, pausing pauses the fill. Bars now show on phones too (own row above the
+  arrows). With reduced motion the slideshow does not run and the current bar is shown full.
+- Our Capabilities: the "to come" box on a card is replaced by one line, "For more
+  information click here" ("here" is the link, opens in a new tab). A card with a link note
+  but no address shows the line only while placeholders are on (Site settings > Placeholders).
+- Certifications & Licences: GST registration certificate added (page 1 of the certificate
+  only; the annexures list directors' personal details and are not published). Placed last,
+  after MSME. This reverses the earlier "GST not published" note, at the client's request.
+- Visual audit (320 to 1920px, all pages): project list tags (sector, "executed via") now sit
+  on their own lines in every row; the sideways-scroll hint of the project table now shows
+  below 1200px (it scrolls from there); the rule above Our Branches lines up with the content.
+- Not changed, for the client to decide: Certifications now has 7 documents, so the last row
+  of the three-column grid holds one card.
 
 ## State (13 Oct 2026, second round): branch `feat/final-brief-oct13`
 On top of `feat/client-brief-oct10` (not merged). Version 3 of the content (`AAYKAY_DATA_VERSION`).

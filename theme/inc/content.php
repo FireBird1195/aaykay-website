@@ -131,7 +131,7 @@ function aaykay_content_schema() {
 				'scope'           => array(
 					'list',
 					'Capabilities',
-					'One card each, in this order (drag to reorder). Nine fill three rows of three; four or eight fill rows of four. A card with a link address shows a link under its text (opens in a new tab), e.g. “More about Fire Safety”. A card whose text is empty shows a “to come” box (Site settings > Placeholders).',
+					'One card each, in this order (drag to reorder). Nine fill three rows of three; four or eight fill rows of four. A card with a link address ends with “For more information click here” (“here” opens the address in a new tab). A card whose text is empty shows a “to come” box (Site settings > Placeholders).',
 					array(
 						'item'   => 'capability',
 						'max'    => 12,
@@ -139,8 +139,8 @@ function aaykay_content_schema() {
 							'icon'       => array( 'icon', 'Icon', '' ),
 							'title'      => array( 'text', 'Title', '' ),
 							'text'       => array( 'textarea', 'Text', '' ),
-							'link_url'   => array( 'text', 'Link address (optional)', 'A full address starting with https://. Opens in a new tab.' ),
-							'link_label' => array( 'text', 'Link text', 'e.g. More about Fire Safety. When the card has a link label but no address yet, a “to come” note marks the missing link.' ),
+							'link_url'   => array( 'text', 'Link address (optional)', 'A full address starting with https://. The card then ends with “For more information click here”, and “here” opens this address in a new tab.' ),
+							'link_label' => array( 'text', 'Link planned (note)', 'Any note, e.g. More about Fire Safety, marks a card that is meant to have a link. Until the address above is filled in, the line shows only while placeholders are switched on (Site settings > Placeholders), with “here” not yet clickable.' ),
 						),
 					),
 				),
@@ -358,7 +358,7 @@ function aaykay_content_schema() {
 				'docs'    => array(
 					'list',
 					'Documents',
-					'Scans of certificates, licences and registrations, in the order shown. Describe each one exactly as the document says. Check a document is still valid before it is shown, and leave out documents that carry identity numbers meant for officials only (PAN card, GST, ESI and PF registrations). A row with a title but no scan yet shows a “to come” box (Site settings > Placeholders).',
+					'Scans of certificates, licences and registrations, in the order shown. Describe each one exactly as the document says. Check a document is still valid before it is shown, and leave out documents that carry identity numbers meant for officials only (PAN card, ESI and PF registrations). The GST registration certificate is shown at the client’s request (page 1 only; never the annexures, which list directors’ personal details). A row with a title but no scan yet shows a “to come” box (Site settings > Placeholders).',
 					array(
 						'item'   => 'document',
 						'max'    => 16,

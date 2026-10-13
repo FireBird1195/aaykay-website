@@ -54,10 +54,9 @@ $aaykay_scope   = aaykay_rows( 'services', 'scope' );
 
 <?php endif; ?>
 <?php if ( '' !== $aaykay_url ) : ?>
-            <p class="scope-link"><a class="text-link" href="<?php echo $aaykay_url; // phpcs:ignore WordPress.Security.EscapeOutput -- esc_url() above. ?>" target="_blank" rel="noopener"><?php echo esc_html( '' !== $aaykay_label ? $aaykay_label : 'More about ' . aaykay_tokens( $aaykay_s['title'] ) ); ?><span class="visually-hidden"> (opens in a new tab)</span><?php echo aaykay_icon( 'arrow-up-right', 'ic--sm' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?></a></p>
-<?php elseif ( '' !== $aaykay_label ) : ?>
-            <?php echo aaykay_pending( 'Website address for “' . $aaykay_label . '”', 'scope-pending' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_pending(). ?>
-
+            <p class="scope-link">For more information click <a href="<?php echo $aaykay_url; // phpcs:ignore WordPress.Security.EscapeOutput -- esc_url() above. ?>" target="_blank" rel="noopener">here<span class="visually-hidden"> (more about <?php echo esc_html( aaykay_tokens( $aaykay_s['title'] ) ); ?>, opens in a new tab)</span></a>.</p>
+<?php elseif ( '' !== $aaykay_label && '1' === (string) aaykay_setting( 'show_pending' ) ) : ?>
+            <p class="scope-link">For more information click <span class="scope-link-todo" title="Link address to come">here</span>.</p>
 <?php endif; ?>
           </div>
 <?php endforeach; ?>

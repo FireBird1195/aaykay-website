@@ -6,6 +6,7 @@
  *     10 Oct 2026: separate pages, new sections, the client's project list);
  *   - aaykay_upgrade_3(): version 2 to version 3 (final client brief of 13 Oct 2026);
  *   - aaykay_upgrade_4(): version 3 to version 4 (client review of 13 Oct 2026);
+ *   - aaykay_upgrade_5(): version 4 to version 5 (second round of the 13 Oct review);
  *   - aaykay_upgrade_cleanup(): drops saved fields and sections that no longer exist.
  * The rule throughout: a launch value is replaced only while it is still exactly as
  * launched (seed/upgrade-N.json), so nothing AAYKAY has edited is overwritten.
@@ -28,7 +29,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const AAYKAY_DATA_VERSION = 4;
+const AAYKAY_DATA_VERSION = 5;
 
 add_action(
 	'init',
@@ -45,7 +46,10 @@ add_action(
 			if ( $version < 3 ) {
 				aaykay_upgrade_3();
 			}
-			aaykay_upgrade_4();
+			if ( $version < 4 ) {
+				aaykay_upgrade_4();
+			}
+			aaykay_upgrade_5();
 			aaykay_upgrade_cleanup();
 		}
 		update_option( 'aaykay_data_version', AAYKAY_DATA_VERSION, true );
@@ -378,6 +382,31 @@ function aaykay_upgrade_4() {
 		foreach ( $content['services']['scope'] as $i => $card ) {
 			if ( isset( $card['title'] ) && $card['title'] === $old['moved']['scope_card_title'] ) {
 				$content['services']['scope'][ $i ]['title'] = $defaults['services']['scope'][0]['title'];
+			}
+		}
+	}
+	update_option( AAYKAY_CONTENT_OPTION, $content );
+}
+
+/**
+ * Version 4 to 5 (second round of the client review of 13 Oct 2026).
+ *   - The opening headline becomes "Complete electrical installations, from design to
+ *     commissioning." and the GST registration certificate joins the Certifications &
+ *     Licences list. Each is replaced only while the saved value is still exactly the version
+ *     4 launch value (seed/upgrade-5.json), so nothing AAYKAY has edited is overwritten.
+ */
+function aaykay_upgrade_5() {
+	$old     = aaykay_upgrade_seed( 5 );
+	$content = get_option( AAYKAY_CONTENT_OPTION );
+	if ( ! $old || ! is_array( $content ) || ! $content ) {
+		return; // Never saved: the website already shows the version 5 launch content.
+	}
+	remove_all_filters( 'sanitize_option_' . AAYKAY_CONTENT_OPTION );
+	$defaults = aaykay_content_defaults();
+	foreach ( $old['content'] as $sid => $fields ) {
+		foreach ( $fields as $key => $v4 ) {
+			if ( isset( $content[ $sid ] ) && is_array( $content[ $sid ] ) && array_key_exists( $key, $content[ $sid ] ) && isset( $defaults[ $sid ] ) && array_key_exists( $key, $defaults[ $sid ] ) && aaykay_same_value( $content[ $sid ][ $key ], $v4 ) ) {
+				$content[ $sid ][ $key ] = $defaults[ $sid ][ $key ];
 			}
 		}
 	}

@@ -78,7 +78,7 @@
     "hero": {
       "enabled": true,
       "label": "Electrical & MEP contracting · Since 2008",
-      "title": "Electrical systems\nfor buildings that\ncan’t go dark.",
+      "title": "Complete electrical\ninstallations, from\ndesign to commissioning.",
       "lead": "AAYKAY designs, installs, tests and commissions electrical works for hospitals, enterprise campuses, data centres and high-rise towers, from shop drawing to handover.",
       "slides": [
         {
@@ -1054,6 +1054,29 @@
           "meta": "Udyam Registration Certificate from the Ministry of Micro, Small and Medium Enterprises, Government of India.",
           "button": "View certificate",
           "caption": "Udyam Registration Certificate (MSME), Government of India."
+        },
+        {
+          "image": {
+            "src": "assets/img/cert-gst-400.webp",
+            "srcset": [
+              [
+                "assets/img/cert-gst-400.webp",
+                400
+              ],
+              [
+                "assets/img/cert-gst-1200.webp",
+                1200
+              ]
+            ],
+            "w": 1200,
+            "h": 1602,
+            "alt": "GST registration certificate (Form GST REG-06), Government of India, issued to AAYKAY Electricals Private Limited, Hyderabad, Telangana.",
+            "full": "assets/img/cert-gst-1200.webp"
+          },
+          "title": "GST registration · Telangana",
+          "meta": "Goods and Services Tax registration certificate (Form GST REG-06) for AAYKAY Electricals Private Limited, Hyderabad. Regular registration, effective 20 February 2025.",
+          "button": "View certificate",
+          "caption": "GST registration certificate (Form GST REG-06), Government of India. Hyderabad, effective 20 February 2025."
         }
       ]
     },

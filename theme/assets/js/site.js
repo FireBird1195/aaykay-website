@@ -643,19 +643,23 @@
   }
 
   /* ---------- 12. opening-screen slideshow ----------
-     The photos cross-fade every 7 seconds (CSS transition on .is-active). The controls are
-     shown only here: previous and next arrows, a bar per photo and a pause button (WCAG 2.2.2: anything that moves by
-     itself can be paused). It does not start for visitors who ask for reduced motion
-     (they can still step through the photos), and pauses while the tab is hidden or the
-     keyboard is on the controls. */
+     The photos cross-fade (CSS transition on .is-active). The controls are shown only here:
+     previous and next arrows, a progress bar per photo (like Instagram stories) and a pause
+     button (WCAG 2.2.2: anything that moves by itself can be paused). The bar of the photo
+     on screen fills over its time on screen; the CSS animation (--hero-dur in site.css) is
+     the clock: when it ends (animationend) the next photo is shown, so the bar and the photo
+     stay together, and pausing pauses the fill. It does not start for visitors who ask for
+     reduced motion (they step through the photos; the current bar is shown full), and it
+     pauses while the tab is hidden or the keyboard is on the controls. */
   function initSlideshow() {
     var hero = $('.hero');
     var slides = hero ? $$('.hero-slide', hero) : [];
     var controls = hero ? $('.hero-controls', hero) : null;
     if (slides.length < 2 || !controls) return;
     var dots = $$('.hero-dot', controls), pauseBtn = $('.hero-pause', controls), caption = $('#hero-caption');
-    var current = 0, timer = null, playing = !reduceMotion, held = false;
+    var current = 0, playing = !reduceMotion, held = false;
     controls.hidden = false;
+    if (reduceMotion) controls.classList.add('is-static');
     // Photos after the first carry data-src until needed (see hero.php).
     function load(slide) {
       var img = $('img[data-src]', slide);
@@ -663,6 +667,10 @@
       if (img.getAttribute('data-srcset')) img.setAttribute('srcset', img.getAttribute('data-srcset'));
       img.setAttribute('src', img.getAttribute('data-src'));
       img.removeAttribute('data-src'); img.removeAttribute('data-srcset');
+    }
+    // The fill runs only while the slideshow is playing, the tab is visible and focus is not on the controls.
+    function sync() {
+      controls.classList.toggle('is-running', playing && !held && !document.hidden);
     }
     function show(i) {
       current = (i + slides.length) % slides.length;
@@ -672,27 +680,31 @@
         if (on) s.removeAttribute('aria-hidden'); else s.setAttribute('aria-hidden', 'true');
         if (on) load(s);
       });
-      dots.forEach(function (d, k) { if (k === current) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
+      dots.forEach(function (d, k) {
+        d.classList.toggle('is-done', k < current);
+        d.removeAttribute('aria-current');
+      });
+      void controls.offsetWidth; // so the fill of the new bar starts from empty, even if it is the same bar
+      dots[current].setAttribute('aria-current', 'true');
       if (caption) caption.textContent = slides[current].getAttribute('data-caption') || '';
-    }
-    function schedule() {
-      clearTimeout(timer);
-      if (playing && !held && !document.hidden) timer = setTimeout(function () { show(current + 1); schedule(); }, 7000);
     }
     function setPlaying(on) {
       playing = on;
       pauseBtn.setAttribute('data-state', on ? 'playing' : 'paused');
       pauseBtn.setAttribute('aria-label', on ? 'Pause the slideshow' : 'Play the slideshow');
-      schedule();
+      sync();
     }
-    dots.forEach(function (d, k) { d.addEventListener('click', function () { show(k); schedule(); }); });
+    controls.addEventListener('animationend', function (e) {
+      if (e.animationName === 'hero-fill') show(current + 1);
+    });
+    dots.forEach(function (d, k) { d.addEventListener('click', function () { show(k); }); });
     $$('.hero-arrow', controls).forEach(function (b) {
-      b.addEventListener('click', function () { show(current + Number(b.getAttribute('data-step'))); schedule(); });
+      b.addEventListener('click', function () { show(current + Number(b.getAttribute('data-step'))); });
     });
     pauseBtn.addEventListener('click', function () { setPlaying(!playing); });
-    controls.addEventListener('focusin', function () { held = true; schedule(); });
-    controls.addEventListener('focusout', function () { held = false; schedule(); });
-    document.addEventListener('visibilitychange', schedule);
+    controls.addEventListener('focusin', function (e) { held = e.target.matches(':focus-visible'); sync(); }); // keyboard focus only; a mouse click does not stall the bar
+    controls.addEventListener('focusout', function () { held = false; sync(); });
+    document.addEventListener('visibilitychange', sync);
     // The other photos start loading once the page has loaded, so the first is never delayed.
     var loadRest = function () { slides.forEach(load); };
     if (document.readyState === 'complete') loadRest(); else window.addEventListener('load', loadRest);
