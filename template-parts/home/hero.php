@@ -3,7 +3,7 @@
  * Home page: opening screen, with the slideshow of background photos (final client brief,
  * 13 Oct 2026; previous/next arrows and no buttons, client review of 13 Oct). Content:
  * Homepage content > Opening screen. The first photo is part of the page and loads first;
- * site.js (initSlideshow) adds the controls and changes photos every 7 seconds, unless the visitor asks for reduced motion. Without JavaScript the first
+ * site.js (initSlideshow) adds the controls (arrows, a progress bar per photo, pause) and changes photos every 7 seconds, unless the visitor asks for reduced motion. Without JavaScript the first
  * photo simply stays.
  *
  * @package aaykay
