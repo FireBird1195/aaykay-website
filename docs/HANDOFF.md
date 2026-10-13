@@ -3,6 +3,13 @@
 The full explanation is the PDF **AAYKAY developer handbook** (kept with the hand-off files and in
 the claude.ai project "Aakay Electricals"). This page is the short version.
 
+## State (13 Oct 2026)
+- Branch `feat/client-brief-oct10` (not merged): the client brief of 10 Oct 2026 on top of
+  version 1. Ten pages instead of one, the client's project list (95 projects, alphabetical),
+  no turnover or order values, full company name with the AEK mark, second director, Careers,
+  Safety Solutions, Appreciations; "to come" placeholders for content still awaited.
+  Open questions are listed in the pull request / report.
+
 ## State (7 Oct 2026)
 - Code complete: WordPress classic theme in `theme/`, no plugins. Every homepage text, photo and icon
   is edited in Dashboard → Homepage content; facts in Site settings; projects, sectors, clients and

@@ -12,55 +12,42 @@ defined( 'ABSPATH' ) || exit;
 /* ------------------------------------------------------------------ navigation */
 
 /**
- * Navigation, in the same order as the sections on the page. 'in' says where a link
- * appears (header, mobile, footer); 'cta' styles it as the call to action.
+ * Navigation: the website's pages (inc/pages.php), labelled with their titles from
+ * Dashboard > Pages. Header and phone menu list the main pages and end with the call to
+ * action (Contact Us); the footer lists every page, including those under Projects.
+ * The page being read, or the main page it belongs to, is marked with aria-current.
  */
-function aaykay_nav_items() {
-	return array(
-		array( 'services', 'What we do', array( 'header', 'mobile', 'footer' ), false ),
-		array( 'sectors', 'Sectors', array( 'footer' ), false ),
-		array( 'work', 'Projects', array( 'header', 'mobile', 'footer' ), false ),
-		array( 'record', 'Project record', array( 'footer' ), false ),
-		array( 'deliver', 'How we deliver', array( 'header', 'mobile', 'footer' ), false ),
-		array( 'quality', 'Quality & safety', array( 'header', 'mobile', 'footer' ), false ),
-		array( 'company', 'Company', array( 'header', 'mobile', 'footer' ), false ),
-		array( 'prequal', 'Pre-qualification', array( 'header', 'mobile', 'footer' ), false ),
-		array( 'contact', 'Start a project', array( 'mobile' ), true ),
-		array( 'contact', 'Contact', array( 'footer' ), false ),
-	);
-}
-
-/** The Homepage content section each navigation target belongs to. */
-function aaykay_nav_section( $id ) {
-	$map = array(
-		'services' => 'services',
-		'sectors'  => 'services',
-		'work'     => 'work',
-		'record'   => 'record',
-		'deliver'  => 'deliver',
-		'quality'  => 'quality',
-		'company'  => 'company',
-		'prequal'  => 'prequal',
-		'contact'  => 'contact',
-	);
-	return isset( $map[ $id ] ) ? $map[ $id ] : $id;
-}
-
 function aaykay_render_nav( $place, $indent ) {
-	$lines = array();
-	foreach ( aaykay_nav_items() as $item ) {
-		list( $id, $label, $in, $cta ) = $item;
-		// Skip places the link doesn't belong, and sections switched off in Homepage content.
-		if ( ! in_array( $place, $in, true ) || ! aaykay_section_on( aaykay_nav_section( $id ) ) ) {
+	$current = aaykay_current_page_key();
+	$reg     = aaykay_page_registry();
+	$parent  = ( '' !== $current && isset( $reg[ $current ] ) && $reg[ $current ][2] ) ? $reg[ $current ][2] : $current;
+	$lines   = array();
+	$link    = function ( $key, $label, $url, $class = '' ) use ( $current, $parent ) {
+		$attr = '';
+		if ( $key === $current ) {
+			$attr = ' aria-current="page"';
+		} elseif ( $key === $parent ) {
+			$attr = ' aria-current="true"';
+		}
+		return '<a href="' . esc_url( $url ) . '"' . ( $class ? ' class="' . esc_attr( $class ) . '"' : '' ) . $attr . '>' . esc_html( $label ) . '</a>';
+	};
+	foreach ( aaykay_menu() as $item ) {
+		list( $key, $label, $url, $children ) = $item;
+		if ( 'footer' === $place ) {
+			$lines[] = $link( $key, $label, $url );
+			foreach ( $children as $c ) {
+				$lines[] = $link( $c[0], $c[1], $c[2] );
+			}
 			continue;
 		}
-		if ( 'contact' === $id && $cta ) {
-			$label = aaykay_t( 'brand', 'header_cta' );
-		} elseif ( '' !== aaykay_t( 'brand', 'menu_' . $id ) ) {
-			$label = aaykay_t( 'brand', 'menu_' . $id );
+		if ( 'contact' === $key ) {
+			// Header: the Contact Us button sits beside the menu. Phone menu: the last item.
+			if ( 'mobile' === $place ) {
+				$lines[] = '<li>' . $link( $key, aaykay_t( 'brand', 'header_cta' ), $url, 'nav-cta' ) . '</li>';
+			}
+			continue;
 		}
-		$link    = '<a href="' . esc_attr( aaykay_section_url( $id ) ) . '"' . ( $cta ? ' class="nav-cta"' : '' ) . '>' . esc_html( $label ) . '</a>';
-		$lines[] = 'footer' === $place ? $link : '<li>' . $link . '</li>';
+		$lines[] = '<li>' . $link( $key, $label, $url ) . '</li>';
 	}
 	return implode( "\n" . $indent, $lines );
 }
@@ -127,7 +114,7 @@ function aaykay_render_sector_rows( $indent ) {
 			continue; // A sector with no published projects yet stays off the page.
 		}
 		$out[] = sprintf(
-			'<li><a class="sector-row" href="?sector=%1$s#record" data-filter="%1$s"><span class="sector-name">%2$s%3$s</span><span class="sector-info"><span class="sector-desc">%4$s</span><span class="sector-clients">%5$s</span></span><span class="sector-count">%6$d project%7$s</span><span class="sector-arrow" aria-hidden="true">%8$s</span></a></li>',
+			'<li><a class="sector-row" href="%9$s" data-filter="%1$s"><span class="sector-name">%2$s%3$s</span><span class="sector-info"><span class="sector-desc">%4$s</span><span class="sector-clients">%5$s</span></span><span class="sector-count">%6$d project%7$s</span><span class="sector-arrow" aria-hidden="true">%8$s</span></a></li>',
 			esc_attr( $s['key'] ),
 			aaykay_icon( $s['icon'], 'sector-ic' ),
 			esc_html( $s['label'] ),
@@ -135,7 +122,8 @@ function aaykay_render_sector_rows( $indent ) {
 			esc_html( $s['clients'] ),
 			$c,
 			1 === $c ? '' : 's',
-			aaykay_arrow( 'down' )
+			aaykay_arrow( 'projects' === aaykay_current_page_key() ? 'down' : 'right' ), // Right: the record is on the Projects page.
+			esc_url( add_query_arg( 'sector', $s['key'], aaykay_page_url( 'projects' ) ) . '#record' )
 		);
 	}
 	return implode( "\n" . $indent, $out );
@@ -171,9 +159,8 @@ function aaykay_show_values() {
 }
 
 /**
- * Published projects that have a sector, in record order: rows are grouped by how much
- * is stated (order value first, then area, then name only) and alphabetical within each
- * group. Never sorted by order value, so clients are not ranked by contract size.
+ * Published projects that have a sector, in record order: alphabetical by name. Never
+ * sorted by order value, so clients are not ranked by contract size.
  */
 function aaykay_projects() {
 	static $projects = null;
@@ -213,11 +200,9 @@ function aaykay_projects() {
 	usort(
 		$projects,
 		function ( $a, $b ) {
-			$tier = function ( $p ) {
-				return ( '' !== $p['order_value'] && aaykay_show_values() ) ? 0 : ( $p['area_sqft'] ? 1 : 2 );
-			};
+			// Alphabetical (client brief, 10 Oct 2026), never by order value.
 			$lower = function_exists( 'mb_strtolower' ) ? 'mb_strtolower' : 'strtolower';
-			return array( $tier( $a ), $lower( $a['name'] ), $a['slug'] ) <=> array( $tier( $b ), $lower( $b['name'] ), $b['slug'] );
+			return array( $lower( $a['name'] ), $a['slug'] ) <=> array( $lower( $b['name'] ), $b['slug'] );
 		}
 	);
 	return $projects;
@@ -359,14 +344,19 @@ function aaykay_render_card( $p, $position ) {
 	$city  = trim( explode( ',', $p['location'] )[0] );
 	$label = '' !== $p['card_label'] ? $p['card_label'] : implode( ' · ', array_filter( array( $s ? $s['short'] : '', $city ), 'strlen' ) );
 
-	$img = wp_get_attachment_image(
+	// On the Projects page the first card is near the top: load it first, not lazily.
+	$first = 0 === $position && 'projects' === aaykay_current_page_key();
+	$img   = wp_get_attachment_image(
 		$thumb,
 		'large',
 		false,
-		array(
-			'sizes'    => $sizes,
-			'loading'  => 'lazy',
-			'decoding' => 'async',
+		array_merge(
+			array(
+				'sizes'    => $sizes,
+				'loading'  => $first ? 'eager' : 'lazy',
+				'decoding' => 'async',
+			),
+			$first ? array( 'fetchpriority' => 'high' ) : array()
 		)
 	);
 

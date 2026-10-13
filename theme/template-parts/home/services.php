@@ -1,6 +1,6 @@
 <?php
 /**
- * Home page: what we do + sectors. Content: Homepage content > What we do.
+ * Our Capabilities page: what we do + sectors. Content: Homepage content > What we do.
  * Sector rows: Dashboard > Projects > Sectors.
  *
  * @package aaykay

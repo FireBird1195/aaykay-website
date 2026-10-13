@@ -1,6 +1,6 @@
 <?php
 /**
- * Home page: site photographs. Content: Homepage content > Site photographs.
+ * Projects page: site photographs. Content: Homepage content > Site photographs.
  *
  * The mosaic in site.css is laid out for six photos (.m-a … .m-f). With more, the pattern
  * repeats; with fewer, the first slots are used.

@@ -4,42 +4,27 @@
     "(or from Tools > AAYKAY starter content). After that, WordPress is the source of truth: edit content in",
     "the dashboard, not here. Re-importing only adds items whose slug or name is missing; it never overwrites.",
     "Project fields: slug, name, sector (a key from 'sectors'), location, area_sqft (whole number or null),",
-    "floors, order_value, design_team, status ('Ongoing' / 'Completed YYYY' or null), note, source (internal),",
+    "floors, order_value, design_team, status ('Ongoing' / 'Completed' / 'Completed YYYY' or null), note, source (internal),",
     "featured (null, or the homepage card: order, label, image, alt, details 'Label: value' lines, note).",
     "Client 'logo' is a file bundled in the theme (SVG allowed); logos added later are uploaded in WordPress.",
     "Leave a field null when the source does not state it. Never estimate.",
     "'content' is the homepage copy, images and icons (Dashboard > Homepage content). Image values are theme files until replaced in WordPress."
   ],
   "settings": {
-    "phone": "+91 40 6636 2094",
+    "phone": "+91 98667 00400",
+    "phone2": "+91 99631 33371",
     "email": "projects@akelectricals.in",
     "enquiry_to": "projects@akelectricals.in",
-    "street": "#3D, 3rd Floor, Dhruva Tara Apartments",
+    "show_address": "0",
+    "street": "Flat 1C, 1st Floor, Dhruvatara Apartments, 6-3-652/D/13, Panjagutta Road",
     "area": "Somajiguda",
     "city": "Hyderabad",
     "postcode": "500 082",
     "state": "Telangana",
     "maps_url": "",
+    "area_delivered": "69 lakh+",
     "clients_served": "100+",
     "branches": "Telangana\nAndhra Pradesh\nKarnataka\nMaharashtra\nTamil Nadu\nWest Bengal\nHaryana",
-    "turnover": [
-      [
-        "FY 2025–26",
-        "40.11"
-      ],
-      [
-        "FY 2024–25",
-        "37.32"
-      ],
-      [
-        "FY 2023–24",
-        "35.44"
-      ],
-      [
-        "FY 2022–23",
-        "36.87"
-      ]
-    ],
     "res_pm": "15",
     "res_pe": "30",
     "res_sup": "60",
@@ -55,9 +40,10 @@
     "cin": "",
     "gstin": "",
     "registered_office": "",
-    "show_order_values": "1",
+    "show_order_values": "0",
     "gsc_verification": "",
     "cf_analytics": "",
+    "show_pending": "1",
     "sheets_url": "",
     "sheets_secret": ""
   },
@@ -65,22 +51,25 @@
     "brand": {
       "enabled": true,
       "logo": {
-        "id": 0,
+        "src": "assets/img/brand/aek-mark-96.webp",
+        "srcset": [
+          [
+            "assets/img/brand/aek-mark-96.webp",
+            96
+          ],
+          [
+            "assets/img/brand/aek-mark-192.webp",
+            192
+          ]
+        ],
+        "w": 192,
+        "h": 192,
         "alt": ""
       },
       "word": "AAYKAY",
       "sub1": "Electricals",
-      "sub2": "Pvt. Ltd.",
-      "header_cta": "Start a project",
-      "menu_services": "What we do",
-      "menu_sectors": "Sectors",
-      "menu_work": "Projects",
-      "menu_record": "Project record",
-      "menu_deliver": "How we deliver",
-      "menu_quality": "Quality & safety",
-      "menu_company": "Company",
-      "menu_prequal": "Pre-qualification",
-      "menu_contact": "Contact",
+      "sub2": "Private Limited",
+      "header_cta": "Contact Us",
       "footer_blurb": "AAYKAY Electricals Private Limited. Electrical and MEP contracting since 2008{reach}.",
       "footer_bottom": "ISO 9001:2015 · ISO 45001:2018"
     },
@@ -111,11 +100,11 @@
         "h": 578,
         "alt": "A UPS battery room installed by AAYKAY: rows of battery racks under overhead cable trays."
       },
-      "caption": "Fig. 1 — UPS battery room, AAYKAY installation",
+      "caption": "UPS battery room, AAYKAY installation",
       "kpis": [
         {
-          "label": "Turnover, {turnover_year}",
-          "value": "₹{turnover} Cr"
+          "label": "Sq ft of completed projects",
+          "value": "{area}"
         },
         {
           "label": "Clients served",
@@ -196,12 +185,20 @@
         },
         {
           "icon": "gauge",
-          "title": "Testing",
-          "text": "Megger, IR and continuity tests, panel load tests, circuit verification and HT/LT equipment testing."
+          "title": "Testing & maintenance",
+          "text": "Megger, IR and continuity tests, panel load tests, circuit verification and HT/LT equipment testing. Annual maintenance contracts (AMC)."
         }
       ],
       "sectors_heading": "Sectors",
       "sectors_hint": "Select a sector to see its projects."
+    },
+    "safety_solutions": {
+      "enabled": true,
+      "heading": "AAYKAY Safety Solutions",
+      "sub": "",
+      "text": "",
+      "link_url": "",
+      "link_label": "Visit AAYKAY Safety Solutions"
     },
     "work": {
       "enabled": true,
@@ -212,8 +209,11 @@
     "record": {
       "enabled": true,
       "heading": "Project record",
-      "sub": "Scale, order value and design team for each project. Order values are the value of AAYKAY’s electrical work order.",
-      "firms_heading": "Architects, consultants and PMCs we have worked with"
+      "sub": "Location, built-up area, status and design team for each project, in alphabetical order."
+    },
+    "firms": {
+      "enabled": true,
+      "heading": "Architects, consultants and PMCs we have worked with"
     },
     "photos": {
       "enabled": true,
@@ -241,7 +241,7 @@
             "h": 1450,
             "alt": "Open distribution boards with rows of circuit breakers and dressed wiring."
           },
-          "fig": "Fig. 2",
+          "fig": "",
           "caption": "Distribution boards during termination"
         },
         {
@@ -261,7 +261,7 @@
             "h": 485,
             "alt": "A long line-up of LT panels in a plant room."
           },
-          "fig": "Fig. 3",
+          "fig": "",
           "caption": "LT panel line-up in a plant room"
         },
         {
@@ -277,7 +277,7 @@
             "h": 503,
             "alt": "Ceiling-level cable trays sweeping through a set of bends."
           },
-          "fig": "Fig. 4",
+          "fig": "",
           "caption": "Cable tray bends at a ceiling junction"
         },
         {
@@ -293,7 +293,7 @@
             "h": 485,
             "alt": "Cable ladder and steel supports routed alongside HVAC ducting."
           },
-          "fig": "Fig. 5",
+          "fig": "",
           "caption": "Cable ladder beside HVAC ducting"
         },
         {
@@ -313,7 +313,7 @@
             "h": 655,
             "alt": "A row of main switchboard panels with metering and breaker compartments."
           },
-          "fig": "Fig. 6",
+          "fig": "",
           "caption": "Main switchboard panels"
         },
         {
@@ -329,7 +329,7 @@
             "h": 457,
             "alt": "Laboratory workbenches with power sockets mounted on a blue raceway."
           },
-          "fig": "Fig. 7",
+          "fig": "",
           "caption": "Workbench power on raceway-mounted sockets"
         }
       ]
@@ -377,57 +377,20 @@
           "tags": "As-builts, Training, Sign-off"
         }
       ],
-      "sheet1_label": "From our method statements",
-      "sheet1_title": "Standards our site teams work to",
-      "sheet1_rows": [
-        {
-          "term": "Earth station resistance",
-          "value": "2 ohms max., each"
-        },
-        {
-          "term": "Conduit saddle spacing",
-          "value": "2.5 m horiz. · 1.5 m vert."
-        },
-        {
-          "term": "Spare capacity in cable trays",
-          "value": "20%"
-        },
-        {
-          "term": "Clear space behind LV panels",
-          "value": "750 mm min."
-        },
-        {
-          "term": "Buried cable depth",
-          "value": "600 mm min., on 75 mm sand"
-        },
-        {
-          "term": "Switch / socket height above floor",
-          "value": "1350 mm / 300 mm"
-        }
-      ],
-      "sheet1_note": "Unless the approved drawings or client specification say otherwise.",
+      "sheet1_label": "",
+      "sheet1_title": "",
+      "sheet1_rows": [],
+      "sheet1_note": "",
       "sheet2_label": "Tools & supply chain",
-      "sheet2_title": "Software, OEM channels and site tools",
+      "sheet2_title": "Software, brands and site tools",
       "sheet2_rows": [
         {
           "term": "Design",
           "value": "Autodesk Revit (BIM, MEP coordination) and AutoCAD (2D, quantity take-off)"
         },
         {
-          "term": "LT panels",
-          "value": "Schneider, L&T, ABB, Legrand"
-        },
-        {
-          "term": "Busducts & rising mains",
-          "value": "Schneider, L&T, Legrand, EAE, C&S"
-        },
-        {
-          "term": "Lighting management",
-          "value": "Lutron, Crestron, Enlighten"
-        },
-        {
-          "term": "Light fixtures",
-          "value": "Philips, Wipro, LT, ALW, XAL"
+          "term": "Brands",
+          "value": "We cater to all the reputed brands of LT panels, busducts, lighting management systems and light fixtures."
         },
         {
           "term": "On site",
@@ -437,7 +400,7 @@
     },
     "quality": {
       "enabled": true,
-      "heading": "Quality & safety",
+      "heading": "Standards & practice",
       "sub": "Certified to ISO 9001:2015 and ISO 45001:2018, and run day to day by dedicated quality and safety staff.",
       "certs": [
         {
@@ -494,6 +457,14 @@
       "photos": [
         {
           "image": {
+            "id": 0,
+            "alt": ""
+          },
+          "fig": "",
+          "caption": "A site team member in full PPE with the AAYKAY logo"
+        },
+        {
+          "image": {
             "src": "assets/img/safety-toolbox-talk-667.webp",
             "srcset": [
               [
@@ -505,7 +476,7 @@
             "h": 517,
             "alt": "A large site workforce in hard hats and hi-vis vests seated for a toolbox talk."
           },
-          "fig": "Fig. 8",
+          "fig": "",
           "caption": "Toolbox talk with the site workforce"
         },
         {
@@ -525,37 +496,19 @@
             "h": 548,
             "alt": "Workers in PPE watching a CPR demonstration on site."
           },
-          "fig": "Fig. 9",
+          "fig": "",
           "caption": "CPR training"
-        },
-        {
-          "image": {
-            "src": "assets/img/safety-briefing-726.webp",
-            "srcset": [
-              [
-                "assets/img/safety-briefing-480.webp",
-                480
-              ],
-              [
-                "assets/img/safety-briefing-726.webp",
-                726
-              ]
-            ],
-            "w": 726,
-            "h": 547,
-            "alt": "A site crew in red helmets and orange vests at a safety briefing."
-          },
-          "fig": "Fig. 10",
-          "caption": "Safety briefing"
         }
       ],
       "kit_enabled": true,
       "kit_heading": "Our testing kit",
       "kit_sub": "Used by our in-house commissioning team",
-      "kit_items": "Multimeter\nInsulation tester\nMulti-function tester\nDigital light meter\nLoop impedance tester\nRCD tester\nTorque wrench\nThermal imager\nInfrared thermometer\nPhase sequence meter\nDigital clamp meter\nEarth tester",
-      "docs_enabled": true,
-      "docs_heading": "Appreciation",
-      "docs_sub": "Select a document to view it",
+      "kit_items": "Multimeter\nInsulation tester\nMulti-function tester\nDigital light meter\nLoop impedance tester\nRCD tester\nTorque wrench\nThermal imager\nInfrared thermometer\nPhase sequence meter\nDigital clamp meter\nEarth tester"
+    },
+    "appreciations": {
+      "enabled": true,
+      "heading": "Certificates and letters",
+      "sub": "Select a document to view it",
       "docs": [
         {
           "image": {
@@ -579,6 +532,52 @@
           "meta": "“Best performer”, Nov 2021 – Feb 2022, awarded to an AAYKAY site team member.",
           "button": "View certificate",
           "caption": "Savills EHS Certificate of Appreciation, best performer, November 2021 to February 2022."
+        },
+        {
+          "image": {
+            "src": "assets/img/doc-savills-ehs-2-1024.webp",
+            "srcset": [
+              [
+                "assets/img/doc-savills-ehs-2-480.webp",
+                480
+              ],
+              [
+                "assets/img/doc-savills-ehs-2-1024.webp",
+                1024
+              ]
+            ],
+            "w": 1024,
+            "h": 729,
+            "alt": "Savills EHS Certificate of Appreciation awarded to CH Rajendra (AKEE), best performer, November 2021 to February 2022.",
+            "full": "assets/img/doc-savills-ehs-2-1024.webp"
+          },
+          "title": "Savills · EHS certificate of appreciation",
+          "meta": "“Best performer”, Nov 2021 – Feb 2022, awarded to CH Rajendra of the AAYKAY site team.",
+          "button": "View certificate",
+          "caption": "Savills EHS Certificate of Appreciation to CH Rajendra, best performer, November 2021 to February 2022."
+        },
+        {
+          "image": {
+            "src": "assets/img/doc-savills-ehs-3-1024.webp",
+            "srcset": [
+              [
+                "assets/img/doc-savills-ehs-3-480.webp",
+                480
+              ],
+              [
+                "assets/img/doc-savills-ehs-3-1024.webp",
+                1024
+              ]
+            ],
+            "w": 1024,
+            "h": 759,
+            "alt": "Savills EHS Certificate of Appreciation awarded to Syed Siraj (AKEE), best performer, November 2021 to February 2022.",
+            "full": "assets/img/doc-savills-ehs-3-1024.webp"
+          },
+          "title": "Savills · EHS certificate of appreciation",
+          "meta": "“Best performer”, Nov 2021 – Feb 2022, awarded to Syed Siraj of the AAYKAY site team.",
+          "button": "View certificate",
+          "caption": "Savills EHS Certificate of Appreciation to Syed Siraj, best performer, November 2021 to February 2022."
         },
         {
           "image": {
@@ -625,6 +624,16 @@
           "meta": "“Gratitude 15”, presented to AayKay Electrical Enterprises, Bangalore, May 2019.",
           "button": "View plaque",
           "caption": "Om Sai Intex, Gratitude 15 partner appreciation, 4 May 2019."
+        },
+        {
+          "image": {
+            "id": 0,
+            "alt": ""
+          },
+          "title": "The latest appreciation certificates",
+          "meta": "",
+          "button": "",
+          "caption": ""
         }
       ]
     },
@@ -660,11 +669,18 @@
           "text": "30 years in the trade"
         }
       ],
+      "person2_photo": {
+        "id": 0,
+        "alt": ""
+      },
+      "person2_name": "Shakeel Shuaib Ambur",
+      "person2_title": "Director",
+      "person2_text": "",
       "glance_company": "AAYKAY Electricals Private Limited",
       "glance_established": "2008",
-      "paragraphs": "Abdul Kareem P was Head of Operations at Naseer Electricals in Hyderabad before starting A K Electricals in 2008. His 30 years in the trade cover base-build, IT workspaces, labs, data centres, hospitals, industrial and high-rise projects.\n\nRepeat clients include HDFC Bank, Amazon, Accenture, Microsoft, Tech Mahindra, Cognizant, AMD, NCR and D. E. Shaw & Co.",
-      "quote": "“Listen hard, change fast.”",
-      "quote_by": "Abdul Kareem P, on how he asks the team to work",
+      "paragraphs": "AAYKAY Electricals Private Limited is one of the leading ISO 9001:2015 and ISO 45001:2018 certified MEP contracting firms, established in 2008.\n\nWith its focus on quality, safety, excellent service, a customer-centric approach, timely completion of projects and technical expertise in design, supply, erection, maintenance, testing and commissioning, AAYKAY has become one of the most preferred MEP contractors with top MNCs and Indian client partners since its inception in 2008.\n\nAAYKAY has completed projects in a wide range of market segments: banks, hospitals, industries, data centres, IT parks, interior fit-outs, substations, and commercial and high-rise residential buildings.\n\nIts site execution team of project managers, project engineers, safety and quality engineers, planning and coordination engineers, supervisors and electricians is supported by tender and marketing, procurement, design and billing engineers, and the accounts, finance, HR and administration team.",
+      "quote": "",
+      "quote_by": "",
       "timeline": [
         {
           "year": "2008",
@@ -711,8 +727,6 @@
       "enabled": true,
       "heading": "Pre-qualification",
       "sub": "The facts procurement and tender teams usually ask for first.",
-      "turnover_icon": "chart-column-increasing",
-      "turnover_heading": "Annual turnover",
       "resources_icon": "users",
       "resources_heading": "Resources",
       "certs_icon": "badge-check",
@@ -734,6 +748,45 @@
       "branches_icon": "map-pin",
       "branches_heading": "Branches",
       "request_label": "Request pre-qualification documents"
+    },
+    "careers": {
+      "enabled": true,
+      "heading": "Work with us",
+      "sub": "What we provide our people on site, current openings and how to apply.",
+      "benefits_heading": "What we provide",
+      "benefits": [
+        {
+          "key": "Safety gear",
+          "text": "Safety and PPE equipment: harnesses, jackets, helmets, belts and shoes."
+        },
+        {
+          "key": "On site",
+          "text": "Drinking water, mobile toilets, snacks and refreshments."
+        },
+        {
+          "key": "Allowance",
+          "text": "Shift allowance."
+        },
+        {
+          "key": "Health",
+          "text": "Medical facilities, and a monthly medical camp to check fitness."
+        },
+        {
+          "key": "Social security",
+          "text": "Gratuity, pension, provident fund and ESI."
+        },
+        {
+          "key": "Training",
+          "text": "Toolbox meetings on site."
+        }
+      ],
+      "roles_heading": "Current openings",
+      "roles": "",
+      "apply_text": "Apply with your CV and the role you are interested in.",
+      "form_url": "",
+      "form_label": "Apply now",
+      "email": "",
+      "note": ""
     },
     "contact": {
       "enabled": true,
@@ -763,7 +816,7 @@
     {
       "key": "enterprise",
       "label": "Enterprise & IT",
-      "description": "Office fit-outs and campuses, up to 15 floors and 475,000 sq ft on a single project.",
+      "description": "Office fit-outs and campuses, up to 15 floors and 500,000 sq ft on a single project.",
       "clients": "Amazon · Microsoft · Qualcomm · Accenture · Shell · Walmart",
       "icon": "building-2",
       "short_label": "Enterprise"
@@ -791,6 +844,14 @@
       "clients": "GMR Hyderabad Airport · ITC Datacenter · Bagmane",
       "icon": "server",
       "short_label": "Infrastructure"
+    },
+    {
+      "key": "industrial",
+      "label": "Industrial",
+      "description": "Industrial facilities, up to 250,000 sq ft on a single project.",
+      "clients": "Carl Zeiss",
+      "icon": "factory",
+      "short_label": "Industrial"
     }
   ],
   "clients": [
@@ -1022,9 +1083,9 @@
       "floors": "15",
       "order_value": "₹10 Cr",
       "design_team": "M Moser Associates / Eshwari & Co",
-      "status": null,
-      "note": null,
-      "source": "profile: similar projects executed",
+      "status": "Completed",
+      "note": "Executed via CBRE",
+      "source": "profile: similar projects executed; client list, 10 Oct 2026",
       "featured": {
         "order": 3,
         "label": "Enterprise · Chennai",
@@ -1043,9 +1104,9 @@
       "floors": "5",
       "order_value": "₹8 Cr",
       "design_team": "Raj Consultant / Techtron Engineering Consultancy",
-      "status": null,
-      "note": null,
-      "source": "profile: similar projects executed",
+      "status": "Completed",
+      "note": "Executed via Table Space",
+      "source": "profile: similar projects executed; client list, 10 Oct 2026",
       "featured": {
         "order": 1,
         "label": "Enterprise · Bengaluru",
@@ -1064,9 +1125,9 @@
       "floors": "4",
       "order_value": "₹7 Cr",
       "design_team": "Venkataramanan Associates / Lead Consultants",
-      "status": null,
-      "note": null,
-      "source": "profile: similar projects executed",
+      "status": "Completed",
+      "note": "Executed via Woodkraft",
+      "source": "profile: similar projects executed; client list, 10 Oct 2026",
       "featured": null
     },
     {
@@ -1078,9 +1139,9 @@
       "floors": "5",
       "order_value": "₹6.5 Cr",
       "design_team": "DSP Design Associates / Lead Consultants",
-      "status": null,
-      "note": null,
-      "source": "profile: similar projects executed",
+      "status": "Completed",
+      "note": "Executed via ANJ Turnkey and Ocean Lifespaces",
+      "source": "profile: similar projects executed; client list, 10 Oct 2026",
       "featured": null
     },
     {
@@ -1127,9 +1188,9 @@
       "floors": "4",
       "order_value": "₹3.5 Cr",
       "design_team": "RSP Design Consultants",
-      "status": null,
-      "note": null,
-      "source": "profile: similar projects executed",
+      "status": "Completed",
+      "note": "Executed via ANJ Turnkey",
+      "source": "profile: similar projects executed; client list, 10 Oct 2026",
       "featured": null
     },
     {
@@ -1410,13 +1471,13 @@
       "name": "Tech Mahindra",
       "sector": "enterprise",
       "location": "Hyderabad",
-      "area_sqft": null,
+      "area_sqft": 80000,
       "floors": null,
       "order_value": null,
       "design_team": null,
-      "status": null,
-      "note": null,
-      "source": "profile: current projects",
+      "status": "Completed",
+      "note": "Executed via Cushman & Wakefield",
+      "source": "profile: current projects; client list, 10 Oct 2026",
       "featured": null
     },
     {
@@ -1466,13 +1527,13 @@
       "name": "Network 18",
       "sector": "enterprise",
       "location": "Noida",
-      "area_sqft": null,
+      "area_sqft": 500000,
       "floors": null,
       "order_value": null,
       "design_team": null,
-      "status": null,
-      "note": null,
-      "source": "profile: current projects",
+      "status": "Completed",
+      "note": "Executed via Woodkraft",
+      "source": "profile: current projects; client list, 10 Oct 2026",
       "featured": null
     },
     {
@@ -1480,13 +1541,13 @@
       "name": "Bosch",
       "sector": "enterprise",
       "location": "Coimbatore",
-      "area_sqft": null,
+      "area_sqft": 100000,
       "floors": null,
       "order_value": null,
       "design_team": null,
-      "status": null,
-      "note": null,
-      "source": "profile: current projects",
+      "status": "Completed",
+      "note": "Executed via Woodkraft",
+      "source": "profile: current projects; client list, 10 Oct 2026",
       "featured": null
     },
     {
@@ -1494,13 +1555,13 @@
       "name": "NCR",
       "sector": "enterprise",
       "location": "Hyderabad",
-      "area_sqft": null,
+      "area_sqft": 40000,
       "floors": null,
       "order_value": null,
       "design_team": null,
-      "status": null,
-      "note": null,
-      "source": "profile: current projects",
+      "status": "Completed",
+      "note": "Executed via JLL",
+      "source": "profile: current projects; client list, 10 Oct 2026",
       "featured": null
     },
     {
@@ -1557,6 +1618,804 @@
       "status": null,
       "note": null,
       "source": "brochure: AayKay Electrical Enterprises",
+      "featured": null
+    },
+    {
+      "slug": "ibm-hyderabad",
+      "name": "IBM",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": 170000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via CBRE",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "ecity-co-living-bengaluru",
+      "name": "eCity Co-living",
+      "sector": "enterprise",
+      "location": "Bengaluru",
+      "area_sqft": 200000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": null,
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "alliant-hyderabad",
+      "name": "Alliant Group",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": 30000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via Eleganz",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "infor-hyderabad",
+      "name": "Infor",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": 340000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via Woodkraft",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "simpliworks-hyderabad",
+      "name": "Simpliworks",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": 250000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via Raj Consultant",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "table-space-hyderabad",
+      "name": "Table Space",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": 196000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via Raj Consultant",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "siemens-gurugram",
+      "name": "Siemens",
+      "sector": "enterprise",
+      "location": "Gurugram",
+      "area_sqft": 100000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via Eleganz",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "otis-hyderabad",
+      "name": "Otis",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": 60000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via Zyeta",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "pwc-mumbai",
+      "name": "PwC",
+      "sector": "enterprise",
+      "location": "Mumbai",
+      "area_sqft": 30000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via Woodkraft",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "de-shaw-hyderabad-ph-1-2",
+      "name": "D. E. Shaw India, Phases 1 & 2",
+      "sector": "banking",
+      "location": "Hyderabad",
+      "area_sqft": 100000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via CBRE",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "collins-aerospace-bengaluru",
+      "name": "Collins Aerospace",
+      "sector": "enterprise",
+      "location": "Bengaluru",
+      "area_sqft": 45000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via Ambience Interiors",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "accenture-bdc-9",
+      "name": "Accenture BDC 9",
+      "sector": "enterprise",
+      "location": "Bengaluru",
+      "area_sqft": 40000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via ANJ Turnkey",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "amd-bengaluru",
+      "name": "AMD India",
+      "sector": "enterprise",
+      "location": "Bengaluru",
+      "area_sqft": 30000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via Exotic Innovations",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "siemens-bengaluru",
+      "name": "Siemens",
+      "sector": "enterprise",
+      "location": "Bengaluru",
+      "area_sqft": 180000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via Eleganz",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "wework-bengaluru",
+      "name": "WeWork",
+      "sector": "enterprise",
+      "location": "Bengaluru",
+      "area_sqft": 140000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via Eleganz",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "jfrog-sattva-bengaluru",
+      "name": "JFrog, Sattva",
+      "sector": "enterprise",
+      "location": "Bengaluru",
+      "area_sqft": 30000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": null,
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "tredence-sattva-knowledge-court",
+      "name": "Tredence, Sattva Knowledge Court",
+      "sector": "enterprise",
+      "location": "Bengaluru",
+      "area_sqft": 48000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": null,
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "sattva-food-court-bengaluru",
+      "name": "Sattva Food Court",
+      "sector": "enterprise",
+      "location": "Bengaluru",
+      "area_sqft": 25000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": null,
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "alter-domus-hyderabad",
+      "name": "Alter Domus",
+      "sector": "banking",
+      "location": "Hyderabad",
+      "area_sqft": 30000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via JLL",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "diversified-bengaluru",
+      "name": "Diversified",
+      "sector": "enterprise",
+      "location": "Bengaluru",
+      "area_sqft": 30000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via JLL",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "de-shaw-india-hyderabad",
+      "name": "D. E. Shaw India",
+      "sector": "banking",
+      "location": "Hyderabad",
+      "area_sqft": 72000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via JLL",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "alter-domus-india-hyderabad",
+      "name": "Alter Domus India",
+      "sector": "banking",
+      "location": "Hyderabad",
+      "area_sqft": 54000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via JLL",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "quantium-hyderabad",
+      "name": "Quantium",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": 30000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via JLL",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "ecospace-coworks-brookfield",
+      "name": "Ecospace Coworks, Brookfield",
+      "sector": "enterprise",
+      "location": "Bengaluru",
+      "area_sqft": 32000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via ANJ",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "optum-hyderabad",
+      "name": "Optum Global Solutions",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": 165500,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via Cherryhills",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "granules-corporate-office",
+      "name": "Granules Corporate Office",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": 60000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via Om Sai Intex",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "tech-mahindra-noida",
+      "name": "Tech Mahindra",
+      "sector": "enterprise",
+      "location": "Noida",
+      "area_sqft": 47000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via Cushman & Wakefield",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "brookfield-food-court",
+      "name": "Brookfield Food Court",
+      "sector": "enterprise",
+      "location": "Bengaluru",
+      "area_sqft": 17000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via ANJ",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "brookfield-managed-office",
+      "name": "Brookfield Managed Office",
+      "sector": "enterprise",
+      "location": "Bengaluru",
+      "area_sqft": 15000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via ANJ",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "natwest-bengaluru",
+      "name": "NatWest",
+      "sector": "banking",
+      "location": "Bengaluru",
+      "area_sqft": 25000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via Nag Interiors",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "vertafore-hyderabad",
+      "name": "Vertafore",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": 30000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via JLL",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "desri-india-hyderabad",
+      "name": "DESRI India",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": 54000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via JLL",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "crunchyroll-hyderabad",
+      "name": "Crunchyroll",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": 18000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via Sattva",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "ey-skyview-hyderabad",
+      "name": "EY, Skyview",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": 37500,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via Cherryhills",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "invoice-cloud-hyderabad",
+      "name": "Invoice Cloud",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": 25000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via Sattva",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "hsbc-hyderabad",
+      "name": "HSBC",
+      "sector": "banking",
+      "location": "Hyderabad",
+      "area_sqft": 45000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via JLL",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "microsoft-hyderabad-35000",
+      "name": "Microsoft",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": 35000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": null,
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "vanguard-hyderabad",
+      "name": "Vanguard",
+      "sector": "banking",
+      "location": "Hyderabad",
+      "area_sqft": 66000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via JLL",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "microsoft-hyderabad-90000",
+      "name": "Microsoft",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": 90000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via Table Space",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "john-deere-bengaluru",
+      "name": "John Deere",
+      "sector": "enterprise",
+      "location": "Bengaluru",
+      "area_sqft": 33000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via ANJ",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "bosch-pune",
+      "name": "Bosch",
+      "sector": "enterprise",
+      "location": "Pune",
+      "area_sqft": 135000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Completed",
+      "note": "Executed via Woodkraft",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "carl-zeiss-bluebird",
+      "name": "Carl Zeiss, Bluebird",
+      "sector": "industrial",
+      "location": "Bengaluru",
+      "area_sqft": 250000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Ongoing",
+      "note": "Executed via ANJ",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "optum-hyderabad-ongoing",
+      "name": "Optum Global Solutions",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": 35000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Ongoing",
+      "note": "Executed via Cherryhills",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "apollo-proton-hyderabad",
+      "name": "Apollo Proton",
+      "sector": "healthcare",
+      "location": "Hyderabad",
+      "area_sqft": 132000,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Ongoing",
+      "note": "Executed via L&T Construction",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "icici-hbchrc-visakhapatnam",
+      "name": "ICICI HBCHRC",
+      "sector": "healthcare",
+      "location": "Visakhapatnam",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Ongoing",
+      "note": "Executed via L&T Construction",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "adp-hyderabad",
+      "name": "ADP",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": 82757,
+      "floors": null,
+      "order_value": null,
+      "design_team": "Hyderabad Consulting Engineers",
+      "status": "Ongoing",
+      "note": "Executed via ANJ",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "jacob-hyderabad",
+      "name": "Jacob",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Ongoing",
+      "note": "Executed via Pratik Art Interiors",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "vanguard-hyderabad-ph-4",
+      "name": "Vanguard, Phase 4",
+      "sector": "banking",
+      "location": "Hyderabad",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Ongoing",
+      "note": "Executed via Interia",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "cascades-neopolis",
+      "name": "Cascades Neopolis",
+      "sector": "residential",
+      "location": "Hyderabad",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": "Developer: GHR Lakshmi Urban Blocks Infra LLP",
+      "status": "Ongoing",
+      "note": null,
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "cognizant-chennai",
+      "name": "Cognizant Technology Solutions",
+      "sector": "enterprise",
+      "location": "Chennai",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Ongoing",
+      "note": "Executed via Artizen Projects",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "prodapt-chennai",
+      "name": "Prodapt",
+      "sector": "enterprise",
+      "location": "Chennai",
+      "area_sqft": 15420,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Ongoing",
+      "note": "Executed via ANJ Turnkey",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "rainbow-csr-hyderabad",
+      "name": "Rainbow CSR",
+      "sector": "healthcare",
+      "location": "Hyderabad",
+      "area_sqft": 4550,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Ongoing",
+      "note": "Executed via K2 Space",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "billtrust-hyderabad",
+      "name": "Billtrust",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Ongoing",
+      "note": "Executed via Vee Build / NS Element",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "krc-10th-floor-hyderabad",
+      "name": "K Raheja Corp, 10th floor",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Ongoing",
+      "note": "Executed via Space Matrix",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "krc-12th-floor-hyderabad",
+      "name": "K Raheja Corp, 12th floor",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Ongoing",
+      "note": "Executed via Space Matrix",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "ansr-headfirst-hyderabad",
+      "name": "ANSR Headfirst",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": null,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Ongoing",
+      "note": "Executed via Space Matrix",
+      "source": "client list, 10 Oct 2026",
+      "featured": null
+    },
+    {
+      "slug": "cgi-hyderabad",
+      "name": "CGI",
+      "sector": "enterprise",
+      "location": "Hyderabad",
+      "area_sqft": 22836,
+      "floors": null,
+      "order_value": null,
+      "design_team": null,
+      "status": "Ongoing",
+      "note": "Executed via ANJ Turnkey",
+      "source": "client list, 10 Oct 2026",
       "featured": null
     }
   ]

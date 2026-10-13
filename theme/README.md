@@ -1,6 +1,6 @@
 # AAYKAY Electricals WordPress theme
 
-A custom classic theme for one page. Everything a visitor reads or sees (texts, photos, icons,
+A custom classic theme for the website's ten pages (see `inc/pages.php`). Everything a visitor reads or sees (texts, photos, icons,
 logos, projects, figures) is edited in the WordPress dashboard; this theme holds the design
 and the structure. No plugins are required and none are bundled.
 
@@ -12,8 +12,9 @@ and the structure. No plugins are required and none are bundled.
 | Sectors (name, one-line description, example clients, icon, order) | Dashboard → Projects → Sectors | AAYKAY |
 | Client logos | Dashboard → Client logos | AAYKAY |
 | Architects, consultants and PMCs | Dashboard → Architects & consultants | AAYKAY |
-| Every heading, paragraph, list, photo, icon and button label, the logo, menu labels, and which sections are shown | Dashboard → Homepage content | AAYKAY |
-| Phone, email, address, branch states, clients served, turnover, head counts, CIN/GSTIN, order-value switch, Google Sheets link, analytics, search title and description | Dashboard → Site settings | AAYKAY |
+| Every heading, paragraph, list, photo, icon and button label, the logo mark, and which sections are shown | Dashboard → Homepage content | AAYKAY |
+| Page titles (also the menu labels), addresses and search descriptions (Excerpt) | Dashboard → Pages | AAYKAY |
+| Phones, email, address (and whether it is shown), branch states, area of completed projects, clients served, head counts, CIN/GSTIN, order-value switch, placeholders switch, Google Sheets link, analytics, search title and description | Dashboard → Site settings | AAYKAY |
 | Enquiries from the form | Dashboard → Enquiries (email, CSV download, optional Google Sheet) | AAYKAY reads |
 | Site icon (favicon) | Appearance → Customize → Site Identity | AAYKAY |
 | Layout, styles, behaviour, form field names, structural labels (e.g. table column headings) | `template-parts/`, `assets/`, `inc/` | Developer, through Git |
@@ -26,8 +27,11 @@ number is in the phone menu, the contact section, the footer and the structured 
 | Path | What it is |
 |---|---|
 | `functions.php` | Loads `inc/`; lists what each file does |
-| `front-page.php` | The page: header, the sections in order, footer |
-| `template-parts/home/` | One file per section, in page order |
+| `front-page.php` | The home page: header, its sections, footer |
+| `aaykay-page.php` | The other pages: title band (with links between the Projects pages), their sections |
+| `inc/pages.php` | The pages: which sections each shows, creating them, the menu |
+| `inc/upgrade.php` | One-time upgrade of a version 1 site; old launch values in `seed/upgrade-2.json` |
+| `template-parts/home/` | One file per section; `aaykay_page_registry()` says which page shows it |
 | `header.php`, `footer.php` | Head, header, phone menu; footer and the document viewer |
 | `index.php`, `404.php` | Any other page (e.g. a privacy policy) and "not found" |
 | `inc/content.php` | Homepage content: the schema of every section and field, defaults, getters (`aaykay_c()`, `aaykay_img()`), placeholders |
@@ -35,8 +39,8 @@ number is in the phone menu, the contact section, the footer and the structured 
 | `inc/leads.php` | Enquiries to Google Sheets (optional) and the CSV download |
 | `inc/content-types.php` | Projects, Sectors, Client logos, Architects & consultants; field lists |
 | `inc/admin-fields.php` | Edit screens, list columns, warnings, dashboard box (dashboard only) |
-| `inc/settings.php` | Site settings page and the derived values (`aaykay_contact()`, `aaykay_turnover()`…) |
-| `inc/template-data.php` | Queries and the markup for repeated parts (nav, sectors, chips, record, cards, logos) |
+| `inc/settings.php` | Site settings page and the derived values (`aaykay_contact()`, `aaykay_branches()`…) |
+| `inc/template-data.php` | Queries and the markup for repeated parts (menu, sectors, chips, record, cards, logos) |
 | `inc/enquiry.php` | Enquiry form handler: validation, spam checks, saving, email |
 | `inc/setup.php` | Supports, scripts and styles, a lean `<head>`, hardening |
 | `inc/seo.php` | Title, description, canonical, social tags, schema.org data |
@@ -48,7 +52,7 @@ number is in the phone menu, the contact section, the footer and the structured 
 ## Rules worth keeping
 
 - **Never estimate a fact.** Leave a project field empty when the source doesn't state it.
-  The record is grouped by how complete each row is and is never sorted by order value.
+  The record is alphabetical and is never sorted by order value.
 - **Escape on output.** Every renderer escapes what it prints (`esc_html`, `esc_attr`,
   `esc_url`); keep it that way. Raw titles (`$post->post_title`) are used, then escaped.
 - **Project slugs are permanent** once published (the importer matches on them).
@@ -66,6 +70,9 @@ number is in the phone menu, the contact section, the footer and the structured 
 - **Adding a homepage field**: add one line to `aaykay_content_schema()`, a default under
   `content` in `seed/content.json`, and print it in the template with `aaykay_e()` /
   `aaykay_img()`. The editor, saving and escaping follow automatically.
+- **Placeholders**: `aaykay_pending( 'What is missing' )` prints a dashed "To come" box while
+  Site settings → "Show “to come” placeholders" is ticked, and nothing once it is unticked.
+  Use it only where content is genuinely awaited, never as decoration.
 - **Scrolling**: a fresh visit starts at the top, a reload returns to the same place
   (sessionStorage), Back returns to the saved place; in-page links keep the address clean.
   See `initScrollPosition()` in `site.js`. No smooth-scroll or animation libraries.

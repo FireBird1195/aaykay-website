@@ -1,6 +1,6 @@
 <?php
 /**
- * Home page: client logos strip. Heading: Homepage content > Client logos strip.
+ * Home page and Clients page: client logos strip. Heading: Homepage content > Client logos strip.
  * Logos: Dashboard > Client logos.
  *
  * @package aaykay

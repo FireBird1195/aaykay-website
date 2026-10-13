@@ -1,6 +1,6 @@
 <?php
 /**
- * Home page: how we deliver. Content: Homepage content > How we deliver.
+ * Our Capabilities page: how we deliver. Content: Homepage content > How we deliver.
  *
  * @package aaykay
  */

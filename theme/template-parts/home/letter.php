@@ -1,6 +1,6 @@
 <?php
 /**
- * Home page: client letter. Content: Homepage content > Client letter.
+ * Appreciations page: client letter. Content: Homepage content > Client letter.
  *
  * @package aaykay
  */
