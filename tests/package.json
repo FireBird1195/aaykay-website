@@ -1,0 +1,13 @@
+{
+  "name": "aaykay-website-tests",
+  "private": true,
+  "description": "Browser, accessibility and HTTP tests for the AAYKAY WordPress theme. Not deployed.",
+  "scripts": {
+    "test": "playwright test",
+    "test:smoke": "playwright test --grep @smoke"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.11.0",
+    "@playwright/test": "1.63.0"
+  }
+}

@@ -1,2 +1,10 @@
 # Hand-off folders (bundles, zips) passed between machines; never part of the site.
 *-handoff/
+# Test tooling and output (tests/ is never deployed; only theme/ is).
+tests/node_modules/
+tests/test-results/
+tests/playwright-report/
+tests/reports/lighthouse/*.html
+# Generated code-graph output (Graphify); never deploy it.
+graphify-out/
+theme/graphify-out/
