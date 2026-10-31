@@ -1,12 +1,13 @@
 <?php
 /**
- * Document head, skip link, site header and the phone menu.
+ * Document head, skip link, site header, the phone menu and the brochure tab.
  *
  * @package aaykay
  */
 
 defined( 'ABSPATH' ) || exit;
-$aaykay_contact = aaykay_contact();
+$aaykay_contact  = aaykay_contact();
+$aaykay_brochure = aaykay_brochure_url();
 ?>
 <!doctype html>
 <html lang="en-IN" class="no-js">
@@ -19,11 +20,11 @@ $aaykay_contact = aaykay_contact();
 <?php wp_body_open(); ?>
 <a class="skip-link" href="#main">Skip to content</a>
 
-<header class="site-header" data-state="top">
+<header class="site-header<?php echo is_front_page() ? '' : ' site-header--solid'; ?>" data-state="top">
   <div class="wrap header-row">
-    <a class="brand" href="<?php echo esc_attr( aaykay_section_url( 'top' ) ); ?>">
-      <?php echo aaykay_brand_lockup( true ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the function. ?>
-      <span class="visually-hidden">, back to top</span>
+    <a class="brand" href="<?php echo esc_url( aaykay_section_url( 'top' ) ); ?>">
+      <?php echo aaykay_brand_lockup(); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the function. ?>
+      <span class="visually-hidden"><?php echo is_front_page() ? ', back to top' : ', home'; ?></span>
     </a>
     <nav class="site-nav" aria-label="Primary">
       <ul class="nav-list">
@@ -31,7 +32,7 @@ $aaykay_contact = aaykay_contact();
 
       </ul>
     </nav>
-    <a class="btn btn--sm btn--primary header-cta" href="<?php echo esc_attr( aaykay_section_url( 'contact' ) ); ?>"><?php aaykay_e( 'brand', 'header_cta' ); ?></a>
+    <a class="btn btn--sm btn--primary header-cta" href="<?php echo esc_url( aaykay_page_url( 'contact' ) ); ?>"<?php echo 'contact' === aaykay_current_page_key() ? ' aria-current="page"' : ''; ?>><?php aaykay_e( 'brand', 'header_cta' ); ?></a>
     <a class="btn btn--sm btn--outline-light menu-fallback" href="#footer-nav">Menu</a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu">
       <span class="menu-icon" aria-hidden="true"></span><span class="visually-hidden">Menu</span>
@@ -47,7 +48,14 @@ $aaykay_contact = aaykay_contact();
     </ul>
     <div class="m-foot">
       <p>Head office: <?php echo esc_html( aaykay_join( ', ', array( $aaykay_contact['area'], $aaykay_contact['city'] ) ) ); ?></p>
-      <p><a href="tel:<?php echo esc_attr( $aaykay_contact['tel'] ); ?>"><?php echo esc_html( $aaykay_contact['phone'] ); ?></a> · <a href="mailto:<?php echo esc_attr( $aaykay_contact['email'] ); ?>"><?php echo esc_html( $aaykay_contact['email'] ); ?></a></p>
+<?php if ( '' !== $aaykay_brochure ) : ?>
+      <p><a class="m-brochure icon-label" href="<?php echo esc_url( $aaykay_brochure ); ?>" target="_blank" rel="noopener"><?php echo aaykay_icon( 'file-text' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><?php echo esc_html( aaykay_brochure_label() ); ?> (PDF)<span class="visually-hidden">, opens in a new tab</span></a></p>
+<?php endif; ?>
+      <p><a href="tel:<?php echo esc_attr( $aaykay_contact['tel'] ); ?>"><?php echo esc_html( $aaykay_contact['phone'] ); ?></a><?php if ( '' !== $aaykay_contact['phone2'] ) : ?> · <a href="tel:<?php echo esc_attr( $aaykay_contact['tel2'] ); ?>"><?php echo esc_html( $aaykay_contact['phone2'] ); ?></a><?php endif; ?> · <a href="mailto:<?php echo esc_attr( $aaykay_contact['email'] ); ?>"><?php echo esc_html( $aaykay_contact['email'] ); ?></a></p>
     </div>
   </nav>
 </div>
+<?php if ( '' !== $aaykay_brochure ) : ?>
+
+<aside class="brochure-aside" aria-label="Company brochure"><a class="brochure-tab" href="<?php echo esc_url( $aaykay_brochure ); ?>" target="_blank" rel="noopener"><?php echo aaykay_icon( 'file-text' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><span class="brochure-tab-label"><?php echo esc_html( aaykay_brochure_label() ); ?></span><span class="visually-hidden"> (PDF, opens in a new tab)</span></a></aside>
+<?php endif; ?>

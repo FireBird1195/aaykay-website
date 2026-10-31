@@ -5,8 +5,8 @@
  * Facts that appear in several places on the page are entered once here and used
  * everywhere: the phone number and email (header menu, contact block, footer, structured
  * data), the branch states (hero figure, company facts, pre-qualification, contact, footer),
- * the turnover table (hero figure and pre-qualification chart) and the resource counts
- * (pre-qualification and quality & safety).
+ * and the resource counts (pre-qualification and quality & safety). Turnover is not
+ * published (client brief, 10 Oct 2026).
  *
  * Stored as one option, aaykay_settings. Editors can change it (capability
  * edit_others_posts), so AAYKAY staff do not need an Administrator account for this.
@@ -18,27 +18,28 @@ defined( 'ABSPATH' ) || exit;
 
 const AAYKAY_SETTINGS_OPTION = 'aaykay_settings';
 const AAYKAY_SETTINGS_CAP    = 'edit_others_posts';
-const AAYKAY_TURNOVER_ROWS   = 6;
 
 /** Field definitions: key => array( section, label, type, help ). Drives the form and sanitising. */
 function aaykay_settings_fields() {
 	return array(
-		'phone'             => array( 'contact', 'Phone number', 'text', 'As it should be shown, with the country code, e.g. +91 40 6636 2094.' ),
+		'phone'             => array( 'contact', 'Phone number', 'text', 'As it should be shown, with the country code, e.g. +91 98667 00400.' ),
+		'phone2'            => array( 'contact', 'Second phone number (optional)', 'text', 'Shown after the first one in the phone menu, the contact section and the footer.' ),
 		'email'             => array( 'contact', 'Email address', 'email', 'Shown on the website.' ),
 		'enquiry_to'        => array( 'contact', 'Send enquiries to', 'emails', 'Where website enquiries are emailed. Separate several addresses with commas. Every enquiry is also saved under Enquiries.' ),
-		'street'            => array( 'contact', 'Address: building and street', 'text', 'e.g. #3D, 3rd Floor, Dhruva Tara Apartments' ),
+		'show_address'      => array( 'contact', 'Show the street address on the website', 'bool', 'When unticked, only the city and state are shown (and the Google Maps link is hidden). The address below stays saved.' ),
+		'street'            => array( 'contact', 'Address: building and street', 'text', 'e.g. Flat 1C, 1st Floor, Dhruvatara Apartments, 6-3-652/D/13, Panjagutta Road' ),
 		'area'              => array( 'contact', 'Address: area', 'text', 'e.g. Somajiguda' ),
 		'city'              => array( 'contact', 'Address: city', 'text', 'e.g. Hyderabad' ),
 		'postcode'          => array( 'contact', 'Address: PIN code', 'text', 'e.g. 500 082' ),
 		'state'             => array( 'contact', 'Address: state', 'text', 'e.g. Telangana' ),
 		'maps_url'          => array( 'contact', 'Google Maps link (optional)', 'url', 'Leave empty to search Google Maps for the address above.' ),
+		'area_delivered'    => array( 'company', 'Area of completed projects (sq ft)', 'text', 'As it should be shown in the opening screen, e.g. 69 lakh+. The launch figure is the total of the 55 completed projects in AAYKAY’s project list of 10 Oct 2026 (69.8 lakh sq ft). Leave empty to hide that figure.' ),
 		'clients_served'    => array( 'company', 'Clients served', 'text', 'e.g. 100+. Shown in the hero figures, above the client logos and in the company timeline.' ),
 		'branches'          => array( 'company', 'States with branches', 'lines', 'One state per line. Put the head office state first. The number of lines is shown as "States with branches".' ),
 		'cin'               => array( 'company', 'CIN (optional)', 'text', 'Corporate Identification Number from the MCA record. Shown in the footer when filled in; procurement teams look for it.' ),
 		'gstin'             => array( 'company', 'GSTIN (optional)', 'text', 'Shown in the footer when filled in.' ),
 		'registered_office' => array( 'company', 'Registered office (optional)', 'text', 'Only if it differs from the head office. Shown in the footer.' ),
 		'show_order_values' => array( 'company', 'Show order values on the website', 'bool', 'When ticked, the AAYKAY order value of each project is shown in the project record and on the cards. Untick to hide every value at once (the values stay saved). Publish values only with the managing director’s approval and, where contracts require it, the client’s.' ),
-		'turnover'          => array( 'turnover', 'Annual turnover', 'turnover', 'One row per financial year, in crore rupees (numbers only, e.g. 40.11). Rows can be in any order: the website shows them newest first, uses the newest year as the headline figure in the hero and pre-qualification sections, and works out the change against the year before. To add a year, use an empty row; when all rows are full, clear the oldest.' ),
 		'res_pm'            => array( 'resources', 'Project managers', 'count', '' ),
 		'res_pe'            => array( 'resources', 'Project engineers', 'count', '' ),
 		'res_sup'           => array( 'resources', 'Supervisors', 'count', 'Also shown in Quality & safety.' ),
@@ -49,7 +50,11 @@ function aaykay_settings_fields() {
 		'res_unskilled'     => array( 'resources', 'Workforce: unskilled', 'count', '' ),
 		'res_out_skilled'   => array( 'resources', 'Outsourced: skilled', 'count', '' ),
 		'res_out_unskilled' => array( 'resources', 'Outsourced: unskilled', 'count', '' ),
+		'brochure_url'      => array( 'brochure', 'Brochure (PDF) address', 'doc', 'The PDF that the “Brochure” tab on the left edge of the website opens. To use a new PDF: Media > Add New, upload it, open it, “Copy URL to clipboard”, and paste it here. A link to a PDF in the company’s cloud storage also works. Leave empty to hide the tab. Launch file: the company profile of Aug 2026 (theme file assets/docs/aaykay-company-profile.pdf), which still includes the turnover figures.' ),
+		'brochure_label'    => array( 'brochure', 'Brochure tab text', 'text', 'One short word reads best on the vertical tab, e.g. Brochure.' ),
+		'show_pending'      => array( 'pending', 'Show “to come” placeholders', 'bool', 'Dashed boxes marking content AAYKAY is still to supply (photos, the director’s message, team members, the Fire Safety text and link, project statuses, the careers form). Untick before launch to hide every placeholder at once.' ),
 		'sheets_url'        => array( 'leads', 'Google Sheets connection (web app URL)', 'url', 'Optional. Paste the web app URL from the Google Sheet’s Apps Script (it starts with https://script.google.com/macros/s/). Every new enquiry is then also added as a row in that sheet. Steps: client guide, section C10.' ),
+		'enquiry_retention_months' => array( 'leads', 'Delete enquiries after (months, optional)', 'count', 'Enquiries older than this many months are deleted for good, once a day (the Google Sheet and emails are not affected). Leave empty to keep them until someone deletes them. Use the period stated in the privacy notice, e.g. 24.' ),
 		'sheets_secret'     => array( 'leads', 'Google Sheets secret code', 'text', 'Paste the same code into the Apps Script, so only this website can add rows. Created automatically; change it only if it has been shared by mistake.' ),
 		'gsc_verification'  => array( 'seo', 'Google Search Console code (optional)', 'text', 'If Search Console offers an “HTML tag”, paste only the code inside content="…". Verifying with a DNS record instead needs nothing here.' ),
 		'cf_analytics'      => array( 'seo', 'Cloudflare Web Analytics token (optional)', 'text', 'Free, cookie-free visitor statistics. Paste the token from Cloudflare → Web Analytics → Add a site → “JS snippet” (the value of "token"). Leave empty for no analytics.' ),
@@ -62,10 +67,11 @@ function aaykay_settings_sections() {
 	return array(
 		'contact'   => array( 'Contact details', 'Used in the menu, the contact section, the footer and for search engines.' ),
 		'company'   => array( 'Company figures', '' ),
-		'turnover'  => array( 'Turnover', '' ),
 		'resources' => array( 'Resources', 'Head counts for the pre-qualification section. Leave a box empty to hide that line.' ),
 		'leads'     => array( 'Enquiries in Google Sheets', 'Every enquiry is always saved under Enquiries and emailed. Connecting a Google Sheet is optional: it gives the office a live spreadsheet of leads.' ),
+		'brochure'  => array( 'Brochure', 'The tab on the left edge of every page (on phones: in the menu).' ),
 		'seo'       => array( 'Search engines', '' ),
+		'pending'   => array( 'Placeholders', '' ),
 	);
 }
 
@@ -96,8 +102,17 @@ function aaykay_contact() {
 	foreach ( array( 'phone', 'email', 'street', 'area', 'city', 'postcode', 'state', 'maps_url' ) as $k ) {
 		$c[ $k ] = trim( (string) aaykay_setting( $k ) );
 	}
-	$c['tel'] = aaykay_tel( $c['phone'] );
-	if ( '' === $c['maps_url'] ) {
+	$c['phone2'] = trim( (string) aaykay_setting( 'phone2' ) );
+	$c['tel']    = aaykay_tel( $c['phone'] );
+	$c['tel2']   = aaykay_tel( $c['phone2'] );
+	// Street, area and PIN are published only when Site settings say so (client brief, 10 Oct 2026).
+	$c['full'] = '1' === (string) aaykay_setting( 'show_address' );
+	if ( ! $c['full'] ) {
+		$c['street']   = '';
+		$c['area']     = '';
+		$c['postcode'] = '';
+		$c['maps_url'] = '';
+	} elseif ( '' === $c['maps_url'] ) {
 		$query         = trim( preg_replace( '/^#?[\w-]+,\s*(\d+\w*\s+Floor,\s*)?/i', '', $c['street'] ) . ' ' . $c['area'] . ' ' . $c['city'] );
 		$c['maps_url'] = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode( $query );
 	}
@@ -110,43 +125,22 @@ function aaykay_branches() {
 	return array_values( array_filter( array_map( 'trim', $lines ), 'strlen' ) );
 }
 
-/** Turnover rows with a value: array( array( 'label' => 'FY 2025–26', 'value' => 40.11 ), ... ). */
-function aaykay_turnover() {
-	$rows = array();
-	foreach ( (array) aaykay_setting( 'turnover' ) as $row ) {
-		if ( ! is_array( $row ) || count( $row ) < 2 || '' === trim( (string) $row[0] ) || '' === trim( (string) $row[1] ) ) {
-			continue;
-		}
-		$rows[] = array(
-			'label' => trim( (string) $row[0] ),
-			'value' => (float) $row[1],
-		);
+/** Address of the brochure PDF (Site settings > Brochure), or '' when there is none. */
+function aaykay_brochure_url() {
+	$v = trim( (string) aaykay_setting( 'brochure_url' ) );
+	if ( '' === $v ) {
+		return '';
 	}
-	// Newest year first, whatever order the rows were typed in ("FY 2026–27" > "FY 2025–26").
-	usort(
-		$rows,
-		function ( $a, $b ) {
-			return strnatcasecmp( $b['label'], $a['label'] );
-		}
-	);
-	return $rows;
+	if ( 0 === strpos( $v, 'assets/docs/' ) ) {
+		return is_readable( get_theme_file_path( $v ) ) ? aaykay_asset( $v ) : '';
+	}
+	return esc_url( $v );
 }
 
-/** "40.11" style display of a crore figure (no trailing zeros beyond two decimals). */
-function aaykay_crore( $value ) {
-	return rtrim( rtrim( number_format( (float) $value, 2, '.', ',' ), '0' ), '.' );
-}
-
-/** e.g. "FY 2025–26, up 7.5% on FY 2024–25" (empty with fewer than two years). */
-function aaykay_turnover_change() {
-	$rows = aaykay_turnover();
-	if ( count( $rows ) < 2 || $rows[1]['value'] <= 0 ) {
-		return isset( $rows[0] ) ? $rows[0]['label'] : '';
-	}
-	$pct  = ( $rows[0]['value'] - $rows[1]['value'] ) / $rows[1]['value'] * 100;
-	$word = $pct >= 0 ? 'up' : 'down';
-	$num  = rtrim( rtrim( number_format( abs( $pct ), 1 ), '0' ), '.' );
-	return sprintf( '%s, %s %s%% on %s', $rows[0]['label'], $word, $num, $rows[1]['label'] );
+/** Text on the brochure tab. */
+function aaykay_brochure_label() {
+	$v = trim( (string) aaykay_setting( 'brochure_label' ) );
+	return '' !== $v ? $v : 'Brochure';
 }
 
 /** "100+" -> "more than 100" for running text. */
@@ -195,7 +189,7 @@ function aaykay_sanitize_settings( $input ) {
 		if ( 'bool' === $f[2] && ! isset( $input[ $key ] ) ) {
 			$raw = '';
 		}
-		if ( 'turnover' !== $f[2] && ! is_string( $raw ) ) {
+		if ( ! is_string( $raw ) ) {
 			$raw = '';
 		}
 		switch ( $f[2] ) {
@@ -220,6 +214,18 @@ function aaykay_sanitize_settings( $input ) {
 					$out[ $key ] = '';
 				}
 				break;
+			case 'doc':
+				// A web address, or the launch file inside the theme (assets/docs/…).
+				$raw = trim( $raw );
+				if ( preg_match( '#^assets/docs/[\w.-]+\.pdf$#', $raw ) ) {
+					$out[ $key ] = $raw;
+				} else {
+					$out[ $key ] = esc_url_raw( $raw, array( 'http', 'https' ) );
+					if ( '' !== $raw && '' === $out[ $key ] ) {
+						add_settings_error( AAYKAY_SETTINGS_OPTION, $key, 'The brochure address must start with https://, so it was not saved.' );
+					}
+				}
+				break;
 			case 'lines':
 			case 'textarea':
 				$out[ $key ] = sanitize_textarea_field( $raw );
@@ -229,22 +235,6 @@ function aaykay_sanitize_settings( $input ) {
 				break;
 			case 'count':
 				$out[ $key ] = preg_replace( '/[^\d,+]/', '', (string) $raw );
-				break;
-			case 'turnover':
-				$raw  = is_array( $raw ) ? $raw : array();
-				$rows = array();
-				for ( $i = 0; $i < AAYKAY_TURNOVER_ROWS; $i++ ) {
-					$label = isset( $raw[ $i ][0] ) ? sanitize_text_field( $raw[ $i ][0] ) : '';
-					$value = isset( $raw[ $i ][1] ) ? preg_replace( '/[^\d.]/', '', (string) $raw[ $i ][1] ) : '';
-					if ( '' !== $value && ! is_numeric( $value ) ) {
-						add_settings_error( AAYKAY_SETTINGS_OPTION, 'turnover', 'A turnover value was not a number and was left out.' );
-						$value = '';
-					}
-					if ( '' !== $label || '' !== $value ) {
-						$rows[] = array( $label, $value );
-					}
-				}
-				$out[ $key ] = $rows;
 				break;
 			default:
 				$out[ $key ] = sanitize_text_field( $raw );
@@ -290,31 +280,10 @@ function aaykay_render_settings_page() {
 						?>
 						<tr>
 							<th scope="row">
-								<?php if ( 'turnover' === $f[2] ) : ?>
-									<?php echo esc_html( $f[1] ); ?>
-								<?php else : ?>
-									<label for="<?php echo esc_attr( $id ); ?>"><?php echo esc_html( $f[1] ); ?></label>
-								<?php endif; ?>
+								<label for="<?php echo esc_attr( $id ); ?>"><?php echo esc_html( $f[1] ); ?></label>
 							</th>
 							<td>
-								<?php if ( 'turnover' === $f[2] ) : ?>
-									<table class="aaykay-turnover" id="<?php echo esc_attr( $id ); ?>"<?php echo $help; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above. ?>>
-										<thead><tr><th scope="col">Financial year</th><th scope="col">₹ crore</th></tr></thead>
-										<tbody>
-										<?php
-										$rows = array_values( (array) $value );
-										for ( $i = 0; $i < AAYKAY_TURNOVER_ROWS; $i++ ) :
-											$label = isset( $rows[ $i ][0] ) ? $rows[ $i ][0] : '';
-											$num   = isset( $rows[ $i ][1] ) ? $rows[ $i ][1] : '';
-											?>
-											<tr>
-												<td><input type="text" class="regular-text" name="<?php echo esc_attr( "{$name}[{$key}][{$i}][0]" ); ?>" value="<?php echo esc_attr( $label ); ?>" placeholder="FY 2026–27" aria-label="<?php echo esc_attr( 'Year, row ' . ( $i + 1 ) ); ?>"></td>
-												<td><input type="text" inputmode="decimal" class="small-text" name="<?php echo esc_attr( "{$name}[{$key}][{$i}][1]" ); ?>" value="<?php echo esc_attr( $num ); ?>" placeholder="0.00" aria-label="<?php echo esc_attr( 'Turnover in crore, row ' . ( $i + 1 ) ); ?>"></td>
-											</tr>
-										<?php endfor; ?>
-										</tbody>
-									</table>
-								<?php elseif ( 'bool' === $f[2] ) : ?>
+								<?php if ( 'bool' === $f[2] ) : ?>
 									<label><input type="checkbox" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( "{$name}[{$key}]" ); ?>" value="1"<?php checked( '1', (string) $value ); ?><?php echo $help; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above. ?>> Yes</label>
 								<?php elseif ( 'lines' === $f[2] || 'textarea' === $f[2] ) : ?>
 									<textarea class="large-text" rows="<?php echo 'lines' === $f[2] ? 8 : 3; ?>" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( "{$name}[{$key}]" ); ?>"<?php echo $help; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above. ?>><?php echo esc_textarea( $value ); ?></textarea>

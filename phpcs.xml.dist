@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--
+  Code checks for the theme (CI runs this; see TESTING_GUIDE.md). Security, database, and
+  WordPress API rules from WordPress Coding Standards 3.x, plus PHP compatibility from the
+  oldest PHP the theme supports. Pure layout rules (tabs vs spaces, alignment) are left out:
+  the code's own consistent style is kept rather than reformatting every file.
+-->
+<ruleset name="aaykay">
+  <file>theme</file>
+  <file>tests/php</file>
+  <arg name="extensions" value="php"/>
+  <arg value="sp"/>
+  <config name="minimum_wp_version" value="6.5"/>
+  <config name="testVersion" value="7.4-"/>
+
+  <rule ref="WordPress.Security"/>
+  <rule ref="WordPress.DB"/>
+  <rule ref="WordPress.WP">
+    <!-- The JSON-LD and Cloudflare beacon tags are printed on purpose (inc/seo.php). -->
+    <exclude name="WordPress.WP.EnqueuedResources"/>
+  </rule>
+  <rule ref="WordPress.PHP">
+    <exclude name="WordPress.PHP.YodaConditions"/>
+    <exclude name="WordPress.PHP.POSIXFunctions"/>
+  </rule>
+  <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+    <properties>
+      <property name="prefixes" type="array">
+        <element value="aaykay"/>
+      </property>
+    </properties>
+    <exclude-pattern>tests/*</exclude-pattern>
+  </rule>
+  <!-- The test script runs inside wp eval-file: plain variables and STDERR are fine there. -->
+  <rule ref="WordPress.WP.GlobalVariablesOverride"><exclude-pattern>tests/*</exclude-pattern></rule>
+  <rule ref="WordPress.WP.AlternativeFunctions"><exclude-pattern>tests/*</exclude-pattern></rule>
+  <rule ref="WordPress.DB.DirectDatabaseQuery"><exclude-pattern>tests/*</exclude-pattern></rule>
+  <rule ref="Generic.PHP.Syntax"/>
+  <rule ref="PHPCompatibilityWP"/>
+</ruleset>

@@ -1,0 +1,197 @@
+{
+  "_readme": [
+    "Launch values of version 2 (client brief of 10 Oct 2026) that version 3 (client brief of 13 Oct 2026) changes.",
+    "inc/upgrade.php replaces a saved value with the version 3 launch value only while it still equals the value here, so nothing AAYKAY has edited is overwritten. Not used on a new install."
+  ],
+  "content": {
+    "hero": {
+      "primary_label": "Start a project",
+      "secondary_label": "See our work"
+    },
+    "clients": {
+      "heading": "Clients include"
+    },
+    "services": {
+      "heading": "What we do",
+      "lead": "We take on the complete electrical package: containment, cabling, panels, lighting, earthing and critical power. We coordinate it in Revit, install it to written method statements and test it with our own commissioning team before handover.",
+      "scope_heading": "What we install",
+      "scope": [
+        {
+          "icon": "rows-3",
+          "title": "Containment",
+          "text": "Conduit in slabs, walls and floors; sleeves and back boxes; GI cable trays, ladders, trunking and raceways."
+        },
+        {
+          "icon": "cable",
+          "title": "Wiring & cabling",
+          "text": "Power and lighting wiring, DB-to-equipment wiring, HT/LT cable laying, dressing, tagging, glanding and termination."
+        },
+        {
+          "icon": "inspection-panel",
+          "title": "Panels & distribution",
+          "text": "LT panels and capacitor banks, MDBs, SMDBs and DBs, control wiring and panel earthing."
+        },
+        {
+          "icon": "arrow-up-from-line",
+          "title": "Busducts & rising mains",
+          "text": "Busbar trunking and rising mains, supplied through OEM channels and installed to approved GA drawings."
+        },
+        {
+          "icon": "lightbulb",
+          "title": "Lighting & accessories",
+          "text": "LED fixtures, lighting management systems, switches and sockets, fans and junction boxes."
+        },
+        {
+          "icon": "battery-charging",
+          "title": "Critical power",
+          "text": "UPS and battery installation, server-room electrical works, AC unit connections, pumps and motors."
+        },
+        {
+          "icon": "earth-ground",
+          "title": "Earthing & protection",
+          "text": "Earth pits and grids, GI and copper strip, surge protection devices and lightning arresters."
+        },
+        {
+          "icon": "gauge",
+          "title": "Testing & maintenance",
+          "text": "Megger, IR and continuity tests, panel load tests, circuit verification and HT/LT equipment testing. Annual maintenance contracts (AMC)."
+        }
+      ]
+    },
+    "record": {
+      "heading": "Project record"
+    },
+    "work": {
+      "link_label": "Full project record"
+    },
+    "firms": {
+      "heading": "Architects, consultants and PMCs we have worked with"
+    },
+    "appreciations": {
+      "heading": "Certificates and letters",
+      "sub": "Select a document to view it"
+    },
+    "photos": {
+      "heading": "The work, up close",
+      "sub": "Containment, panels, distribution and critical power on AAYKAY sites, as installed."
+    },
+    "letter": {
+      "label": "From a client letter"
+    },
+    "deliver": {
+      "heading": "How we deliver",
+      "sub": "Five stages, managed by our own project team, with the schedule risks dealt with first.",
+      "insight": "Electrical packages rarely slip on site.",
+      "insight_em": "They slip waiting on approvals and long-lead equipment, so that is where we start.",
+      "panel1_heading": "Agreed at kickoff",
+      "panel2_heading": "Ordered early",
+      "panel2_note": "Order placement, submittals and approvals for each are closed on a fixed timeline.",
+      "sheet1_label": "",
+      "sheet1_title": "",
+      "sheet1_rows": []
+    },
+    "quality": {
+      "heading": "Standards & practice",
+      "safety_rows": [
+        {
+          "key": "24/7 response",
+          "text": "An emergency response team on call 24/7."
+        },
+        {
+          "key": "Reviews",
+          "text": "Project safety reviews every alternate day, and a weekly safety report reviewed by top management."
+        },
+        {
+          "key": "Risk & permits",
+          "text": "HIRA risk assessments, height and hot-work permits, and lock-out tag-out before live connections."
+        },
+        {
+          "key": "Training & welfare",
+          "text": "Toolbox talks, PPE for every worker, monthly medical camps and tie-ups with local hospitals."
+        }
+      ],
+      "kit_heading": "Our testing kit"
+    },
+    "prequal": {
+      "heading": "Pre-qualification",
+      "sub": "The facts procurement and tender teams usually ask for first.",
+      "cert_groups": [
+        {
+          "heading": "ISO certification",
+          "items": "ISO 9001:2015 | quality management\nISO 45001:2018 | occupational health & safety"
+        },
+        {
+          "heading": "Electrical contractor licences",
+          "items": "Hyderabad |\nBengaluru |"
+        },
+        {
+          "heading": "Company registrations",
+          "items": "Private limited company, Certificate of Incorporation\nMSME and GST registered\nESI and EPF registered\nD&B certified"
+        }
+      ]
+    },
+    "company": {
+      "heading": "Company",
+      "sub": "Founded in Hyderabad in 2008 by an electrical engineer who still leads the business.",
+      "quote": "",
+      "quote_by": ""
+    },
+    "careers": {
+      "heading": "Work with us",
+      "sub": "What we provide our people on site, current openings and how to apply.",
+      "benefits_heading": "What we provide",
+      "benefits": [
+        {
+          "key": "Safety gear",
+          "text": "Safety and PPE equipment: harnesses, jackets, helmets, belts and shoes."
+        },
+        {
+          "key": "On site",
+          "text": "Drinking water, mobile toilets, snacks and refreshments."
+        },
+        {
+          "key": "Allowance",
+          "text": "Shift allowance."
+        },
+        {
+          "key": "Health",
+          "text": "Medical facilities, and a monthly medical camp to check fitness."
+        },
+        {
+          "key": "Social security",
+          "text": "Gratuity, pension, provident fund and ESI."
+        },
+        {
+          "key": "Training",
+          "text": "Toolbox meetings on site."
+        }
+      ],
+      "roles_heading": "Current openings",
+      "roles": "",
+      "apply_text": "Apply with your CV and the role you are interested in.",
+      "form_label": "Apply now"
+    },
+    "contact": {
+      "heading": "Start a project",
+      "lead": "Tell us the scope, location and timeline, and we’ll come back to you.",
+      "form_heading": "Project enquiry"
+    }
+  },
+  "moved": {
+    "sectors": {
+      "heading": "Sectors",
+      "hint": "Select a sector to see its projects."
+    },
+    "safety_solutions_link_label": "Visit AAYKAY Safety Solutions",
+    "hero_image_src": "assets/img/hero-ups-room-960.webp"
+  },
+  "pages": {
+    "excerpts": {
+      "capabilities": "What AAYKAY Electricals installs, the sectors it serves, AAYKAY Safety Solutions, and how projects are delivered from design to handover.",
+      "projects": "The AAYKAY Electricals project record: hospitals, offices, banks, residential towers and infrastructure, with location, built-up area and status.",
+      "quality": "AAYKAY Electricals is certified to ISO 9001:2015 and ISO 45001:2018: its quality and safety practice, site training and testing kit.",
+      "careers": "Careers at AAYKAY Electricals: what we provide our people on site, current openings and how to apply.",
+      "contact": "Contact AAYKAY Electricals, Hyderabad: phone, email and the project enquiry form."
+    }
+  }
+}

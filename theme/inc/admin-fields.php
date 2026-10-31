@@ -29,8 +29,6 @@ add_action(
 .aaykay-icon{width:24px;height:24px;stroke:#1B3F8F;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle}
 .aaykay-enquiry th{width:140px;text-align:left;vertical-align:top;padding:6px 12px 6px 0}
 .aaykay-enquiry td{padding:6px 0;white-space:pre-wrap}
-.aaykay-turnover th{text-align:left;padding:0 8px 4px 0;font-weight:400}
-.aaykay-turnover td{padding:0 8px 6px 0}
 .aaykay-welcome ul{margin:8px 0 0}
 .aaykay-welcome li{margin:0 0 6px}
 </style>';
@@ -80,7 +78,7 @@ function aaykay_render_welcome_widget() {
 		<ul>
 			<li><a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=aaykay_project' ) ); ?>"><strong>Add a project</strong></a> or <a href="<?php echo esc_url( admin_url( 'edit.php?post_type=aaykay_project' ) ); ?>">edit projects</a></li>
 			<li><a href="<?php echo esc_url( admin_url( 'edit.php?post_type=aaykay_client' ) ); ?>">Client logos</a> · <a href="<?php echo esc_url( admin_url( 'edit.php?post_type=aaykay_firm' ) ); ?>">Architects &amp; consultants</a></li>
-			<li><a href="<?php echo esc_url( admin_url( 'admin.php?page=aaykay-settings' ) ); ?>">Site settings</a>: phone, email, address, turnover, staff numbers</li>
+			<li><a href="<?php echo esc_url( admin_url( 'admin.php?page=aaykay-settings' ) ); ?>">Site settings</a>: phone, email, address, staff numbers</li>
 			<li><a href="<?php echo esc_url( admin_url( 'edit.php?post_type=aaykay_enquiry' ) ); ?>">Enquiries</a> (<?php echo (int) $new; ?> received)</li>
 			<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank" rel="noopener">View the website</a></li>
 		</ul>
@@ -519,7 +517,9 @@ function aaykay_render_enquiry_box( $post ) {
 	}
 	$mail_note = array(
 		'1'    => 'Sent.',
-		'held' => 'Not emailed: many enquiries came from the same connection within an hour, so this one was only saved here. Check that it is genuine before replying.',
+		'held' => 'fast' === get_post_meta( $post->ID, '_aaykay_held_reason', true )
+			? 'Not emailed: the form was sent within three seconds of the page opening, which is usually an automated (spam) sender, so this one was only saved here. Check that it is genuine before replying.'
+			: 'Not emailed: many enquiries came from the same connection within an hour, so this one was only saved here. Check that it is genuine before replying.',
 	);
 	echo '<tr><th scope="row">Email notification</th><td>' . esc_html( isset( $mail_note[ $mailed ] ) ? $mail_note[ $mailed ] : 'Could not be sent. Reply to this enquiry directly, and ask your developer to check the email settings.' ) . '</td></tr>';
 	$sheet = get_post_meta( $post->ID, '_aaykay_sheet', true );

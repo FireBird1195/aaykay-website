@@ -1,5 +1,6 @@
-# Checks only; never builds or deploys. Runs on pull requests and branch pushes, and is
-# called by deploy.yml before anything is published.
+# Checks only; never deploys. Runs on pull requests and branch pushes, and is called by
+# deploy.yml before anything is published. See TESTING_GUIDE.md for running the same
+# checks on your own machine.
 name: check
 
 on:
@@ -12,24 +13,47 @@ permissions:
   contents: read
 
 jobs:
-  # The theme supports PHP 7.4 and newer: check the oldest and a current version.
-  php:
+  # Hostinger offers PHP 8.2 to 8.5 (Websites > PHP Configuration); the theme also still
+  # parses on 7.4, the oldest version style.css claims.
+  php-lint:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        php: ['7.4', '8.3']
+        php: ['7.4', '8.2', '8.3', '8.4', '8.5']
     container: php:${{ matrix.php }}-cli
     steps:
       - uses: actions/checkout@v4
       - name: Every PHP file parses on PHP ${{ matrix.php }}
-        run: find theme -name '*.php' -print0 | xargs -0 -n1 php -l
+        run: find theme tests/php -name '*.php' -print0 | xargs -0 -n1 php -l
 
-  check:
+  static:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # the secret scan reads the whole history
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
+          coverage: none
+      - name: Install code checkers (WordPress Coding Standards 3, PHPCompatibilityWP)
+        run: |
+          composer global config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+          # PHPCompatibility 10 (needed for PHP 8.x rules with WPCS 3) is still pre-release, and
+          # its packages require each other at @dev, which only the root stability setting allows.
+          composer global config minimum-stability dev
+          composer global config prefer-stable true
+          composer global require --no-interaction "squizlabs/php_codesniffer:^3.13" "wp-coding-standards/wpcs:^3.3" "phpcompatibility/phpcompatibility-wp:^3.0@alpha"
+      - name: PHP security and compatibility rules (phpcs.xml.dist)
+        run: ~/.composer/vendor/bin/phpcs --standard=phpcs.xml.dist
       - name: site.js parses
-        run: node --check theme/assets/js/site.js
+        run: node --check theme/assets/js/site.js && node --check theme/assets/admin/content-editor.js
+      - name: No secrets in the repository or its history
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Starter data is valid and every file it names exists
         run: |
           python3 - <<'PY'
@@ -52,7 +76,92 @@ jobs:
           for kind in ('clients', 'firms'):
               for c in d[kind]:
                   if c.get('logo') and not os.path.isfile(os.path.join(root, c['logo'])): errors.append('%s %s: missing logo file' % (kind, c['name']))
+          # Every theme file named in the launch content (photos, documents) exists.
+          for ref in sorted(set(re.findall(r'"(assets/[^"]+\.(?:webp|jpg|png|svg|pdf))"', open(os.path.join(root, 'seed/content.json'), encoding='utf-8').read()))):
+              if not os.path.isfile(os.path.join(root, ref)): errors.append('missing file ' + ref)
           if errors:
               print('\n'.join(errors)); sys.exit(1)
           print('OK: %d projects, %d sectors, %d clients, %d firms' % (len(d['projects']), len(d['sectors']), len(d['clients']), len(d['firms'])))
           PY
+
+  # The theme running in a real WordPress: integration tests inside WordPress, then the
+  # browser tests against it. PHP 8.3 is Hostinger's default; 8.4 and 8.5 are offered.
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.3', '8.4', '8.5']
+    services:
+      mariadb:
+        image: mariadb:10.11
+        env:
+          MARIADB_DATABASE: wp
+          MARIADB_USER: wp
+          MARIADB_PASSWORD: wp_ci_only
+          MARIADB_ROOT_PASSWORD: root_ci_only
+        ports: ['3306:3306']
+        options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=5s --health-timeout=5s --health-retries=20
+    env:
+      WP_PATH: ${{ github.workspace }}/../wordpress
+      WP_URL: http://127.0.0.1:8080
+      BASE_URL: http://127.0.0.1:8080
+      DB_NAME: wp
+      DB_USER: wp
+      DB_PASS: wp_ci_only
+      DB_HOST: 127.0.0.1
+      PHP_CLI_SERVER_WORKERS: '4'
+      # Firefox and WebKit (Safari's engine, incl. iPhone and iPad sizes) on one PHP version.
+      ALL_BROWSERS: ${{ matrix.php == '8.3' && '1' || '0' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mysqli, gd, intl, mbstring, zip, exif
+          tools: wp-cli
+          ini-values: error_reporting=E_ALL, display_errors=Off, log_errors=On
+          coverage: none
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: tests/package-lock.json
+      - name: Build a fresh WordPress with the theme
+        run: tests/bin/fresh-site.sh
+      - name: Serve it (PHP built-in server with WordPress routing)
+        run: |
+          php -S 127.0.0.1:8080 -t "$WP_PATH" tests/bin/router.php > /tmp/php-server.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf "$BASE_URL/wp-json/aaykay/v1/health" && break; sleep 1; done
+          curl -sf "$BASE_URL/wp-json/aaykay/v1/health" || { cat /tmp/php-server.log; exit 1; }
+      - name: Integration tests inside WordPress
+        run: wp --path="$WP_PATH" eval-file tests/php/integration.php
+      - name: Browser tests
+        working-directory: tests
+        run: |
+          npm ci
+          if [ "$ALL_BROWSERS" = 1 ]; then npx playwright install --with-deps; else npx playwright install --with-deps chromium; fi
+          npx playwright test
+      - name: No PHP warnings or notices were logged
+        if: always()
+        run: |
+          log="$WP_PATH/wp-content/debug.log"
+          [ -f "$log" ] || { echo "no debug.log"; exit 0; }
+          echo "--- everything PHP logged (WordPress core included, for information) ---"
+          grep -E "PHP (Fatal|Warning|Notice|Deprecated)" "$log" | sort | uniq -c | sort -rn | head -40 || true
+          # Fail on problems in this theme, and on any fatal error. Deprecations raised inside
+          # WordPress core on a new PHP version are reported above but are WordPress's to fix.
+          if grep -E "PHP (Fatal|Warning|Notice|Deprecated)" "$log" | grep -E "themes/aaykay|PHP Fatal"; then
+            echo "::error::PHP problems in the theme (above)"; exit 1
+          fi
+          echo "No PHP problems from the theme"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-report-php${{ matrix.php }}
+          path: |
+            tests/playwright-report
+            tests/test-results
+            /tmp/php-server.log
+          retention-days: 14

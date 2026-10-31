@@ -1,6 +1,7 @@
 <?php
 /**
- * Home page: site photographs. Content: Homepage content > Site photographs.
+ * A photo mosaic: the site photographs on Our Capabilities (Homepage content > Site
+ * photographs). $args['section'] and $args['id'] let another section reuse it.
  *
  * The mosaic in site.css is laid out for six photos (.m-a … .m-f). With more, the pattern
  * repeats; with fewer, the first slots are used.
@@ -9,26 +10,30 @@
  */
 
 defined( 'ABSPATH' ) || exit;
-$aaykay_figs  = aaykay_rows( 'photos', 'figures' );
+$aaykay_sid   = isset( $args['section'] ) ? $args['section'] : 'photos';
+$aaykay_id    = isset( $args['id'] ) ? $args['id'] : 'site-photos';
+$aaykay_figs  = aaykay_rows( $aaykay_sid, 'figures' );
+// Widths the photos are shown at (the mosaic in site.css); min() because the page stops
+// widening at --container (85rem), so 42vw would overstate the size on wide screens.
 $aaykay_slots = array(
-	'm-a' => '(min-width: 760px) 42vw, 82vw',
-	'm-b' => '(min-width: 760px) 58vw, 100vw',
-	'm-c' => '(min-width: 760px) 33vw, 50vw',
-	'm-d' => '(min-width: 760px) 25vw, 50vw',
-	'm-e' => '(min-width: 760px) 58vw, 100vw',
-	'm-f' => '(min-width: 760px) 42vw, 100vw',
+	'm-a' => '(min-width: 760px) min(42vw, 570px), 50vw',
+	'm-b' => '(min-width: 760px) min(58vw, 800px), 100vw',
+	'm-c' => '(min-width: 760px) min(33vw, 450px), 50vw',
+	'm-d' => '(min-width: 760px) min(25vw, 330px), 50vw',
+	'm-e' => '(min-width: 760px) min(58vw, 800px), 100vw',
+	'm-f' => '(min-width: 760px) min(42vw, 570px), 100vw',
 );
 $aaykay_keys  = array_keys( $aaykay_slots );
 if ( ! $aaykay_figs ) {
 	return;
 }
 ?>
-  <section class="section section--dark grain" id="site-photos" aria-labelledby="photos-title">
+  <section class="section section--dark grain" id="<?php echo esc_attr( $aaykay_id ); ?>" aria-labelledby="<?php echo esc_attr( $aaykay_id ); ?>-title">
     <div class="wrap">
       <div class="sec-head">
-        <h2 class="h2" id="photos-title" data-reveal><?php aaykay_e( 'photos', 'heading' ); ?></h2>
-<?php if ( '' !== aaykay_t( 'photos', 'sub' ) ) : ?>
-        <p class="sec-sub" data-reveal><?php aaykay_e( 'photos', 'sub' ); ?></p>
+        <h2 class="h2" id="<?php echo esc_attr( $aaykay_id ); ?>-title" data-reveal><?php aaykay_e( $aaykay_sid, 'heading' ); ?></h2>
+<?php if ( '' !== aaykay_t( $aaykay_sid, 'sub' ) ) : ?>
+        <p class="sec-sub" data-reveal><?php aaykay_e( $aaykay_sid, 'sub' ); ?></p>
 <?php endif; ?>
       </div>
       <div class="mosaic">
