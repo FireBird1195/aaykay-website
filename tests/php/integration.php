@@ -115,6 +115,7 @@ $mk = function ( $email, $date_gmt = null ) use ( &$created ) {
 };
 $a1 = $mk( 'privacy-a@example.test' );
 $a2 = $mk( 'privacy-a@example.test' );
+wp_trash_post( $a2 ); // an enquiry in the bin is still the person's data
 $b1 = $mk( 'privacy-b@example.test' );
 $exporters = apply_filters( 'wp_privacy_personal_data_exporters', array() );
 t_ok( isset( $exporters['aaykay-enquiries'] ), 'an exporter is registered' );
@@ -232,6 +233,13 @@ t_ok( false === strpos( aaykay_dot_line( array( '<i>x</i>', 'ISO 9001:2015' ) ),
 /* ------------------------------------------------------------------ upgrade lock */
 t_section( 'Upgrade routine' );
 t_ok( false === get_option( 'aaykay_upgrade_lock' ), 'no upgrade lock is left behind' );
+t_eq( true, aaykay_upgrade_lock(), 'the first request takes the upgrade lock' );
+t_eq( false, aaykay_upgrade_lock(), 'a second request at the same time does not' );
+aaykay_upgrade_unlock();
+global $wpdb;
+$wpdb->insert( $wpdb->options, array( 'option_name' => 'aaykay_upgrade_lock', 'option_value' => (string) ( time() - HOUR_IN_SECONDS ), 'autoload' => 'off' ) );
+t_eq( true, aaykay_upgrade_lock(), 'a lock left by a request that died an hour ago is taken over' );
+aaykay_upgrade_unlock();
 
 /* ------------------------------------------------------------------ health */
 t_section( 'Health endpoint' );
@@ -241,7 +249,7 @@ t_eq( array( 'status' => 'ok' ), $res->get_data(), 'health says only "ok"' );
 $tests = apply_filters( 'site_status_tests', array( 'direct' => array(), 'async' => array() ) );
 foreach ( array( 'aaykay_email', 'aaykay_launch', 'aaykay_privacy' ) as $t ) {
 	$r = call_user_func( $tests['direct'][ $t ]['test'] );
-	t_ok( isset( $r['status'] ) && in_array( $r['status'], array( 'good', 'recommended', 'critical' ), true ), "Site Health check $t runs" );
+	t_ok( isset( $r['status'] ) && in_array( $r['status'], array( 'good', 'recommended', 'critical' ), true ) && $t === $r['test'], "Site Health check $t runs with its own id" );
 }
 
 /* ------------------------------------------------------------------ clean up */

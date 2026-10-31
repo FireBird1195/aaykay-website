@@ -130,6 +130,7 @@ jobs:
         run: |
           php -S 127.0.0.1:8080 -t "$WP_PATH" tests/bin/router.php > /tmp/php-server.log 2>&1 &
           for i in $(seq 1 30); do curl -sf "$BASE_URL/wp-json/aaykay/v1/health" && break; sleep 1; done
+          curl -sf "$BASE_URL/wp-json/aaykay/v1/health" || { cat /tmp/php-server.log; exit 1; }
       - name: Integration tests inside WordPress
         run: wp --path="$WP_PATH" eval-file tests/php/integration.php
       - name: Browser tests

@@ -573,7 +573,8 @@
       fetch(form.getAttribute('action'), { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' }, credentials: 'same-origin', signal: ctrl ? ctrl.signal : undefined })
         .then(function (res) {
           if (timedOut) throw new Error('timeout');
-          return res.json().catch(function () { return { ok: false }; });
+          // A timeout while the answer is still arriving is a timeout, not a refusal.
+          return res.json().catch(function (err) { if (timedOut) throw err; return { ok: false }; });
         })
         .then(function (data) {
           if (data && data.ok) {

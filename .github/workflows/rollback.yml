@@ -2,11 +2,11 @@
 # GitHub > Actions > rollback > Run workflow, give the commit (or tag) on main whose theme
 # should be live, and type ROLLBACK to confirm.
 #
-# It rewrites the deploy branch to that commit's theme/ folder; Hostinger's auto-deployment
-# then pulls it like any other deploy. Content (database, uploads) is not touched. The next
-# normal push to main deploys main again, so also revert the bad change on main
-# (git revert), or the problem comes back with the next deploy. OPERATIONS_RUNBOOK.md has
-# the full procedure.
+# It adds a commit on top of the deploy branch holding that commit's theme/ files (the
+# branch moves forward, so Hostinger's pull applies it like any other deploy). Content
+# (database, uploads) is not touched. The next normal push to main deploys main again, so
+# also revert the bad change on main (git revert), or it comes back with the next deploy.
+# OPERATIONS_RUNBOOK.md has the full procedure.
 name: rollback
 
 on:
@@ -19,33 +19,37 @@ on:
         description: 'Type ROLLBACK to confirm'
         required: true
 
-concurrency:
-  group: deploy
-  cancel-in-progress: false
-
 jobs:
   rollback:
     runs-on: ubuntu-latest
+    concurrency:
+      group: publish-deploy-branch
+      cancel-in-progress: false
     permissions:
       contents: write
+    env:
+      REF: ${{ inputs.ref }}
+      CONFIRM: ${{ inputs.confirm }}
     steps:
       - name: Confirmation
-        if: ${{ inputs.confirm != 'ROLLBACK' }}
-        run: echo "::error::Type ROLLBACK in the confirm box to roll back." && exit 1
+        run: '[ "$CONFIRM" = ROLLBACK ] || { echo "::error::Type ROLLBACK in the confirm box to roll back."; exit 1; }'
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: The commit is on main
         run: |
-          git rev-parse --verify "${{ inputs.ref }}^{commit}"
-          git merge-base --is-ancestor "${{ inputs.ref }}" origin/main || { echo "::error::${{ inputs.ref }} is not on main"; exit 1; }
-      - name: Publish that commit's theme/ to the deploy branch
+          git rev-parse --verify "$REF^{commit}"
+          git merge-base --is-ancestor "$REF" origin/main || { echo "::error::$REF is not on main"; exit 1; }
+      - name: Commit that version's theme/ on top of the deploy branch
         run: |
-          sha=$(git subtree split --prefix=theme "${{ inputs.ref }}")
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          sha=$(git subtree split --prefix=theme "$REF")
           before=$(git rev-parse origin/deploy)
-          git push --force-with-lease=deploy:"$before" origin "$sha:refs/heads/deploy"
+          new=$(git commit-tree "$sha^{tree}" -p "$before" -m "rollback: theme of $REF")
+          git push origin "$new:refs/heads/deploy"
           {
             echo "### Rolled back"
-            echo "deploy branch: $before → $sha (theme of ${{ inputs.ref }})"
+            echo "deploy branch: $before → $new (files of the theme at $REF)"
             echo "Revert the bad change on main too, or the next push to main redeploys it."
           } >> "$GITHUB_STEP_SUMMARY"

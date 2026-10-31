@@ -1,19 +1,19 @@
 # Publishes theme/ to the "deploy" branch after the checks pass. Hostinger watches that
 # branch (auto-deployment) and pulls it into public_html/wp-content/themes/aaykay.
 #
-# git subtree split turns the history of theme/ into a branch whose root is the theme
-# folder. The same history always gives the same commits, so each push only moves the
-# branch forward and Hostinger can pull it without conflicts. Never commit to deploy by hand.
+# git subtree split turns the history of theme/ into commits whose root is the theme folder.
+# The deploy branch only ever moves forward (Hostinger pulls it; a branch that jumps back
+# may not be applied on the server):
+#   - normally the split commit is a descendant of deploy and is pushed as it is;
+#   - after a rollback (rollback.yml adds a commit on top of deploy), the split commit's
+#     files are committed on top of deploy instead.
+# Never commit to deploy by hand.
 name: deploy
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
-
-concurrency:
-  group: deploy
-  cancel-in-progress: false
 
 jobs:
   check:
@@ -22,6 +22,11 @@ jobs:
   publish:
     needs: check
     runs-on: ubuntu-latest
+    # Only publishing is serialised (not the 20+ minutes of checks), so a rollback is never
+    # stuck behind, or cancelled by, a queued deploy's tests.
+    concurrency:
+      group: publish-deploy-branch
+      cancel-in-progress: false
     permissions:
       contents: write
     steps:
@@ -30,6 +35,19 @@ jobs:
           fetch-depth: 0
       - name: Publish theme/ to the deploy branch
         run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           sha=$(git subtree split --prefix=theme HEAD)
-          git push origin "$sha:refs/heads/deploy"
-          echo "deploy branch is now $sha" >> "$GITHUB_STEP_SUMMARY"
+          if git rev-parse --verify -q origin/deploy >/dev/null; then
+            if git merge-base --is-ancestor origin/deploy "$sha"; then
+              new="$sha"
+            elif [ "$(git rev-parse "$sha^{tree}")" = "$(git rev-parse "origin/deploy^{tree}")" ]; then
+              echo "deploy already has these files" >> "$GITHUB_STEP_SUMMARY"; exit 0
+            else
+              new=$(git commit-tree "$sha^{tree}" -p origin/deploy -p "$sha" -m "deploy: theme of main at $GITHUB_SHA")
+            fi
+          else
+            new="$sha"
+          fi
+          git push origin "$new:refs/heads/deploy"
+          echo "deploy branch is now $new (theme of $GITHUB_SHA)" >> "$GITHUB_STEP_SUMMARY"

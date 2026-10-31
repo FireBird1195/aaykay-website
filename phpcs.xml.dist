@@ -34,6 +34,7 @@
   <!-- The test script runs inside wp eval-file: plain variables and STDERR are fine there. -->
   <rule ref="WordPress.WP.GlobalVariablesOverride"><exclude-pattern>tests/*</exclude-pattern></rule>
   <rule ref="WordPress.WP.AlternativeFunctions"><exclude-pattern>tests/*</exclude-pattern></rule>
+  <rule ref="WordPress.DB.DirectDatabaseQuery"><exclude-pattern>tests/*</exclude-pattern></rule>
   <rule ref="Generic.PHP.Syntax"/>
   <rule ref="PHPCompatibilityWP"/>
 </ruleset>

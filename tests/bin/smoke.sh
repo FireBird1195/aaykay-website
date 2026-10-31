@@ -6,7 +6,7 @@
 #   tests/bin/smoke.sh http://localhost:8080      # local
 #
 # LAUNCHED=1 also checks that search engines are allowed (use it after launch day).
-set -uo pipefail
+set -u
 BASE="${1:?usage: smoke.sh BASE_URL}"; BASE="${BASE%/}"
 fail=0
 ok()   { printf '  ok    %s\n' "$1"; }
@@ -23,9 +23,9 @@ h=$(curl -s --max-time 20 "$BASE/wp-json/aaykay/v1/health"); [ "$h" = '{"status"
 
 hdr=$(curl -sI --max-time 20 "$BASE/")
 for want in 'x-content-type-options: nosniff' 'x-frame-options: SAMEORIGIN' 'referrer-policy:' 'content-security-policy:'; do
-  echo "$hdr" | grep -qi "^$want" && ok "header $want" || bad "missing header $want"
+  grep -qi "^$want" <<<"$hdr" && ok "header $want" || bad "missing header $want"
 done
-echo "$hdr" | grep -qi '^x-powered-by: php' && bad "PHP version is disclosed (X-Powered-By)" || ok "no X-Powered-By"
+grep -qi '^x-powered-by: php' <<<"$hdr" && bad "PHP version is disclosed (X-Powered-By)" || ok "no X-Powered-By"
 
 for f in seed/content.json README.md; do
   c=$(code "$BASE/wp-content/themes/aaykay/$f"); [ "$c" = 403 ] || [ "$c" = 404 ] && ok "theme $f not downloadable ($c)" || bad "theme $f answered $c"
@@ -37,10 +37,10 @@ c=$(code "$BASE/wp-content/uploads/"); [ "$c" != 200 ] && ok "uploads folder not
 [ "$(code "$BASE/wp-sitemap.xml")" = 200 ] && ok "sitemap" || bad "wp-sitemap.xml"
 
 page=$(curl -s --max-time 20 "$BASE/")
-echo "$page" | grep -q 'localhost' && bad "home page mentions localhost" || ok "no localhost links"
-echo "$page" | grep -q 'class="pending' && bad "\"To come\" placeholders are visible" || ok "no placeholders"
+grep -q 'localhost' <<<"$page" && bad "home page mentions localhost" || ok "no localhost links"
+grep -q 'class="pending' <<<"$page" && bad "\"To come\" placeholders are visible" || ok "no placeholders"
 if [ "${LAUNCHED:-0}" = 1 ]; then
-  echo "$page" | grep -qi 'name=.robots.*noindex' && bad "home page still says noindex" || ok "indexable"
+  grep -qi 'name=.robots.*noindex' <<<"$page" && bad "home page still says noindex" || ok "indexable"
 fi
 
 case "$BASE" in https://*)

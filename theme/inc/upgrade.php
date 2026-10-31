@@ -39,17 +39,20 @@ add_action(
 			return;
 		}
 		// One request at a time: two visitors arriving together after a deploy must not both
-		// add the same pages and projects. add_option() is atomic (the option name is unique
-		// in the database), so only the request that creates the lock runs the upgrade; a
-		// lock older than ten minutes (a request that died) is taken over.
-		$lock = get_option( 'aaykay_upgrade_lock' );
-		if ( $lock && (int) $lock > time() - 10 * MINUTE_IN_SECONDS ) {
+		// add the same pages and projects. INSERT IGNORE is atomic (option_name is unique in
+		// the database): only the request whose row went in runs the upgrade. (add_option()
+		// is not enough: WordPress writes it as INSERT … ON DUPLICATE KEY UPDATE.) A lock
+		// older than ten minutes (a request that died) is removed in the same conditional
+		// DELETE, so a lock another request has just taken is never deleted.
+		if ( ! aaykay_upgrade_lock() ) {
 			return;
 		}
-		if ( $lock ) {
-			delete_option( 'aaykay_upgrade_lock' );
-		}
-		if ( ! add_option( 'aaykay_upgrade_lock', (string) time(), '', false ) ) {
+		// Another request may have finished the upgrade between the check above and the lock.
+		global $wpdb;
+		$version = (int) $wpdb->get_var( "SELECT option_value FROM {$wpdb->options} WHERE option_name = 'aaykay_data_version'" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- must bypass the option cache.
+		$version = $version ? $version : 1;
+		if ( $version >= AAYKAY_DATA_VERSION ) {
+			aaykay_upgrade_unlock();
 			return;
 		}
 		// Only a site that imported earlier content has anything to upgrade.
@@ -67,10 +70,32 @@ add_action(
 			aaykay_upgrade_cleanup();
 		}
 		update_option( 'aaykay_data_version', AAYKAY_DATA_VERSION, true );
-		delete_option( 'aaykay_upgrade_lock' );
+		aaykay_upgrade_unlock();
 	},
 	20 // After the content types are registered (init, 10).
 );
+
+/** Take the upgrade lock; true if this request now holds it. */
+function aaykay_upgrade_lock() {
+	global $wpdb;
+	$now   = time();
+	$stale = (string) ( $now - 10 * MINUTE_IN_SECONDS );
+	// phpcs:disable WordPress.DB.DirectDatabaseQuery -- an atomic lock must bypass the option cache.
+	$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->options} WHERE option_name = 'aaykay_upgrade_lock' AND CAST(option_value AS UNSIGNED) < %d", $stale ) );
+	$wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO {$wpdb->options} (option_name, option_value, autoload) VALUES ('aaykay_upgrade_lock', %s, 'off')", (string) $now ) );
+	$won = 1 === (int) $wpdb->rows_affected;
+	// phpcs:enable
+	wp_cache_delete( 'aaykay_upgrade_lock', 'options' );
+	wp_cache_delete( 'notoptions', 'options' );
+	return $won;
+}
+
+/** Release the upgrade lock. */
+function aaykay_upgrade_unlock() {
+	global $wpdb;
+	$wpdb->delete( $wpdb->options, array( 'option_name' => 'aaykay_upgrade_lock' ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- see aaykay_upgrade_lock().
+	wp_cache_delete( 'aaykay_upgrade_lock', 'options' );
+}
 
 /** seed/upgrade-N.json as an array, or null. */
 function aaykay_upgrade_seed( $n ) {

@@ -16,6 +16,11 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/** Every status an enquiry can have, including the bin ('any' leaves the bin out). */
+function aaykay_enquiry_statuses() {
+	return array_values( array_diff( array_keys( get_post_stati() ), array( 'auto-draft', 'inherit' ) ) );
+}
+
 /** Enquiry IDs sent from an email address (any status, including the bin). */
 function aaykay_enquiries_by_email( $email, $page = 1, $per_page = 50 ) {
 	$email = sanitize_email( $email );
@@ -25,7 +30,7 @@ function aaykay_enquiries_by_email( $email, $page = 1, $per_page = 50 ) {
 	return get_posts(
 		array(
 			'post_type'      => 'aaykay_enquiry',
-			'post_status'    => 'any',
+			'post_status'    => aaykay_enquiry_statuses(),
 			'posts_per_page' => $per_page,
 			'paged'          => max( 1, (int) $page ),
 			'fields'         => 'ids',
@@ -85,18 +90,23 @@ add_filter(
 			'eraser_friendly_name' => 'Website enquiries',
 			'callback'             => function ( $email ) {
 				// Always page 1: each pass deletes what it found, so the next batch moves up.
-				$ids     = aaykay_enquiries_by_email( $email, 1 );
-				$removed = 0;
+				$ids      = aaykay_enquiries_by_email( $email, 1 );
+				$removed  = 0;
+				$retained = 0;
 				foreach ( $ids as $id ) {
 					if ( wp_delete_post( $id, true ) ) {
 						++$removed;
+					} else {
+						++$retained;
 					}
 				}
 				return array(
 					'items_removed'  => $removed,
-					'items_retained' => 0,
-					'messages'       => array(),
-					'done'           => count( $ids ) < 50,
+					'items_retained' => $retained,
+					'messages'       => $retained ? array( $retained . ' enquiry record(s) could not be deleted; delete them under Enquiries.' ) : array(),
+					// Stop when the batch was the last one, or when nothing could be deleted
+					// (otherwise the same records would come back for ever).
+					'done'           => count( $ids ) < 50 || 0 === $removed,
 				);
 			},
 		);
@@ -138,11 +148,12 @@ function aaykay_apply_retention() {
 		return 0;
 	}
 	$deleted = 0;
+	$rounds  = 0;
 	do {
 		$ids = get_posts(
 			array(
 				'post_type'      => 'aaykay_enquiry',
-				'post_status'    => 'any',
+				'post_status'    => aaykay_enquiry_statuses(),
 				'posts_per_page' => 100,
 				'fields'         => 'ids',
 				'date_query'     => array(
@@ -153,12 +164,15 @@ function aaykay_apply_retention() {
 				),
 			)
 		);
+		$before = $deleted;
 		foreach ( $ids as $id ) {
 			if ( wp_delete_post( $id, true ) ) {
 				++$deleted;
 			}
 		}
-	} while ( count( $ids ) === 100 && $deleted < 5000 );
+		++$rounds;
+		// Stop after the last batch, if a batch deleted nothing (blocked), or after 50 rounds.
+	} while ( count( $ids ) === 100 && $deleted > $before && $rounds < 50 );
 	return $deleted;
 }
 add_action( AAYKAY_RETENTION_HOOK, 'aaykay_apply_retention' );

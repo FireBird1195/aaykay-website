@@ -2,7 +2,7 @@
 # Build a disposable WordPress with the AAYKAY theme active, for tests (local or CI).
 # Never point this at a real site: it DROPS AND RECREATES the database named in DB_NAME.
 #
-#   WP_PATH=/var/www/aaykay WP_URL=http://localhost:8080 DB_NAME=wp DB_USER=wp DB_PASS=… \
+#   WP_PATH=/tmp/wp-test WP_URL=http://localhost:8080 DB_NAME=wp DB_USER=wp DB_PASS=… \
 #     tests/bin/fresh-site.sh
 #
 # Needs: php, wp-cli (wp), git, a MySQL/MariaDB server. WP_VERSION picks the WordPress tag
@@ -26,6 +26,10 @@ if [ ! -f "$WP_PATH/wp-config.php" ]; then
   $WP config set WP_ENVIRONMENT_TYPE local --quiet
   $WP config set DISABLE_WP_CRON true --raw --quiet
 fi
+# Safety: only ever reset the database this script was told about, on a local/CI site.
+[ "$($WP config get DB_NAME)" = "$DB_NAME" ] || { echo "wp-config.php in $WP_PATH names database '$($WP config get DB_NAME)', not '$DB_NAME'. Stopping." >&2; exit 1; }
+env_type="$($WP config get WP_ENVIRONMENT_TYPE 2>/dev/null || echo production)"
+case "$env_type" in local|development) ;; *) echo "WP_ENVIRONMENT_TYPE is '$env_type' (not local/development). Stopping: this script wipes the database." >&2; exit 1;; esac
 $WP db reset --yes --quiet
 $WP core install --url="$WP_URL" --title="AAYKAY Electricals" --admin_user=admin \
   --admin_password="${WP_ADMIN_PASS:-LocalOnly-Admin-2026}" --admin_email=dev@example.test --skip-email --quiet
