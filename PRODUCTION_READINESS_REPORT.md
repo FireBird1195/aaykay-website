@@ -7,6 +7,10 @@
   - Apache 2.4 with `.htaccess` (closest available stand-in for Hostinger's LiteSpeed), and PHP's built-in server with the CI router
   - Chromium (Playwright 1.63), Lighthouse 12.8.2
 
+## Update (31 Oct 2026, later): CI green on GitHub
+
+The pull request's checks all passed on GitHub after commit `c651d02`: PHP lint 7.4/8.2–8.5, phpcs security rules, gitleaks, and WordPress + MariaDB integration and browser tests on PHP 8.3, 8.4 and 8.5, with Firefox and WebKit (iPhone/iPad sizes) on 8.3. This closes the "Firefox/WebKit" and "PHP 8.4/8.5 at runtime" gaps in §5.8. Hostinger itself is still unverified (§1).
+
 ## Verdict
 
 **The code is a release candidate. The website is NOT READY TO LAUNCH.**
