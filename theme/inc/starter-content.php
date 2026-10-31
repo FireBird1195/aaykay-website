@@ -30,6 +30,10 @@ add_action(
 		if ( ! get_option( 'aaykay_starter_imported' ) ) {
 			aaykay_import_starter_content();
 			update_option( 'aaykay_starter_imported', gmdate( 'c' ), false );
+			// The starter content is already the current version: nothing to upgrade.
+			if ( false === get_option( 'aaykay_data_version', false ) ) {
+				update_option( 'aaykay_data_version', AAYKAY_DATA_VERSION, true );
+			}
 		}
 	}
 );

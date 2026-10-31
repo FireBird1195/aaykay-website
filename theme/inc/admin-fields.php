@@ -517,7 +517,9 @@ function aaykay_render_enquiry_box( $post ) {
 	}
 	$mail_note = array(
 		'1'    => 'Sent.',
-		'held' => 'Not emailed: many enquiries came from the same connection within an hour, so this one was only saved here. Check that it is genuine before replying.',
+		'held' => 'fast' === get_post_meta( $post->ID, '_aaykay_held_reason', true )
+			? 'Not emailed: the form was sent within three seconds of the page opening, which is usually an automated (spam) sender, so this one was only saved here. Check that it is genuine before replying.'
+			: 'Not emailed: many enquiries came from the same connection within an hour, so this one was only saved here. Check that it is genuine before replying.',
 	);
 	echo '<tr><th scope="row">Email notification</th><td>' . esc_html( isset( $mail_note[ $mailed ] ) ? $mail_note[ $mailed ] : 'Could not be sent. Reply to this enquiry directly, and ask your developer to check the email settings.' ) . '</td></tr>';
 	$sheet = get_post_meta( $post->ID, '_aaykay_sheet', true );

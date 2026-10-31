@@ -2,7 +2,7 @@
 /**
  * AAYKAY Electricals theme.
  *
- * Ten pages (inc/pages.php) built from the sections in template-parts/home/: the home page
+ * Six pages (inc/pages.php) built from the sections in template-parts/home/: the home page
  * is front-page.php, the others aaykay-page.php.
  * Content that changes lives in WordPress; everything else is in the templates.
  *
@@ -17,6 +17,8 @@
  *   inc/enquiry.php          the enquiry form: validation, storage, email
  *   inc/leads.php            enquiries to Google Sheets (optional) and CSV download
  *   inc/setup.php            theme supports, scripts and styles, <head> clean-up, hardening
+ *   inc/privacy.php          personal data: export/erase tools for enquiries, optional retention
+ *   inc/health.php           /wp-json/aaykay/v1/health for uptime monitors; Tools > Site Health checks
  *   inc/seo.php              title, description, social tags, canonical URL, structured data
  *   inc/starter-content.php  one-time import of seed/content.json
  *   inc/upgrade.php          one-time upgrade of a version 1 site (client brief, 10 Oct 2026)
@@ -38,6 +40,8 @@ require AAYKAY_DIR . '/inc/template-data.php';
 require AAYKAY_DIR . '/inc/map.php';
 require AAYKAY_DIR . '/inc/enquiry.php';
 require AAYKAY_DIR . '/inc/leads.php';
+require AAYKAY_DIR . '/inc/privacy.php';
+require AAYKAY_DIR . '/inc/health.php';
 require AAYKAY_DIR . '/inc/setup.php';
 require AAYKAY_DIR . '/inc/seo.php';
 require AAYKAY_DIR . '/inc/starter-content.php';

@@ -248,8 +248,22 @@ add_action(
 		header( 'X-Frame-Options: SAMEORIGIN' );
 		header( 'Referrer-Policy: strict-origin-when-cross-origin' );
 		header( 'Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()' );
+		// Content Security Policy: the parts that cannot break the page. No other site may
+		// frame it, no <base> or plugin (<object>) tricks, and forms may only post back to
+		// this site. Scripts and styles are not restricted here: WordPress prints inline
+		// scripts of its own, and a policy that blocks them would break the dashboard bar.
+		header( "Content-Security-Policy: frame-ancestors 'self'; base-uri 'self'; object-src 'none'; form-action 'self'" . ( is_ssl() ? '; upgrade-insecure-requests' : '' ) );
+		// HSTS tells browsers to use HTTPS only, for max-age seconds; it can't be withdrawn
+		// early, so it is off until HTTPS works on every address of the site. Switch it on in
+		// wp-config.php with define( 'AAYKAY_HSTS', true ); (see HOSTINGER_DEPLOYMENT_GUIDE.md).
+		if ( is_ssl() && defined( 'AAYKAY_HSTS' ) && AAYKAY_HSTS ) {
+			header( 'Strict-Transport-Security: max-age=15552000' );
+		}
 	}
 );
+
+// The ?p=123 "shortlink" header points at addresses the site redirects or hides anyway.
+remove_action( 'template_redirect', 'wp_shortlink_header', 11 );
 
 /**
  * Nobody edits theme or plugin code from the dashboard (Appearance > Theme File Editor):
