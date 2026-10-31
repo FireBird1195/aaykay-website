@@ -8,8 +8,17 @@ code changes go through this repository and deploy automatically. No plugins are
 | Path | What it is |
 |---|---|
 | `theme/` | The WordPress theme. Everything that goes to the server. See `theme/README.md`. |
-| `.github/workflows/check.yml` | On every push: PHP syntax check, JavaScript check, starter-data check |
+| `.github/workflows/check.yml` | On every push: PHP lint (7.4, 8.2–8.5), phpcs security rules, secret scan, starter-data check, and the site running in WordPress + MariaDB with integration and browser tests (PHP 8.3/8.4/8.5) |
 | `.github/workflows/deploy.yml` | On every push to `main`: copies `theme/` to the `deploy` branch |
+| `.github/workflows/rollback.yml` | By hand: put an earlier commit's theme back live |
+| `tests/` | Integration tests (inside WordPress), Playwright browser tests, `smoke.sh` for the live site. Never deployed |
+| `phpcs.xml.dist` | Code rules CI enforces (WordPress security sniffs, PHP compatibility) |
+| `PRODUCTION_READINESS_REPORT.md` | What was found, fixed and tested; launch blockers; the verdict |
+| `HOSTINGER_DEPLOYMENT_GUIDE.md` | Exact hosting setup, wp-config.php, email, hardening, cache, cron, launch, rollback |
+| `TESTING_GUIDE.md` | How to run every check locally and what CI runs |
+| `OPERATIONS_RUNBOOK.md` | Monitoring, logs, common failures, backups and restore, data requests |
+| `ENGINEERING_RESEARCH.md` | Tools and options evaluated, and why |
+| `.env.example` | Every setting (wp-config.php constants and test variables), safe examples only |
 | `docs/HANDOFF.md` | Short state-and-rules note for the next developer or AI session |
 | `docs/google-sheets-apps-script.gs` | Script pasted into AAYKAY's Google Sheet so enquiries also land in a sheet (not deployed) |
 
@@ -33,7 +42,7 @@ straight into the theme folder. Never commit to `deploy` by hand; it is rewritte
 
 ## First-time setup on Hostinger
 
-The step-by-step version, with screenshots, is in the client guide (PDF). In short:
+The full, current version is `HOSTINGER_DEPLOYMENT_GUIDE.md` (the client guide PDF has screenshots). In short:
 
 1. Buy the domain and a Web Hosting plan in AAYKAY's own Hostinger account.
 2. Install WordPress from hPanel. Settings → Reading → tick "Discourage search engines"
@@ -84,3 +93,13 @@ as `aaykay/`) under Appearance → Themes → Add New → Upload Theme.
   limits. Saved first, then sent to Google Sheets, then emailed.
 - **No animation libraries.** GSAP, ScrollTrigger and Lenis were removed; reveals use
   IntersectionObserver and respect "reduce motion".
+
+## Checks before merging
+
+```bash
+tests/bin/fresh-site.sh            # disposable WordPress with this theme (see TESTING_GUIDE.md)
+wp --path="$WP_PATH" eval-file tests/php/integration.php
+cd tests && npx playwright test
+```
+
+Merging to `main` deploys, so CI must be green first.

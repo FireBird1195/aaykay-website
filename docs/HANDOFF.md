@@ -1,5 +1,13 @@
 # Handoff notes (for the next developer or AI session)
 
+## State (31 Oct 2026): branch `release/production-readiness`
+On top of `feat/review-oct13`. Production-readiness pass: enquiry failure paths fixed (no-JS
+result, fast senders held not dropped, 30 s timeout), privacy export/erase/retention
+(`inc/privacy.php`), health endpoint and Site Health checks (`inc/health.php`), atomic upgrade
+lock, CSP/HSTS option, OG tags on all pages, CLS/LCP fixes, tests (`tests/`), CI on PHP
+8.2–8.5 with real WordPress e2e, rollback workflow. Read `PRODUCTION_READINESS_REPORT.md`
+first: the code is a release candidate; launch is blocked by the items in its §1.
+
 The full explanation is the PDF **AAYKAY developer handbook** (kept with the hand-off files and in
 the claude.ai project "Aakay Electricals"). This page is the short version.
 
