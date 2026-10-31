@@ -63,7 +63,7 @@ add_filter(
 				),
 				'description' => '<p>' . esc_html( $description ) . '</p>',
 				'actions'     => $action,
-				'test'        => 'aaykay',
+				'test'        => 'aaykay', // Replaced below by each check's own id.
 			);
 		};
 		$link = function ( $url, $text ) {
@@ -109,6 +109,15 @@ add_filter(
 				return $result( 'The privacy notice is not published', 'recommended', 'The enquiry form collects personal details. Complete the draft privacy notice (Settings > Privacy), have it checked, and publish it; the form then links to it.', $link( admin_url( 'options-privacy.php' ), 'Settings > Privacy' ) );
 			},
 		);
+		// Site Health builds element ids from 'test', so each check needs its own.
+		foreach ( array( 'aaykay_email', 'aaykay_launch', 'aaykay_privacy' ) as $id ) {
+			$inner                         = $tests['direct'][ $id ]['test'];
+			$tests['direct'][ $id ]['test'] = function () use ( $inner, $id ) {
+				$r         = $inner();
+				$r['test'] = $id;
+				return $r;
+			};
+		}
 		return $tests;
 	}
 );
