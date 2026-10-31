@@ -311,6 +311,10 @@ line-height: .88; letter-spacing: .005em; text-transform: uppercase; color: #fff
    and the photo never drift apart, and pausing simply pauses the fill. A bar is a button
    of 1.5rem height around a 3px line, so it is easy to hit. */
 .hero-controls { --hero-dur: 7s; display: flex; align-items: center; gap: var(--s3); min-width: 0; }
+/* With JavaScript on, the controls are certain to appear (site.js shows them), so their row
+   is kept, invisible, from the first paint: the opening screen no longer grows by a row
+   when the script runs (measured layout shift 0.11 on a throttled phone, now 0). */
+.js .hero-controls[hidden] { display: flex !important; visibility: hidden; }
 .hero-dots { display: flex; gap: 4px; width: clamp(12rem, 24vw, 22rem); }
 .hero-dot { position: relative; flex: 1 1 0; min-width: 0; height: 1.5rem; padding: 0; border: 0; background: transparent; cursor: pointer; }
 .hero-dot::before, .hero-dot::after { content: ""; position: absolute; left: 0; right: 0; top: calc(50% - 1.5px); height: 3px; border-radius: 2px; }
