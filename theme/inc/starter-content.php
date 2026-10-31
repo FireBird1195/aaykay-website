@@ -27,7 +27,17 @@ function aaykay_seed_data() {
 add_action(
 	'after_switch_theme',
 	function () {
-		if ( ! get_option( 'aaykay_starter_imported' ) ) {
+		// WordPress runs this hook on the first request after activation and only clears its
+		// flag afterwards, so two requests arriving together (the dashboard reload, a
+		// background "heartbeat", the site opened in another tab) would both import and
+		// every project, logo and page would appear twice. Claim the import atomically
+		// first: INSERT IGNORE succeeds for exactly one request.
+		global $wpdb;
+		$wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO {$wpdb->options} (option_name, option_value, autoload) VALUES ('aaykay_starter_imported', %s, 'off')", 'running ' . gmdate( 'c' ) ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- an atomic claim must bypass the option cache.
+		$won = 1 === (int) $wpdb->rows_affected;
+		wp_cache_delete( 'aaykay_starter_imported', 'options' );
+		wp_cache_delete( 'notoptions', 'options' );
+		if ( $won ) {
 			aaykay_import_starter_content();
 			update_option( 'aaykay_starter_imported', gmdate( 'c' ), false );
 			// The starter content is already the current version: nothing to upgrade.

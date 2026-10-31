@@ -28,7 +28,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'AAYKAY_VERSION', '3.1.0' );
+define( 'AAYKAY_VERSION', '3.1.1' );
 define( 'AAYKAY_DIR', get_template_directory() );
 
 require AAYKAY_DIR . '/inc/helpers.php';
