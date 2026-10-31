@@ -32,12 +32,12 @@ $aaykay_regd    = trim( (string) aaykay_setting( 'registered_office' ) );
       <h2 class="footer-h">Contact</h2>
       <address class="footer-addr"><?php echo esc_html( aaykay_join( ', ', array( $aaykay_contact['street'], $aaykay_contact['area'], aaykay_join( ' ', array( $aaykay_contact['city'], $aaykay_contact['postcode'] ) ), $aaykay_contact['full'] ? '' : $aaykay_contact['state'] ) ) ); ?></address>
       <ul class="footer-lines">
-        <li class="copy-row"><a href="tel:<?php echo esc_attr( $aaykay_contact['tel'] ); ?>" id="f-phone"><?php echo esc_html( $aaykay_contact['phone'] ); ?></a><?php echo aaykay_copy_button( $aaykay_contact['phone'], 'f-phone', 'phone number' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></li>
+        <li class="copy-row"><a href="tel:<?php echo esc_attr( $aaykay_contact['tel'] ); ?>" id="ft-phone"><?php echo esc_html( $aaykay_contact['phone'] ); ?></a><?php echo aaykay_copy_button( $aaykay_contact['phone'], 'ft-phone', 'phone number' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></li>
 <?php if ( '' !== $aaykay_contact['phone2'] ) : ?>
-        <li class="copy-row"><a href="tel:<?php echo esc_attr( $aaykay_contact['tel2'] ); ?>" id="f-phone2"><?php echo esc_html( $aaykay_contact['phone2'] ); ?></a><?php echo aaykay_copy_button( $aaykay_contact['phone2'], 'f-phone2', 'phone number' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></li>
+        <li class="copy-row"><a href="tel:<?php echo esc_attr( $aaykay_contact['tel2'] ); ?>" id="ft-phone2"><?php echo esc_html( $aaykay_contact['phone2'] ); ?></a><?php echo aaykay_copy_button( $aaykay_contact['phone2'], 'ft-phone2', 'phone number' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></li>
 <?php endif; ?>
 <?php if ( '' !== $aaykay_contact['email'] ) : ?>
-        <li class="copy-row"><a href="mailto:<?php echo esc_attr( $aaykay_contact['email'] ); ?>" id="f-email"><?php echo esc_html( $aaykay_contact['email'] ); ?></a><?php echo aaykay_copy_button( $aaykay_contact['email'], 'f-email', 'email address' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></li>
+        <li class="copy-row"><a href="mailto:<?php echo esc_attr( $aaykay_contact['email'] ); ?>" id="ft-email"><?php echo esc_html( $aaykay_contact['email'] ); ?></a><?php echo aaykay_copy_button( $aaykay_contact['email'], 'ft-email', 'email address' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the helper. ?></li>
 <?php endif; ?>
       </ul>
     </div>

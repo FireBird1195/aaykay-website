@@ -564,9 +564,17 @@
       // aria-disabled rather than disabled, so keyboard focus stays on the button.
       button.setAttribute('aria-disabled', 'true');
       status.textContent = 'Sending your enquiry…';
+      // Never leave "Sending…" on screen for ever: give up after 30 seconds (the server
+      // saves the enquiry first, so it may still have arrived; the message says so).
+      var timedOut = false;
+      var ctrl = window.AbortController ? new AbortController() : null;
+      var timer = setTimeout(function () { timedOut = true; if (ctrl) ctrl.abort(); }, 30000);
       // getAttribute: form.action would return the hidden input named "action", not the URL.
-      fetch(form.getAttribute('action'), { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' }, credentials: 'same-origin' })
-        .then(function (res) { return res.json().catch(function () { return { ok: false }; }); })
+      fetch(form.getAttribute('action'), { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' }, credentials: 'same-origin', signal: ctrl ? ctrl.signal : undefined })
+        .then(function (res) {
+          if (timedOut) throw new Error('timeout');
+          return res.json().catch(function () { return { ok: false }; });
+        })
         .then(function (data) {
           if (data && data.ok) {
             form.reset();
@@ -584,9 +592,12 @@
           status.textContent = (data && data.message) || ('Sorry, your enquiry could not be sent. ' + fallback());
         })
         .catch(function () {
-          status.textContent = 'Sorry, your enquiry could not be sent. Check your connection and try again, or ' + fallback().charAt(0).toLowerCase() + fallback().slice(1);
+          status.textContent = timedOut
+            ? 'This is taking longer than it should, so we stopped waiting. Your enquiry may still have reached us. If you do not hear back, ' + fallback().charAt(0).toLowerCase() + fallback().slice(1)
+            : 'Sorry, your enquiry could not be sent. Check your connection and try again, or ' + fallback().charAt(0).toLowerCase() + fallback().slice(1);
         })
         .then(function () {
+          clearTimeout(timer);
           sending = false;
           button.removeAttribute('aria-disabled');
         });

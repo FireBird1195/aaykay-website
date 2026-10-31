@@ -38,6 +38,20 @@ add_action(
 		if ( $version >= AAYKAY_DATA_VERSION ) {
 			return;
 		}
+		// One request at a time: two visitors arriving together after a deploy must not both
+		// add the same pages and projects. add_option() is atomic (the option name is unique
+		// in the database), so only the request that creates the lock runs the upgrade; a
+		// lock older than ten minutes (a request that died) is taken over.
+		$lock = get_option( 'aaykay_upgrade_lock' );
+		if ( $lock && (int) $lock > time() - 10 * MINUTE_IN_SECONDS ) {
+			return;
+		}
+		if ( $lock ) {
+			delete_option( 'aaykay_upgrade_lock' );
+		}
+		if ( ! add_option( 'aaykay_upgrade_lock', (string) time(), '', false ) ) {
+			return;
+		}
 		// Only a site that imported earlier content has anything to upgrade.
 		if ( get_option( 'aaykay_starter_imported' ) ) {
 			if ( $version < 2 ) {
@@ -53,6 +67,7 @@ add_action(
 			aaykay_upgrade_cleanup();
 		}
 		update_option( 'aaykay_data_version', AAYKAY_DATA_VERSION, true );
+		delete_option( 'aaykay_upgrade_lock' );
 	},
 	20 // After the content types are registered (init, 10).
 );

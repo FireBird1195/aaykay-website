@@ -131,23 +131,25 @@ function aaykay_handle_enquiry() {
 	// phpcs:disable WordPress.Security.NonceVerification.Missing -- public form, see the file header.
 	$wants_json = isset( $_SERVER['HTTP_ACCEPT'] ) && false !== strpos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_ACCEPT'] ) ), 'application/json' );
 
-	// Bots: the honeypot is filled in, or the form was sent within 3 seconds of the page
-	// opening. site.js always reports the time; a plain HTML post (no JavaScript) can't, so
-	// only those are let through without it. Answer as if it worked so bots learn nothing,
-	// and store nothing.
-	$honeypot = isset( $_POST['website'] ) ? ( is_string( $_POST['website'] ) ? trim( wp_unslash( $_POST['website'] ) ) : 'not a string' ) : '';
-	$elapsed  = isset( $_POST['elapsed'] ) && is_string( $_POST['elapsed'] ) && '' !== $_POST['elapsed'] ? (int) $_POST['elapsed'] : -1;
-	$too_fast = $wants_json ? $elapsed < 3000 : ( $elapsed >= 0 && $elapsed < 3000 );
-	if ( '' !== $honeypot || $too_fast ) {
+	// Bots: the honeypot is filled in. Answer as if it worked so bots learn nothing, and
+	// store nothing. People never see the honeypot, so no real enquiry is lost here.
+	$honeypot = isset( $_POST['website'] ) ? ( is_string( $_POST['website'] ) ? trim( sanitize_text_field( wp_unslash( $_POST['website'] ) ) ) : 'not a string' ) : '';
+	if ( '' !== $honeypot ) {
 		aaykay_enquiry_respond( $wants_json, true );
 	}
+	// Sent within 3 seconds of the page opening (site.js always reports the time; a plain
+	// HTML post without JavaScript can't, so only those may leave it out). Usually a bot,
+	// but a person with a password manager or autofill can be that quick, so the enquiry is
+	// kept and marked "held" for a person to check rather than thrown away. It is not
+	// emailed or sent to the Google Sheet.
+	$elapsed  = isset( $_POST['elapsed'] ) && is_string( $_POST['elapsed'] ) && '' !== $_POST['elapsed'] ? (int) $_POST['elapsed'] : -1;
+	$too_fast = $wants_json ? $elapsed < 3000 : ( $elapsed >= 0 && $elapsed < 3000 );
 
 	$data             = array();
 	$errors           = array();
 	$required_missing = array();
 	foreach ( aaykay_enquiry_fields() as $key => $f ) {
-		$raw = isset( $_POST[ $key ] ) ? wp_unslash( $_POST[ $key ] ) : '';
-		$raw = is_string( $raw ) ? $raw : '';
+		$raw = isset( $_POST[ $key ] ) && is_string( $_POST[ $key ] ) ? wp_unslash( $_POST[ $key ] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitised on the next line.
 		$val = 'message' === $key ? sanitize_textarea_field( $raw ) : sanitize_text_field( $raw );
 		$val = mb_substr( trim( $val ), 0, $f[2] ); // WordPress provides mb_substr() if mbstring is missing.
 		if ( $f[1] && '' === $val ) {
@@ -177,7 +179,7 @@ function aaykay_handle_enquiry() {
 		aaykay_enquiry_respond( $wants_json, false, array(), 'Too many enquiries have been sent from this connection in the last hour. Please email ' . $contact['email'] . ' or call ' . $contact['phone'] . '.' );
 	}
 	set_transient( $key, $count + 1, HOUR_IN_SECONDS );
-	$send_email = $count < AAYKAY_ENQUIRY_EMAIL_LIMIT;
+	$send_email = $count < AAYKAY_ENQUIRY_EMAIL_LIMIT && ! $too_fast;
 
 	// 1. Save it.
 	$post_id = wp_insert_post(
@@ -207,6 +209,7 @@ function aaykay_handle_enquiry() {
 	// 3. Email it.
 	if ( ! $send_email ) {
 		update_post_meta( $post_id, '_aaykay_mailed', 'held' );
+		update_post_meta( $post_id, '_aaykay_held_reason', $too_fast ? 'fast' : 'volume' );
 		aaykay_enquiry_respond( $wants_json, true );
 	}
 	$to = array_filter( array_map( 'trim', explode( ',', (string) aaykay_setting( 'enquiry_to' ) ) ), 'is_email' );
@@ -251,8 +254,10 @@ function aaykay_enquiry_respond( $json, $ok, $errors = array(), $message = '' ) 
 			$ok ? 200 : 422
 		);
 	}
+	// Back to the page that holds the form (Contact Us), where the message is printed under
+	// the button. The home page has no form, so a message sent there would never be seen.
 	$state = $ok ? 'sent' : ( $errors ? 'invalid' : 'failed' );
-	wp_safe_redirect( add_query_arg( 'enquiry', $state, home_url( '/' ) ) . '#contact', 303 );
+	wp_safe_redirect( add_query_arg( 'enquiry', $state, aaykay_page_url( aaykay_section_page( 'contact' ) ) ) . '#enquiry', 303 );
 	exit;
 }
 
@@ -279,23 +284,49 @@ function aaykay_enquiry_status_text() {
  *   define( 'AAYKAY_SMTP_USER', 'website@akepl.in' );
  *   define( 'AAYKAY_SMTP_PASS', 'the mailbox password' );
  *
+ * Optional: define( 'AAYKAY_SMTP_SECURE', 'ssl' ); // 'ssl' (port 465), 'tls' (STARTTLS,
+ * port 587) or 'none' (only for a local test mail catcher). Without it the port decides.
+ *
  * The password stays in wp-config.php (not in the database or in Git). Without these lines
  * WordPress sends mail the usual way.
  */
 add_action(
 	'phpmailer_init',
 	function ( $mailer ) {
-		if ( ! defined( 'AAYKAY_SMTP_HOST' ) || ! defined( 'AAYKAY_SMTP_USER' ) || ! defined( 'AAYKAY_SMTP_PASS' ) ) {
+		if ( ! aaykay_smtp_configured() ) {
 			return;
 		}
-		$port               = defined( 'AAYKAY_SMTP_PORT' ) ? (int) AAYKAY_SMTP_PORT : 465;
+		$port   = defined( 'AAYKAY_SMTP_PORT' ) ? (int) AAYKAY_SMTP_PORT : 465;
+		$secure = defined( 'AAYKAY_SMTP_SECURE' ) ? strtolower( (string) AAYKAY_SMTP_SECURE ) : ( 465 === $port ? 'ssl' : 'tls' );
 		$mailer->isSMTP();
-		$mailer->Host       = AAYKAY_SMTP_HOST; // phpcs:ignore WordPress.NamingConventions.ValidVariableName -- PHPMailer property.
-		$mailer->Port       = $port; // phpcs:ignore WordPress.NamingConventions.ValidVariableName -- PHPMailer property.
-		$mailer->SMTPAuth   = true; // phpcs:ignore WordPress.NamingConventions.ValidVariableName -- PHPMailer property.
-		$mailer->SMTPSecure = 465 === $port ? 'ssl' : 'tls'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName -- PHPMailer property.
-		$mailer->Username   = AAYKAY_SMTP_USER; // phpcs:ignore WordPress.NamingConventions.ValidVariableName -- PHPMailer property.
-		$mailer->Password   = AAYKAY_SMTP_PASS; // phpcs:ignore WordPress.NamingConventions.ValidVariableName -- PHPMailer property.
+		$mailer->Host     = AAYKAY_SMTP_HOST; // phpcs:ignore WordPress.NamingConventions.ValidVariableName -- PHPMailer property.
+		$mailer->Port     = $port; // phpcs:ignore WordPress.NamingConventions.ValidVariableName -- PHPMailer property.
+		$mailer->SMTPAuth = '' !== (string) AAYKAY_SMTP_USER; // phpcs:ignore WordPress.NamingConventions.ValidVariableName -- PHPMailer property.
+		$mailer->Username = AAYKAY_SMTP_USER; // phpcs:ignore WordPress.NamingConventions.ValidVariableName -- PHPMailer property.
+		$mailer->Password = AAYKAY_SMTP_PASS; // phpcs:ignore WordPress.NamingConventions.ValidVariableName -- PHPMailer property.
+		$mailer->Timeout  = 15; // phpcs:ignore WordPress.NamingConventions.ValidVariableName -- PHPMailer property. Seconds; keeps a stuck mail server from holding the visitor's request for minutes.
+		if ( 'none' === $secure ) {
+			$mailer->SMTPSecure  = ''; // phpcs:ignore WordPress.NamingConventions.ValidVariableName -- PHPMailer property.
+			$mailer->SMTPAutoTLS = false; // phpcs:ignore WordPress.NamingConventions.ValidVariableName -- PHPMailer property.
+		} else {
+			$mailer->SMTPSecure = 'ssl' === $secure ? 'ssl' : 'tls'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName -- PHPMailer property.
+		}
+	}
+);
+
+/** Whether wp-config.php sets up SMTP sending (see above). */
+function aaykay_smtp_configured() {
+	return defined( 'AAYKAY_SMTP_HOST' ) && defined( 'AAYKAY_SMTP_USER' ) && defined( 'AAYKAY_SMTP_PASS' ) && '' !== (string) AAYKAY_SMTP_HOST;
+}
+
+// A failed send is recorded on the enquiry ("Could not be sent"); also note why in the PHP
+// error log, without the message or the visitor's details, so the cause can be found.
+add_action(
+	'wp_mail_failed',
+	function ( $error ) {
+		if ( is_wp_error( $error ) ) {
+			error_log( '[aaykay] email could not be sent: ' . preg_replace( '/[^\s@<>()]+@[^\s@<>()]+/', '[address]', $error->get_error_message() ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- operational log, no personal data.
+		}
 	}
 );
 
@@ -303,12 +334,15 @@ add_action(
 add_filter(
 	'wp_mail_from',
 	function ( $from ) {
+		if ( defined( 'AAYKAY_MAIL_FROM' ) && is_email( AAYKAY_MAIL_FROM ) ) {
+			return AAYKAY_MAIL_FROM; // Optional: when the SMTP login is not itself the sending address.
+		}
 		return defined( 'AAYKAY_SMTP_USER' ) && is_email( AAYKAY_SMTP_USER ) ? AAYKAY_SMTP_USER : $from;
 	}
 );
 add_filter(
 	'wp_mail_from_name',
 	function ( $name ) {
-		return defined( 'AAYKAY_SMTP_USER' ) ? 'AAYKAY website' : $name;
+		return aaykay_smtp_configured() ? 'AAYKAY website' : $name;
 	}
 );

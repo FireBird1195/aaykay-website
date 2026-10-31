@@ -112,6 +112,12 @@ function aaykay_render_sheets_test() {
 
 /* ------------------------------------------------------------------ CSV download */
 
+/** A CSV cell that Excel or Google Sheets will not run as a formula (= + - @ tab CR first). */
+function aaykay_csv_cell( $value ) {
+	$value = (string) $value;
+	return preg_match( '/^[=+\-@\t\r]/', $value ) ? "'" . $value : $value;
+}
+
 add_action(
 	'admin_post_aaykay_enquiries_csv',
 	function () {
@@ -138,20 +144,15 @@ add_action(
 			$head[] = $f[0];
 		}
 		$head[] = 'Emailed';
-		fputcsv( $out, $head );
-		// A cell starting with = + - @ would run as a formula in Excel; prefix it with '.
-		$safe = function ( $v ) {
-			$v = (string) $v;
-			return preg_match( '/^[=+\-@\t\r]/', $v ) ? "'" . $v : $v;
-		};
+		fputcsv( $out, $head, ',', '"', '' ); // Explicit escape: PHP 8.4+ deprecates the default.
 		foreach ( $posts as $post ) {
 			$row = array( get_the_date( 'Y-m-d H:i', $post ) );
 			foreach ( array_keys( $fields ) as $key ) {
-				$row[] = $safe( get_post_meta( $post->ID, '_aaykay_' . $key, true ) );
+				$row[] = aaykay_csv_cell( get_post_meta( $post->ID, '_aaykay_' . $key, true ) );
 			}
 			$mailed = get_post_meta( $post->ID, '_aaykay_mailed', true );
 			$row[]  = '1' === $mailed ? 'Yes' : ( 'held' === $mailed ? 'Held' : 'No' );
-			fputcsv( $out, $row );
+			fputcsv( $out, $row, ',', '"', '' );
 		}
 		fclose( $out ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- php://output stream.
 		exit;
