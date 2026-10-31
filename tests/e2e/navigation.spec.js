@@ -3,7 +3,12 @@
 const { test, expect } = require('@playwright/test');
 const { PAGES } = require('./helpers');
 
-const isMobile = (testInfo) => testInfo.project.name.startsWith('mobile');
+// The header shows the menu button instead of the menu at 1240 px and below (site.css,
+// NAV_BREAKPOINT in site.js), which includes tablets: decide by width, not device name.
+const isMobile = (testInfo) => (testInfo.project.use.viewport || { width: 1366 }).width <= 1240;
+// WebKit, like Safari, leaves links out of the Tab order unless the user turns it on, so
+// Tab-key tests run in Chromium and Firefox only.
+const noTabToLinks = (browserName) => browserName === 'webkit';
 
 test.describe('navigation', () => {
   test('every menu page is reachable from the menu, and the logo goes home @smoke', async ({ page }, testInfo) => {
@@ -31,7 +36,8 @@ test.describe('navigation', () => {
     await expect(page.locator('#record-table')).toBeVisible();
   });
 
-  test('skip link moves focus to the main content', async ({ page }) => {
+  test('skip link moves focus to the main content', async ({ page, browserName }) => {
+    test.skip(noTabToLinks(browserName), 'WebKit does not Tab to links by default');
     await page.goto('/');
     await page.keyboard.press('Tab');
     const skip = page.locator('.skip-link');
@@ -66,7 +72,8 @@ test.describe('navigation', () => {
 test.describe('phone menu', () => {
   test.beforeEach(async ({}, testInfo) => { test.skip(!isMobile(testInfo), 'phone layout only'); });
 
-  test('opens, traps focus, closes with Escape and returns focus', async ({ page }) => {
+  test('opens, traps focus, closes with Escape and returns focus', async ({ page, browserName }) => {
+    test.skip(noTabToLinks(browserName), 'WebKit does not Tab to links by default');
     await page.goto('/');
     const btn = page.getByRole('button', { name: 'Menu' });
     await expect(btn).toHaveAttribute('aria-expanded', 'false');

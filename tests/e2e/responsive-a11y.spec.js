@@ -68,7 +68,8 @@ test.describe('accessibility', () => {
     });
   }
 
-  test('keyboard focus is always visible', async ({ page }) => {
+  test('keyboard focus is always visible', async ({ page, browserName }) => {
+    test.skip(browserName === 'webkit', 'WebKit does not Tab to links by default');
     await page.goto('/contact-us/');
     for (let i = 0; i < 25; i++) {
       await page.keyboard.press('Tab');

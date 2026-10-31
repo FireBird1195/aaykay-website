@@ -41,6 +41,10 @@ jobs:
       - name: Install code checkers (WordPress Coding Standards 3, PHPCompatibilityWP)
         run: |
           composer global config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+          # PHPCompatibility 10 (needed for PHP 8.x rules with WPCS 3) is still pre-release, and
+          # its packages require each other at @dev, which only the root stability setting allows.
+          composer global config minimum-stability dev
+          composer global config prefer-stable true
           composer global require --no-interaction "squizlabs/php_codesniffer:^3.13" "wp-coding-standards/wpcs:^3.3" "phpcompatibility/phpcompatibility-wp:^3.0@alpha"
       - name: PHP security and compatibility rules (phpcs.xml.dist)
         run: ~/.composer/vendor/bin/phpcs --standard=phpcs.xml.dist
@@ -143,10 +147,15 @@ jobs:
         if: always()
         run: |
           log="$WP_PATH/wp-content/debug.log"
-          if [ -f "$log" ] && grep -v -E "wordpress\.org|api\.wordpress" "$log" | grep -E "PHP (Fatal|Warning|Notice|Deprecated)"; then
-            echo "::error::PHP problems logged during the tests (above)"; exit 1
+          [ -f "$log" ] || { echo "no debug.log"; exit 0; }
+          echo "--- everything PHP logged (WordPress core included, for information) ---"
+          grep -E "PHP (Fatal|Warning|Notice|Deprecated)" "$log" | sort | uniq -c | sort -rn | head -40 || true
+          # Fail on problems in this theme, and on any fatal error. Deprecations raised inside
+          # WordPress core on a new PHP version are reported above but are WordPress's to fix.
+          if grep -E "PHP (Fatal|Warning|Notice|Deprecated)" "$log" | grep -E "themes/aaykay|PHP Fatal"; then
+            echo "::error::PHP problems in the theme (above)"; exit 1
           fi
-          echo "debug.log clean"
+          echo "No PHP problems from the theme"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
