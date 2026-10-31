@@ -36,7 +36,7 @@ $aaykay_blocks = array(
       </div>
 
 <?php if ( $aaykay_figs ) : ?>
-      <ul class="gallery" data-gallery>
+      <ul class="gallery" data-gallery><?php // Photo sizes: four, three, then two columns (.gallery in site.css). ?>
 <?php
 foreach ( $aaykay_figs as $aaykay_f ) :
 	$aaykay_data = aaykay_image_data( $aaykay_f['image'] );
@@ -49,7 +49,7 @@ foreach ( $aaykay_figs as $aaykay_f ) :
 	?>
         <li>
           <a class="gallery-item" href="<?php echo esc_url( $aaykay_data['full'] ); ?>" data-lightbox="<?php echo esc_url( $aaykay_data['full'] ); ?>" data-caption="<?php echo esc_attr( $aaykay_cap ); ?>">
-            <?php echo aaykay_img( $aaykay_f['image'], array( 'sizes' => '(min-width: 1000px) 24vw, (min-width: 560px) 45vw, 90vw' ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_img(). ?>
+            <?php echo aaykay_img( $aaykay_f['image'], array( 'sizes' => '(min-width: 1001px) min(22vw, 330px), (min-width: 701px) 30vw, 46vw' ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_img(). ?>
 
 <?php if ( '' !== $aaykay_cap ) : ?>
             <span class="gallery-cap"><?php echo esc_html( $aaykay_cap ); ?></span>

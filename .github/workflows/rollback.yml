@@ -1,0 +1,51 @@
+# Put an earlier version of the theme back on the live site. Run it by hand:
+# GitHub > Actions > rollback > Run workflow, give the commit (or tag) on main whose theme
+# should be live, and type ROLLBACK to confirm.
+#
+# It rewrites the deploy branch to that commit's theme/ folder; Hostinger's auto-deployment
+# then pulls it like any other deploy. Content (database, uploads) is not touched. The next
+# normal push to main deploys main again, so also revert the bad change on main
+# (git revert), or the problem comes back with the next deploy. OPERATIONS_RUNBOOK.md has
+# the full procedure.
+name: rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Commit SHA or tag on main whose theme should go live'
+        required: true
+      confirm:
+        description: 'Type ROLLBACK to confirm'
+        required: true
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Confirmation
+        if: ${{ inputs.confirm != 'ROLLBACK' }}
+        run: echo "::error::Type ROLLBACK in the confirm box to roll back." && exit 1
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: The commit is on main
+        run: |
+          git rev-parse --verify "${{ inputs.ref }}^{commit}"
+          git merge-base --is-ancestor "${{ inputs.ref }}" origin/main || { echo "::error::${{ inputs.ref }} is not on main"; exit 1; }
+      - name: Publish that commit's theme/ to the deploy branch
+        run: |
+          sha=$(git subtree split --prefix=theme "${{ inputs.ref }}")
+          before=$(git rev-parse origin/deploy)
+          git push --force-with-lease=deploy:"$before" origin "$sha:refs/heads/deploy"
+          {
+            echo "### Rolled back"
+            echo "deploy branch: $before → $sha (theme of ${{ inputs.ref }})"
+            echo "Revert the bad change on main too, or the next push to main redeploys it."
+          } >> "$GITHUB_STEP_SUMMARY"

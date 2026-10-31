@@ -13,13 +13,15 @@ defined( 'ABSPATH' ) || exit;
 $aaykay_sid   = isset( $args['section'] ) ? $args['section'] : 'photos';
 $aaykay_id    = isset( $args['id'] ) ? $args['id'] : 'site-photos';
 $aaykay_figs  = aaykay_rows( $aaykay_sid, 'figures' );
+// Widths the photos are shown at (the mosaic in site.css); min() because the page stops
+// widening at --container (85rem), so 42vw would overstate the size on wide screens.
 $aaykay_slots = array(
-	'm-a' => '(min-width: 760px) 42vw, 82vw',
-	'm-b' => '(min-width: 760px) 58vw, 100vw',
-	'm-c' => '(min-width: 760px) 33vw, 50vw',
-	'm-d' => '(min-width: 760px) 25vw, 50vw',
-	'm-e' => '(min-width: 760px) 58vw, 100vw',
-	'm-f' => '(min-width: 760px) 42vw, 100vw',
+	'm-a' => '(min-width: 760px) min(42vw, 570px), 50vw',
+	'm-b' => '(min-width: 760px) min(58vw, 800px), 100vw',
+	'm-c' => '(min-width: 760px) min(33vw, 450px), 50vw',
+	'm-d' => '(min-width: 760px) min(25vw, 330px), 50vw',
+	'm-e' => '(min-width: 760px) min(58vw, 800px), 100vw',
+	'm-f' => '(min-width: 760px) min(42vw, 570px), 100vw',
 );
 $aaykay_keys  = array_keys( $aaykay_slots );
 if ( ! $aaykay_figs ) {

@@ -15,7 +15,7 @@ WP_VERSION="${WP_VERSION:-7.1.4}"
 WP="wp --path=$WP_PATH --allow-root"
 
 if [ ! -f "$WP_PATH/wp-load.php" ]; then
-  git clone -q --depth 1 --branch "$WP_VERSION" https://github.com/WordPress/WordPress.git "$WP_PATH"
+  git -c advice.detachedHead=false clone -q --depth 1 --branch "$WP_VERSION" https://github.com/WordPress/WordPress.git "$WP_PATH"
   rm -rf "$WP_PATH/.git"
 fi
 if [ ! -f "$WP_PATH/wp-config.php" ]; then

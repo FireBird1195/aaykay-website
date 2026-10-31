@@ -138,7 +138,7 @@ add_action(
 		header( 'Content-Type: text/csv; charset=utf-8' );
 		header( 'Content-Disposition: attachment; filename="aaykay-enquiries-' . wp_date( 'Y-m-d' ) . '.csv"' );
 		$out = fopen( 'php://output', 'w' );
-		fwrite( $out, "\xEF\xBB\xBF" ); // UTF-8 mark, so Excel shows ₹ and other characters correctly.
+		fwrite( $out, "\xEF\xBB\xBF" ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite -- php://output stream. UTF-8 mark, so Excel shows ₹ and other characters correctly.
 		$head = array( 'Received' );
 		foreach ( $fields as $f ) {
 			$head[] = $f[0];

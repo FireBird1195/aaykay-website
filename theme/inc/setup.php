@@ -79,10 +79,14 @@ add_action(
 			echo '<link rel="icon" href="' . esc_url( aaykay_asset( 'assets/icon-192.png' ) ) . '" type="image/png" sizes="192x192">' . "\n";
 			echo '<link rel="apple-touch-icon" href="' . esc_url( aaykay_asset( 'assets/icon-180.png' ) ) . '">' . "\n";
 		}
+		// The heading and body fonts are on every page's first screen; without the preload the
+		// browser finds them only after reading the stylesheet, and the first heading and
+		// paragraph are painted a second time when they arrive (measured: largest paint 4.4 s
+		// on Quality & Safety on a throttled phone before, see PRODUCTION_READINESS_REPORT.md).
+		foreach ( array( 'big-shoulders-display-latin-800-normal', 'ibm-plex-sans-latin-400-normal' ) as $font ) {
+			echo '<link rel="preload" href="' . esc_url( aaykay_asset( "assets/fonts/{$font}.woff2" ) ) . '" as="font" type="font/woff2" crossorigin>' . "\n";
+		}
 		if ( is_front_page() ) {
-			foreach ( array( 'big-shoulders-display-latin-800-normal', 'ibm-plex-sans-latin-400-normal' ) as $font ) {
-				echo '<link rel="preload" href="' . esc_url( aaykay_asset( "assets/fonts/{$font}.woff2" ) ) . '" as="font" type="font/woff2" crossorigin>' . "\n";
-			}
 			// The first hero photo (Homepage content > Opening screen), so the browser fetches it first.
 			$slides = aaykay_hero_slides();
 			$hero   = $slides ? aaykay_image_data( $slides[0]['image'] ) : null;
@@ -202,7 +206,7 @@ add_action(
  * LiteSpeed Cache is not installed. Enquiries are excluded: they don't change the page.
  */
 function aaykay_purge_page_cache() {
-	do_action( 'litespeed_purge_all' );
+	do_action( 'litespeed_purge_all' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- LiteSpeed Cache's own hook.
 }
 add_action( 'update_option_' . AAYKAY_SETTINGS_OPTION, 'aaykay_purge_page_cache' );
 add_action( 'add_option_' . AAYKAY_SETTINGS_OPTION, 'aaykay_purge_page_cache' );

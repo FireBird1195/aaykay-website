@@ -12,8 +12,8 @@
 
 defined( 'ABSPATH' ) || exit;
 $aaykay_creds   = aaykay_rows( 'company', 'creds' );
-$aaykay_photo   = aaykay_img( aaykay_c( 'company', 'founder_photo' ), array( 'sizes' => '(min-width: 900px) 22vw, 45vw' ) );
-$aaykay_photo2  = aaykay_img( aaykay_c( 'company', 'person2_photo' ), array( 'sizes' => '(min-width: 900px) 22vw, 45vw' ) );
+$aaykay_photo   = aaykay_img( aaykay_c( 'company', 'founder_photo' ), array( 'sizes' => '(min-width: 900px) 22vw, (min-width: 560px) 45vw, 75vw' ) );
+$aaykay_photo2  = aaykay_img( aaykay_c( 'company', 'person2_photo' ), array( 'sizes' => '(min-width: 900px) 22vw, (min-width: 560px) 45vw, 75vw' ) );
 $aaykay_message = aaykay_paragraphs( aaykay_t( 'company', 'quote' ) );
 $aaykay_members = array_values(
 	array_filter(
