@@ -440,6 +440,29 @@
     update();
   }
 
+  /* ---------- 9b. capabilities index ----------
+     Marks the index entry of the capability on screen (aria-current), like the menu does
+     for sections. Without JavaScript the index is plain in-page links. */
+  function initCapIndex() {
+    var links = $$('.cap-index a');
+    if (!links.length) return;
+    var items = links.map(function (a) { return { a: a, el: hashTarget(a.hash) }; }).filter(function (m) { return m.el; });
+    var ticking = false;
+    var update = function () {
+      ticking = false;
+      var line = headerOffset() + window.innerHeight * 0.25, current = null;
+      items.forEach(function (m) { if (m.el.getBoundingClientRect().top <= line) current = m; });
+      items.forEach(function (m) {
+        if (m === current) m.a.setAttribute('aria-current', 'location');
+        else m.a.removeAttribute('aria-current');
+      });
+    };
+    var onScroll = function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+  }
+
   /* ---------- 10. delivery stages: progress along the track ---------- */
   // The line joining the five stages fills as the list scrolls through the viewport, and
   // each stage's marker turns solid once the fill reaches it (--fill and .is-reached). Without JavaScript, or with
@@ -758,6 +781,7 @@
     safely('lightbox', initLightbox);
     safely('copy', initCopy);
     safely('nav spy', initNavSpy);
+    safely('capabilities index', initCapIndex);
     safely('stages', initStages);
     safely('form', initForm);
   }

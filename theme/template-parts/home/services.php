@@ -1,8 +1,8 @@
 <?php
 /**
  * Credentials page (was Our Capabilities; client changes "WEB CUT 1", Nov 2026: the
- * capabilities are long, several paragraphs each, so they are full-width rows, title on the
- * left and text on the right). Introduction, strengths and the capability cards (final client
+ * capabilities are long, several paragraphs each, so a numbered index sits beside them (sticky on
+ * desktop), each card opens with its first paragraph and the rest is under "Read more"). Introduction, strengths and the capability cards (final client
  * brief, 13 Oct 2026: "Our Capabilities", nine cards, Fire Safety ninth with a link to its
  * website). Content: Homepage content > Our Capabilities; card order = order in the editor.
  * The sectors moved to the Projects page (sectors.php).
@@ -44,32 +44,50 @@ $aaykay_scope   = aaykay_rows( 'services', 'scope' );
           <h3><?php aaykay_e( 'services', 'scope_heading' ); ?></h3>
         </div>
 <?php endif; ?>
-        <div class="scope-list">
-<?php foreach ( $aaykay_scope as $aaykay_s ) : ?>
+        <div class="cap-layout">
+          <nav class="cap-index" aria-label="<?php echo esc_attr( aaykay_t( 'services', 'heading' ) ); ?>">
+            <ol>
+<?php foreach ( $aaykay_scope as $aaykay_i => $aaykay_s ) : ?>
+              <li><a href="#cap-<?php echo esc_attr( $aaykay_i + 1 ); ?>"><span class="cap-num" aria-hidden="true"><?php echo esc_html( sprintf( '%02d', $aaykay_i + 1 ) ); ?></span><?php echo esc_html( aaykay_tokens( $aaykay_s['title'] ) ); ?></a></li>
+<?php endforeach; ?>
+            </ol>
+          </nav>
+          <div class="cap-list">
+<?php foreach ( $aaykay_scope as $aaykay_i => $aaykay_s ) : ?>
 <?php
-	$aaykay_text  = trim( aaykay_tokens( $aaykay_s['text'] ) );
+	$aaykay_paras = aaykay_paragraphs( trim( aaykay_tokens( $aaykay_s['text'] ) ) );
 	$aaykay_url   = isset( $aaykay_s['link_url'] ) ? esc_url( trim( $aaykay_s['link_url'] ), array( 'http', 'https' ) ) : '';
 	$aaykay_label = isset( $aaykay_s['link_label'] ) ? trim( aaykay_tokens( $aaykay_s['link_label'] ) ) : '';
+	$aaykay_title = aaykay_tokens( $aaykay_s['title'] );
 ?>
-          <div class="scope-item">
-            <h4 class="icon-label"><?php echo aaykay_icon( $aaykay_s['icon'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><?php echo esc_html( aaykay_tokens( $aaykay_s['title'] ) ); ?></h4>
-<?php if ( '' !== $aaykay_text ) : ?>
-            <div class="scope-text">
-<?php foreach ( aaykay_paragraphs( $aaykay_text ) as $aaykay_para ) : ?>
-              <p><?php echo esc_html( $aaykay_para ); ?></p>
+            <article class="cap" id="cap-<?php echo esc_attr( $aaykay_i + 1 ); ?>" aria-labelledby="cap-<?php echo esc_attr( $aaykay_i + 1 ); ?>-title">
+              <header class="cap-head">
+                <span class="cap-num" aria-hidden="true"><?php echo esc_html( sprintf( '%02d', $aaykay_i + 1 ) ); ?></span>
+                <span class="cap-icon" aria-hidden="true"><?php echo aaykay_icon( $aaykay_s['icon'], 'ic--lg' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?></span>
+                <h3 class="cap-title" id="cap-<?php echo esc_attr( $aaykay_i + 1 ); ?>-title"><?php echo esc_html( $aaykay_title ); ?></h3>
+              </header>
+<?php if ( $aaykay_paras ) : ?>
+              <p class="cap-lead"><?php echo esc_html( $aaykay_paras[0] ); ?></p>
+<?php if ( count( $aaykay_paras ) > 1 ) : ?>
+              <details class="cap-more">
+                <summary><span class="cap-more-open">Read more</span><span class="cap-more-close">Show less</span><?php echo aaykay_icon( 'chevron-down', 'ic--sm' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><span class="visually-hidden"> about <?php echo esc_html( $aaykay_title ); ?></span></summary>
+<?php foreach ( array_slice( $aaykay_paras, 1 ) as $aaykay_para ) : ?>
+                <p><?php echo esc_html( $aaykay_para ); ?></p>
 <?php endforeach; ?>
-            </div>
+              </details>
+<?php endif; ?>
 <?php else : ?>
-            <?php echo aaykay_pending( 'What AAYKAY offers in ' . aaykay_tokens( $aaykay_s['title'] ) . ', in a few lines', 'scope-pending' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_pending(). ?>
+              <?php echo aaykay_pending( 'What AAYKAY offers in ' . $aaykay_title . ', in a few lines', 'scope-pending' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_pending(). ?>
 
 <?php endif; ?>
 <?php if ( '' !== $aaykay_url ) : ?>
-            <p class="scope-link">For more information click <a href="<?php echo $aaykay_url; // phpcs:ignore WordPress.Security.EscapeOutput -- esc_url() above. ?>" target="_blank" rel="noopener">here<span class="visually-hidden"> (more about <?php echo esc_html( aaykay_tokens( $aaykay_s['title'] ) ); ?>, opens in a new tab)</span></a>.</p>
+              <p class="scope-link">For more information click <a href="<?php echo $aaykay_url; // phpcs:ignore WordPress.Security.EscapeOutput -- esc_url() above. ?>" target="_blank" rel="noopener">here<span class="visually-hidden"> (more about <?php echo esc_html( $aaykay_title ); ?>, opens in a new tab)</span></a>.</p>
 <?php elseif ( '' !== $aaykay_label && '1' === (string) aaykay_setting( 'show_pending' ) ) : ?>
-            <p class="scope-link">For more information click <span class="scope-link-todo" title="Link address to come">here</span>.</p>
+              <p class="scope-link">For more information click <span class="scope-link-todo" title="Link address to come">here</span>.</p>
 <?php endif; ?>
-          </div>
+            </article>
 <?php endforeach; ?>
+          </div>
         </div>
       </div>
 <?php endif; ?>

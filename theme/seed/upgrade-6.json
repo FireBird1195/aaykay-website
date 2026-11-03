@@ -193,9 +193,7 @@
           },
           "caption": "Temporary distribution board, set up to site safety rules"
         }
-      ],
-      "title": "Complete electrical\ninstallations, from\ndesign to commissioning.",
-      "lead": "AAYKAY designs, installs, tests and commissions electrical works for hospitals, enterprise campuses, data centres and high-rise towers, from shop drawing to handover."
+      ]
     },
     "company": {
       "sub": "An ISO 9001:2015 and ISO 45001:2018 certified MEP contracting company, established in Hyderabad in 2008.",
@@ -435,6 +433,135 @@
     },
     "certificates": {
       "heading": "Certifications & Licences"
+    },
+    "appreciations": {
+      "docs": [
+        {
+          "image": {
+            "src": "assets/img/doc-savills-ehs-1024.webp",
+            "srcset": [
+              [
+                "assets/img/doc-savills-ehs-480.webp",
+                480
+              ],
+              [
+                "assets/img/doc-savills-ehs-1024.webp",
+                1024
+              ]
+            ],
+            "w": 1024,
+            "h": 732,
+            "alt": "Savills EHS Certificate of Appreciation awarded to an AAYKAY site team member.",
+            "full": "assets/img/doc-savills-ehs-1024.webp"
+          },
+          "title": "Savills · EHS certificate of appreciation",
+          "meta": "“Best performer”, Nov 2021 – Feb 2022, awarded to an AAYKAY site team member.",
+          "button": "View certificate",
+          "caption": "Savills EHS Certificate of Appreciation, best performer, November 2021 to February 2022."
+        },
+        {
+          "image": {
+            "src": "assets/img/doc-savills-ehs-2-1024.webp",
+            "srcset": [
+              [
+                "assets/img/doc-savills-ehs-2-480.webp",
+                480
+              ],
+              [
+                "assets/img/doc-savills-ehs-2-1024.webp",
+                1024
+              ]
+            ],
+            "w": 1024,
+            "h": 729,
+            "alt": "Savills EHS Certificate of Appreciation awarded to CH Rajendra (AKEE), best performer, November 2021 to February 2022.",
+            "full": "assets/img/doc-savills-ehs-2-1024.webp"
+          },
+          "title": "Savills · EHS certificate of appreciation",
+          "meta": "“Best performer”, Nov 2021 – Feb 2022, awarded to CH Rajendra of the AAYKAY site team.",
+          "button": "View certificate",
+          "caption": "Savills EHS Certificate of Appreciation to CH Rajendra, best performer, November 2021 to February 2022."
+        },
+        {
+          "image": {
+            "src": "assets/img/doc-savills-ehs-3-1024.webp",
+            "srcset": [
+              [
+                "assets/img/doc-savills-ehs-3-480.webp",
+                480
+              ],
+              [
+                "assets/img/doc-savills-ehs-3-1024.webp",
+                1024
+              ]
+            ],
+            "w": 1024,
+            "h": 759,
+            "alt": "Savills EHS Certificate of Appreciation awarded to Syed Siraj (AKEE), best performer, November 2021 to February 2022.",
+            "full": "assets/img/doc-savills-ehs-3-1024.webp"
+          },
+          "title": "Savills · EHS certificate of appreciation",
+          "meta": "“Best performer”, Nov 2021 – Feb 2022, awarded to Syed Siraj of the AAYKAY site team.",
+          "button": "View certificate",
+          "caption": "Savills EHS Certificate of Appreciation to Syed Siraj, best performer, November 2021 to February 2022."
+        },
+        {
+          "image": {
+            "src": "assets/img/doc-efswin-551.webp",
+            "srcset": [
+              [
+                "assets/img/doc-efswin-400.webp",
+                400
+              ],
+              [
+                "assets/img/doc-efswin-551.webp",
+                551
+              ]
+            ],
+            "w": 551,
+            "h": 774,
+            "alt": "EFSWIN 2012 plaque presented to Mr. Abdul Kareem for invaluable support.",
+            "full": "assets/img/doc-efswin-551.webp"
+          },
+          "title": "EFSWIN 2012 · Electrical & Fire Safety Workshop in India",
+          "meta": "Organised by FSAI with IEEE IAS. Presented to Abdul Kareem P “for invaluable support”, Hyderabad, November 2012.",
+          "button": "View plaque",
+          "caption": "EFSWIN 2012, Electrical and Fire Safety Workshop in India and Exhibition, Hyderabad, November 2012."
+        },
+        {
+          "image": {
+            "src": "assets/img/doc-omsai-617.webp",
+            "srcset": [
+              [
+                "assets/img/doc-omsai-400.webp",
+                400
+              ],
+              [
+                "assets/img/doc-omsai-617.webp",
+                617
+              ]
+            ],
+            "w": 617,
+            "h": 774,
+            "alt": "Om Sai Intex Gratitude 15 appreciation presented to AayKay Electrical Enterprises, Bangalore.",
+            "full": "assets/img/doc-omsai-617.webp"
+          },
+          "title": "Om Sai Intex · Partner appreciation",
+          "meta": "“Gratitude 15”, presented to AayKay Electrical Enterprises, Bangalore, May 2019.",
+          "button": "View plaque",
+          "caption": "Om Sai Intex, Gratitude 15 partner appreciation, 4 May 2019."
+        },
+        {
+          "image": {
+            "id": 0,
+            "alt": ""
+          },
+          "title": "The latest appreciation certificates",
+          "meta": "",
+          "button": "",
+          "caption": ""
+        }
+      ]
     }
   }
 }

@@ -8,6 +8,12 @@ Source: the client's spreadsheet "WEB CUT 1.xlsx" (sheets LAYOUT, ABOUT US, CRED
   Capabilities, Project Photos, Appreciation Certificates; then Projects, Quality & Safety, Careers, Contact Us.
 - Home page order: slideshow, timeline, company, team, certifications (moved from Quality & Safety),
   compliance & pre-qualification (moved too), project methodology (no longer in the dropdown).
+- Second round (Tejas, 3 Nov): hero headline and lead restored; the small red line above it now reads
+  "Electrical and Fire Safety Services since 2008". Timeline's right-hand line removed. "To come" appreciation
+  slot removed. Home in the menu goes to #top (no reload on the home page). Capabilities redesigned for reading
+  (no words changed): numbered sticky index, cards that lead with the first paragraph, the rest under "Read more"
+  (<details>). About Us first paragraph set as the intro. Footer "Privacy notice" link is a 24px target.
+  Merged release/production-readiness (starter import fix, 3.1.1). Preview now includes the draft privacy notice.
 - Header name "AAYKAY / ELECTRICALS / PVT LTD" in red (#EC5F45, visiting-card red lightened for contrast on navy). Logo awaited from the client.
 - Hero: headline "Electrical and Fire Safety Services since 2008." (client); label and lead removed (not the client's words).
   Slideshow: the client's 15 photos in the client's order and captions (assets/img/slide-*.webp).

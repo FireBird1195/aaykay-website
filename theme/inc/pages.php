@@ -336,7 +336,8 @@ function aaykay_menu() {
 		}
 		if ( 'home' === $key ) {
 			// Home has no dropdown; its About Us sections are the next item's.
-			$items[] = array( 'home', aaykay_page_title( 'home' ), aaykay_page_url( 'home' ), array() );
+			// "#top": on the home page the click scrolls to the slideshow without reloading (site.js initAnchors).
+			$items[] = array( 'home', aaykay_page_title( 'home' ), aaykay_page_url( 'home' ) . '#top', array() );
 			$items[] = array( 'about', aaykay_about_label(), aaykay_page_url( 'home' ) . '#' . ( $children ? substr( strrchr( $children[0][2], '#' ), 1 ) : 'about' ), $children );
 			continue;
 		}

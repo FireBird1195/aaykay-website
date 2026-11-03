@@ -77,9 +77,9 @@
     },
     "hero": {
       "enabled": true,
-      "label": "",
-      "title": "Electrical and\nFire Safety Services\nsince 2008.",
-      "lead": "",
+      "label": "Electrical and Fire Safety Services since 2008",
+      "title": "Complete electrical\ninstallations, from\ndesign to commissioning.",
+      "lead": "AAYKAY designs, installs, tests and commissions electrical works for hospitals, enterprise campuses, data centres and high-rise towers, from shop drawing to handover.",
       "slides": [
         {
           "image": {
@@ -1193,16 +1193,6 @@
           "meta": "“Gratitude 15”, presented to AayKay Electrical Enterprises, Bangalore, May 2019.",
           "button": "View plaque",
           "caption": "Om Sai Intex, Gratitude 15 partner appreciation, 4 May 2019."
-        },
-        {
-          "image": {
-            "id": 0,
-            "alt": ""
-          },
-          "title": "The latest appreciation certificates",
-          "meta": "",
-          "button": "",
-          "caption": ""
         }
       ]
     },
@@ -1394,7 +1384,7 @@
         }
       ],
       "timeline_heading": "Timeline",
-      "timeline_sub": "AAYKAY ELECTRICALS PVT LTD",
+      "timeline_sub": "",
       "leadership_heading": "Leadership",
       "founder_photo": {
         "src": "assets/img/founder-413.webp",

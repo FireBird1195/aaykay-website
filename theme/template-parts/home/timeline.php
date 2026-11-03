@@ -20,7 +20,7 @@ if ( ! $aaykay_timeline ) {
       <div class="sec-head">
         <h2 class="h2" id="timeline-title" data-reveal><?php aaykay_e( 'company', 'timeline_heading' ); ?></h2>
 <?php if ( '' !== aaykay_t( 'company', 'timeline_sub' ) ) : ?>
-        <p class="sec-sub sec-sub--brand" data-reveal><?php aaykay_e( 'company', 'timeline_sub' ); ?></p>
+        <p class="sec-sub" data-reveal><?php aaykay_e( 'company', 'timeline_sub' ); ?></p>
 <?php endif; ?>
       </div>
       <ol class="milestones">
