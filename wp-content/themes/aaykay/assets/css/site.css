@@ -311,6 +311,10 @@ line-height: .88; letter-spacing: .005em; text-transform: uppercase; color: #fff
    and the photo never drift apart, and pausing simply pauses the fill. A bar is a button
    of 1.5rem height around a 3px line, so it is easy to hit. */
 .hero-controls { --hero-dur: 7s; display: flex; align-items: center; gap: var(--s3); min-width: 0; }
+/* With JavaScript on, the controls are certain to appear (site.js shows them), so their row
+   is kept, invisible, from the first paint: the opening screen no longer grows by a row
+   when the script runs (measured layout shift 0.11 on a throttled phone, now 0). */
+.js .hero-controls[hidden] { display: flex !important; visibility: hidden; }
 .hero-dots { display: flex; gap: 4px; width: clamp(12rem, 24vw, 22rem); }
 .hero-dot { position: relative; flex: 1 1 0; min-width: 0; height: 1.5rem; padding: 0; border: 0; background: transparent; cursor: pointer; }
 .hero-dot::before, .hero-dot::after { content: ""; position: absolute; left: 0; right: 0; top: calc(50% - 1.5px); height: 3px; border-radius: 2px; }
@@ -523,12 +527,14 @@ font-family: var(--font-mono); font-size: var(--fs-micro); line-height: 1.45; le
 .nowrap { white-space: nowrap; }
 @media (max-width: 760px) {
 .mosaic { grid-template-columns: 1fr 1fr; grid-auto-rows: 6rem; gap: var(--s3); }
-.m-a { grid-column: 1; grid-row: 1 / span 4; }
-.m-c { grid-column: 2; grid-row: 1 / span 2; }
-.m-d { grid-column: 2; grid-row: 3 / span 2; }
-.m-b { grid-column: 1 / -1; grid-row: 5 / span 2; }
-.m-e { grid-column: 1 / -1; grid-row: 7 / span 3; }
-.m-f { grid-column: 1 / -1; grid-row: 10 / span 3; }
+/* Spans only (no fixed rows), so the six-photo pattern repeats for any number of photos. */
+.mosaic { grid-auto-flow: row dense; }
+.m-a { grid-column: 1; grid-row: span 4; }
+.m-c { grid-column: 2; grid-row: span 2; }
+.m-d { grid-column: 2; grid-row: span 2; }
+.m-b { grid-column: 1 / -1; grid-row: span 2; }
+.m-e { grid-column: 1 / -1; grid-row: span 3; }
+.m-f { grid-column: 1 / -1; grid-row: span 3; }
 }
 .panel { background: var(--white); border: 1px solid var(--rule); padding: clamp(1.25rem, 1rem + 1vw, 2rem); }
 .panel .label { color: var(--red-700); margin-bottom: var(--s3); }
@@ -1062,3 +1068,28 @@ padding-block: var(--s5); cursor: pointer; list-style: none;
 /* Phones: the controls take the full width and the bars share what the arrows and the pause
    button leave (each bar is then a progress mark; the arrows step through the photos). */
 @media (max-width: 560px) { .hero-meta { gap: var(--s3); } .hero-controls { width: 100%; flex-wrap: wrap; justify-content: space-between; } .hero-dots { order: -1; flex: 1 0 100%; width: 100%; } }
+
+/* Client changes "WEB CUT 1" (Nov 2026). */
+/* Company name in the header in the visiting card's red (the mark's red, readable on navy). */
+.site-header .brand-word, .site-header .brand-sub { color: #EC5F45; }
+.site-header .brand-sub { border-left-color: rgba(236, 95, 69, .45); }
+/* Timeline: the line on the right is the company name, in red. */
+.sec-sub--brand { color: var(--red-600); font-family: var(--font-display); font-weight: 800; font-size: var(--fs-h3); letter-spacing: .05em; text-transform: uppercase; }
+/* Capabilities: long, several paragraphs each, so one full-width row per capability. */
+.scope-list { border-top: 1px solid var(--ink); }
+.scope-list .scope-item { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); padding-block: var(--s6); border-bottom: 1px solid var(--rule); }
+.scope-list .scope-item h4 { grid-column: 1 / span 4; grid-row: 1 / span 2; align-self: start; font-size: var(--fs-h3); line-height: 1.25; }
+.scope-list .scope-item > :not(h4) { grid-column: 6 / span 7; }
+.scope-list .scope-text { display: grid; gap: var(--s3); }
+.scope-list .scope-item p, .scope-list .scope-link { padding-left: 0; max-width: 70ch; }
+.scope-list .scope-item .pending { margin-left: 0; }
+@media (max-width: 900px) {
+.scope-list .scope-item h4, .scope-list .scope-item > :not(h4) { grid-column: 1 / -1; grid-row: auto; }
+.scope-list .scope-item h4 { margin-bottom: var(--s3); }
+}
+#services .intro:not(:has(.intro-body)) + .scope { margin-top: var(--s6); }
+/* Fifteen slideshow photos: every progress bar stays a 24px touch target (WCAG 2.5.8);
+   on narrow screens the bars wrap onto a second row rather than shrink. */
+.hero-dots { gap: 0; flex-wrap: wrap; width: auto; min-width: clamp(12rem, 24vw, 22rem); max-width: 100%; }
+.hero-dot { flex: 1 0 24px; min-width: 24px; }
+.hero-dot::before, .hero-dot::after { left: 2px; right: 2px; }
