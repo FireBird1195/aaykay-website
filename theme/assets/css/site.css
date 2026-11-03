@@ -1090,7 +1090,16 @@ padding-block: var(--s5); cursor: pointer; list-style: none;
 .cap-num { font-family: var(--font-mono); font-size: var(--fs-micro); letter-spacing: .08em; color: var(--ink-3); padding-top: .2rem; }
 .cap-list { grid-column: 6 / -1; border-top: 1px solid var(--ink); }
 .cap { padding-block: var(--s6); border-bottom: 1px solid var(--rule); scroll-margin-top: calc(var(--nav-h) + var(--s4)); }
-.cap-title { font-size: var(--fs-h3); font-weight: 600; line-height: 1.25; color: var(--ink); margin-bottom: var(--s4); }
+.cap-title { display: flex; align-items: flex-start; gap: var(--s3); font-size: var(--fs-h3); font-weight: 600; line-height: 1.25; color: var(--ink); margin-bottom: var(--s4); }
+.cap-title .cap-ic { flex: none; width: 1.5rem; height: 1.5rem; margin-top: .1em; color: var(--blue-700); }
+/* Read more: extra paragraphs are hidden only once site.js has shown the button. */
+.cap.is-collapsed .cap-extra { display: none; }
+.cap-toggle { display: inline-flex; align-items: center; gap: .35rem; min-height: 2.75rem; margin-top: var(--s2); padding: 0; border: 0; background: none; cursor: pointer; font: inherit; font-size: var(--fs-small); font-weight: 600; color: var(--blue-700); }
+.cap-toggle:hover { color: var(--red-700); }
+.cap-toggle .ic { transition: transform .25s var(--ease-out); }
+.cap-toggle[aria-expanded="true"] .ic { transform: rotate(180deg); }
+.cap-toggle-less, .cap-toggle[aria-expanded="true"] .cap-toggle-more { display: none; }
+.cap-toggle[aria-expanded="true"] .cap-toggle-less { display: inline; }
 .cap-text { display: grid; gap: var(--s4); max-width: 66ch; }
 .cap-text p { font-size: var(--fs-body); line-height: 1.7; color: var(--ink-2); }
 .cap .scope-link { padding-left: 0; margin-top: var(--s4); }

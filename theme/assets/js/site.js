@@ -444,6 +444,20 @@
      Marks the index entry of the capability on screen (aria-current), like the menu does
      for sections. Without JavaScript the index is plain in-page links. */
   function initCapIndex() {
+    // Read more / Show less: the button sits after the text, so it is always at the end of
+    // what is showing. Without JavaScript every paragraph shows and the button stays hidden.
+    $$('.cap-toggle').forEach(function (btn) {
+      var card = btn.closest('.cap');
+      card.classList.add('is-collapsed');
+      btn.hidden = false;
+      btn.addEventListener('click', function () {
+        var open = btn.getAttribute('aria-expanded') !== 'true';
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        card.classList.toggle('is-collapsed', !open);
+        // After "Show less" the reader may be far below the card: bring its title back.
+        if (!open && card.getBoundingClientRect().top < headerOffset()) scrollToEl(card, true);
+      });
+    });
     var links = $$('.cap-index a');
     if (!links.length) return;
     var items = links.map(function (a) { return { a: a, el: hashTarget(a.hash) }; }).filter(function (m) { return m.el; });
