@@ -2,7 +2,7 @@
 /**
  * Credentials page (was Our Capabilities; client changes "WEB CUT 1", Nov 2026: the
  * capabilities are long, several paragraphs each, so a numbered index sits beside them (sticky on
- * desktop), each card opens with its first paragraph and the rest is under "Read more"). Introduction, strengths and the capability cards (final client
+ * desktop), each card is the title and the client's paragraphs, all in one text style). Introduction, strengths and the capability cards (final client
  * brief, 13 Oct 2026: "Our Capabilities", nine cards, Fire Safety ninth with a link to its
  * website). Content: Homepage content > Our Capabilities; card order = order in the editor.
  * The sectors moved to the Projects page (sectors.php).
@@ -61,21 +61,13 @@ $aaykay_scope   = aaykay_rows( 'services', 'scope' );
 	$aaykay_title = aaykay_tokens( $aaykay_s['title'] );
 ?>
             <article class="cap" id="cap-<?php echo esc_attr( $aaykay_i + 1 ); ?>" aria-labelledby="cap-<?php echo esc_attr( $aaykay_i + 1 ); ?>-title">
-              <header class="cap-head">
-                <span class="cap-num" aria-hidden="true"><?php echo esc_html( sprintf( '%02d', $aaykay_i + 1 ) ); ?></span>
-                <span class="cap-icon" aria-hidden="true"><?php echo aaykay_icon( $aaykay_s['icon'], 'ic--lg' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?></span>
-                <h3 class="cap-title" id="cap-<?php echo esc_attr( $aaykay_i + 1 ); ?>-title"><?php echo esc_html( $aaykay_title ); ?></h3>
-              </header>
+              <h3 class="cap-title" id="cap-<?php echo esc_attr( $aaykay_i + 1 ); ?>-title"><?php echo esc_html( $aaykay_title ); ?></h3>
 <?php if ( $aaykay_paras ) : ?>
-              <p class="cap-lead"><?php echo esc_html( $aaykay_paras[0] ); ?></p>
-<?php if ( count( $aaykay_paras ) > 1 ) : ?>
-              <details class="cap-more">
-                <summary><span class="cap-more-open">Read more</span><span class="cap-more-close">Show less</span><?php echo aaykay_icon( 'chevron-down', 'ic--sm' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><span class="visually-hidden"> about <?php echo esc_html( $aaykay_title ); ?></span></summary>
-<?php foreach ( array_slice( $aaykay_paras, 1 ) as $aaykay_para ) : ?>
+              <div class="cap-text">
+<?php foreach ( $aaykay_paras as $aaykay_para ) : ?>
                 <p><?php echo esc_html( $aaykay_para ); ?></p>
 <?php endforeach; ?>
-              </details>
-<?php endif; ?>
+              </div>
 <?php else : ?>
               <?php echo aaykay_pending( 'What AAYKAY offers in ' . $aaykay_title . ', in a few lines', 'scope-pending' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_pending(). ?>
 

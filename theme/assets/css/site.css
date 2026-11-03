@@ -1078,39 +1078,28 @@ padding-block: var(--s5); cursor: pointer; list-style: none;
 .hero-dots { gap: 0; flex-wrap: wrap; width: auto; min-width: clamp(12rem, 24vw, 22rem); max-width: 100%; }
 .hero-dot { flex: 1 0 24px; min-width: 24px; }
 .hero-dot::before, .hero-dot::after { left: 2px; right: 2px; }
-/* Capabilities (Credentials page): a numbered index beside the cards, sticky on desktop.
-   Each card leads with its first paragraph; the rest of the client's text sits under
-   "Read more" (native <details>: works without JavaScript, findable with Ctrl+F). */
+/* Capabilities (Credentials page): a numbered index beside the capabilities, sticky on
+   desktop. Each capability is its title and the client's paragraphs in one text style:
+   no icons, badges or collapsed text, so a reader scans titles in the index and reads on. */
 .cap-layout { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--col-gap); align-items: start; }
 .cap-index { grid-column: 1 / span 4; position: sticky; top: calc(var(--nav-h) + var(--s5)); border-top: 1px solid var(--ink); }
 .cap-index ol { display: grid; }
-.cap-index a { display: grid; grid-template-columns: 2.25rem minmax(0, 1fr); gap: var(--s2); padding: .7rem 0; border-bottom: 1px solid var(--rule); font-size: var(--fs-small); font-weight: 500; color: var(--ink-2); text-decoration: none; transition: color .2s var(--ease-out); }
+.cap-index a { display: grid; grid-template-columns: 2.25rem minmax(0, 1fr); gap: var(--s2); padding: .7rem 0; border-bottom: 1px solid var(--rule); font-size: var(--fs-small); font-weight: 500; color: var(--ink-3); text-decoration: none; transition: color .2s var(--ease-out); }
 .cap-index a:hover, .cap-index a[aria-current] { color: var(--ink); }
 .cap-index a[aria-current] .cap-num { color: var(--red-600); }
 .cap-num { font-family: var(--font-mono); font-size: var(--fs-micro); letter-spacing: .08em; color: var(--ink-3); padding-top: .2rem; }
-.cap-list { grid-column: 5 / -1; display: grid; gap: var(--s5); }
-.cap { background: var(--white); border: 1px solid var(--rule); border-top: 3px solid var(--blue-700); padding: clamp(1.25rem, .9rem + 1.4vw, 2.25rem); scroll-margin-top: calc(var(--nav-h) + var(--s5)); }
-.cap-head { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "icon num" "icon title"; column-gap: var(--s4); align-items: center; margin-bottom: var(--s4); }
-.cap-head .cap-num { grid-area: num; padding: 0; color: var(--red-600); }
-.cap-icon { grid-area: icon; display: grid; place-items: center; width: 3rem; height: 3rem; background: var(--paper); color: var(--blue-700); border-radius: var(--radius); }
-.cap-title { grid-area: title; font-size: var(--fs-h3); font-weight: 600; line-height: 1.2; color: var(--ink); }
-.cap-lead { font-size: var(--fs-body); line-height: 1.65; color: var(--ink); max-width: 68ch; }
-.cap-more { margin-top: var(--s4); max-width: 68ch; }
-.cap-more > summary { display: inline-flex; align-items: center; gap: .4rem; min-height: 2.75rem; cursor: pointer; list-style: none; font-family: var(--font-mono); font-size: var(--fs-micro); letter-spacing: .08em; text-transform: uppercase; color: var(--blue-700); }
-.cap-more > summary::-webkit-details-marker { display: none; }
-.cap-more > summary:hover { color: var(--red-700); }
-.cap-more > summary .ic { transition: transform .25s var(--ease-out); }
-.cap-more[open] > summary .ic { transform: rotate(180deg); }
-.cap-more-close, .cap-more[open] .cap-more-open { display: none; }
-.cap-more[open] .cap-more-close { display: inline; }
-.cap-more p { margin-top: var(--s3); font-size: var(--fs-small); line-height: 1.7; color: var(--ink-2); }
-.cap .scope-link { padding-left: 0; }
+.cap-list { grid-column: 6 / -1; border-top: 1px solid var(--ink); }
+.cap { padding-block: var(--s6); border-bottom: 1px solid var(--rule); scroll-margin-top: calc(var(--nav-h) + var(--s4)); }
+.cap-title { font-size: var(--fs-h3); font-weight: 600; line-height: 1.25; color: var(--ink); margin-bottom: var(--s4); }
+.cap-text { display: grid; gap: var(--s4); max-width: 66ch; }
+.cap-text p { font-size: var(--fs-body); line-height: 1.7; color: var(--ink-2); }
+.cap .scope-link { padding-left: 0; margin-top: var(--s4); }
 .cap .pending { margin-left: 0; }
 @media (max-width: 1000px) {
-.cap-index { grid-column: 1 / -1; position: static; }
+.cap-index { grid-column: 1 / -1; position: static; margin-bottom: var(--s6); }
 .cap-index ol { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--col-gap); }
 .cap-list { grid-column: 1 / -1; }
 }
-@media (max-width: 560px) { .cap-index ol { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .cap-index ol { grid-template-columns: 1fr; } .cap-text p { font-size: var(--fs-small); } }
 /* About Us: the first paragraph reads as the introduction. */
 .company-history p:first-child { font-size: clamp(1.125rem, 1rem + .4vw, 1.3125rem); line-height: 1.55; color: var(--ink); }
