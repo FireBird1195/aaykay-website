@@ -1,0 +1,440 @@
+{
+  "_readme": [
+    "Values of the version 5 launch content that version 6 (client changes \"WEB CUT 1\", Nov 2026) changed.",
+    "inc/upgrade.php (aaykay_upgrade_6) replaces a saved value only while it is still exactly this one."
+  ],
+  "content": {
+    "brand": {
+      "sub1": "Electricals",
+      "sub2": "Private Limited"
+    },
+    "hero": {
+      "label": "Electrical & MEP contracting · Since 2008",
+      "slides": [
+        {
+          "image": {
+            "src": "assets/img/hero-ups-room-960.webp",
+            "srcset": [
+              [
+                "assets/img/hero-ups-room-640.webp",
+                640
+              ],
+              [
+                "assets/img/hero-ups-room-960.webp",
+                960
+              ],
+              [
+                "assets/img/hero-ups-room-1280.webp",
+                1280
+              ]
+            ],
+            "w": 1280,
+            "h": 578,
+            "alt": "A UPS battery room installed by AAYKAY: rows of battery racks under overhead cable trays."
+          },
+          "caption": "UPS battery room, AAYKAY installation"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-lt-panels-974.webp",
+            "srcset": [
+              [
+                "assets/img/fig-lt-panels-480.webp",
+                480
+              ],
+              [
+                "assets/img/fig-lt-panels-974.webp",
+                974
+              ]
+            ],
+            "w": 974,
+            "h": 485,
+            "alt": "A long line-up of LT panels in a plant room."
+          },
+          "caption": "LT panel line-up in a plant room, AAYKAY installation"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-switchboard-924.webp",
+            "srcset": [
+              [
+                "assets/img/fig-switchboard-480.webp",
+                480
+              ],
+              [
+                "assets/img/fig-switchboard-924.webp",
+                924
+              ]
+            ],
+            "w": 924,
+            "h": 655,
+            "alt": "A row of main switchboard panels with metering and breaker compartments."
+          },
+          "caption": "Main switchboard panels, AAYKAY installation"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-db-termination-800.webp",
+            "srcset": [
+              [
+                "assets/img/fig-db-termination-480.webp",
+                480
+              ],
+              [
+                "assets/img/fig-db-termination-800.webp",
+                800
+              ],
+              [
+                "assets/img/fig-db-termination-1099.webp",
+                1099
+              ]
+            ],
+            "w": 1099,
+            "h": 1450,
+            "alt": "Open distribution boards with rows of circuit breakers and dressed wiring."
+          },
+          "caption": "Distribution boards during termination, AAYKAY installation"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-tray-bends-485.webp",
+            "srcset": [
+              [
+                "assets/img/fig-tray-bends-485.webp",
+                485
+              ]
+            ],
+            "w": 485,
+            "h": 503,
+            "alt": "Ceiling-level cable trays sweeping through a set of bends."
+          },
+          "caption": "Cable tray bends at a ceiling junction, AAYKAY installation"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-ladder-ducting-465.webp",
+            "srcset": [
+              [
+                "assets/img/fig-ladder-ducting-465.webp",
+                465
+              ]
+            ],
+            "w": 465,
+            "h": 485,
+            "alt": "Cable ladder and steel supports routed alongside HVAC ducting."
+          },
+          "caption": "Cable ladder beside HVAC ducting, AAYKAY installation"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-bench-power-609.webp",
+            "srcset": [
+              [
+                "assets/img/fig-bench-power-609.webp",
+                609
+              ]
+            ],
+            "w": 609,
+            "h": 457,
+            "alt": "Laboratory workbenches with power sockets mounted on a blue raceway."
+          },
+          "caption": "Workbench power on raceway-mounted sockets, AAYKAY installation"
+        },
+        {
+          "image": {
+            "src": "assets/img/safety-toolbox-talk-667.webp",
+            "srcset": [
+              [
+                "assets/img/safety-toolbox-talk-667.webp",
+                667
+              ]
+            ],
+            "w": 667,
+            "h": 517,
+            "alt": "A large site workforce in hard hats and hi-vis vests seated for a toolbox talk."
+          },
+          "caption": "Toolbox talk with the site workforce"
+        },
+        {
+          "image": {
+            "src": "assets/img/safety-cpr-709.webp",
+            "srcset": [
+              [
+                "assets/img/safety-cpr-480.webp",
+                480
+              ],
+              [
+                "assets/img/safety-cpr-709.webp",
+                709
+              ]
+            ],
+            "w": 709,
+            "h": 548,
+            "alt": "Workers in PPE watching a CPR demonstration on site."
+          },
+          "caption": "CPR training on site"
+        },
+        {
+          "image": {
+            "src": "assets/img/safety-temporary-db-731.webp",
+            "srcset": [
+              [
+                "assets/img/safety-temporary-db-480.webp",
+                480
+              ],
+              [
+                "assets/img/safety-temporary-db-731.webp",
+                731
+              ]
+            ],
+            "w": 731,
+            "h": 539,
+            "alt": "A temporary distribution board on site, barricaded, with a fire extinguisher and a rubber mat in front."
+          },
+          "caption": "Temporary distribution board, set up to site safety rules"
+        }
+      ],
+      "title": "Complete electrical\ninstallations, from\ndesign to commissioning.",
+      "lead": "AAYKAY designs, installs, tests and commissions electrical works for hospitals, enterprise campuses, data centres and high-rise towers, from shop drawing to handover."
+    },
+    "company": {
+      "sub": "An ISO 9001:2015 and ISO 45001:2018 certified MEP contracting company, established in Hyderabad in 2008.",
+      "paragraphs": "AAYKAY Electricals Private Limited is one of the leading ISO 9001:2015 and ISO 45001:2018 certified MEP contracting firms, established in 2008.\n\nWith its focus on quality, safety, excellent service, a customer-centric approach, timely completion of projects and technical expertise in design, supply, erection, maintenance, testing and commissioning, AAYKAY has become one of the most preferred MEP contractors with top MNCs and Indian client partners since its inception in 2008.\n\nAAYKAY has completed projects in a wide range of market segments: banks, hospitals, industries, data centres, IT parks, interior fit-outs, substations, and commercial and high-rise residential buildings.\n\nIts site execution team of project managers, project engineers, safety and quality engineers, planning and coordination engineers, supervisors and electricians is supported by tender and marketing, procurement, design and billing engineers, and the accounts, finance, HR and administration team.",
+      "work_heading": "Our work",
+      "work_items": [
+        {
+          "icon": "lightbulb",
+          "text": "All-round electrical services: design, supply, installation, testing and commissioning."
+        },
+        {
+          "icon": "hard-hat",
+          "text": "Internal and external electrical works, as well as complete MEP packages."
+        },
+        {
+          "icon": "gauge",
+          "text": "Inspection of electrical systems and maintenance of electrical installations, including annual maintenance contracts."
+        },
+        {
+          "icon": "users",
+          "text": "Coordination with project management consultants, architects, quantity surveyors, design consultants and real estate service companies."
+        }
+      ],
+      "timeline_sub": "From an electrical contractor in Hyderabad to a private limited MEP company with branches in {branches_word} states."
+    },
+    "services": {
+      "scope": [
+        {
+          "icon": "inspection-panel",
+          "title": "HT/LT Panels & Distribution",
+          "text": "HT/LT panels, Capacitor Panels, MDBs, Distribution Boards along with accessories.",
+          "link_url": "",
+          "link_label": ""
+        },
+        {
+          "icon": "rows-3",
+          "title": "Containment",
+          "text": "Conduit in slabs, walls and floors; sleeves and back boxes; GI cable trays, ladders, trunking and raceways.",
+          "link_url": "",
+          "link_label": ""
+        },
+        {
+          "icon": "cable",
+          "title": "Wiring & cabling",
+          "text": "Power and lighting wiring, DB-to-equipment wiring, HT/LT cable laying, dressing, tagging, glanding and termination.",
+          "link_url": "",
+          "link_label": ""
+        },
+        {
+          "icon": "arrow-up-from-line",
+          "title": "Busducts & rising mains",
+          "text": "Busbar trunking and rising mains, supplied through OEM channels and installed to approved GA drawings.",
+          "link_url": "",
+          "link_label": ""
+        },
+        {
+          "icon": "lightbulb",
+          "title": "Lighting & accessories",
+          "text": "LED fixtures, lighting management systems, switches and sockets, fans and junction boxes.",
+          "link_url": "",
+          "link_label": ""
+        },
+        {
+          "icon": "battery-charging",
+          "title": "Critical power",
+          "text": "UPS and battery installation, server-room electrical works, AC unit connections, pumps and motors.",
+          "link_url": "",
+          "link_label": ""
+        },
+        {
+          "icon": "earth-ground",
+          "title": "Earthing & protection",
+          "text": "Earth pits and grids, GI and copper strip, surge protection devices and lightning arresters.",
+          "link_url": "",
+          "link_label": ""
+        },
+        {
+          "icon": "gauge",
+          "title": "Testing",
+          "text": "Megger, IR and continuity tests, panel load tests, circuit verification and HT/LT equipment testing.",
+          "link_url": "",
+          "link_label": ""
+        },
+        {
+          "icon": "flame",
+          "title": "Fire Safety",
+          "text": "Fire alarm and detection systems, emergency lighting and power supply to fire-fighting equipment, installed and tested to approved drawings and local fire norms.",
+          "link_url": "",
+          "link_label": "More about Fire Safety"
+        }
+      ],
+      "heading": "Our Capabilities",
+      "lead": "Complete electrical packages, from HT/LT panels, containment and cabling to lighting, earthing, critical power and fire safety: coordinated in Revit, installed to method statements and tested by our own commissioning team before handover.",
+      "pillars": [
+        {
+          "icon": "drafting-compass",
+          "title": "Shop drawings & BIM",
+          "text": "GFC review, shop and GA drawings, and MEP coordination in Autodesk Revit and AutoCAD."
+        },
+        {
+          "icon": "gauge",
+          "title": "Testing & commissioning",
+          "text": "Our own team and test instruments for megger, IR, continuity, load and integrated system tests."
+        },
+        {
+          "icon": "shield-check",
+          "title": "Site safety",
+          "text": "Dedicated safety staff, HIRA risk assessments and an emergency response team on call 24/7."
+        }
+      ],
+      "scope_heading": "Works We Undertake"
+    },
+    "photos": {
+      "heading": "Site Gallery",
+      "sub": "Containment, panels, distribution and critical power on AAYKAY sites.",
+      "figures": [
+        {
+          "image": {
+            "src": "assets/img/fig-db-termination-800.webp",
+            "srcset": [
+              [
+                "assets/img/fig-db-termination-480.webp",
+                480
+              ],
+              [
+                "assets/img/fig-db-termination-800.webp",
+                800
+              ],
+              [
+                "assets/img/fig-db-termination-1099.webp",
+                1099
+              ]
+            ],
+            "w": 1099,
+            "h": 1450,
+            "alt": "Open distribution boards with rows of circuit breakers and dressed wiring."
+          },
+          "fig": "",
+          "caption": "Distribution boards during termination"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-lt-panels-974.webp",
+            "srcset": [
+              [
+                "assets/img/fig-lt-panels-480.webp",
+                480
+              ],
+              [
+                "assets/img/fig-lt-panels-974.webp",
+                974
+              ]
+            ],
+            "w": 974,
+            "h": 485,
+            "alt": "A long line-up of LT panels in a plant room."
+          },
+          "fig": "",
+          "caption": "LT panel line-up in a plant room"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-tray-bends-485.webp",
+            "srcset": [
+              [
+                "assets/img/fig-tray-bends-485.webp",
+                485
+              ]
+            ],
+            "w": 485,
+            "h": 503,
+            "alt": "Ceiling-level cable trays sweeping through a set of bends."
+          },
+          "fig": "",
+          "caption": "Cable tray bends at a ceiling junction"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-ladder-ducting-465.webp",
+            "srcset": [
+              [
+                "assets/img/fig-ladder-ducting-465.webp",
+                465
+              ]
+            ],
+            "w": 465,
+            "h": 485,
+            "alt": "Cable ladder and steel supports routed alongside HVAC ducting."
+          },
+          "fig": "",
+          "caption": "Cable ladder beside HVAC ducting"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-switchboard-924.webp",
+            "srcset": [
+              [
+                "assets/img/fig-switchboard-480.webp",
+                480
+              ],
+              [
+                "assets/img/fig-switchboard-924.webp",
+                924
+              ]
+            ],
+            "w": 924,
+            "h": 655,
+            "alt": "A row of main switchboard panels with metering and breaker compartments."
+          },
+          "fig": "",
+          "caption": "Main switchboard panels"
+        },
+        {
+          "image": {
+            "src": "assets/img/fig-bench-power-609.webp",
+            "srcset": [
+              [
+                "assets/img/fig-bench-power-609.webp",
+                609
+              ]
+            ],
+            "w": 609,
+            "h": 457,
+            "alt": "Laboratory workbenches with power sockets mounted on a blue raceway."
+          },
+          "fig": "",
+          "caption": "Workbench power on raceway-mounted sockets"
+        }
+      ]
+    },
+    "menu": {
+      "timeline": "Timeline",
+      "company": "Company",
+      "team": "Our Team",
+      "deliver": "Project Methodology",
+      "appreciations": "Appreciation Certificates"
+    },
+    "certificates": {
+      "heading": "Certifications & Licences"
+    }
+  }
+}

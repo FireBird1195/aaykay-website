@@ -23,7 +23,7 @@ Python 3.8+, no packages. Run it again after any change; the output is rebuilt f
 """
 import os, re, sys, shutil, urllib.request, urllib.parse
 
-PAGES = ['', 'capabilities/', 'projects/', 'quality-safety/', 'careers/', 'contact-us/']
+PAGES = ['', 'credentials/', 'projects/', 'quality-safety/', 'careers/', 'contact-us/']
 
 BANNER_CSS = ('<style>.preview-bar{position:fixed;z-index:2147483647;left:0;right:0;bottom:0;'
               'padding:.45rem 1rem;background:#0b1224;color:#fff;font:500 12px/1.4 system-ui,sans-serif;'

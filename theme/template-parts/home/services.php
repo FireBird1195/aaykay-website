@@ -1,6 +1,8 @@
 <?php
 /**
- * Our Capabilities page: introduction, strengths and the capability cards (final client
+ * Credentials page (was Our Capabilities; client changes "WEB CUT 1", Nov 2026: the
+ * capabilities are long, several paragraphs each, so they are full-width rows, title on the
+ * left and text on the right). Introduction, strengths and the capability cards (final client
  * brief, 13 Oct 2026: "Our Capabilities", nine cards, Fire Safety ninth with a link to its
  * website). Content: Homepage content > Our Capabilities; card order = order in the editor.
  * The sectors moved to the Projects page (sectors.php).
@@ -16,6 +18,7 @@ $aaykay_scope   = aaykay_rows( 'services', 'scope' );
     <div class="wrap">
       <div class="intro grid-12">
         <h2 class="h2" id="intro-title" data-reveal><?php aaykay_e( 'services', 'heading' ); ?></h2>
+<?php if ( '' !== aaykay_t( 'services', 'lead' ) || $aaykay_pillars ) : ?>
         <div class="intro-body">
 <?php if ( '' !== aaykay_t( 'services', 'lead' ) ) : ?>
           <p class="lead" data-reveal><?php aaykay_e( 'services', 'lead' ); ?></p>
@@ -31,14 +34,17 @@ $aaykay_scope   = aaykay_rows( 'services', 'scope' );
           </div>
 <?php endif; ?>
         </div>
+<?php endif; ?>
       </div>
 
 <?php if ( $aaykay_scope ) : ?>
       <div class="scope" id="capabilities">
+<?php if ( '' !== aaykay_t( 'services', 'scope_heading' ) ) : ?>
         <div class="subhead">
           <h3><?php aaykay_e( 'services', 'scope_heading' ); ?></h3>
         </div>
-        <div class="scope-grid<?php echo ( 0 === count( $aaykay_scope ) % 3 && 0 !== count( $aaykay_scope ) % 4 ) ? ' scope-grid--3' : ''; ?>">
+<?php endif; ?>
+        <div class="scope-list">
 <?php foreach ( $aaykay_scope as $aaykay_s ) : ?>
 <?php
 	$aaykay_text  = trim( aaykay_tokens( $aaykay_s['text'] ) );
@@ -48,7 +54,11 @@ $aaykay_scope   = aaykay_rows( 'services', 'scope' );
           <div class="scope-item">
             <h4 class="icon-label"><?php echo aaykay_icon( $aaykay_s['icon'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><?php echo esc_html( aaykay_tokens( $aaykay_s['title'] ) ); ?></h4>
 <?php if ( '' !== $aaykay_text ) : ?>
-            <p><?php echo esc_html( $aaykay_text ); ?></p>
+            <div class="scope-text">
+<?php foreach ( aaykay_paragraphs( $aaykay_text ) as $aaykay_para ) : ?>
+              <p><?php echo esc_html( $aaykay_para ); ?></p>
+<?php endforeach; ?>
+            </div>
 <?php else : ?>
             <?php echo aaykay_pending( 'What AAYKAY offers in ' . aaykay_tokens( $aaykay_s['title'] ) . ', in a few lines', 'scope-pending' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_pending(). ?>
 

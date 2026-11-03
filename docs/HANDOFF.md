@@ -1,5 +1,25 @@
 # Handoff notes (for the next developer or AI session)
 
+## State (3 Nov 2026, client changes "WEB CUT 1"): branch `feat/client-web-cut-1`
+Version 6 of the content (`AAYKAY_DATA_VERSION`, `aaykay_upgrade_6`, `seed/upgrade-6.json`); theme 3.2.0.
+Source: the client's spreadsheet "WEB CUT 1.xlsx" (sheets LAYOUT, ABOUT US, CREDENTIALS). All text is the client's, word for word.
+- Menu: Home; About Us > Timeline, Company, Team, Certifications, Licenses and Compliance Documents;
+  Credentials (the page "Our Capabilities" renamed, new address /credentials/ on new installs) >
+  Capabilities, Project Photos, Appreciation Certificates; then Projects, Quality & Safety, Careers, Contact Us.
+- Home page order: slideshow, timeline, company, team, certifications (moved from Quality & Safety),
+  compliance & pre-qualification (moved too), project methodology (no longer in the dropdown).
+- Header name "AAYKAY / ELECTRICALS / PVT LTD" in red (#EC5F45, visiting-card red lightened for contrast on navy). Logo awaited from the client.
+- Hero: headline "Electrical and Fire Safety Services since 2008." (client); label and lead removed (not the client's words).
+  Slideshow: the client's 15 photos in the client's order and captions (assets/img/slide-*.webp).
+  Four of them (HT panels, transformer, basement trays, LT panel room) carry an "© ACE ENVIRO TECH PVT. LTD." mark: client to confirm rights.
+- About Us: client's line, three paragraphs and "Our services" (three items). Timeline: line replaced by "AAYKAY ELECTRICALS PVT LTD" in red.
+- Credentials: "Capabilities", nine client capabilities with full multi-paragraph text as full-width rows
+  (our intro, strengths and "Works We Undertake" heading removed); Project Photos = the 15 photos;
+  appreciation certificates and client letter moved here from Projects.
+- Slideshow bars stay 24px touch targets and wrap; phone mosaic now repeats for any photo count.
+- To revert: the previous release is tag `v3.1.0-before-web-cut-1` (= `main` before this branch). Merge-revert the PR
+  or run the Rollback workflow with that tag. Content saved by the upgrade is not reverted by code; restore the DB backup taken before deploy.
+
 ## State (31 Oct 2026): branch `release/production-readiness`
 On top of `feat/review-oct13`. Production-readiness pass: enquiry failure paths fixed (no-JS
 result, fast senders held not dropped, 30 s timeout), privacy export/erase/retention

@@ -34,43 +34,51 @@ defined( 'ABSPATH' ) || exit;
  * form are on Contact Us only; every page's footer has the address, phones and email.
  */
 function aaykay_page_registry() {
+	// Client changes "WEB CUT 1" (Nov 2026): About Us = Timeline, Company, Team, and the
+	// certifications, licences and compliance documents (moved here from Quality & Safety);
+	// Credentials (was Our Capabilities) = Capabilities, Project Photos and the appreciation
+	// certificates (moved here from Projects).
 	return array(
 		'home'         => array(
 			'Home',
 			'home',
 			'',
-			array( 'hero', 'company', 'timeline', 'team', 'deliver' ),
+			array( 'hero', 'timeline', 'company', 'team', 'certificates', 'prequal', 'deliver' ),
 			'',
 			array(
-				'company'  => 'about',
-				'timeline' => 'timeline',
-				'team'     => 'team',
-				'deliver'  => 'deliver',
+				'timeline'     => 'timeline',
+				'company'      => 'about',
+				'team'         => 'team',
+				'certificates' => 'certificates',
+				'deliver'      => 'deliver',
 			),
 		),
 		'capabilities' => array(
-			'Our Capabilities',
-			'capabilities',
+			'Credentials',
+			'credentials',
 			'',
-			array( 'services', 'photos' ),
-			'What AAYKAY Electricals installs: HT/LT panels and distribution, containment, wiring and cabling, busducts, lighting, critical power, earthing, testing and fire safety.',
-			array(),
+			array( 'services', 'photos', 'appreciations', 'letter' ),
+			'AAYKAY Electricals credentials: capabilities in HT/LT panels, busducts, wiring and cabling, critical power, earthing, containment, lighting, testing and fire safety; project photos; appreciation certificates.',
+			array(
+				'services'      => 'capabilities',
+				'photos'        => 'site-photos',
+				'appreciations' => 'appreciations',
+			),
 		),
 		'projects'     => array(
 			'Projects',
 			'projects',
 			'',
-			array( 'sectors', 'record', 'clients', 'firms', 'appreciations', 'letter' ),
-			'AAYKAY Electricals projects: sectors served, the project list with location, built-up area and status, clients, architects and consultants, and appreciation certificates.',
+			array( 'sectors', 'record', 'clients', 'firms' ),
+			'AAYKAY Electricals projects: sectors served, the project list with location, built-up area and status, clients, and architects and consultants.',
 			array(
-				'sectors'       => 'sectors',
-				'record'        => 'record',
-				'clients'       => 'clients',
-				'firms'         => 'firms',
-				'appreciations' => 'appreciations',
+				'sectors' => 'sectors',
+				'record'  => 'record',
+				'clients' => 'clients',
+				'firms'   => 'firms',
 			),
 		),
-		'quality'      => array( 'Quality & Safety', 'quality-safety', '', array( 'quality', 'certificates', 'prequal' ), 'AAYKAY Electricals is certified to ISO 9001:2015 and ISO 45001:2018: photos of site safety practice, quality and safety procedures, certificates and licences, compliance and pre-qualification.', array() ),
+		'quality'      => array( 'Quality & Safety', 'quality-safety', '', array( 'quality' ), 'AAYKAY Electricals is certified to ISO 9001:2015 and ISO 45001:2018: photos of site safety practice and its quality and safety procedures.', array() ),
 		'careers'      => array( 'Careers', 'careers', '', array( 'careers' ), 'Careers at AAYKAY Electricals: open positions in project management, site engineering, supervision and safety, and how to apply.', array() ),
 		'contact'      => array( 'Contact Us', 'contact-us', '', array( 'contact' ), 'Contact AAYKAY Electricals, Hyderabad: phone numbers, email, branches and the enquiry form.', array() ),
 	);
@@ -95,7 +103,7 @@ function aaykay_legacy_pages() {
 		'about'         => array( 'home', 'about' ),
 		'clients'       => array( 'projects', 'clients' ),
 		'consultants'   => array( 'projects', 'firms' ),
-		'appreciations' => array( 'projects', 'appreciations' ),
+		'appreciations' => array( 'capabilities', 'appreciations' ),
 	);
 }
 
@@ -329,7 +337,7 @@ function aaykay_menu() {
 		if ( 'home' === $key ) {
 			// Home has no dropdown; its About Us sections are the next item's.
 			$items[] = array( 'home', aaykay_page_title( 'home' ), aaykay_page_url( 'home' ), array() );
-			$items[] = array( 'about', aaykay_about_label(), aaykay_page_url( 'home' ) . '#about', $children );
+			$items[] = array( 'about', aaykay_about_label(), aaykay_page_url( 'home' ) . '#' . ( $children ? substr( strrchr( $children[0][2], '#' ), 1 ) : 'about' ), $children );
 			continue;
 		}
 		$items[] = array( $key, aaykay_page_title( $key ), aaykay_page_url( $key ), $children );

@@ -14,7 +14,7 @@ bad()  { printf '  FAIL  %s\n' "$1"; fail=1; }
 code() { curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$@"; }
 
 echo "Smoke test: $BASE"
-for p in / /capabilities/ /projects/ /quality-safety/ /careers/ /contact-us/; do
+for p in / /credentials/ /projects/ /quality-safety/ /careers/ /contact-us/; do
   c=$(code "$BASE$p"); [ "$c" = 200 ] && ok "$p 200" || bad "$p answered $c"
 done
 c=$(code "$BASE/no-such-page-$(date +%s)/"); [ "$c" = 404 ] && ok "unknown page 404" || bad "unknown page answered $c"

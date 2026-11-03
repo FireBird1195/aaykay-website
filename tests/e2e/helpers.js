@@ -4,7 +4,7 @@ const { execFileSync } = require('child_process');
 // The website's pages (theme/inc/pages.php). Addresses as created by the theme.
 const PAGES = [
   { path: '/', name: 'Home' },
-  { path: '/capabilities/', name: 'Our Capabilities' },
+  { path: '/credentials/', name: 'Credentials' },
   { path: '/projects/', name: 'Projects' },
   { path: '/quality-safety/', name: 'Quality & Safety' },
   { path: '/careers/', name: 'Careers' },

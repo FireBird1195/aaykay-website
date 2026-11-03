@@ -7,6 +7,7 @@
  *   - aaykay_upgrade_3(): version 2 to version 3 (final client brief of 13 Oct 2026);
  *   - aaykay_upgrade_4(): version 3 to version 4 (client review of 13 Oct 2026);
  *   - aaykay_upgrade_5(): version 4 to version 5 (second round of the 13 Oct review);
+ *   - aaykay_upgrade_6(): version 5 to version 6 (client changes "WEB CUT 1", Nov 2026);
  *   - aaykay_upgrade_cleanup(): drops saved fields and sections that no longer exist.
  * The rule throughout: a launch value is replaced only while it is still exactly as
  * launched (seed/upgrade-N.json), so nothing AAYKAY has edited is overwritten.
@@ -29,7 +30,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const AAYKAY_DATA_VERSION = 5;
+const AAYKAY_DATA_VERSION = 6;
 
 add_action(
 	'init',
@@ -66,7 +67,10 @@ add_action(
 			if ( $version < 4 ) {
 				aaykay_upgrade_4();
 			}
-			aaykay_upgrade_5();
+			if ( $version < 5 ) {
+				aaykay_upgrade_5();
+			}
+			aaykay_upgrade_6();
 			aaykay_upgrade_cleanup();
 		}
 		update_option( 'aaykay_data_version', AAYKAY_DATA_VERSION, true );
@@ -464,6 +468,52 @@ function aaykay_upgrade_5() {
 		);
 	}
 	update_option( AAYKAY_CONTENT_OPTION, $content );
+}
+
+/**
+ * Version 5 to 6 (client changes "WEB CUT 1", Nov 2026): new texts, slideshow, capabilities
+ * and project photos where still as launched (seed/upgrade-6.json); the page "Our
+ * Capabilities" is renamed "Credentials" and the page descriptions follow the moved sections,
+ * where still as launched. The page's address is left as it is.
+ */
+function aaykay_upgrade_6() {
+	$old     = aaykay_upgrade_seed( 6 );
+	$content = get_option( AAYKAY_CONTENT_OPTION );
+	if ( $old && is_array( $content ) && $content ) {
+		remove_all_filters( 'sanitize_option_' . AAYKAY_CONTENT_OPTION );
+		$defaults = aaykay_content_defaults();
+		foreach ( $old['content'] as $sid => $fields ) {
+			foreach ( $fields as $key => $v5 ) {
+				if ( isset( $content[ $sid ] ) && is_array( $content[ $sid ] ) && array_key_exists( $key, $content[ $sid ] ) && isset( $defaults[ $sid ] ) && array_key_exists( $key, $defaults[ $sid ] ) && aaykay_same_value( $content[ $sid ][ $key ], $v5 ) ) {
+					$content[ $sid ][ $key ] = $defaults[ $sid ][ $key ];
+				}
+			}
+		}
+		update_option( AAYKAY_CONTENT_OPTION, $content );
+	}
+	$reg      = aaykay_page_registry();
+	$launched = array(
+		'capabilities' => array( 'Our Capabilities', 'What AAYKAY Electricals installs: HT/LT panels and distribution, containment, wiring and cabling, busducts, lighting, critical power, earthing, testing and fire safety.' ),
+		'projects'     => array( 'Projects', 'AAYKAY Electricals projects: sectors served, the project list with location, built-up area and status, clients, architects and consultants, and appreciation certificates.' ),
+		'quality'      => array( 'Quality & Safety', 'AAYKAY Electricals is certified to ISO 9001:2015 and ISO 45001:2018: photos of site safety practice, quality and safety procedures, certificates and licences, compliance and pre-qualification.' ),
+	);
+	foreach ( $launched as $key => $was ) {
+		$id = aaykay_page_id_any( $key );
+		if ( ! $id ) {
+			continue;
+		}
+		$update = array();
+		if ( get_post_field( 'post_title', $id ) === $was[0] ) {
+			$update['post_title'] = $reg[ $key ][0];
+		}
+		if ( get_post_field( 'post_excerpt', $id ) === $was[1] ) {
+			$update['post_excerpt'] = $reg[ $key ][4];
+		}
+		if ( $update ) {
+			$update['ID'] = $id;
+			wp_update_post( $update );
+		}
+	}
 }
 
 /** Drop saved sections and fields that the current schema no longer has (after the upgrades). */

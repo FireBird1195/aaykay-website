@@ -82,7 +82,7 @@ function aaykay_content_schema() {
 		),
 		'menu'             => array(
 			'title'  => 'Menu',
-			'desc'   => 'The menu entry for About Us and the names of the links in the dropdowns under About Us and Projects (desktop menu). Each goes to that section. Leave a name empty to leave the link out; a section that is switched off is left out automatically. Other menu entries are the page titles (Dashboard > Pages).',
+			'desc'   => 'The menu entry for About Us and the names of the links in the dropdowns under About Us, Credentials and Projects (desktop menu). Each goes to that section. Leave a name empty to leave the link out; a section that is switched off is left out automatically. Other menu entries are the page titles (Dashboard > Pages).',
 			'toggle' => false,
 			'fields' => array(
 				'about'         => array( 'text', 'About Us: name in the menu', 'Goes to the About Us part of the home page.' ),
@@ -94,7 +94,10 @@ function aaykay_content_schema() {
 				'record'        => array( 'text', 'Projects > project list', '' ),
 				'clients'       => array( 'text', 'Projects > clients', '' ),
 				'firms'         => array( 'text', 'Projects > architects, consultants & PMCs', '' ),
-				'appreciations' => array( 'text', 'Projects > appreciation certificates', '' ),
+				'certificates'  => array( 'text', 'About Us > certifications, licences and compliance documents', '' ),
+				'services'      => array( 'text', 'Credentials > capabilities', '' ),
+				'photos'        => array( 'text', 'Credentials > project photos', '' ),
+				'appreciations' => array( 'text', 'Credentials > appreciation certificates', '' ),
 			),
 		),
 		'clients'          => array(
@@ -384,7 +387,7 @@ function aaykay_content_schema() {
 				'work_items'         => array(
 					'list',
 					'Our work',
-					'Short statements with an icon (company profile, “Our work”). Four fit best.',
+					'Short statements with an icon (“Our services”). A line break in the text starts a new line.',
 					array(
 						'item'   => 'statement',
 						'max'    => 6,

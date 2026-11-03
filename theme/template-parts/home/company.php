@@ -45,7 +45,7 @@ $aaykay_work    = aaykay_rows( 'company', 'work_items' );
           <h3 class="label"><?php aaykay_e( 'company', 'work_heading' ); ?></h3>
           <ul class="work-points">
 <?php foreach ( $aaykay_work as $aaykay_w ) : ?>
-            <li><?php echo aaykay_icon( $aaykay_w['icon'], 'ic--lg' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><p><?php echo esc_html( aaykay_tokens( $aaykay_w['text'] ) ); ?></p></li>
+            <li><?php echo aaykay_icon( $aaykay_w['icon'], 'ic--lg' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><p><?php echo nl2br( esc_html( trim( aaykay_tokens( $aaykay_w['text'] ) ) ), false ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped, then line breaks. ?></p></li>
 <?php endforeach; ?>
           </ul>
         </div>
