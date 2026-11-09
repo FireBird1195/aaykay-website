@@ -131,7 +131,7 @@ test.describe('desktop dropdowns', () => {
 });
 
 test.describe('project list', () => {
-  test('sector filters, counts and "show all" work, and the filter is in the address', async ({ page }) => {
+  test('sector filters, serial numbers and "show all" work, and the filter is in the address', async ({ page }) => {
     await page.goto('/projects/');
     const rows = page.locator('#record-table tbody tr');
     const total = await rows.count();
@@ -142,25 +142,29 @@ test.describe('project list', () => {
 
     const chip = page.locator('.chip[data-filter]').nth(1);
     const key = await chip.getAttribute('data-filter');
-    const expected = Number(await chip.locator('.chip-count').innerText());
+    const expected = await page.locator(`#record-table tbody tr[data-sector="${key}"]`).count();
+    await expect(chip.locator('.chip-count')).toHaveCount(0); // no counts on the chips (Nov 2026)
     await chip.click();
     await expect(chip).toHaveAttribute('aria-pressed', 'true');
     await expect(page.locator('#record-table tbody tr:visible')).toHaveCount(expected);
     await expect(page.locator(`#record-table tbody tr:visible:not([data-sector="${key}"])`)).toHaveCount(0);
     await expect(page).toHaveURL(new RegExp('sector=' + key));
     await expect(page.locator('#record-status')).toContainText(`${expected} of ${expected}`);
+    // Serial numbers restart at 1 for each filter, like spreadsheet rows.
+    await expect(page.locator('#record-table tbody tr:visible .sno').first()).toHaveText('1');
+    await expect(page.locator('#record-table tbody tr:visible .sno').last()).toHaveText(String(expected));
 
     // A shared filtered link opens filtered.
     await page.goto('/projects/?sector=' + key);
     await expect(page.locator('#record-table tbody tr:visible')).toHaveCount(expected);
   });
 
-  test('a sector row filters the list and Back restores the previous view', async ({ page }) => {
+  test('a filter link in the address works and Back restores the previous view', async ({ page }) => {
     await page.goto('/projects/');
-    const row = page.locator('.sector-row[data-filter]').first();
-    const key = await row.getAttribute('data-filter');
-    await row.click();
-    await expect(page).toHaveURL(new RegExp('sector=' + key));
+    const chip = page.locator('.chip[data-filter]').nth(1);
+    const key = await chip.getAttribute('data-filter');
+    await page.goto('/projects/?sector=' + key);
+    await expect(page.locator('.chip[data-filter="' + key + '"]')).toHaveAttribute('aria-pressed', 'true');
     await page.goBack();
     await expect(page).not.toHaveURL(/sector=/);
     await expect(page.locator('.chip[data-filter="all"]')).toHaveAttribute('aria-pressed', 'true');
@@ -195,25 +199,12 @@ test.describe('image viewer', () => {
   });
 });
 
-test.describe('slideshow', () => {
-  test('arrows change the photo and pause stops it', async ({ page }) => {
+test.describe('opening photo', () => {
+  // Review meeting (Nov 2026): one still photo (the transformer), so no slideshow controls.
+  test('one still photo with its caption and no slideshow controls', async ({ page }) => {
     await page.goto('/');
-    const controls = page.locator('.hero-controls');
-    await expect(controls).toBeVisible();
-    await page.locator('.hero-arrow[data-step="1"]').click();
-    await expect(page.locator('.hero-dot').nth(1)).toHaveAttribute('aria-current', 'true');
-    const pause = page.locator('.hero-pause');
-    await pause.click();
-    await expect(pause).toHaveAttribute('aria-label', 'Play the slideshow');
-    await expect(controls).not.toHaveClass(/is-running/);
-  });
-
-  test('does not play by itself with reduced motion', async ({ browser }) => {
-    const ctx = await browser.newContext({ reducedMotion: 'reduce' });
-    const page = await ctx.newPage();
-    await page.goto('/');
-    await expect(page.locator('.hero-controls')).not.toHaveClass(/is-running/);
-    await expect(page.locator('.hero-pause')).toHaveAttribute('aria-label', 'Play the slideshow');
-    await ctx.close();
+    await expect(page.locator('.hero-slide')).toHaveCount(1);
+    await expect(page.locator('.hero-controls')).toHaveCount(0);
+    await expect(page.locator('#hero-caption')).toHaveText(/transformer/i);
   });
 });

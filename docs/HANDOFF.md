@@ -1,5 +1,23 @@
 # Handoff notes (for the next developer or AI session)
 
+## State (9 Nov 2026, review meeting with AAYKAY): branch `feat/client-web-cut-1`
+Content version still 6 (upgrade-6.json extended: content, settings, the Enterprise sector name).
+- Home: headline "Complete electrical and fire safety installations, from design to commissioning."; no lead;
+  one still photo (the transformer), so no slideshow controls.
+- About Us: Timeline (2012 "branches follow in seven states"; Today "head office in Hyderabad, operating in more
+  than seven states"), Company Profile (was About Us; "Since 2008"; "Operations: 7 states"), Founder (was Our
+  Team; no tagline, no Leadership subhead, no team cards), certificates in the client's order (Incorporation,
+  GST, MSME, Telangana, Karnataka, ISO 9001, ISO 45001), Compliance & Pre-qualification (now in the dropdown;
+  Resources without "Management & supervision"; Workforce 150/300; Outsourced 200/500; "D&B certification";
+  "Locations").
+- Credentials: Project Methodology moved here, first.
+- Projects: no Sectors section; chips "All", "Software & IT Services" (renamed from Enterprise & IT), then
+  alphabetical, no counts; no visible "showing N" total; table: No. (restarts per filter), Project, Location,
+  Area, Architect / Electrical Consultant / PMC (Floors and Status removed).
+- Careers: tagline removed.
+- Awaited from AAYKAY (left as is): CEIG line for Our services, Shoaib's Director details, updated project
+  Excel, client list + logos, AKSS link for Fire Safety, Google Form + email for Careers.
+
 ## State (3 Nov 2026, client changes "WEB CUT 1"): branch `feat/client-web-cut-1`
 Version 6 of the content (`AAYKAY_DATA_VERSION`, `aaykay_upgrade_6`, `seed/upgrade-6.json`); theme 3.2.0.
 Source: the client's spreadsheet "WEB CUT 1.xlsx" (sheets LAYOUT, ABOUT US, CREDENTIALS). All text is the client's, word for word.

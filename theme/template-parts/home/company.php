@@ -31,7 +31,7 @@ $aaykay_work    = aaykay_rows( 'company', 'work_items' );
 <?php endif; ?>
         <div><dt>Head office</dt><dd><?php echo esc_html( aaykay_join( ', ', array( $aaykay_contact['area'], $aaykay_contact['city'] ) ) ); ?></dd></div>
 <?php if ( $aaykay_states ) : ?>
-        <div><dt>Branches</dt><dd><?php echo esc_html( $aaykay_states . ( 1 === $aaykay_states ? ' state' : ' states' ) ); ?></dd></div>
+        <div><dt>Operations</dt><dd><?php echo esc_html( $aaykay_states . ( 1 === $aaykay_states ? ' state' : ' states' ) ); ?></dd></div>
 <?php endif; ?>
       </dl>
       <div class="grid-12 about-grid">

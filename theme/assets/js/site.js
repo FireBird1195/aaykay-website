@@ -276,14 +276,16 @@
       var matching = rows.filter(function (r) { return state.filter === 'all' || r.getAttribute('data-sector') === state.filter; });
       var visible = (state.filter === 'all' && !state.expanded) ? matching.slice(0, LIMIT) : matching;
       rows.forEach(function (r) { r.hidden = visible.indexOf(r) === -1; });
+      // Serial numbers restart for each filter, like rows in a spreadsheet.
+      matching.forEach(function (r, i) { var c = $('.sno', r); if (c) c.textContent = String(i + 1); });
       chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.getAttribute('data-filter') === state.filter)); });
       var chip = chips.filter(function (c) { return c.getAttribute('data-filter') === state.filter; })[0];
-      var name = chip ? $('.chip-label', chip).textContent : 'All sectors';
+      var name = chip ? $('.chip-label', chip).textContent : 'All';
       if (status) status.textContent = 'Showing ' + visible.length + ' of ' + matching.length + ' projects · ' + name;
       if (moreBtn) {
         var canExpand = state.filter === 'all' && matching.length > LIMIT;
         moreBtn.hidden = !canExpand;
-        moreBtn.textContent = state.expanded ? 'Show fewer projects' : 'Show all ' + matching.length + ' projects';
+        moreBtn.textContent = state.expanded ? 'Show fewer projects' : 'Show all projects';
         moreBtn.setAttribute('aria-expanded', String(state.expanded));
       }
     }

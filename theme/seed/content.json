@@ -31,10 +31,10 @@
     "res_quality": "10",
     "res_safety": "15",
     "res_office": "30",
-    "res_skilled": "500",
+    "res_skilled": "150",
     "res_unskilled": "300",
     "res_out_skilled": "200",
-    "res_out_unskilled": "100",
+    "res_out_unskilled": "500",
     "seo_title": "AAYKAY Electricals | Electrical Contractor in Hyderabad",
     "seo_description": "Electrical contractor in Hyderabad since 2008: design, installation, testing and commissioning for hospitals, offices, data centres and high-rise towers.",
     "cin": "",
@@ -78,47 +78,9 @@
     "hero": {
       "enabled": true,
       "label": "Electrical and Fire Safety Services since 2008",
-      "title": "Complete electrical\ninstallations, from\ndesign to commissioning.",
-      "lead": "AAYKAY designs, installs, tests and commissions electrical works for hospitals, enterprise campuses, data centres and high-rise towers, from shop drawing to handover.",
+      "title": "Complete electrical\nand fire safety\ninstallations, from\ndesign to commissioning.",
+      "lead": "",
       "slides": [
-        {
-          "image": {
-            "src": "assets/img/slide-transformer-yard-865.webp",
-            "srcset": [
-              [
-                "assets/img/slide-transformer-yard-640.webp",
-                640
-              ],
-              [
-                "assets/img/slide-transformer-yard-865.webp",
-                865
-              ]
-            ],
-            "w": 865,
-            "h": 488,
-            "alt": "Aerial view of a transformer yard with two transformers, HT panels, a metering cubicle and an RMU behind a fence."
-          },
-          "caption": "TRANSFORMER YARD"
-        },
-        {
-          "image": {
-            "src": "assets/img/slide-rmu-metering-ht-panel-926.webp",
-            "srcset": [
-              [
-                "assets/img/slide-rmu-metering-ht-panel-640.webp",
-                640
-              ],
-              [
-                "assets/img/slide-rmu-metering-ht-panel-926.webp",
-                926
-              ]
-            ],
-            "w": 926,
-            "h": 796,
-            "alt": "A ring main unit, a metering cubicle and an HT panel line-up on raised plinths in a fenced yard."
-          },
-          "caption": "RMU, METERING CUBICLE AND HT PANEL"
-        },
         {
           "image": {
             "src": "assets/img/slide-transformer-926.webp",
@@ -137,263 +99,24 @@
             "alt": "An oil-filled transformer with radiators and an OLTC box on a concrete plinth."
           },
           "caption": "TRANSFORMER"
-        },
-        {
-          "image": {
-            "src": "assets/img/slide-cable-trays-cabling-926.webp",
-            "srcset": [
-              [
-                "assets/img/slide-cable-trays-cabling-640.webp",
-                640
-              ],
-              [
-                "assets/img/slide-cable-trays-cabling-926.webp",
-                926
-              ]
-            ],
-            "w": 926,
-            "h": 796,
-            "alt": "Overhead cable trays loaded with cables running through a basement car park."
-          },
-          "caption": "CABLE TRAYS AND CABLING"
-        },
-        {
-          "image": {
-            "src": "assets/img/slide-lt-panels-cabling-925.webp",
-            "srcset": [
-              [
-                "assets/img/slide-lt-panels-cabling-640.webp",
-                640
-              ],
-              [
-                "assets/img/slide-lt-panels-cabling-925.webp",
-                925
-              ]
-            ],
-            "w": 925,
-            "h": 792,
-            "alt": "A line-up of LT panels with LT cables rising in arches into overhead trays."
-          },
-          "caption": "LT PANELS AND LT CABLING"
-        },
-        {
-          "image": {
-            "src": "assets/img/slide-tray-works-lt-room-960.webp",
-            "srcset": [
-              [
-                "assets/img/slide-tray-works-lt-room-640.webp",
-                640
-              ],
-              [
-                "assets/img/slide-tray-works-lt-room-960.webp",
-                960
-              ],
-              [
-                "assets/img/slide-tray-works-lt-room-1280.webp",
-                1280
-              ]
-            ],
-            "w": 1280,
-            "h": 960,
-            "alt": "Orange perforated cable trays and ladders carrying cables down to the panels of an LT room."
-          },
-          "caption": "TRAY WORKS IN LT ROOM"
-        },
-        {
-          "image": {
-            "src": "assets/img/slide-lt-cable-termination-960.webp",
-            "srcset": [
-              [
-                "assets/img/slide-lt-cable-termination-640.webp",
-                640
-              ],
-              [
-                "assets/img/slide-lt-cable-termination-960.webp",
-                960
-              ]
-            ],
-            "w": 960,
-            "h": 1280,
-            "alt": "LT cables in red, yellow, blue and black terminated on the busbars inside a panel."
-          },
-          "caption": "LT CABLE TERMINATION"
-        },
-        {
-          "image": {
-            "src": "assets/img/slide-critical-room-960.webp",
-            "srcset": [
-              [
-                "assets/img/slide-critical-room-640.webp",
-                640
-              ],
-              [
-                "assets/img/slide-critical-room-960.webp",
-                960
-              ]
-            ],
-            "w": 960,
-            "h": 1280,
-            "alt": "A critical electrical room with a panel line-up, a voltage stabiliser and overhead cable trays."
-          },
-          "caption": "CRITICAL ROOM"
-        },
-        {
-          "image": {
-            "src": "assets/img/slide-gland-earthing-774.webp",
-            "srcset": [
-              [
-                "assets/img/slide-gland-earthing-640.webp",
-                640
-              ],
-              [
-                "assets/img/slide-gland-earthing-774.webp",
-                774
-              ]
-            ],
-            "w": 774,
-            "h": 1032,
-            "alt": "Armoured cables terminated through brass glands, each bonded to a copper earth strip."
-          },
-          "caption": "TERMINATION AND GLAND EARTHING"
-        },
-        {
-          "image": {
-            "src": "assets/img/slide-db-dressing-900.webp",
-            "srcset": [
-              [
-                "assets/img/slide-db-dressing-640.webp",
-                640
-              ],
-              [
-                "assets/img/slide-db-dressing-900.webp",
-                900
-              ]
-            ],
-            "w": 900,
-            "h": 1600,
-            "alt": "A distribution board with neatly dressed, labelled wiring to rows of Schneider MCBs."
-          },
-          "caption": "DB DRESSING"
-        },
-        {
-          "image": {
-            "src": "assets/img/slide-open-conduiting-576.webp",
-            "srcset": [
-              [
-                "assets/img/slide-open-conduiting-576.webp",
-                576
-              ]
-            ],
-            "w": 576,
-            "h": 1280,
-            "alt": "Rows of parallel conduits with junction boxes fixed to a concrete ceiling."
-          },
-          "caption": "OPEN CONDUITING"
-        },
-        {
-          "image": {
-            "src": "assets/img/slide-task-lights-960.webp",
-            "srcset": [
-              [
-                "assets/img/slide-task-lights-640.webp",
-                640
-              ],
-              [
-                "assets/img/slide-task-lights-960.webp",
-                960
-              ],
-              [
-                "assets/img/slide-task-lights-1280.webp",
-                1280
-              ],
-              [
-                "assets/img/slide-task-lights-1600.webp",
-                1600
-              ]
-            ],
-            "w": 1600,
-            "h": 747,
-            "alt": "Linear task lights over rows of workstations in an office floor."
-          },
-          "caption": "TASK LIGHT INSTALLATION"
-        },
-        {
-          "image": {
-            "src": "assets/img/slide-collabs-area-lights-960.webp",
-            "srcset": [
-              [
-                "assets/img/slide-collabs-area-lights-640.webp",
-                640
-              ],
-              [
-                "assets/img/slide-collabs-area-lights-960.webp",
-                960
-              ],
-              [
-                "assets/img/slide-collabs-area-lights-1280.webp",
-                1280
-              ],
-              [
-                "assets/img/slide-collabs-area-lights-1600.webp",
-                1600
-              ]
-            ],
-            "w": 1600,
-            "h": 747,
-            "alt": "Large circular pendant lights over a collaboration area in an office."
-          },
-          "caption": "COLLABS AREA LIGHTS"
-        },
-        {
-          "image": {
-            "src": "assets/img/slide-passage-lights-598.webp",
-            "srcset": [
-              [
-                "assets/img/slide-passage-lights-598.webp",
-                598
-              ]
-            ],
-            "w": 598,
-            "h": 1280,
-            "alt": "Downlights along a passage under a slatted ceiling."
-          },
-          "caption": "PASSAGE LIGHTS"
-        },
-        {
-          "image": {
-            "src": "assets/img/slide-decorative-lights-720.webp",
-            "srcset": [
-              [
-                "assets/img/slide-decorative-lights-640.webp",
-                640
-              ],
-              [
-                "assets/img/slide-decorative-lights-720.webp",
-                720
-              ]
-            ],
-            "w": 720,
-            "h": 1280,
-            "alt": "Decorative chandeliers above a boardroom table."
-          },
-          "caption": "DECORATIVE LIGHTS"
         }
       ]
     },
     "menu": {
       "about": "About Us",
-      "company": "Company",
+      "company": "Company Profile",
       "timeline": "Timeline",
-      "team": "Team",
-      "deliver": "",
-      "sectors": "Sectors",
+      "team": "Founder",
+      "deliver": "Project Methodology",
+      "sectors": "",
       "record": "Project List",
       "clients": "Clients",
       "firms": "Architects, Consultants & PMCs",
       "appreciations": "Appreciation Certificates",
       "certificates": "Certifications, Licenses and Compliance Documents",
       "services": "Capabilities",
-      "photos": "Project Photos"
+      "photos": "Project Photos",
+      "prequal": "Compliance & Pre-qualification"
     },
     "clients": {
       "enabled": true,
@@ -486,7 +209,7 @@
     "record": {
       "enabled": true,
       "heading": "Project List",
-      "sub": "Location, built-up area, status and design team for each project, in alphabetical order."
+      "sub": "Location, built-up area and design team for each project, in alphabetical order."
     },
     "firms": {
       "enabled": true,
@@ -1203,49 +926,72 @@
       "docs": [
         {
           "image": {
-            "src": "assets/img/cert-iso-9001-400.webp",
+            "src": "assets/img/cert-incorporation-400.webp",
             "srcset": [
               [
-                "assets/img/cert-iso-9001-400.webp",
-                335
+                "assets/img/cert-incorporation-400.webp",
+                316
               ],
               [
-                "assets/img/cert-iso-9001-1200.webp",
-                1006
+                "assets/img/cert-incorporation-1200.webp",
+                947
               ]
             ],
-            "w": 1006,
+            "w": 947,
             "h": 1200,
-            "alt": "ISO 9001:2015 certificate of registration for AAYKAY Electricals Private Limited, issued by Certification Partner Global.",
-            "full": "assets/img/cert-iso-9001-1200.webp"
+            "alt": "Certificate of Incorporation of AAYKAY Electricals Private Limited, Ministry of Corporate Affairs, Government of India.",
+            "full": "assets/img/cert-incorporation-1200.webp"
           },
-          "title": "ISO 9001:2015 · Quality management system",
-          "meta": "Certificate of registration from Certification Partner Global (JAS-ANZ accredited) for the execution of HT & LT electrification works. Valid to September 2028.",
+          "title": "Certificate of Incorporation",
+          "meta": "AAYKAY Electricals Private Limited, incorporated under the Companies Act, 2013. Ministry of Corporate Affairs, Government of India.",
           "button": "View certificate",
-          "caption": "ISO 9001:2015 certificate of registration, Certification Partner Global. Registered 9 September 2025, valid to 9 September 2028."
+          "caption": "Certificate of Incorporation of AAYKAY Electricals Private Limited, Ministry of Corporate Affairs."
         },
         {
           "image": {
-            "src": "assets/img/cert-ohsms-45001-400.webp",
+            "src": "assets/img/cert-gst-400.webp",
             "srcset": [
               [
-                "assets/img/cert-ohsms-45001-400.webp",
-                303
+                "assets/img/cert-gst-400.webp",
+                400
               ],
               [
-                "assets/img/cert-ohsms-45001-1200.webp",
-                910
+                "assets/img/cert-gst-1200.webp",
+                1200
               ]
             ],
-            "w": 910,
-            "h": 1200,
-            "alt": "ISO 45001:2018 certificate of registration for AAYKAY Electricals Private Limited, issued by Certification Partner Global.",
-            "full": "assets/img/cert-ohsms-45001-1200.webp"
+            "w": 1200,
+            "h": 1602,
+            "alt": "GST registration certificate (Form GST REG-06), Government of India, issued to AAYKAY Electricals Private Limited, Hyderabad, Telangana.",
+            "full": "assets/img/cert-gst-1200.webp"
           },
-          "title": "ISO 45001:2018 · Occupational health & safety management system",
-          "meta": "Certificate of registration from Certification Partner Global (JAS-ANZ accredited) for the execution of HT & LT electrification works. Valid to September 2028.",
+          "title": "GST registration · Telangana",
+          "meta": "Goods and Services Tax registration certificate (Form GST REG-06) for AAYKAY Electricals Private Limited, Hyderabad. Regular registration, effective 20 February 2025.",
           "button": "View certificate",
-          "caption": "ISO 45001:2018 certificate of registration, Certification Partner Global, valid to September 2028."
+          "caption": "GST registration certificate (Form GST REG-06), Government of India. Hyderabad, effective 20 February 2025."
+        },
+        {
+          "image": {
+            "src": "assets/img/cert-msme-400.webp",
+            "srcset": [
+              [
+                "assets/img/cert-msme-400.webp",
+                309
+              ],
+              [
+                "assets/img/cert-msme-1200.webp",
+                928
+              ]
+            ],
+            "w": 928,
+            "h": 1200,
+            "alt": "Udyam Registration Certificate of AAYKAY Electricals Private Limited, Ministry of Micro, Small and Medium Enterprises.",
+            "full": "assets/img/cert-msme-1200.webp"
+          },
+          "title": "MSME · Udyam registration",
+          "meta": "Udyam Registration Certificate from the Ministry of Micro, Small and Medium Enterprises, Government of India.",
+          "button": "View certificate",
+          "caption": "Udyam Registration Certificate (MSME), Government of India."
         },
         {
           "image": {
@@ -1295,78 +1041,55 @@
         },
         {
           "image": {
-            "src": "assets/img/cert-incorporation-400.webp",
+            "src": "assets/img/cert-iso-9001-400.webp",
             "srcset": [
               [
-                "assets/img/cert-incorporation-400.webp",
-                316
+                "assets/img/cert-iso-9001-400.webp",
+                335
               ],
               [
-                "assets/img/cert-incorporation-1200.webp",
-                947
+                "assets/img/cert-iso-9001-1200.webp",
+                1006
               ]
             ],
-            "w": 947,
+            "w": 1006,
             "h": 1200,
-            "alt": "Certificate of Incorporation of AAYKAY Electricals Private Limited, Ministry of Corporate Affairs, Government of India.",
-            "full": "assets/img/cert-incorporation-1200.webp"
+            "alt": "ISO 9001:2015 certificate of registration for AAYKAY Electricals Private Limited, issued by Certification Partner Global.",
+            "full": "assets/img/cert-iso-9001-1200.webp"
           },
-          "title": "Certificate of Incorporation",
-          "meta": "AAYKAY Electricals Private Limited, incorporated under the Companies Act, 2013. Ministry of Corporate Affairs, Government of India.",
+          "title": "ISO 9001:2015 · Quality management system",
+          "meta": "Certificate of registration from Certification Partner Global (JAS-ANZ accredited) for the execution of HT & LT electrification works. Valid to September 2028.",
           "button": "View certificate",
-          "caption": "Certificate of Incorporation of AAYKAY Electricals Private Limited, Ministry of Corporate Affairs."
+          "caption": "ISO 9001:2015 certificate of registration, Certification Partner Global. Registered 9 September 2025, valid to 9 September 2028."
         },
         {
           "image": {
-            "src": "assets/img/cert-msme-400.webp",
+            "src": "assets/img/cert-ohsms-45001-400.webp",
             "srcset": [
               [
-                "assets/img/cert-msme-400.webp",
-                309
+                "assets/img/cert-ohsms-45001-400.webp",
+                303
               ],
               [
-                "assets/img/cert-msme-1200.webp",
-                928
+                "assets/img/cert-ohsms-45001-1200.webp",
+                910
               ]
             ],
-            "w": 928,
+            "w": 910,
             "h": 1200,
-            "alt": "Udyam Registration Certificate of AAYKAY Electricals Private Limited, Ministry of Micro, Small and Medium Enterprises.",
-            "full": "assets/img/cert-msme-1200.webp"
+            "alt": "ISO 45001:2018 certificate of registration for AAYKAY Electricals Private Limited, issued by Certification Partner Global.",
+            "full": "assets/img/cert-ohsms-45001-1200.webp"
           },
-          "title": "MSME · Udyam registration",
-          "meta": "Udyam Registration Certificate from the Ministry of Micro, Small and Medium Enterprises, Government of India.",
+          "title": "ISO 45001:2018 · Occupational health & safety management system",
+          "meta": "Certificate of registration from Certification Partner Global (JAS-ANZ accredited) for the execution of HT & LT electrification works. Valid to September 2028.",
           "button": "View certificate",
-          "caption": "Udyam Registration Certificate (MSME), Government of India."
-        },
-        {
-          "image": {
-            "src": "assets/img/cert-gst-400.webp",
-            "srcset": [
-              [
-                "assets/img/cert-gst-400.webp",
-                400
-              ],
-              [
-                "assets/img/cert-gst-1200.webp",
-                1200
-              ]
-            ],
-            "w": 1200,
-            "h": 1602,
-            "alt": "GST registration certificate (Form GST REG-06), Government of India, issued to AAYKAY Electricals Private Limited, Hyderabad, Telangana.",
-            "full": "assets/img/cert-gst-1200.webp"
-          },
-          "title": "GST registration · Telangana",
-          "meta": "Goods and Services Tax registration certificate (Form GST REG-06) for AAYKAY Electricals Private Limited, Hyderabad. Regular registration, effective 20 February 2025.",
-          "button": "View certificate",
-          "caption": "GST registration certificate (Form GST REG-06), Government of India. Hyderabad, effective 20 February 2025."
+          "caption": "ISO 45001:2018 certificate of registration, Certification Partner Global, valid to September 2028."
         }
       ]
     },
     "company": {
       "enabled": true,
-      "heading": "About Us",
+      "heading": "Company Profile",
       "sub": "An ISO 9001:2015 and ISO 45001:2018 certified Electrical and Fire Safety contracting company, established in Hyderabad in 2008.",
       "work_heading": "Our services",
       "work_items": [
@@ -1385,7 +1108,7 @@
       ],
       "timeline_heading": "Timeline",
       "timeline_sub": "",
-      "leadership_heading": "Leadership",
+      "leadership_heading": "",
       "founder_photo": {
         "src": "assets/img/founder-413.webp",
         "srcset": [
@@ -1422,7 +1145,7 @@
       "person2_title": "Director",
       "person2_text": "",
       "glance_company": "AAYKAY Electricals Private Limited",
-      "glance_established": "2008",
+      "glance_established": "Since 2008",
       "paragraphs": "Established in 2008, AAYKAY Electricals Private Limited is an ISO 9001:2015 and ISO 45001:2018 certified contractor specialising in electrical and fire safety services. We provide end-to-end expertise in design, supply, installation, testing, commissioning and maintenance.\n\nOur commitment to quality, safety, responsive service and timely project delivery has earned the trust of leading multinational and Indian organisations. We have completed projects across banking, healthcare, manufacturing, data centres, IT parks, interior fit-outs, substations, commercial buildings and high-rise residential developments.\n\nOur experienced project teams are supported by dedicated specialists in safety, quality, planning, procurement, design, tendering, billing, finance, human resources and administration—enabling us to deliver reliable solutions tailored to each project.",
       "quote": "With 30 years in this field, across base builds, IT workspaces, laboratories, data centres, hospitals, industries, and commercial and high-rise buildings, I know how much a project depends on electrical work done right.\n\nSince 2008, AAYKAY Electricals Private Limited has been committed to well-executed MEP works. Many of our clients have continued to work with us over the years, and most have become regular clients.\n\nWith the support of a dedicated team, AAYKAY has met challenge after challenge and reached new milestones. The journey continues, and with our team and our clients, I am confident the company will keep growing for years to come.",
       "quote_by": "Abdul Kareem P, Managing Director",
@@ -1433,19 +1156,19 @@
         },
         {
           "year": "2012",
-          "text": "Merges with AayKay Electrical Enterprises. Branches follow in Bengaluru and Chennai."
+          "text": "Merges with AayKay Electrical Enterprises. Branches follow in seven states."
         },
         {
           "year": "Today",
-          "text": "AAYKAY Electricals Private Limited: ISO 9001:2015 and ISO 45001:2018 certified{with}."
+          "text": "AAYKAY Electricals Private Limited: ISO 9001:2015 and ISO 45001:2018 certified, with head office in Hyderabad, operating in more than seven states."
         }
       ]
     },
     "team": {
       "enabled": true,
-      "heading": "Our Team",
-      "sub": "The leadership and the people who run AAYKAY’s projects.",
-      "members_heading": "Project & Office Team",
+      "heading": "Founder",
+      "sub": "",
+      "members_heading": "",
       "members": []
     },
     "letter": {
@@ -1478,7 +1201,7 @@
     "prequal": {
       "enabled": true,
       "heading": "Compliance & Pre-qualification",
-      "sub": "Resources, certifications, registrations and branches, as procurement and tender teams require them.",
+      "sub": "Resources, certifications, registrations and locations, as procurement and tender teams require them.",
       "resources_icon": "users",
       "resources_heading": "Resources",
       "certs_icon": "badge-check",
@@ -1494,16 +1217,16 @@
         },
         {
           "heading": "Company registrations",
-          "items": "Certificate of Incorporation | private limited company\nMSME certificate |\nGST registration |\nESI and EPF registration |\nPAN |\nD&B certified |"
+          "items": "Certificate of Incorporation | private limited company\nMSME certificate |\nGST registration |\nESI and EPF registration |\nPAN |\nD&B certification |"
         }
       ],
       "branches_icon": "map-pin",
-      "branches_heading": "Branches"
+      "branches_heading": "Locations"
     },
     "careers": {
       "enabled": true,
       "heading": "Careers",
-      "sub": "Join the teams that build, test and hand over AAYKAY’s electrical installations across India.",
+      "sub": "",
       "benefits_heading": "Employee Welfare",
       "benefits": [
         {
@@ -1617,11 +1340,11 @@
     },
     {
       "key": "enterprise",
-      "label": "Enterprise & IT",
+      "label": "Software & IT Services",
       "description": "Office fit-outs and campuses, up to 15 floors and 500,000 sq ft on a single project.",
       "clients": "Amazon · Microsoft · Qualcomm · Accenture · Shell · Walmart",
       "icon": "building-2",
-      "short_label": "Enterprise"
+      "short_label": "Software & IT"
     },
     {
       "key": "banking",

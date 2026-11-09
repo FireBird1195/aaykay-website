@@ -34,6 +34,9 @@ defined( 'ABSPATH' ) || exit;
  * form are on Contact Us only; every page's footer has the address, phones and email.
  */
 function aaykay_page_registry() {
+	// Review meeting (Nov 2026): About Us = Timeline, Company Profile, Founder, certifications,
+	// compliance & pre-qualification; Project Methodology moves to Credentials, first; the
+	// Projects page starts with the project list (no sectors section).
 	// Client changes "WEB CUT 1" (Nov 2026): About Us = Timeline, Company, Team, and the
 	// certifications, licences and compliance documents (moved here from Quality & Safety);
 	// Credentials (was Our Capabilities) = Capabilities, Project Photos and the appreciation
@@ -43,23 +46,24 @@ function aaykay_page_registry() {
 			'Home',
 			'home',
 			'',
-			array( 'hero', 'timeline', 'company', 'team', 'certificates', 'prequal', 'deliver' ),
+			array( 'hero', 'timeline', 'company', 'team', 'certificates', 'prequal' ),
 			'',
 			array(
 				'timeline'     => 'timeline',
 				'company'      => 'about',
 				'team'         => 'team',
 				'certificates' => 'certificates',
-				'deliver'      => 'deliver',
+				'prequal'      => 'prequal',
 			),
 		),
 		'capabilities' => array(
 			'Credentials',
 			'credentials',
 			'',
-			array( 'services', 'photos', 'appreciations', 'letter' ),
+			array( 'deliver', 'services', 'photos', 'appreciations', 'letter' ),
 			'AAYKAY Electricals credentials: capabilities in HT/LT panels, busducts, wiring and cabling, critical power, earthing, containment, lighting, testing and fire safety; project photos; appreciation certificates.',
 			array(
+				'deliver'       => 'deliver',
 				'services'      => 'capabilities',
 				'photos'        => 'site-photos',
 				'appreciations' => 'appreciations',
@@ -69,10 +73,9 @@ function aaykay_page_registry() {
 			'Projects',
 			'projects',
 			'',
-			array( 'sectors', 'record', 'clients', 'firms' ),
+			array( 'record', 'clients', 'firms' ),
 			'AAYKAY Electricals projects: sectors served, the project list with location, built-up area and status, clients, and architects and consultants.',
 			array(
-				'sectors' => 'sectors',
 				'record'  => 'record',
 				'clients' => 'clients',
 				'firms'   => 'firms',

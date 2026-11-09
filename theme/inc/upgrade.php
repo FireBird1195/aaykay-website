@@ -491,6 +491,27 @@ function aaykay_upgrade_6() {
 		}
 		update_option( AAYKAY_CONTENT_OPTION, $content );
 	}
+	// Resources (Site settings) and the Enterprise sector's name, where still as launched.
+	$settings = get_option( AAYKAY_SETTINGS_OPTION );
+	if ( $old && ! empty( $old['settings'] ) && is_array( $settings ) && $settings ) {
+		$fresh = aaykay_seed_data();
+		foreach ( $old['settings'] as $key => $v5 ) {
+			if ( isset( $settings[ $key ] ) && (string) $settings[ $key ] === (string) $v5 && isset( $fresh['settings'][ $key ] ) ) {
+				$settings[ $key ] = $fresh['settings'][ $key ];
+			}
+		}
+		remove_all_filters( 'sanitize_option_' . AAYKAY_SETTINGS_OPTION );
+		update_option( AAYKAY_SETTINGS_OPTION, $settings );
+	}
+	if ( $old && ! empty( $old['sectors']['enterprise'] ) ) {
+		$term = get_term_by( 'slug', 'enterprise', 'aaykay_sector' );
+		if ( $term && wp_specialchars_decode( $term->name ) === $old['sectors']['enterprise']['label'] ) {
+			wp_update_term( $term->term_id, 'aaykay_sector', array( 'name' => 'Software & IT Services' ) );
+			if ( aaykay_sector_meta( $term->term_id, 'short_label' ) === $old['sectors']['enterprise']['short_label'] ) {
+				update_term_meta( $term->term_id, 'aaykay_short_label', 'Software & IT' );
+			}
+		}
+	}
 	$reg      = aaykay_page_registry();
 	$launched = array(
 		'capabilities' => array( 'Our Capabilities', 'What AAYKAY Electricals installs: HT/LT panels and distribution, containment, wiring and cabling, busducts, lighting, critical power, earthing, testing and fire safety.' ),

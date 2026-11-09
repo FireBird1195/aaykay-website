@@ -1,6 +1,7 @@
 <?php
 /**
- * Projects page: the project list (alphabetical, with status). Headings: Homepage content > Project record.
+ * Projects page: the project list (alphabetical, numbered like spreadsheet rows; the numbers
+ * restart for each sector filter, site.js initRecord). Headings: Homepage content > Project record.
  * Rows: Dashboard > Projects, alphabetical.
  *
  * @package aaykay
@@ -22,21 +23,20 @@ $aaykay_values = aaykay_show_values();
         <?php echo aaykay_render_chips( '        ' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in the renderer. ?>
 
       </div>
-      <p class="record-status" id="record-status" aria-live="polite"></p>
+      <p class="record-status visually-hidden" id="record-status" aria-live="polite"></p>
       <div class="table-scroll" role="region" aria-labelledby="record-caption" tabindex="0">
         <table class="record" id="record-table">
-          <caption id="record-caption" class="visually-hidden">AAYKAY project list: project, location, built-up area, floors, status, <?php echo $aaykay_values ? 'AAYKAY order value, ' : ''; ?>and architect or electrical consultant</caption>
+          <caption id="record-caption" class="visually-hidden">AAYKAY project list: number, project, location, built-up area, <?php echo $aaykay_values ? 'AAYKAY order value, ' : ''; ?>and architect, electrical consultant or PMC</caption>
           <thead>
             <tr>
+              <th scope="col" class="sno"><abbr title="Serial number">No.</abbr></th>
               <th scope="col">Project</th>
               <th scope="col">Location</th>
               <th scope="col" class="num">Area (sq ft)</th>
-              <th scope="col" class="floors">Floors</th>
-              <th scope="col" class="status">Status</th>
 <?php if ( $aaykay_values ) : ?>
               <th scope="col" class="num">Order value</th>
 <?php endif; ?>
-              <th scope="col" class="team">Architect / electrical consultant</th>
+              <th scope="col" class="team">Architect / Electrical Consultant / PMC</th>
             </tr>
           </thead>
           <tbody id="record-rows">

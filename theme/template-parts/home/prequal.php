@@ -10,18 +10,10 @@
 
 defined( 'ABSPATH' ) || exit;
 $aaykay_contact  = aaykay_contact();
-$aaykay_os       = aaykay_setting( 'res_out_skilled' );
-$aaykay_ou    = aaykay_setting( 'res_out_unskilled' );
-if ( '' !== $aaykay_os && '' !== $aaykay_ou ) {
-	$aaykay_out = array( 'Outsourced, skilled / unskilled' => $aaykay_os . ' / ' . $aaykay_ou );
-} else {
-	$aaykay_out = array(
-		'Outsourced, skilled'   => $aaykay_os,
-		'Outsourced, unskilled' => $aaykay_ou,
-	);
-}
+// Review meeting (Nov 2026): the staff list sits directly under "Resources"; the company's
+// own workforce and the outsourced workforce are two groups of skilled / unskilled.
 $aaykay_groups = array(
-	'Management & supervision' => array(
+	''           => array(
 		'Project managers'  => aaykay_setting( 'res_pm' ),
 		'Project engineers' => aaykay_setting( 'res_pe' ),
 		'Supervisors'       => aaykay_setting( 'res_sup' ),
@@ -29,10 +21,14 @@ $aaykay_groups = array(
 		'Safety staff'      => aaykay_setting( 'res_safety' ),
 		'Office staff'      => aaykay_setting( 'res_office' ),
 	),
-	'Workforce'                => array(
+	'Workforce'  => array(
 		'Skilled'   => aaykay_setting( 'res_skilled' ),
 		'Unskilled' => aaykay_setting( 'res_unskilled' ),
-	) + $aaykay_out,
+	),
+	'Outsourced' => array(
+		'Skilled'   => aaykay_setting( 'res_out_skilled' ),
+		'Unskilled' => aaykay_setting( 'res_out_unskilled' ),
+	),
 );
 ?>
   <section class="section section--white" id="prequal" aria-labelledby="pq-title">
@@ -53,7 +49,9 @@ foreach ( $aaykay_groups as $aaykay_group => $aaykay_rows ) :
 		continue;
 	}
 	?>
+<?php if ( '' !== $aaykay_group ) : ?>
           <p class="pq-group"><?php echo esc_html( $aaykay_group ); ?></p>
+<?php endif; ?>
           <ul class="pq-list">
 <?php foreach ( $aaykay_rows as $aaykay_label => $aaykay_n ) : ?>
             <li><?php echo esc_html( $aaykay_label ); ?> <b><?php echo esc_html( $aaykay_n ); ?></b></li>

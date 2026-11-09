@@ -23,7 +23,7 @@ $aaykay_members = array_values(
 		}
 	)
 );
-$aaykay_slots   = ( $aaykay_members || ! aaykay_section_on( 'team' ) ) ? 0 : ( '' !== aaykay_pending( 'x' ) ? 4 : 0 );
+$aaykay_slots   = 0; // Review meeting (Nov 2026): no team cards; the team changes too often.
 ?>
   <section class="section" id="team" aria-labelledby="team-title">
     <div class="wrap">
@@ -34,9 +34,11 @@ $aaykay_slots   = ( $aaykay_members || ! aaykay_section_on( 'team' ) ) ? 0 : ( '
 <?php endif; ?>
       </div>
 
+<?php if ( '' !== aaykay_t( 'company', 'leadership_heading' ) ) : ?>
       <div class="subhead">
         <h3><?php aaykay_e( 'company', 'leadership_heading' ); ?></h3>
       </div>
+<?php endif; ?>
       <div class="leaders">
         <div class="leader grid-12">
           <div class="leader-id">

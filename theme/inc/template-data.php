@@ -132,22 +132,35 @@ function aaykay_render_sector_rows( $indent ) {
 }
 
 function aaykay_render_chips( $indent ) {
-	$items = array( array( 'all', 'All sectors', count( aaykay_projects() ), '' ) );
-	foreach ( aaykay_sectors() as $s ) {
-		if ( $s['count'] ) {
-			$items[] = array( $s['key'], $s['label'], $s['count'], aaykay_icon( $s['icon'] ) );
+	// Review meeting (Nov 2026): All, then Software & IT Services, then the other sectors in
+	// alphabetical order; no counts.
+	$sectors = array_values(
+		array_filter(
+			aaykay_sectors(),
+			function ( $s ) {
+				return $s['count'] > 0;
+			}
+		)
+	);
+	usort(
+		$sectors,
+		function ( $a, $b ) {
+			return array( 'enterprise' === $a['key'] ? 0 : 1, strtolower( $a['label'] ) ) <=> array( 'enterprise' === $b['key'] ? 0 : 1, strtolower( $b['label'] ) );
 		}
+	);
+	$items = array( array( 'all', 'All', '' ) );
+	foreach ( $sectors as $s ) {
+		$items[] = array( $s['key'], $s['label'], aaykay_icon( $s['icon'] ) );
 	}
 	$out = array();
 	foreach ( $items as $item ) {
-		list( $key, $label, $count, $icon ) = $item;
+		list( $key, $label, $icon ) = $item;
 		$out[] = sprintf(
-			'<button class="chip" type="button" data-filter="%s" aria-pressed="%s">%s<span class="chip-label">%s</span> <span class="chip-count">%d</span></button>',
+			'<button class="chip" type="button" data-filter="%s" aria-pressed="%s">%s<span class="chip-label">%s</span></button>',
 			esc_attr( $key ),
 			'all' === $key ? 'true' : 'false',
 			$icon,
-			esc_html( $label ),
-			$count
+			esc_html( $label )
 		);
 	}
 	return implode( "\n" . $indent, $out );
@@ -242,6 +255,7 @@ function aaykay_render_record_rows( $indent ) {
 		return esc_html( $value ) . ( $u ? '<span class="u">' . esc_html( $u ) . '</span>' : '' );
 	};
 	$rows = array();
+	$n    = 0;
 	foreach ( aaykay_projects() as $p ) {
 		$s = aaykay_sector_by_key( $p['sector'] );
 		if ( ! $s ) {
@@ -253,21 +267,20 @@ function aaykay_render_record_rows( $indent ) {
 		if ( '' !== $p['note'] ) {
 			$meta .= '<span class="p-note">' . esc_html( $p['note'] ) . '</span>';
 		}
-		$area        = $p['area_sqft'] ? number_format( $p['area_sqft'] ) : '';
-		$floors_unit = aaykay_is_digits( $p['floors'] ) ? ' floors' : '';
+		$area = $p['area_sqft'] ? number_format( $p['area_sqft'] ) : '';
+		++$n;
 		// A developer (housing rows) is named with its own "Developer:" prefix; "dev" stops the
 		// phone layout adding its "Design team" label in front of it.
 		$team_class = 0 === strpos( $p['design_team'], 'Developer:' ) ? 'team dev' : 'team';
 		$value_cell = aaykay_show_values() ? '<td class="num">' . $unit( $p['order_value'], ' order' ) . '</td>' : '';
 		$rows[]     = sprintf(
-			'<tr data-sector="%s"><th scope="row"><span class="p-name">%s</span>%s</th><td>%s</td><td class="num">%s</td><td class="floors">%s</td><td class="status">%s</td>%s<td class="%s">%s</td></tr>',
+			'<tr data-sector="%s"><td class="sno">%d</td><th scope="row"><span class="p-name">%s</span>%s</th><td>%s</td><td class="num">%s</td>%s<td class="%s">%s</td></tr>',
 			esc_attr( $p['sector'] ),
+			$n,
 			esc_html( $p['name'] ),
 			$meta,
 			$unit( $p['location'] ),
 			$unit( $area, ' sq ft' ),
-			$unit( $p['floors'], $floors_unit ),
-			aaykay_status_pill( $p['status'] ),
 			$value_cell,
 			$team_class,
 			$unit( $p['design_team'] )
