@@ -35,15 +35,15 @@
     "res_unskilled": "300",
     "res_out_skilled": "200",
     "res_out_unskilled": "500",
-    "seo_title": "AAYKAY Electricals | Electrical Contractor in Hyderabad",
-    "seo_description": "Electrical contractor in Hyderabad since 2008: design, installation, testing and commissioning for hospitals, offices, data centres and high-rise towers.",
+    "seo_title": "AAYKAY Electricals | Electrical & Fire Safety, Hyderabad",
+    "seo_description": "Electrical and fire safety contractor in Hyderabad since 2008: design, supply, installation, testing and commissioning for offices, hospitals, data centres and high-rise towers.",
     "cin": "",
     "gstin": "",
     "registered_office": "",
     "show_order_values": "0",
     "gsc_verification": "",
     "cf_analytics": "",
-    "show_pending": "1",
+    "show_pending": "0",
     "sheets_url": "",
     "sheets_secret": "",
     "brochure_url": "assets/docs/aaykay-company-profile.pdf",
@@ -1178,11 +1178,11 @@
         ],
         "w": 800,
         "h": 877,
-        "alt": "Portrait of Shakeel Shuaib Ambur, Director - Commercial & Procurement, AAYKAY Electricals."
+        "alt": "Portrait of Shuaib A S, Director - Commercial & Procurement, AAYKAY Electricals."
       },
-      "person2_name": "Shakeel Shuaib Ambur",
+      "person2_name": "Shuaib A S",
       "person2_title": "Director - Commercial & Procurement",
-      "person2_text": "",
+      "person2_text": "With two decades of experience in the electrical contracting industry as Commercial and Procurement Professional.\n\nKnown for strong attention to detail, dependable supplier relationships, and effective coordination with project/accounts teams to support timely, cost-conscious operations.",
       "glance_company": "AAYKAY Electricals Private Limited",
       "glance_established": "Since 2008",
       "paragraphs": "Established in 2008, AAYKAY Electricals Private Limited is an ISO 9001:2015 and ISO 45001:2018 certified contractor specialising in electrical and fire safety services. We provide end-to-end expertise in design, supply, installation, testing, commissioning and maintenance.\n\nOur commitment to quality, safety, responsive service and timely project delivery has earned the trust of leading multinational and Indian organisations. We have completed projects across banking, healthcare, manufacturing, data centres, IT parks, interior fit-outs, substations, commercial buildings and high-rise residential developments.\n\nOur experienced project teams are supported by dedicated specialists in safety, quality, planning, procurement, design, tendering, billing, finance, human resources and administration—enabling us to deliver reliable solutions tailored to each project.",
@@ -1200,6 +1200,16 @@
         {
           "year": "Today",
           "text": "AAYKAY Electricals Private Limited: ISO 9001:2015 and ISO 45001:2018 certified, with head office in Hyderabad, operating in more than seven states."
+        }
+      ],
+      "person2_creds": [
+        {
+          "icon": "graduation-cap",
+          "text": "Graduate in Commerce"
+        },
+        {
+          "icon": "history",
+          "text": "20 Years in Industry"
         }
       ]
     },

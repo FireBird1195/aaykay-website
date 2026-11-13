@@ -242,7 +242,9 @@
         "id": 0,
         "alt": ""
       },
-      "person2_title": "Director"
+      "person2_title": "Director",
+      "person2_name": "Shakeel Shuaib Ambur",
+      "person2_text": ""
     },
     "services": {
       "scope": [
@@ -788,7 +790,10 @@
     "res_skilled": "500",
     "res_unskilled": "300",
     "res_out_skilled": "200",
-    "res_out_unskilled": "100"
+    "res_out_unskilled": "100",
+    "seo_title": "AAYKAY Electricals | Electrical Contractor in Hyderabad",
+    "seo_description": "Electrical contractor in Hyderabad since 2008: design, installation, testing and commissioning for hospitals, offices, data centres and high-rise towers.",
+    "show_pending": "1"
   },
   "sectors": {
     "enterprise": {

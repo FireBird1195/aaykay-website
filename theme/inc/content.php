@@ -421,6 +421,19 @@ function aaykay_content_schema() {
 				'person2_name'       => array( 'text', 'Second director: name', 'Leave empty to show only the founder.' ),
 				'person2_title'      => array( 'text', 'Second director: title', '' ),
 				'person2_text'       => array( 'textarea', 'Second director: a line about them (optional)', '' ),
+				'person2_creds'      => array(
+					'list',
+					'Second director: credentials',
+					'Short lines with an icon under the name, like the founder’s.',
+					array(
+						'item'   => 'credential',
+						'max'    => 6,
+						'fields' => array(
+							'icon' => array( 'icon', 'Icon', '' ),
+							'text' => array( 'text', 'Text', '' ),
+						),
+					),
+				),
 				'glance_company'     => array( 'text', 'Company name (facts box)', 'The registered company name. Also used in the footer copyright line and given to Google.' ),
 				'glance_established' => array( 'text', 'Established (facts box)', 'The year, e.g. 2008. Also given to Google as the founding year.' ),
 				'paragraphs'         => array( 'textarea', 'Company brief', 'Leave an empty line between paragraphs.' ),

@@ -90,6 +90,14 @@ $aaykay_slots   = 0; // Review meeting (Nov 2026): no team cards; the team chang
             </div>
             <h4 class="founder-name"><?php aaykay_e( 'company', 'person2_name' ); ?></h4>
             <p class="label"><?php aaykay_e( 'company', 'person2_title' ); ?></p>
+<?php $aaykay_creds2 = aaykay_rows( 'company', 'person2_creds' ); ?>
+<?php if ( $aaykay_creds2 ) : ?>
+            <ul class="creds">
+<?php foreach ( $aaykay_creds2 as $aaykay_cr ) : ?>
+              <li class="icon-label"><?php echo aaykay_icon( $aaykay_cr['icon'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><?php echo esc_html( aaykay_tokens( $aaykay_cr['text'] ) ); ?></li>
+<?php endforeach; ?>
+            </ul>
+<?php endif; ?>
           </div>
           <div class="leader-words">
 <?php if ( '' !== aaykay_t( 'company', 'person2_text' ) ) : ?>
