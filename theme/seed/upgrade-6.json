@@ -839,7 +839,8 @@
     "res_out_unskilled": "100",
     "seo_title": "AAYKAY Electricals | Electrical Contractor in Hyderabad",
     "seo_description": "Electrical contractor in Hyderabad since 2008: design, installation, testing and commissioning for hospitals, offices, data centres and high-rise towers.",
-    "show_pending": "1"
+    "show_pending": "1",
+    "brochure_url": "assets/docs/aaykay-company-profile.pdf"
   },
   "sectors": {
     "enterprise": {

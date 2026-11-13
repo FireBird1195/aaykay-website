@@ -46,7 +46,7 @@
     "show_pending": "0",
     "sheets_url": "",
     "sheets_secret": "",
-    "brochure_url": "assets/docs/aaykay-company-profile.pdf",
+    "brochure_url": "",
     "brochure_label": "Brochure"
   },
   "content": {
@@ -106,7 +106,7 @@
       "about": "About Us",
       "company": "Company Profile",
       "timeline": "Timeline",
-      "team": "Founder",
+      "team": "Leadership",
       "deliver": "Project Methodology",
       "sectors": "",
       "record": "Project List",
@@ -1240,7 +1240,7 @@
     },
     "team": {
       "enabled": true,
-      "heading": "Founder",
+      "heading": "Leadership",
       "sub": "",
       "members_heading": "",
       "members": []

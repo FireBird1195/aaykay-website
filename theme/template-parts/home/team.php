@@ -108,11 +108,13 @@ foreach ( array( 'person2', 'person3' ) as $aaykay_pfx ) :
           </div>
           <div class="leader-words">
 <?php if ( '' !== aaykay_t( 'company', $aaykay_pfx . '_text' ) ) : ?>
-            <div class="leader-text">
-<?php foreach ( aaykay_paragraphs( aaykay_t( 'company', $aaykay_pfx . '_text' ) ) as $aaykay_para ) : ?>
-              <p><?php echo esc_html( $aaykay_para ); ?></p>
+            <figure class="pull message">
+              <blockquote>
+<?php foreach ( aaykay_paragraphs( aaykay_t( 'company', $aaykay_pfx . '_text' ) ) as $aaykay_i => $aaykay_para ) : ?>
+                <p<?php echo $aaykay_i ? ' class="message-more"' : ''; ?>><?php echo esc_html( $aaykay_para ); ?></p>
 <?php endforeach; ?>
-            </div>
+              </blockquote>
+            </figure>
 <?php else : ?>
             <?php echo aaykay_pending( 'A few words from ' . aaykay_t( 'company', $aaykay_pfx . '_name' ), 'pull' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_pending(). ?>
 
