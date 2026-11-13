@@ -79,7 +79,10 @@ foreach ( $aaykay_roles as $aaykay_r ) {
 	$aaykay_meta  = array_filter( array_map( 'trim', array( $aaykay_r['domain'], $aaykay_r['location'], $aaykay_r['experience'], isset( $aaykay_r['openings'] ) ? $aaykay_r['openings'] : '', $aaykay_r['type'] ) ), 'strlen' );
 	$aaykay_resp  = array_filter( array_map( 'trim', preg_split( '/\r\n|\r|\n/', (string) $aaykay_r['responsibilities'] ) ), 'strlen' );
 	$aaykay_req   = array_filter( array_map( 'trim', preg_split( '/\r\n|\r|\n/', (string) $aaykay_r['requirements'] ) ), 'strlen' );
-	$aaykay_apply = '' !== $aaykay_form ? $aaykay_form : ( $aaykay_email ? 'mailto:' . $aaykay_email . '?subject=' . rawurlencode( 'Application: ' . $aaykay_r['title'] ) : '' );
+	$aaykay_pos   = preg_replace( '/[^A-Za-z0-9._]/', '', (string) aaykay_t( 'careers', 'form_position_field' ) );
+	$aaykay_apply = '' !== $aaykay_form
+		? ( '' !== $aaykay_pos ? add_query_arg( array( 'usp' => 'pp_url', $aaykay_pos => rawurlencode( $aaykay_r['title'] ) ), $aaykay_form ) : $aaykay_form )
+		: ( $aaykay_email ? 'mailto:' . $aaykay_email . '?subject=' . rawurlencode( 'Application: ' . $aaykay_r['title'] ) : '' );
 ?>
           <li class="job" data-domain="<?php echo esc_attr( sanitize_title( trim( (string) $aaykay_r['domain'] ) ) ); ?>">
             <details>

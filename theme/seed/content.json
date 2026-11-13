@@ -1398,14 +1398,15 @@
       "form_url": "",
       "form_label": "Apply now",
       "email": "enquiries@akelectricals.in",
-      "note": ""
+      "note": "",
+      "form_position_field": ""
     },
     "contact": {
       "enabled": true,
       "heading": "Contact Us",
       "lead": "Call or email us, or send an enquiry with the form.",
-      "branches_heading": "Our branches",
-      "branches_sub": "Head office in {city}, with branches in {branches_word} states.",
+      "branches_heading": "Our Locations",
+      "branches_sub": "Head office in {city}, operating in {branches_word} states.",
       "form_heading": "Project Enquiry",
       "button": "Send enquiry",
       "note": "To share drawings or a BOQ, email them to {email}. Fields marked * are required.",

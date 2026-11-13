@@ -586,6 +586,7 @@ function aaykay_content_schema() {
 				'apply_text'       => array( 'textarea', 'How to apply', '' ),
 				'form_url'         => array( 'text', 'Application form address (optional)', 'A link to an application form owned by the company account (e.g. a Google Form). When filled in, the Apply buttons open it in a new tab; otherwise they open an email to the careers address below.' ),
 				'form_label'       => array( 'text', 'Apply button text', '' ),
+				'form_position_field' => array( 'text', 'Google Form: position question ID (optional)', 'To pre-fill the position: in the Google Form choose ⋮ > Get pre-filled link, type anything in "Position applied for", copy the link, and paste here the part that looks like entry.123456789. Each Apply button then opens the form with its job title already filled in.' ),
 				'email'            => array( 'text', 'Careers email', 'Applications are sent here (Apply buttons open an email with the job title as subject). Empty: the email in Site settings is used.' ),
 				'note'             => array( 'textarea', 'Note (optional)', 'A small line at the end, e.g. that AAYKAY never asks for money for a job or an interview (only if the company confirms it).' ),
 			),

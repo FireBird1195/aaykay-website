@@ -826,6 +826,10 @@
           "requirements": "B.E./B.Tech in electrical engineering\n2–4 years in electrical design or drafting\nProficiency in AutoCAD and Autodesk Revit"
         }
       ]
+    },
+    "contact": {
+      "branches_heading": "Our branches",
+      "branches_sub": "Head office in {city}, with branches in {branches_word} states."
     }
   },
   "settings": {
