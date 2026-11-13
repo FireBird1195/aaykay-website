@@ -260,7 +260,7 @@ function aaykay_record_columns() {
 		'consultant'   => 'Consultant',
 		'pmc'          => 'PMC',
 		'region'       => 'Region',
-		'area_text'    => 'Area of project (total BUA in sft)',
+		'area_text'    => 'Area (sq ft)',
 		'sector_label' => 'Sector',
 		'status'       => 'Status',
 	);
