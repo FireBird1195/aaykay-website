@@ -841,7 +841,11 @@ transition: background-color .25s var(--ease-out), padding .25s var(--ease-out);
 .brochure-tab-label { writing-mode: vertical-rl; transform: rotate(180deg); font-family: var(--font-mono); font-size: var(--fs-micro); font-weight: 500; letter-spacing: .14em; text-transform: uppercase; }
 .brochure-tab:focus-visible { outline-color: #fff; outline-offset: -4px; }
 html.menu-open .brochure-tab { visibility: hidden; }
-@media (max-width: 760px) { .brochure-aside { display: none; } }
+@media (max-width: 760px) {
+.brochure-tab { top: auto; bottom: 6rem; transform: none; padding: .7rem .4rem; gap: .45rem; }
+.brochure-tab .ic { width: .95rem; height: .95rem; }
+.brochure-tab-label { font-size: .625rem; letter-spacing: .12em; }
+}
 @media print { .brochure-aside { display: none; } }
 .company-history { margin-top: var(--s8); max-width: 62ch; }
 .company-history p { color: var(--ink-2); }
