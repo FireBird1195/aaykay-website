@@ -1132,3 +1132,21 @@ padding-block: var(--s5); cursor: pointer; list-style: none;
 .brand-wordmark { height: 1.25rem; }
 }
 @media (max-width: 380px) { .brand-wordmark { height: 1.05rem; } }
+/* Project list with every column of AAYKAY's Excel (Nov 2026): scrolls sideways on desktop,
+   with S.No and the project name kept in view; on phones each project is a card of
+   "label: value" lines. */
+.record { min-width: 132rem; font-size: var(--fs-meta); }
+.record th, .record td { padding-right: var(--s4); }
+.record td { min-width: 7rem; }
+.record .c-client, .record .c-gc { min-width: 15rem; }
+.record .c-architect, .record .c-consultant, .record .c-pmc { min-width: 11rem; }
+.record .c-area_text { min-width: 8rem; white-space: nowrap; }
+.record .c-region, .record .c-status { min-width: 6rem; white-space: nowrap; }
+.record tbody th { min-width: 14rem; }
+@media (max-width: 760px) {
+.record { min-width: 0; font-size: var(--fs-small); }
+.record tbody td:not(.sno), .record tbody td:not(.sno) + td:not(.sno) { display: block; min-width: 0; padding: .1rem 0; color: var(--ink); white-space: normal; }
+.record tbody td:not(.sno)::before, .record tbody td + td::before { content: attr(data-label) ": "; content: attr(data-label) ": " / ""; font-family: var(--font-mono); font-size: var(--fs-micro); letter-spacing: .04em; text-transform: uppercase; color: var(--ink-3); }
+.record tbody td:not(.sno):empty, .record tbody td:not(.sno) + td:not(.sno):empty { display: none; }
+.record tbody td.sno::before { content: none; }
+}
