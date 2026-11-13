@@ -72,7 +72,7 @@
       "sub1": "ELECTRICALS",
       "sub2": "PVT LTD",
       "header_cta": "Contact Us",
-      "footer_blurb": "AAYKAY Electricals Private Limited. Electrical and MEP contracting since 2008{reach}.",
+      "footer_blurb": "AAYKAY Electricals Private Limited: electrical and fire safety contracting since 2008{reach}.",
       "footer_bottom": "ISO 9001:2015 · ISO 45001:2018"
     },
     "hero": {
@@ -209,7 +209,7 @@
     "record": {
       "enabled": true,
       "heading": "Project List",
-      "sub": "Executed and ongoing projects, as listed by AAYKAY."
+      "sub": ""
     },
     "firms": {
       "enabled": true,
@@ -1113,7 +1113,7 @@
     "company": {
       "enabled": true,
       "heading": "Company Profile",
-      "sub": "An ISO 9001:2015 and ISO 45001:2018 certified Electrical and Fire Safety contracting company, established in Hyderabad in 2008.",
+      "sub": "An ISO 9001:2015 and ISO 45001:2018 certified electrical and fire safety contracting company, established in Hyderabad in 2008.",
       "work_heading": "Our services",
       "work_items": [
         {
@@ -1436,8 +1436,8 @@
     },
     {
       "name": "Accenture",
-      "logo": null,
-      "source": "project record: Accenture BDC 14 (profile)"
+      "logo": "assets/logos/clients/accenture.webp",
+      "source": "logo from AAYKAY project list (Excel), Nov 2026"
     },
     {
       "name": "Shell",

@@ -250,39 +250,44 @@ function aaykay_status_pill( $status ) {
 	return '<span class="status-pill' . ( $ongoing ? ' status-pill--ongoing' : '' ) . '"><span class="status-dot" aria-hidden="true"></span>' . esc_html( $status ) . '</span>';
 }
 
+/**
+ * The project list (Nov 2026): every column of AAYKAY's Excel except the logo, grouped so
+ * the table reads at a glance and fits a laptop screen without sideways scrolling:
+ * project (name, client below), location (city, region below), area, sector, design team
+ * (architect, consultant, PMC, each labelled), GC and status (a coloured pill).
+ */
 function aaykay_record_columns() {
-	// The columns of AAYKAY's project Excel (Nov 2026), in its order, except the logo.
 	return array(
-		'client'       => 'Name of the client',
-		'gc'           => 'GC name',
-		'location'     => 'Location (City/Town)',
-		'architect'    => 'Architect',
-		'consultant'   => 'Consultant',
-		'pmc'          => 'PMC',
-		'region'       => 'Region',
-		'area_text'    => 'Area (sq ft)',
-		'sector_label' => 'Sector',
-		'status'       => 'Status',
+		'project'  => 'Project',
+		'location' => 'Location',
+		'area'     => 'Area (sq ft)',
+		'sector'   => 'Sector',
+		'team'     => 'Architect · Consultant · PMC',
+		'gc'       => 'GC',
+		'status'   => 'Status',
 	);
 }
 
 function aaykay_render_record_rows( $indent ) {
+	$line = function ( $label, $value ) {
+		return '' === $value ? '' : '<span class="rt-line"><span class="rt-k">' . esc_html( $label ) . '</span> ' . esc_html( $value ) . '</span>';
+	};
 	$rows = array();
 	$n    = 0;
 	foreach ( aaykay_projects() as $p ) {
 		++$n;
-		$cells = '';
-		foreach ( aaykay_record_columns() as $key => $label ) {
-			$v = '' !== $p[ $key ] ? $p[ $key ] : ( 'area_text' === $key && $p['area_sqft'] ? (string) $p['area_sqft'] : '' );
-			$cells .= sprintf( '<td class="c-%s" data-label="%s">%s</td>', esc_attr( $key ), esc_attr( $label ), esc_html( $v ) );
-		}
-		$rows[] = sprintf(
-			'<tr data-sector="%s"><td class="sno" data-label="S.No">%d</td><th scope="row"><span class="p-name">%s</span></th>%s</tr>',
-			esc_attr( $p['sector'] ),
-			$n,
-			esc_html( $p['name'] ),
-			$cells
-		);
+		$area   = '' !== $p['area_text'] ? $p['area_text'] : ( $p['area_sqft'] ? number_format( $p['area_sqft'] ) : '' );
+		$team   = $line( 'Architect', $p['architect'] ) . $line( 'Consultant', $p['consultant'] ) . $line( 'PMC', $p['pmc'] );
+		$rows[] = '<tr data-sector="' . esc_attr( $p['sector'] ) . '">'
+			. '<td class="sno">' . $n . '</td>'
+			. '<th scope="row"><span class="p-name">' . esc_html( $p['name'] ) . '</span>' . ( '' !== $p['client'] ? '<span class="p-client">' . esc_html( $p['client'] ) . '</span>' : '' ) . '</th>'
+			. '<td class="c-location" data-label="Location">' . esc_html( $p['location'] ) . ( '' !== $p['region'] ? '<span class="p-sub">' . esc_html( $p['region'] ) . '</span>' : '' ) . '</td>'
+			. '<td class="c-area num" data-label="Area">' . ( '' !== $area ? esc_html( $area ) . '<span class="u"> sq ft</span>' : '' ) . '</td>'
+			. '<td class="c-sector" data-label="Sector">' . esc_html( $p['sector_label'] ) . '</td>'
+			. '<td class="c-team" data-label="Design team">' . $team . '</td>'
+			. '<td class="c-gc" data-label="GC">' . esc_html( $p['gc'] ) . '</td>'
+			. '<td class="c-status">' . aaykay_status_pill( $p['status'] ) . '</td>'
+			. '</tr>';
 	}
 	return implode( "\n" . $indent, $rows );
 }

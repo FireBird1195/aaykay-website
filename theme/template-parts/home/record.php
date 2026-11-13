@@ -23,14 +23,14 @@ defined( 'ABSPATH' ) || exit;
 
       </div>
       <p class="record-status visually-hidden" id="record-status" aria-live="polite"></p>
+      <p class="scroll-cue" aria-hidden="true">More columns <span class="scroll-cue-arrow">→</span> scroll sideways</p>
       <div class="table-scroll" role="region" aria-labelledby="record-caption" tabindex="0">
         <table class="record" id="record-table">
           <caption id="record-caption" class="visually-hidden">AAYKAY project list, as in AAYKAY’s list of executed and ongoing projects</caption>
           <thead>
             <tr>
-              <th scope="col" class="sno">S.No</th>
-              <th scope="col">Project name</th>
-<?php foreach ( aaykay_record_columns() as $aaykay_key => $aaykay_label ) : ?>
+              <th scope="col" class="sno">No.</th>
+              <?php foreach ( aaykay_record_columns() as $aaykay_key => $aaykay_label ) : ?>
               <th scope="col" class="c-<?php echo esc_attr( $aaykay_key ); ?>"><?php echo esc_html( $aaykay_label ); ?></th>
 <?php endforeach; ?>
             </tr>
@@ -41,7 +41,7 @@ defined( 'ABSPATH' ) || exit;
           </tbody>
         </table>
       </div>
-      <p class="scroll-hint">Scroll the table sideways to see every column.</p>
+
       <div class="record-more">
         <button class="btn btn--outline" type="button" id="record-more" aria-controls="record-table" hidden>Show all projects</button>
       </div>

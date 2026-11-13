@@ -6,7 +6,8 @@
   "content": {
     "brand": {
       "sub1": "Electricals",
-      "sub2": "Private Limited"
+      "sub2": "Private Limited",
+      "footer_blurb": "AAYKAY Electricals Private Limited. Electrical and MEP contracting since 2008{reach}."
     },
     "hero": {
       "label": "Electrical & MEP contracting · Since 2008",
@@ -891,5 +892,8 @@
     "krc-12th-floor-hyderabad",
     "ansr-headfirst-hyderabad",
     "cgi-hyderabad"
-  ]
+  ],
+  "client_logos": {
+    "Accenture": "assets/logos/clients/accenture.webp"
+  }
 }

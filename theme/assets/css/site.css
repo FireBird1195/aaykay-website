@@ -1132,21 +1132,51 @@ padding-block: var(--s5); cursor: pointer; list-style: none;
 .brand-wordmark { height: 1.25rem; }
 }
 @media (max-width: 380px) { .brand-wordmark { height: 1.05rem; } }
-/* Project list with every column of AAYKAY's Excel (Nov 2026): scrolls sideways on desktop,
-   with S.No and the project name kept in view; on phones each project is a card of
-   "label: value" lines. */
-.record { min-width: 132rem; font-size: var(--fs-meta); }
-.record th, .record td { padding-right: var(--s4); }
-.record td { min-width: 7rem; }
-.record .c-client, .record .c-gc { min-width: 15rem; }
-.record .c-architect, .record .c-consultant, .record .c-pmc { min-width: 11rem; }
-.record .c-area_text { min-width: 8rem; white-space: nowrap; }
-.record .c-region, .record .c-status { min-width: 6rem; white-space: nowrap; }
-.record tbody th { min-width: 14rem; }
+/* Project list (Nov 2026): every Excel column, grouped so the table fits a laptop screen.
+   Name with client under it, city with region under it, design team as labelled lines,
+   status as a coloured pill. Narrower screens scroll sideways, with a visible cue and a
+   fade on the right edge while there is more to see; phones get one card per project. */
+#record { position: relative; }
+.record { min-width: 68rem; font-size: var(--fs-meta); }
+.record th, .record td { padding: .9rem var(--s4) .9rem 0; }
+.record tbody th { min-width: 15rem; max-width: 20rem; }
+.record .p-name { display: block; font-size: var(--fs-small); font-weight: 600; color: var(--ink); }
+.record .p-client, .record .p-sub { display: block; margin-top: .2rem; font-size: var(--fs-micro); font-weight: 400; line-height: 1.45; color: var(--ink-3); }
+.record .c-location { min-width: 7rem; }
+.record .c-area { min-width: 6.5rem; }
+.record .c-area .u { display: none; }
+.record .c-sector { min-width: 8rem; }
+.record .c-team { min-width: 15rem; }
+.record .c-gc { min-width: 10rem; }
+.record .rt-line { display: block; line-height: 1.45; }
+.record .rt-line + .rt-line { margin-top: .15rem; }
+.record .rt-k { display: inline-block; min-width: 5.5rem; font-family: var(--font-mono); font-size: .6875rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-3); }
+.record .c-status { white-space: nowrap; }
+.record .status-pill { display: inline-flex; align-items: center; gap: .45rem; padding: .3rem .7rem; border-radius: 999px; border: 1px solid var(--rule); background: var(--white); font-family: var(--font-sans); font-size: var(--fs-micro); font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--ink); white-space: nowrap; }
+.record .status-pill--done { background: #E9F6EE; border-color: #BFE3CC; color: #17633A; }
+.record .status-pill--ongoing { background: #FFF4DE; border-color: #F2D49A; color: #8A5300; }
+/* Sideways-scroll cue: only while the table is wider than the screen. */
+.scroll-cue { display: none; margin-bottom: var(--s2); font-family: var(--font-mono); font-size: var(--fs-micro); letter-spacing: .06em; text-transform: uppercase; color: var(--blue-700); }
+.scroll-cue-arrow { display: inline-block; animation: cue-nudge 1.6s ease-in-out infinite; }
+@keyframes cue-nudge { 50% { transform: translateX(4px); } }
+@media (prefers-reduced-motion: reduce) { .scroll-cue-arrow { animation: none; } }
+#record.is-scrollable .scroll-cue { display: block; }
+#record.is-scrollable .table-scroll { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 4rem), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 4rem), transparent); }
+#record.is-scrollable.is-at-end .table-scroll { -webkit-mask-image: none; mask-image: none; }
 @media (max-width: 760px) {
 .record { min-width: 0; font-size: var(--fs-small); }
-.record tbody td:not(.sno), .record tbody td:not(.sno) + td:not(.sno) { display: block; min-width: 0; padding: .1rem 0; color: var(--ink); white-space: normal; }
-.record tbody td:not(.sno)::before, .record tbody td + td::before { content: attr(data-label) ": "; content: attr(data-label) ": " / ""; font-family: var(--font-mono); font-size: var(--fs-micro); letter-spacing: .04em; text-transform: uppercase; color: var(--ink-3); }
-.record tbody td:not(.sno):empty, .record tbody td:not(.sno) + td:not(.sno):empty { display: none; }
-.record tbody td.sno::before { content: none; }
+#record .scroll-cue { display: none; }
+#record .table-scroll { -webkit-mask-image: none; mask-image: none; }
+.record tbody th { max-width: none; }
+.record tbody td.c-location, .record tbody td.c-area, .record tbody td.c-sector, .record tbody td.c-team, .record tbody td.c-gc, .record tbody td.c-status { display: block; min-width: 0; padding: .15rem 0; white-space: normal; color: var(--ink); }
+.record tbody td.c-location::before, .record tbody td.c-area::before, .record tbody td.c-sector::before, .record tbody td.c-gc::before { content: attr(data-label) " "; content: attr(data-label) " " / ""; display: inline-block; min-width: 5.5rem; font-family: var(--font-mono); font-size: .6875rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-3); }
+.record tbody td.c-team::before, .record tbody td.c-status::before { content: none; }
+.record tbody td.c-status { margin-top: .5rem; }
+.record .p-sub { display: inline; margin-left: .35rem; }
+.record .c-area .u { display: inline; }
+.record tbody td:empty { display: none; }
 }
+.record .sno { width: 3.25rem; min-width: 3.25rem; max-width: 3.25rem; box-sizing: border-box; }
+.record .rt-line { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); column-gap: .25rem; }
+.record .rt-k { min-width: 0; padding-top: .1rem; }
+@media (max-width: 760px) { .record .sno { width: auto; min-width: 0; max-width: none; } }

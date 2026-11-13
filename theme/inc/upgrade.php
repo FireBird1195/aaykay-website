@@ -529,6 +529,15 @@ function aaykay_upgrade_6() {
 		}
 		aaykay_import_starter_content();
 	}
+	if ( $old && ! empty( $old['client_logos'] ) ) {
+		foreach ( $old['client_logos'] as $name => $file ) {
+			foreach ( get_posts( array( 'post_type' => 'aaykay_client', 'title' => $name, 'post_status' => 'any', 'numberposts' => 1 ) ) as $client ) {
+				if ( ! has_post_thumbnail( $client ) && '' === (string) get_post_meta( $client->ID, '_aaykay_bundled_logo', true ) ) {
+					update_post_meta( $client->ID, '_aaykay_bundled_logo', $file );
+				}
+			}
+		}
+	}
 	$reg      = aaykay_page_registry();
 	$launched = array(
 		'capabilities' => array( 'Our Capabilities', 'What AAYKAY Electricals installs: HT/LT panels and distribution, containment, wiring and cabling, busducts, lighting, critical power, earthing, testing and fire safety.' ),
