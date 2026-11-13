@@ -259,6 +259,15 @@
     var state = { filter: filterFromUrl(), expanded: false };
     if (filters) filters.hidden = false;
     keepTableRoles(table);
+    var box = table.closest('.table-scroll');
+    var section = $('#record');
+    var cue = function () {
+      if (!box || !section) return;
+      var more = box.scrollWidth - box.clientWidth > 4;
+      section.classList.toggle('is-scrollable', more);
+      section.classList.toggle('is-at-end', !more || box.scrollLeft + box.clientWidth >= box.scrollWidth - 4);
+    };
+    if (box) { box.addEventListener('scroll', cue, { passive: true }); window.addEventListener('resize', cue); cue(); }
 
     function filterFromUrl() {
       var m = /[?&]sector=([^&#]*)/.exec(location.search);
