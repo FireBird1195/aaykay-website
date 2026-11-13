@@ -932,9 +932,14 @@ function aaykay_e( $section, $field ) {
 function aaykay_brand_lockup() {
 	$logo = aaykay_image_data( aaykay_c( 'brand', 'logo' ) );
 	if ( $logo && $logo['url'] ) {
-		$html = '<img class="brand-mark brand-mark--img" src="' . esc_url( $logo['url'] ) . '"' . ( '' !== $logo['srcset'] ? ' srcset="' . esc_attr( $logo['srcset'] ) . '" sizes="2.25rem"' : '' ) . ' width="36" height="36" alt="">';
+		$html = '<img class="brand-mark brand-mark--img" src="' . esc_url( $logo['url'] ) . '"' . ( '' !== $logo['srcset'] ? ' srcset="' . esc_attr( $logo['srcset'] ) . '" sizes="2.25rem"' : '' ) . ' width="48" height="48" alt="">';
 	} else {
 		$html = '<svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M3.5 28 14.6 4h2.8L28.5 28h-4.4L16 10.4 7.9 28Z" fill="currentColor"/><path d="M6.5 21.6 26.6 13l-1.5 3.5L8 24.8Z" fill="#E0452B"/></svg>';
+	}
+	// The company name as on the visiting card (client, Nov 2026): the red wordmark, set in
+	// Britannic Bold Condensed, supplied as an image (the font is not licensed for the web).
+	if ( file_exists( get_theme_file_path( 'assets/img/brand/wordmark-aaykay.webp' ) ) ) {
+		return $html . '<img class="brand-wordmark" src="' . esc_url( get_theme_file_uri( 'assets/img/brand/wordmark-aaykay.webp' ) ) . '" width="602" height="63" alt="' . esc_attr( aaykay_legal_name() ) . '">';
 	}
 	$html .= '<span class="brand-word">' . esc_html( aaykay_t( 'brand', 'word' ) ) . '</span>';
 	if ( '' !== aaykay_t( 'brand', 'sub1' ) || '' !== aaykay_t( 'brand', 'sub2' ) ) {

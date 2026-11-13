@@ -512,6 +512,23 @@ function aaykay_upgrade_6() {
 			}
 		}
 	}
+	// The project list: the client's updated list (Nov 2026) replaces the launch list. A launch
+	// project is moved to the Bin only while nobody has edited it; then the new ones are added.
+	if ( $old && ! empty( $old['old_project_slugs'] ) ) {
+		$old_slugs = array_flip( $old['old_project_slugs'] );
+		foreach ( get_posts(
+			array(
+				'post_type'   => 'aaykay_project',
+				'post_status' => 'any',
+				'numberposts' => -1,
+			)
+		) as $post ) {
+			if ( isset( $old_slugs[ $post->post_name ] ) && $post->post_modified_gmt === $post->post_date_gmt ) {
+				wp_trash_post( $post->ID );
+			}
+		}
+		aaykay_import_starter_content();
+	}
 	$reg      = aaykay_page_registry();
 	$launched = array(
 		'capabilities' => array( 'Our Capabilities', 'What AAYKAY Electricals installs: HT/LT panels and distribution, containment, wiring and cabling, busducts, lighting, critical power, earthing, testing and fire safety.' ),

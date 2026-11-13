@@ -15,7 +15,10 @@ Content version still 6 (upgrade-6.json extended: content, settings, the Enterpr
   alphabetical, no counts; no visible "showing N" total; table: No. (restarts per filter), Project, Location,
   Area, Architect / Electrical Consultant / PMC (Floors and Status removed).
 - Careers: tagline removed.
-- Awaited from AAYKAY (left as is): CEIG line for Our services, Shoaib's Director details, updated project
+- 13 Nov (WhatsApp): wordmark image in the header (assets/img/brand/wordmark-aaykay.webp), larger round mark,
+  client logos in colour, CEIG item added to Our services, careers email enquiries@akelectricals.in, project
+  list replaced by the client's updated Excel (73 projects; upgrade 6 bins unedited launch projects).
+- Awaited from AAYKAY (left as is): Shoaib's Director details, updated project
   Excel, client list + logos, AKSS link for Fire Safety, Google Form + email for Careers.
 
 ## State (3 Nov 2026, client changes "WEB CUT 1"): branch `feat/client-web-cut-1`
