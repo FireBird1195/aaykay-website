@@ -364,10 +364,10 @@ line-height: .88; letter-spacing: .005em; text-transform: uppercase; color: #fff
 flex: 0 0 calc((100% - (var(--per-row) - 1) * var(--gap)) / var(--per-row));
 display: flex; align-items: center; justify-content: center; min-height: 4.5rem; text-align: center;
 }
-.logo { width: auto; height: var(--logo-h, 2rem); max-width: 100%; object-fit: contain; filter: grayscale(1); }
+.logo { width: auto; height: var(--logo-h, 2rem); max-width: 100%; object-fit: contain; }
 /* Greyscale, then darkened a little so pale brand colours (Microsoft grey, Qualcomm
    blue) sit at the same tone as the wordmarks beside them. */
-.client .logo { filter: grayscale(1) brightness(.72) contrast(1.15); }
+
 .client--word span { font-size: clamp(.9375rem, .88rem + .2vw, 1.0625rem); font-weight: 600; letter-spacing: -.01em; line-height: 1.2; color: var(--ink-2); }
 @media (max-width: 1000px) { .client-list { --per-row: 5; } }
 @media (max-width: 640px) { .client-list { --per-row: 3; --gap: var(--s4); } .client { min-height: 3.75rem; } .client .logo { height: calc(var(--logo-h, 2rem) * .82); } }
@@ -1122,3 +1122,13 @@ padding-block: var(--s5); cursor: pointer; list-style: none;
 .record tbody tr { position: relative; padding-left: 2.25rem; }
 .record tbody td.sno { position: absolute; left: 0; top: var(--s4); display: block; width: auto; padding: .15rem 0 0; background: none; }
 }
+
+/* Client changes (Nov 2026): a larger round logo and the company name as on the visiting
+   card (an image); client logos in their original colours. */
+.brand-mark--img { width: 3rem; height: 3rem; }
+.brand-wordmark { display: block; height: 1.75rem; width: auto; }
+@media (max-width: 760px) {
+.brand-mark--img { width: 2.5rem; height: 2.5rem; }
+.brand-wordmark { height: 1.25rem; }
+}
+@media (max-width: 380px) { .brand-wordmark { height: 1.05rem; } }
