@@ -21,7 +21,16 @@ defined( 'ABSPATH' ) || exit;
  */
 function aaykay_project_fields() {
 	return array(
-		'location'     => array( 'Location', 'text', 'e.g. Kondapur, Hyderabad' ),
+		'sno'          => array( 'S.No (order in the list)', 'int', 'The project list is shown in this order, as in AAYKAY’s Excel.' ),
+		'client'       => array( 'Name of the client', 'text', '' ),
+		'gc'           => array( 'GC name', 'text', '' ),
+		'location'     => array( 'Location (City/Town)', 'text', 'e.g. HYDERABAD' ),
+		'architect'    => array( 'Architect', 'text', '' ),
+		'consultant'   => array( 'Consultant', 'text', '' ),
+		'pmc'          => array( 'PMC', 'text', '' ),
+		'region'       => array( 'Region', 'text', 'Northern, Eastern, Western or Southern' ),
+		'area_text'    => array( 'Area of project (total BUA in sft), as written', 'text', 'Shown in the project list exactly as written, e.g. 82,757 Sft.' ),
+		'sector_label' => array( 'Sector, as written', 'text', 'e.g. Office fitout (IT/ITES). The filter tabs use the Sector box on the right.' ),
 		'area_sqft'    => array( 'Built-up area (sq ft)', 'int', 'Numbers only, e.g. 130000. Leave empty if not known.' ),
 		'floors'       => array( 'Floors', 'text', 'A number (10) or a description (G+30, 2 towers).' ),
 		'order_value'  => array( 'AAYKAY order value', 'text', 'As it should be shown, e.g. ₹1.75 Cr. Leave empty to keep it private.' ),

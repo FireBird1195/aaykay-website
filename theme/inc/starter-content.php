@@ -97,14 +97,14 @@ function aaykay_import_starter_content() {
 				'post_status' => 'publish',
 				'post_title'  => $p['name'],
 				'post_name'   => $p['slug'],
-				'menu_order'  => $card ? (int) $card['order'] : 0,
+				'menu_order'  => $card ? (int) $card['order'] : ( isset( $p['sno'] ) ? (int) $p['sno'] : 0 ),
 			),
 			true
 		);
 		if ( is_wp_error( $post_id ) ) {
 			continue;
 		}
-		foreach ( array( 'location', 'area_sqft', 'floors', 'order_value', 'design_team', 'status', 'note', 'source' ) as $key ) {
+		foreach ( array( 'sno', 'client', 'gc', 'location', 'architect', 'consultant', 'pmc', 'region', 'area_text', 'sector_label', 'area_sqft', 'floors', 'order_value', 'design_team', 'status', 'note', 'source' ) as $key ) {
 			if ( isset( $p[ $key ] ) && null !== $p[ $key ] && '' !== $p[ $key ] ) {
 				update_post_meta( $post_id, '_aaykay_' . $key, (string) $p[ $key ] );
 			}

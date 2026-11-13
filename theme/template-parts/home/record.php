@@ -8,7 +8,6 @@
  */
 
 defined( 'ABSPATH' ) || exit;
-$aaykay_values = aaykay_show_values();
 ?>
   <section class="section" id="record" aria-labelledby="record-title">
     <div class="wrap">
@@ -26,17 +25,14 @@ $aaykay_values = aaykay_show_values();
       <p class="record-status visually-hidden" id="record-status" aria-live="polite"></p>
       <div class="table-scroll" role="region" aria-labelledby="record-caption" tabindex="0">
         <table class="record" id="record-table">
-          <caption id="record-caption" class="visually-hidden">AAYKAY project list: number, project, location, built-up area, <?php echo $aaykay_values ? 'AAYKAY order value, ' : ''; ?>and architect, electrical consultant or PMC</caption>
+          <caption id="record-caption" class="visually-hidden">AAYKAY project list, as in AAYKAY’s list of executed and ongoing projects</caption>
           <thead>
             <tr>
-              <th scope="col" class="sno"><abbr title="Serial number">No.</abbr></th>
-              <th scope="col">Project</th>
-              <th scope="col">Location</th>
-              <th scope="col" class="num">Area (sq ft)</th>
-<?php if ( $aaykay_values ) : ?>
-              <th scope="col" class="num">Order value</th>
-<?php endif; ?>
-              <th scope="col" class="team">Architect / Electrical Consultant / PMC</th>
+              <th scope="col" class="sno">S.No</th>
+              <th scope="col">Project name</th>
+<?php foreach ( aaykay_record_columns() as $aaykay_key => $aaykay_label ) : ?>
+              <th scope="col" class="c-<?php echo esc_attr( $aaykay_key ); ?>"><?php echo esc_html( $aaykay_label ); ?></th>
+<?php endforeach; ?>
             </tr>
           </thead>
           <tbody id="record-rows">

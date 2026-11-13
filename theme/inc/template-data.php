@@ -215,9 +215,12 @@ function aaykay_projects() {
 	usort(
 		$projects,
 		function ( $a, $b ) {
-			// Alphabetical (client brief, 10 Oct 2026), never by order value.
+			// In the order of AAYKAY's Excel (S.No, Nov 2026); projects without one follow,
+			// alphabetically. Never by order value.
 			$lower = function_exists( 'mb_strtolower' ) ? 'mb_strtolower' : 'strtolower';
-			return array( $lower( $a['name'] ), $a['slug'] ) <=> array( $lower( $b['name'] ), $b['slug'] );
+			$sa    = '' !== $a['sno'] ? (int) $a['sno'] : PHP_INT_MAX;
+			$sb    = '' !== $b['sno'] ? (int) $b['sno'] : PHP_INT_MAX;
+			return array( $sa, $lower( $a['name'] ), $a['slug'] ) <=> array( $sb, $lower( $b['name'] ), $b['slug'] );
 		}
 	);
 	return $projects;
@@ -247,43 +250,38 @@ function aaykay_status_pill( $status ) {
 	return '<span class="status-pill' . ( $ongoing ? ' status-pill--ongoing' : '' ) . '"><span class="status-dot" aria-hidden="true"></span>' . esc_html( $status ) . '</span>';
 }
 
+function aaykay_record_columns() {
+	// The columns of AAYKAY's project Excel (Nov 2026), in its order, except the logo.
+	return array(
+		'client'       => 'Name of the client',
+		'gc'           => 'GC name',
+		'location'     => 'Location (City/Town)',
+		'architect'    => 'Architect',
+		'consultant'   => 'Consultant',
+		'pmc'          => 'PMC',
+		'region'       => 'Region',
+		'area_text'    => 'Area of project (total BUA in sft)',
+		'sector_label' => 'Sector',
+		'status'       => 'Status',
+	);
+}
+
 function aaykay_render_record_rows( $indent ) {
-	$unit = function ( $value, $u = '' ) {
-		if ( '' === (string) $value ) {
-			return '';
-		}
-		return esc_html( $value ) . ( $u ? '<span class="u">' . esc_html( $u ) . '</span>' : '' );
-	};
 	$rows = array();
 	$n    = 0;
 	foreach ( aaykay_projects() as $p ) {
-		$s = aaykay_sector_by_key( $p['sector'] );
-		if ( ! $s ) {
-			continue;
-		}
-		// Under the name: the sector (icon + words) and an optional note. Status has its own
-		// column (aaykay_status_pill()).
-		$meta = '<span class="p-meta">' . aaykay_icon( $s['icon'] ) . esc_html( $s['label'] ) . '</span>';
-		if ( '' !== $p['note'] ) {
-			$meta .= '<span class="p-note">' . esc_html( $p['note'] ) . '</span>';
-		}
-		$area = $p['area_sqft'] ? number_format( $p['area_sqft'] ) : '';
 		++$n;
-		// A developer (housing rows) is named with its own "Developer:" prefix; "dev" stops the
-		// phone layout adding its "Design team" label in front of it.
-		$team_class = 0 === strpos( $p['design_team'], 'Developer:' ) ? 'team dev' : 'team';
-		$value_cell = aaykay_show_values() ? '<td class="num">' . $unit( $p['order_value'], ' order' ) . '</td>' : '';
-		$rows[]     = sprintf(
-			'<tr data-sector="%s"><td class="sno">%d</td><th scope="row"><span class="p-name">%s</span>%s</th><td>%s</td><td class="num">%s</td>%s<td class="%s">%s</td></tr>',
+		$cells = '';
+		foreach ( aaykay_record_columns() as $key => $label ) {
+			$v = '' !== $p[ $key ] ? $p[ $key ] : ( 'area_text' === $key && $p['area_sqft'] ? (string) $p['area_sqft'] : '' );
+			$cells .= sprintf( '<td class="c-%s" data-label="%s">%s</td>', esc_attr( $key ), esc_attr( $label ), esc_html( $v ) );
+		}
+		$rows[] = sprintf(
+			'<tr data-sector="%s"><td class="sno" data-label="S.No">%d</td><th scope="row"><span class="p-name">%s</span></th>%s</tr>',
 			esc_attr( $p['sector'] ),
 			$n,
 			esc_html( $p['name'] ),
-			$meta,
-			$unit( $p['location'] ),
-			$unit( $area, ' sq ft' ),
-			$value_cell,
-			$team_class,
-			$unit( $p['design_team'] )
+			$cells
 		);
 	}
 	return implode( "\n" . $indent, $rows );

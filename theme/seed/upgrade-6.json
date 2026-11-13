@@ -236,7 +236,12 @@
       ],
       "heading": "About Us",
       "glance_established": "2008",
-      "leadership_heading": "Leadership"
+      "leadership_heading": "Leadership",
+      "person2_photo": {
+        "id": 0,
+        "alt": ""
+      },
+      "person2_title": "Director"
     },
     "services": {
       "scope": [

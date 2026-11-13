@@ -18,6 +18,9 @@ Content version still 6 (upgrade-6.json extended: content, settings, the Enterpr
 - 13 Nov (WhatsApp): wordmark image in the header (assets/img/brand/wordmark-aaykay.webp), larger round mark,
   client logos in colour, CEIG item added to Our services, careers email enquiries@akelectricals.in, project
   list replaced by the client's updated Excel (73 projects; upgrade 6 bins unedited launch projects).
+- 13 Nov (2): project list shows every Excel column (except logo) exactly as written, in Excel order;
+  Shuaib photo + "Director - Commercial & Procurement"; Sindhu Hospitals plaque first in appreciations;
+  Fire Safety link https://www.aksafetysolutions.in.
 - Awaited from AAYKAY (left as is): Shoaib's Director details, updated project
   Excel, client list + logos, AKSS link for Fire Safety, Google Form + email for Careers.
 
