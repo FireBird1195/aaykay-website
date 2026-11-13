@@ -158,6 +158,13 @@ Options -Indexes
 3. Image optimisation (QUIC.cloud) is optional; it needs a QUIC.cloud account.
 4. The health check `/wp-json/aaykay/v1/health` sends `X-LiteSpeed-Cache-Control: no-cache`.
 5. **Verify** that the endpoint answers fresh: change nothing, call it twice, and both calls return `{"status":"ok"}`.
+6. **Speed settings (server side only, nothing visual changes):**
+   - *LiteSpeed Cache → Cache → Browser:* **Browser Cache on**, TTL one year (31557600). The theme adds a `?ver=` stamp to its CSS, JS, fonts and images that changes whenever a file changes, so returning visitors re-use files safely and still get updates.
+   - *LiteSpeed Cache → Page Optimization → Media:* **Lazy load images off** (the theme already lazy-loads below the fold and loads the hero first; doing it twice delays the hero).
+   - *hPanel → Websites → Manage → Performance → CDN:* switch **Hostinger CDN on** (included in Business plans and up) so files are served from a location near the visitor.
+   - *hPanel → PHP Configuration → PHP extensions:* make sure **OPcache** is on (it is by default).
+   - Optional: *LiteSpeed Cache → Crawler* on, so the first visitor after a content change does not wait for the page to be built.
+   - **Verify:** open the site twice in a private window; the second load should show `x-litespeed-cache: hit` in the browser's Network tab, and PageSpeed Insights (mobile) should score 90+ for Performance.
 
 ## 10. Cron (retention and WordPress's own jobs)
 
