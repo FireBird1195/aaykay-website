@@ -1211,6 +1211,31 @@
           "icon": "history",
           "text": "20 Years in Industry"
         }
+      ],
+      "person3_photo": {
+        "src": "assets/img/director-siddique-413.webp",
+        "srcset": [
+          [
+            "assets/img/director-siddique-413.webp",
+            413
+          ],
+          [
+            "assets/img/director-siddique-800.webp",
+            800
+          ]
+        ],
+        "w": 800,
+        "h": 1200,
+        "alt": "Portrait of Siddique Ahmed N, Director - Projects, AAYKAY Electricals."
+      },
+      "person3_name": "Siddique Ahmed N",
+      "person3_title": "Director - Projects",
+      "person3_text": "Electrical Contracting professional with 23 years of experience in project execution and a strong customer base. Skilled in delivering projects and building lasting client relationships.",
+      "person3_creds": [
+        {
+          "icon": "history",
+          "text": "23 Years in Industry"
+        }
       ]
     },
     "team": {
@@ -1313,6 +1338,17 @@
       "roles_sub": "Select a position to read the full description and apply.",
       "roles": [
         {
+          "title": "Project Manager – Electrical",
+          "domain": "Project execution",
+          "location": "Hyderabad",
+          "experience": "10–15 years",
+          "type": "Full-time",
+          "openings": "2 positions",
+          "summary": "Leads electrical projects from award to handover: planning, site teams, subcontractors, client coordination, quality, safety and billing.",
+          "responsibilities": "Plan and run electrical works to the approved drawings, specifications and schedule\nLead project engineers, supervisors and subcontractors on site\nCoordinate with the client, PMC, architects and consultants\nControl material, manpower, cost and billing, and report progress to management\nEnsure quality, safety and statutory approvals through testing, commissioning and handover",
+          "requirements": "B.E./B.Tech in electrical engineering\n10–15 years in electrical contracting, including project management\nExperience of commercial, IT office, healthcare or high-rise projects\nSound knowledge of HT/LT systems, testing and commissioning"
+        },
+        {
           "title": "Project Engineer – Electrical",
           "domain": "Project execution",
           "location": "Hyderabad",
@@ -1320,7 +1356,8 @@
           "type": "Full-time",
           "summary": "Plans and executes electrical works on commercial, healthcare and IT projects, from shop drawings to handover.",
           "responsibilities": "Execute electrical works to approved drawings, method statements and the project schedule\nCoordinate with the client, PMC, consultants and other services on site\nTrack material, manpower and progress, and report to the project manager\nCarry out quality checks and support testing and commissioning",
-          "requirements": "B.E./B.Tech or diploma in electrical engineering\n3–6 years in electrical or MEP site execution\nWorking knowledge of AutoCAD and electrical drawings\nSound understanding of site safety practice"
+          "requirements": "B.E./B.Tech or diploma in electrical engineering\n3–6 years in electrical or MEP site execution\nWorking knowledge of AutoCAD and electrical drawings\nSound understanding of site safety practice",
+          "openings": "8 positions"
         },
         {
           "title": "Site Supervisor – Electrical",
@@ -1330,7 +1367,8 @@
           "type": "Full-time",
           "summary": "Supervises electricians and subcontractors on site, so that work is installed to drawings, safely and on schedule.",
           "responsibilities": "Allocate and supervise daily work of electricians and helpers\nCheck installations against drawings and checklists\nMaintain site records, material stock and daily progress reports\nEnforce PPE, permits and barricading on site",
-          "requirements": "Diploma or ITI in electrical trade\n5 or more years supervising electrical installation\nAbility to read electrical layouts and single-line diagrams"
+          "requirements": "Diploma or ITI in electrical trade\n5 or more years supervising electrical installation\nAbility to read electrical layouts and single-line diagrams",
+          "openings": "12 positions"
         },
         {
           "title": "Safety Officer",
@@ -1340,7 +1378,8 @@
           "type": "Full-time",
           "summary": "Runs site safety on AAYKAY projects in line with ISO 45001:2018 and the client’s requirements.",
           "responsibilities": "Conduct safety inductions and toolbox talks\nPrepare and review HIRA risk assessments and work permits\nInspect PPE, scaffolding, barricading and temporary electrical set-ups\nReport incidents and prepare weekly safety reports",
-          "requirements": "Diploma or certificate in industrial safety\n2–5 years in construction site safety\nWorking knowledge of ISO 45001 and statutory safety requirements"
+          "requirements": "Diploma or certificate in industrial safety\n2–5 years in construction site safety\nWorking knowledge of ISO 45001 and statutory safety requirements",
+          "openings": "5 positions"
         },
         {
           "title": "Design Engineer – Electrical",
@@ -1350,7 +1389,8 @@
           "type": "Full-time",
           "summary": "Prepares shop drawings, GA drawings and MEP coordination models for AAYKAY projects.",
           "responsibilities": "Prepare shop and GA drawings from GFC drawings\nCoordinate MEP services in Autodesk Revit\nPrepare quantity take-offs and technical submittals\nUpdate as-built drawings at handover",
-          "requirements": "B.E./B.Tech in electrical engineering\n2–4 years in electrical design or drafting\nProficiency in AutoCAD and Autodesk Revit"
+          "requirements": "B.E./B.Tech in electrical engineering\n2–4 years in electrical design or drafting\nProficiency in AutoCAD and Autodesk Revit",
+          "openings": "2 positions"
         }
       ],
       "apply_heading": "How to Apply",

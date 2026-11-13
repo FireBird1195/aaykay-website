@@ -13,7 +13,6 @@
 defined( 'ABSPATH' ) || exit;
 $aaykay_creds   = aaykay_rows( 'company', 'creds' );
 $aaykay_photo   = aaykay_img( aaykay_c( 'company', 'founder_photo' ), array( 'sizes' => '(min-width: 900px) 22vw, (min-width: 560px) 45vw, 75vw' ) );
-$aaykay_photo2  = aaykay_img( aaykay_c( 'company', 'person2_photo' ), array( 'sizes' => '(min-width: 900px) 22vw, (min-width: 560px) 45vw, 75vw' ) );
 $aaykay_message = aaykay_paragraphs( aaykay_t( 'company', 'quote' ) );
 $aaykay_members = array_values(
 	array_filter(
@@ -76,43 +75,51 @@ $aaykay_slots   = 0; // Review meeting (Nov 2026): no team cards; the team chang
 <?php endif; ?>
           </div>
         </div>
-<?php if ( '' !== aaykay_t( 'company', 'person2_name' ) ) : ?>
+<?php
+// The other directors (Nov 2026: Shuaib A S, Siddique Ahmed N), each like the founder: photo,
+// name, title and credentials on the left, a few words on the right.
+foreach ( array( 'person2', 'person3' ) as $aaykay_pfx ) :
+	if ( '' === aaykay_t( 'company', $aaykay_pfx . '_name' ) ) {
+		continue;
+	}
+	$aaykay_ph = aaykay_img( aaykay_c( 'company', $aaykay_pfx . '_photo' ), array( 'sizes' => '(min-width: 900px) 22vw, (min-width: 560px) 45vw, 75vw' ) );
+	?>
         <div class="leader grid-12">
           <div class="leader-id">
             <div class="founder-photo">
-<?php if ( '' !== $aaykay_photo2 ) : ?>
-              <?php echo $aaykay_photo2; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_img(). ?>
+<?php if ( '' !== $aaykay_ph ) : ?>
+              <?php echo $aaykay_ph; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_img(). ?>
 
 <?php else : ?>
-              <?php echo aaykay_pending( 'Portrait of ' . aaykay_t( 'company', 'person2_name' ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_pending(). ?>
+              <?php echo aaykay_pending( 'Portrait of ' . aaykay_t( 'company', $aaykay_pfx . '_name' ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_pending(). ?>
 
 <?php endif; ?>
             </div>
-            <h4 class="founder-name"><?php aaykay_e( 'company', 'person2_name' ); ?></h4>
-            <p class="label"><?php aaykay_e( 'company', 'person2_title' ); ?></p>
-<?php $aaykay_creds2 = aaykay_rows( 'company', 'person2_creds' ); ?>
-<?php if ( $aaykay_creds2 ) : ?>
+            <h4 class="founder-name"><?php aaykay_e( 'company', $aaykay_pfx . '_name' ); ?></h4>
+            <p class="label"><?php aaykay_e( 'company', $aaykay_pfx . '_title' ); ?></p>
+<?php $aaykay_crs = aaykay_rows( 'company', $aaykay_pfx . '_creds' ); ?>
+<?php if ( $aaykay_crs ) : ?>
             <ul class="creds">
-<?php foreach ( $aaykay_creds2 as $aaykay_cr ) : ?>
+<?php foreach ( $aaykay_crs as $aaykay_cr ) : ?>
               <li class="icon-label"><?php echo aaykay_icon( $aaykay_cr['icon'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_icon(). ?><?php echo esc_html( aaykay_tokens( $aaykay_cr['text'] ) ); ?></li>
 <?php endforeach; ?>
             </ul>
 <?php endif; ?>
           </div>
           <div class="leader-words">
-<?php if ( '' !== aaykay_t( 'company', 'person2_text' ) ) : ?>
+<?php if ( '' !== aaykay_t( 'company', $aaykay_pfx . '_text' ) ) : ?>
             <div class="leader-text">
-<?php foreach ( aaykay_paragraphs( aaykay_t( 'company', 'person2_text' ) ) as $aaykay_para ) : ?>
+<?php foreach ( aaykay_paragraphs( aaykay_t( 'company', $aaykay_pfx . '_text' ) ) as $aaykay_para ) : ?>
               <p><?php echo esc_html( $aaykay_para ); ?></p>
 <?php endforeach; ?>
             </div>
 <?php else : ?>
-            <?php echo aaykay_pending( 'A few words from ' . aaykay_t( 'company', 'person2_name' ), 'pull' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_pending(). ?>
+            <?php echo aaykay_pending( 'A few words from ' . aaykay_t( 'company', $aaykay_pfx . '_name' ), 'pull' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in aaykay_pending(). ?>
 
 <?php endif; ?>
           </div>
         </div>
-<?php endif; ?>
+<?php endforeach; ?>
       </div>
 
 <?php if ( $aaykay_members || $aaykay_slots ) : ?>

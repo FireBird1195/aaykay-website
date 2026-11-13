@@ -783,7 +783,49 @@
     },
     "careers": {
       "sub": "Join the teams that build, test and hand over AAYKAY’s electrical installations across India.",
-      "email": ""
+      "email": "",
+      "roles": [
+        {
+          "title": "Project Engineer – Electrical",
+          "domain": "Project execution",
+          "location": "Hyderabad",
+          "experience": "3–6 years",
+          "type": "Full-time",
+          "summary": "Plans and executes electrical works on commercial, healthcare and IT projects, from shop drawings to handover.",
+          "responsibilities": "Execute electrical works to approved drawings, method statements and the project schedule\nCoordinate with the client, PMC, consultants and other services on site\nTrack material, manpower and progress, and report to the project manager\nCarry out quality checks and support testing and commissioning",
+          "requirements": "B.E./B.Tech or diploma in electrical engineering\n3–6 years in electrical or MEP site execution\nWorking knowledge of AutoCAD and electrical drawings\nSound understanding of site safety practice"
+        },
+        {
+          "title": "Site Supervisor – Electrical",
+          "domain": "Project execution",
+          "location": "Hyderabad / Bengaluru",
+          "experience": "5+ years",
+          "type": "Full-time",
+          "summary": "Supervises electricians and subcontractors on site, so that work is installed to drawings, safely and on schedule.",
+          "responsibilities": "Allocate and supervise daily work of electricians and helpers\nCheck installations against drawings and checklists\nMaintain site records, material stock and daily progress reports\nEnforce PPE, permits and barricading on site",
+          "requirements": "Diploma or ITI in electrical trade\n5 or more years supervising electrical installation\nAbility to read electrical layouts and single-line diagrams"
+        },
+        {
+          "title": "Safety Officer",
+          "domain": "Safety",
+          "location": "Hyderabad",
+          "experience": "2–5 years",
+          "type": "Full-time",
+          "summary": "Runs site safety on AAYKAY projects in line with ISO 45001:2018 and the client’s requirements.",
+          "responsibilities": "Conduct safety inductions and toolbox talks\nPrepare and review HIRA risk assessments and work permits\nInspect PPE, scaffolding, barricading and temporary electrical set-ups\nReport incidents and prepare weekly safety reports",
+          "requirements": "Diploma or certificate in industrial safety\n2–5 years in construction site safety\nWorking knowledge of ISO 45001 and statutory safety requirements"
+        },
+        {
+          "title": "Design Engineer – Electrical",
+          "domain": "Design",
+          "location": "Hyderabad",
+          "experience": "2–4 years",
+          "type": "Full-time",
+          "summary": "Prepares shop drawings, GA drawings and MEP coordination models for AAYKAY projects.",
+          "responsibilities": "Prepare shop and GA drawings from GFC drawings\nCoordinate MEP services in Autodesk Revit\nPrepare quantity take-offs and technical submittals\nUpdate as-built drawings at handover",
+          "requirements": "B.E./B.Tech in electrical engineering\n2–4 years in electrical design or drafting\nProficiency in AutoCAD and Autodesk Revit"
+        }
+      ]
     }
   },
   "settings": {
